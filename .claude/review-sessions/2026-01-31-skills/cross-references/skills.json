@@ -1,0 +1,151 @@
+{
+  "skills_found": [
+    "advisor-business-strategy",
+    "advisor-decision-frameworks",
+    "advisor-financial",
+    "advisor-health-energy",
+    "advisor-leadership-boundaries",
+    "advisor-legal-literacy",
+    "advisor-librarian-context",
+    "advisor-ops-systems",
+    "advisor-parenting-family",
+    "advisor-relationships",
+    "advisor-success-execution",
+    "audio-generator",
+    "birthday-awareness",
+    "calendar-awareness",
+    "calendar-management",
+    "context-switch",
+    "daily-note",
+    "daily-timebox",
+    "document-generator",
+    "email-reader",
+    "energy-management",
+    "goal-bingo",
+    "goals-tracking",
+    "habit-tracker",
+    "health-awareness",
+    "historical-memory",
+    "inbox-processor",
+    "meeting-prep",
+    "obsidian-open",
+    "operations",
+    "orchestration-patterns",
+    "person-context",
+    "person-file-management",
+    "personal-insight",
+    "personal-profile",
+    "planning-cadence",
+    "pre-mortem",
+    "proactive-suggestions",
+    "product-management",
+    "project-status",
+    "project-structure",
+    "reminders-integration",
+    "skill-manager",
+    "strategic-thinking",
+    "vault-task-sync",
+    "vault-task-system",
+    "weekly-aggregator",
+    "weekly-review",
+    "work-logging",
+    "writing-voice"
+  ],
+  "potential_issues": [
+    {
+      "skill": "birthday-awareness",
+      "issue": "Missing allowed-tools declaration despite using calendar MCP tools",
+      "severity": "Warning"
+    },
+    {
+      "skill": "context-switch",
+      "issue": "May use Read/Grep tools but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "goals-tracking",
+      "issue": "Likely uses Read/Write tools but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "historical-memory",
+      "issue": "Likely uses Read/Write tools but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "inbox-processor",
+      "issue": "Uses Read/Glob tools but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "person-file-management",
+      "issue": "Uses Read/Write tools but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "personal-insight",
+      "issue": "Likely uses Read/Write tools but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "planning-cadence",
+      "issue": "May use Read tool but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "pre-mortem",
+      "issue": "May use Read tool but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "product-management",
+      "issue": "Likely uses Read/Write tools but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "weekly-aggregator",
+      "issue": "Likely uses Read tool but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "weekly-review",
+      "issue": "Likely uses Read tool but allowed-tools not declared",
+      "severity": "Warning"
+    },
+    {
+      "skill": "writing-voice",
+      "issue": "Contains template placeholders that should be personalized or removed",
+      "severity": "Warning"
+    },
+    {
+      "skill": "orchestration-patterns",
+      "issue": "Description says 'auto-applied when designing commands' but autonomous activation triggers unclear",
+      "severity": "Warning"
+    },
+    {
+      "skill": "historical-memory",
+      "issue": "Description missing 'Use when...' trigger pattern",
+      "severity": "Suggestion"
+    },
+    {
+      "skill": "product-management",
+      "issue": "Description too brief, lacks clear activation triggers",
+      "severity": "Suggestion"
+    },
+    {
+      "skill": "calendar-management",
+      "issue": "Could benefit from more workflow examples despite comprehensive rules",
+      "severity": "Suggestion"
+    },
+    {
+      "skill": "health-awareness",
+      "issue": "Good structure but could use more complete workflow examples",
+      "severity": "Suggestion"
+    },
+    {
+      "skill": "vault-task-sync",
+      "issue": "Technical skill that could benefit from step-by-step examples",
+      "severity": "Suggestion"
+    }
+  ]
+}

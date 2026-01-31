@@ -1,6 +1,7 @@
 ---
 name: goals-tracking
 description: Track goals, review progress, and manage opportunities. Use during weekly planning, goal reviews, or when capturing new opportunities that need evaluation.
+allowed-tools: Read, Write, Edit, Grep, Glob
 ---
 
 # Goals Tracking Skill

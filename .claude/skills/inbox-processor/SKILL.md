@@ -1,6 +1,7 @@
 ---
 name: inbox-processor
 description: Identify and route files in the inbox. Activates when user mentions inbox, drops files, or asks about processing incoming content.
+allowed-tools: Read, Write, Glob, Bash
 ---
 
 # Inbox Processor Skill
