@@ -74,10 +74,10 @@ Please don't include personal data in PRs.
 
 ## Documentation
 
-- `0-System/guides/getting-started.md` — First steps after onboarding
-- `0-System/guides/daily-workflow.md` — Daily planning and review
-- `0-System/guides/task-management.md` — Priority system details
-- `0-System/README.md` — Full architecture reference
+- [Getting Started](0-System/guides/getting-started.md) — First steps after onboarding
+- [Daily Workflow](0-System/guides/daily-workflow.md) — Daily planning and review
+- [Task Management](0-System/guides/task-management.md) — Priority system details
+- [Full Architecture](0-System/README.md) — Complete system reference
 
 ## Requirements
 
