@@ -52,13 +52,43 @@ PRIORITY_PATTERNS = {
     'scheduled': re.compile(r'^📅\s*'),
 }
 
-# Company to list mapping - configure per vault
-COMPANY_LISTS = {
-    "company 1": "Company 1",
-    "company 2": "Company 2",
-    "company 3": "Company 3",
-    "personal": "Personal",
-}
+
+def load_company_lists():
+    """Load company name mappings from .user/companies.yaml dynamically."""
+    try:
+        import yaml
+    except ImportError:
+        # Fall back to defaults if PyYAML not installed
+        return {"personal": "Personal"}
+
+    companies_file = os.path.join(VAULT_ROOT, ".user", "companies.yaml")
+    company_lists = {"personal": "Personal"}  # Always include Personal
+
+    if os.path.exists(companies_file):
+        try:
+            with open(companies_file, 'r') as f:
+                data = yaml.safe_load(f) or {}
+
+            # Extract company names and create mapping
+            companies_data = data.get('companies', {})
+            for key in ['company_1', 'company_2', 'company_3']:
+                company = companies_data.get(key, {})
+                name = company.get('name', '')
+                if name:
+                    # Map lowercase name to actual name (for Reminders list)
+                    company_lists[name.lower()] = name
+                    # Also map the short id if available
+                    short_id = company.get('id', '')
+                    if short_id:
+                        company_lists[short_id.lower()] = name
+        except Exception:
+            pass  # Silently fall back to defaults
+
+    return company_lists
+
+
+# Company to list mapping - loaded dynamically from user config
+COMPANY_LISTS = load_company_lists()
 
 
 def get_today_date():

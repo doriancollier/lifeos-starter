@@ -24,8 +24,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - `health.yaml` — Health export settings
   - `calendars.yaml` — Calendar configuration
 - **Template System** — `CLAUDE.template.md` and `coaching.template.md` with `{{placeholder}}` syntax
+- **Extended Template System** — Commands and agents now also use templates
+  - 11 command templates in `.claude/commands/*.template.md`
+  - 5 agent templates in `.claude/agents/persona-*.template.md`
+  - New `{{vault_path}}` placeholder for runtime path resolution
 - **Configuration Scripts** (`.claude/scripts/`)
   - `inject_placeholders.py` — Generate personalized files from templates
+  - `test_inject_placeholders.py` — Unit tests for template injection (23 tests)
   - `configure_hooks.py` — Generate settings.json from integrations
   - `migrate_to_user_dir.py` — Migrate old config to new structure
   - `ensure_dependencies.py` — Auto-install PyYAML if missing
@@ -37,9 +42,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - **Onboarding** (`/setup:onboard`) — Now writes to `.user/` and runs configuration scripts
+- **Python Hooks** — Now dynamically load company names from `.user/companies.yaml`
+  - `frontmatter-validator.py`, `task-format-validator.py`, `reminders-task-detector.py`
+- **Shell Scripts** — Now auto-detect vault root from script location
+  - `auto-git-backup.sh`, `git-task-sync-detector.sh`
 - **Documentation** — Updated README, architecture, personalization guides
+- **project-status skill** — Removed hardcoded example paths, made generic
 
 ### Fixed
+
+- **update.template.md** — Replaced hardcoded timezone and company names with placeholders
+- **personalization.md** — Added missing `{{work_email}}` and `{{current_year}}` placeholders to documentation
+- **goal-bingo/SKILL.md** — Clarified config.json file path
 
 ### Deprecated
 

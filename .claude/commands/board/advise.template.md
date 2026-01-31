@@ -13,8 +13,8 @@ Convene the Personal Board of Advisors to provide multi-perspective guidance on 
 - `$ARGUMENTS` - The question or decision to deliberate. Examples:
   - "Should I take on this new consulting project?"
   - "How should I handle the conflict with [person]?"
-  - "What's the right balance between  and ?"
-  - "Should we expand ?"
+  - "What's the right balance between {{company_1_name}} and {{company_2_name}}?"
+  - "Should we expand {{company_3_name}}?"
 
 ## The Board
 
@@ -161,10 +161,10 @@ Pre-Round Info Gathering (if needed)
 | Question Type | Example |
 |---------------|---------|
 | User question (financial) | "What's your monthly discretionary income?" |
-| User question (relational) | "How does  feel about this?" |
+| User question (relational) | "How does {{partner_name}} feel about this?" |
 | User question (health) | "Rate your current burnout level 1-10?" |
 | Inter-advisor question | Strategic Operator → Health Steward: "Is this pace sustainable?" |
-| Open question | "Has  faced similar decisions before?" |
+| Open question | "Has {{user_first_name}} faced similar decisions before?" |
 
 ### What Happens in Research Phases
 
@@ -234,11 +234,11 @@ All deliberations are stored in:
 ## Example Usage
 
 ```
-/board:advise Should I accept the  co-founder role?
+/board:advise Should I accept the {{company_2_name}} co-founder role?
 
-/board:advise How do I balance time between  work and building ?
+/board:advise How do I balance time between {{company_1_name}} work and building {{company_2_name}}?
 
-/board:advise  wants to drop out of his activity - how should I handle this?
+/board:advise {{child_name}} wants to drop out of his activity - how should I handle this?
 
 /board:advise I'm feeling burned out but have commitments. What should I do?
 
@@ -303,7 +303,7 @@ The 10-10-10 rule is applied: How will this feel in 10 minutes, 10 months, 10 ye
 
 For action-oriented decisions, advisors assess:
 - "Is this high-leverage or busy work?"
-- "Does this require 's specific knowledge and judgment, or could it be delegated?"
+- "Does this require {{user_first_name}}'s specific knowledge and judgment, or could it be delegated?"
 - "Is this building leverage (systems, code, content, relationships) or just trading time for output?"
 
 ### Values Alignment Check

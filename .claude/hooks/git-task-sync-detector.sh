@@ -13,7 +13,10 @@
 # SessionStart hook will process in the next Claude Code session.
 #
 
-VAULT_ROOT="{{vault_path}}"
+# Auto-detect vault root from script location
+# Script is in .claude/hooks/, so vault root is 2 directories up
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VAULT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SYNC_QUEUE_FILE="$VAULT_ROOT/.claude/sync-queue.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 

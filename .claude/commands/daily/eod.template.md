@@ -17,19 +17,19 @@ Guide through these reflection steps:
 
 ```bash
 today=$(date +%Y-%m-%d)
-cat "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/${today}.md"
+cat "{{vault_path}}/4-Daily/${today}.md"
 ```
 
 ### 2. Task Analysis
 
 **Find completed tasks:**
 ```bash
-grep -E "^- \[x\]" "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/$(date +%Y-%m-%d).md"
+grep -E "^- \[x\]" "{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 **Find incomplete tasks:**
 ```bash
-grep -E "^- \[ \]" "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/$(date +%Y-%m-%d).md"
+grep -E "^- \[ \]" "{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 Present summary:
@@ -73,8 +73,8 @@ Compare to morning state:
 Sync and review today's health metrics:
 
 ```bash
-python3 "/Users/doriancollier/Keep/cc-obsidian-jl/.claude/scripts/health_sync.py" sync
-python3 "/Users/doriancollier/Keep/cc-obsidian-jl/.claude/scripts/health_sync.py" status --format compact
+python3 "{{vault_path}}/.claude/scripts/health_sync.py" sync
+python3 "{{vault_path}}/.claude/scripts/health_sync.py" status --format compact
 ```
 
 **Present health summary:**
@@ -221,11 +221,11 @@ For each active role:
 - "Were you building wealth or just accumulating?"
 
 **Father Role**:
-- "Did you have meaningful time with  today?"
+- "Did you have meaningful time with {{child_name}} today?"
 - "Were you present or distracted?"
 
 **Partner Role**:
-- "Did you turn toward 's bids for connection?"
+- "Did you turn toward {{partner_name}}'s bids for connection?"
 - "Any Four Horsemen moments to repair?"
 
 **Self Role**:
@@ -264,7 +264,7 @@ Help set up tomorrow:
 
 **Update Health Metrics section** with final day's data:
 ```bash
-python3 "/Users/doriancollier/Keep/cc-obsidian-jl/.claude/scripts/health_sync.py" daily-note-section
+python3 "{{vault_path}}/.claude/scripts/health_sync.py" daily-note-section
 ```
 
 Write to the End of Day section:

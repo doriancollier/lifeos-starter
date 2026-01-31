@@ -100,13 +100,20 @@ When `health` is not explicitly set:
 
 ## Key Project Directories
 
-### {{company_1_name}} Analytics
-Main active project: `1-Projects/Current/Art-Blocks-Analytics/`
+Projects are organized by company context. Check `1-Projects/Current/` for active projects.
 
-Contains:
-- `draft-1/` - First draft materials
-- `draft-2/` - Second draft materials
-- `misc/` - Supporting documents
+### Project Folder Structure (Complex Projects)
+
+For projects with multiple files, use this structure:
+```
+1-Projects/Current/[Project-Name]/
+├── _Project-Name.md    # Main entry point (note the underscore prefix)
+├── README.md           # Or use README.md as entry point
+├── draft-1/            # Draft materials
+├── draft-2/            # Revised materials
+├── misc/               # Supporting documents
+└── assets/             # Images, diagrams, etc.
+```
 
 ## Project Status Report Template
 
@@ -252,5 +259,5 @@ After displaying status, offer:
 - Projects link to daily notes where work happens
 - Projects link to meetings where decisions are made
 - Projects link to people involved
-- MOCs provide navigation: `7-MOCs/Art-Blocks-Projects.md`, `7-MOCs/144-Projects.md`
+- MOCs provide navigation: `7-MOCs/[Company]-Projects.md` for each company context
 - See `project-structure` skill for organization conventions

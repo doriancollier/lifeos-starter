@@ -20,12 +20,12 @@ A universal capture command that intelligently parses freeform natural language 
 
 ## Context
 
-- **Daily notes**: `/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/`
+- **Daily notes**: `{{vault_path}}/4-Daily/`
 - **Today's note**: `4-Daily/YYYY-MM-DD.md`
-- **People**: `/Users/doriancollier/Keep/cc-obsidian-jl/6-People/`
-- **Projects**: `/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/`
-- **Primary calendar**: ``
-- **User timezone**: America/Chicago (Central Time)
+- **People**: `{{vault_path}}/6-People/`
+- **Projects**: `{{vault_path}}/1-Projects/`
+- **Primary calendar**: `{{user_email}}`
+- **User timezone**: {{timezone}}
 
 ## Date Parameter Parsing
 
@@ -75,7 +75,7 @@ Scan `TEXT` for signals that indicate different action types:
 
 | Signal Pattern | Action Type | Example |
 |----------------|-------------|---------|
-| Past tense storytelling: "made", "went", "had", "was", "saw" | **Narrative** | " made deviled eggs" |
+| Past tense storytelling: "made", "went", "had", "was", "saw" | **Narrative** | "{{child_name}} made deviled eggs" |
 | Dreams: "dream", "dreamed", "dreamt", "had a dream" | **Narrative** | "Had a vivid dream about flying" |
 | Detailed descriptions, emotions, sensory details | **Narrative** | "it was so fun watching him carefully spoon the filling" |
 | "need to", "should", "want to", "go to", "have to", action verbs | **Task** | "need to call the pharmacy" |
@@ -83,16 +83,16 @@ Scan `TEXT` for signals that indicate different action types:
 | Feeling words: "feeling", "frustrated", "happy", "tired", "bad", "stressed" | **Mood Note** | "feeling bad" → mood log |
 | Person names (fuzzy match against 6-People/) | **Person Reference** | "talked to Alex" → link [[Alex Smith]] |
 | Project keywords or names | **Project Reference** | "working on analytics" → link [[Analytics]] |
-| Company names: "", "144", "EMC", "personal" | **Company Context** | Sets task company |
+| Company names: "{{company_1_name}}", "{{company_2_name}}", "{{company_3_name}}", "personal" | **Company Context** | Sets task company |
 | "update on", "finished", "completed", "done with", "progress on" | **Task Update** | Update existing task status |
 | Urgency: "urgent", "asap", "critical", "important" | **Priority Elevation** | 🟡 → 🔴 |
 | URLs | **Link Capture** | Add to Links section |
 | Major events: "trip to", "traveling to", "wedding", "birthday party" | **Life Event** | Add to Life Events Timeline |
 
 **Important:** Content can be BOTH narrative AND task/work. Example:
-- "finished the AssetOps work AND  helped me test it - made it a learning moment"
+- "finished the AssetOps work AND {{child_name}} helped me test it - made it a learning moment"
   - Task/Work: "finished AssetOps work" → Quick Notes
-  - Narrative: " helped me test it - made it a learning moment" → Daily Memories
+  - Narrative: "{{child_name}} helped me test it - made it a learning moment" → Daily Memories
 
 ### Step 2: Classify Content Type
 
@@ -120,15 +120,15 @@ Determine if content is **Narrative**, **Work**, or **Hybrid**:
 
 When updating a **past day's note** with content that has **future implications**:
 
-**Example:** `/update yesterday  asked to take her car to the shop next week`
+**Example:** `/update yesterday {{partner_name}} asked to take her car to the shop next week`
 
 This requires updating **multiple notes**:
 
 | Date | Section | Entry | Purpose |
 |------|---------|-------|---------|
-| **Yesterday** | Daily Memories | `[~HH:MM] 📖 [[]] asked about taking her car to the shop next week ^block-id` | Record the conversation |
+| **Yesterday** | Daily Memories | `[~HH:MM] 📖 [[{{partner_name}}]] asked about taking her car to the shop next week ^block-id` | Record the conversation |
 | **Today** | Quick Notes | `[HH:MM] Captured from yesterday: [[YYYY-MM-DD#^block-id\|description]] - added task` | Audit trail |
-| **Today** | Tasks | `[ ] 🟡 Take [[]]'s car to shop 📅 2025-12-15 - Origin: [[YYYY-MM-DD#^block-id]]` | Actionable item |
+| **Today** | Tasks | `[ ] 🟡 Take [[{{partner_name}}]]'s car to shop 📅 2025-12-15 - Origin: [[YYYY-MM-DD#^block-id]]` | Actionable item |
 
 **Block Reference Syntax:**
 - End narrative entry with `^block-id` (lowercase, hyphens, descriptive)
@@ -157,7 +157,7 @@ Default priority is **🟡 B (Important)**. Adjust based on:
 **For People:**
 ```bash
 # Search for person names in 6-People/
-find "/Users/doriancollier/Keep/cc-obsidian-jl/6-People" -name "*.md" -type f
+find "{{vault_path}}/6-People" -name "*.md" -type f
 ```
 
 - Match first names, last names, or partial names
@@ -167,7 +167,7 @@ find "/Users/doriancollier/Keep/cc-obsidian-jl/6-People" -name "*.md" -type f
 **For Projects:**
 ```bash
 # Search for projects
-find "/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/Current" -name "*.md" -type f
+find "{{vault_path}}/1-Projects/Current" -name "*.md" -type f
 ```
 
 ### Step 6: Handle Time References
@@ -184,7 +184,7 @@ When time references are detected:
 
 2. **Check calendar for conflicts** (only if creating event):
    ```
-   Use mcp__google-calendar__get-freebusy for 
+   Use mcp__google-calendar__get-freebusy for {{user_email}}
    ```
 
 3. **If conflict detected**: Ask user how to proceed with specific options
@@ -207,7 +207,7 @@ When creating a calendar event that involves another person:
 2. **Extract person name and match against known people**:
    ```bash
    # Search for person in 6-People/ directory
-   find "/Users/doriancollier/Keep/cc-obsidian-jl/6-People" -iname "*[person-name]*" -type f
+   find "{{vault_path}}/6-People" -iname "*[person-name]*" -type f
    ```
 
 3. **Use AskUserQuestion with context-based suggestions**:
@@ -276,18 +276,18 @@ Automatically activates when significant person information is mentioned. Handle
 ### 1. Parse Date and Content
 
 ```
-Input: "/update yesterday  made the deviled eggs for Thanksgiving"
+Input: "/update yesterday {{child_name}} made the deviled eggs for Thanksgiving"
 
 Parse:
 - TARGET_DATE = 2025-11-26 (yesterday)
 - TODAY = 2025-11-27
-- TEXT = " made the deviled eggs for Thanksgiving"
+- TEXT = "{{child_name}} made the deviled eggs for Thanksgiving"
 ```
 
 ### 2. Find or Create Target Daily Note
 
 ```bash
-TARGET_NOTE="/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/${TARGET_DATE}.md"
+TARGET_NOTE="{{vault_path}}/4-Daily/${TARGET_DATE}.md"
 
 # Note: If daily note doesn't exist, the `daily-note` skill will automatically create it
 # The skill also handles offering /daily:plan if the note appears unplanned
@@ -346,7 +346,7 @@ If updating with narrative content and target note doesn't have the Journal sect
 ```
 
 **Block ID format:** Lowercase, hyphens, descriptive. Examples:
-- `^-deviled-eggs`
+- `^{{child_name}}-deviled-eggs`
 - `^partner-car-shop`
 - `^dream-flying`
 
@@ -372,12 +372,12 @@ Update **BOTH** sections:
 
 1. **Daily Memories** (narrative portion):
    ```markdown
-   - [~HH:MM] 📖 [[]] helped me test AssetOps - turned it into a learning moment for him ^assetops--test
+   - [~HH:MM] 📖 [[{{child_name}}]] helped me test AssetOps - turned it into a learning moment for him ^assetops-{{child_name}}-test
    ```
 
 2. **Quick Notes** (work portion):
    ```markdown
-   - [HH:MM] AssetOps: Finished Vendor Claiming/Scheduling features - [[2025-11-26#^assetops--test| helped test]]
+   - [HH:MM] AssetOps: Finished Vendor Claiming/Scheduling features - [[2025-11-26#^assetops-{{child_name}}-test|{{child_name}} helped test]]
    ```
 
 3. **Task update** (if applicable):
@@ -444,7 +444,7 @@ Always output a detailed summary showing ALL updates:
 ## Updated
 
 **Daily Memories (2025-11-26):**
-- Added: " made the deviled eggs for Thanksgiving" (block: ^-deviled-eggs)
+- Added: "{{child_name}} made the deviled eggs for Thanksgiving" (block: ^{{child_name}}-deviled-eggs)
 
 **Quick Notes (2025-11-27):**
 - Cross-reference to yesterday's memory
@@ -456,25 +456,25 @@ Always output a detailed summary showing ALL updates:
 - Created: "[Event name]" today 3:00-4:00 PM
 
 **Links:**
-- [[]] referenced in memory
+- [[{{child_name}}]] referenced in memory
 ```
 
 ## Examples
 
 ### Example 1: Simple Narrative (Yesterday)
 
-**Input:** `/update yesterday  made the deviled eggs for Thanksgiving - it was so fun watching him carefully spoon the filling`
+**Input:** `/update yesterday {{child_name}} made the deviled eggs for Thanksgiving - it was so fun watching him carefully spoon the filling`
 
 **Actions:**
 1. ✅ Parse date: yesterday = 2025-11-26
 2. ✅ Classify: Pure narrative (past tense, descriptive detail, family moment)
 3. ✅ Add to 2025-11-26 Daily Memories:
    ```
-   - [~12:32] 📖 [[]] made the deviled eggs for Thanksgiving - it was so fun watching him carefully spoon the filling ^-deviled-eggs
+   - [~12:32] 📖 [[{{child_name}}]] made the deviled eggs for Thanksgiving - it was so fun watching him carefully spoon the filling ^{{child_name}}-deviled-eggs
    ```
 4. ✅ Add to TODAY (2025-11-27) Quick Notes:
    ```
-   - [12:32] Captured from yesterday: [[2025-11-26#^-deviled-eggs| made deviled eggs]]
+   - [12:32] Captured from yesterday: [[2025-11-26#^{{child_name}}-deviled-eggs|{{child_name}} made deviled eggs]]
    ```
 
 ### Example 2: Dream (Specific Date)
@@ -495,43 +495,43 @@ Always output a detailed summary showing ALL updates:
 
 ### Example 3: Cross-Temporal with Future Task
 
-**Input:** `/update yesterday  asked to take her car to the shop next week`
+**Input:** `/update yesterday {{partner_name}} asked to take her car to the shop next week`
 
 **Actions:**
 1. ✅ Parse date: yesterday = 2025-11-26
 2. ✅ Classify: Hybrid (narrative conversation + future task)
 3. ✅ Add to 2025-11-26 Daily Memories:
    ```
-   - [~12:32] 📖 [[]] asked about taking her car to the shop next week ^partner-car-shop
+   - [~12:32] 📖 [[{{partner_name}}]] asked about taking her car to the shop next week ^partner-car-shop
    ```
 4. ✅ Add to TODAY (2025-11-27) Quick Notes:
    ```
-   - [12:32] Captured from yesterday: [[2025-11-26#^partner-car-shop|'s car shop request]] - created calendar event
+   - [12:32] Captured from yesterday: [[2025-11-26#^partner-car-shop|{{partner_name}}'s car shop request]] - created calendar event
    ```
 5. ✅ Create calendar event for next week:
    ```
-   Summary: "Take 's car to shop"
+   Summary: "Take {{partner_name}}'s car to shop"
    Date: Next week (pick a day)
    ```
 6. ✅ Add to Personal Quick Hits section:
    ```
-   - [ ] Take [[]]'s car to the shop - Due: Next week
+   - [ ] Take [[{{partner_name}}]]'s car to the shop - Due: Next week
    ```
 
 ### Example 4: Hybrid Work + Narrative
 
-**Input:** `/update finished the AssetOps work AND  helped me test it - made it a learning moment for him`
+**Input:** `/update finished the AssetOps work AND {{child_name}} helped me test it - made it a learning moment for him`
 
 **Actions:**
 1. ✅ Parse date: (none) = TODAY
 2. ✅ Classify: Hybrid (work completion + narrative moment)
 3. ✅ Add to Daily Memories:
    ```
-   - [12:32] 📖 [[]] helped me test AssetOps - turned it into a learning moment, showing him how vendor workflows work ^assetops--test
+   - [12:32] 📖 [[{{child_name}}]] helped me test AssetOps - turned it into a learning moment, showing him how vendor workflows work ^assetops-{{child_name}}-test
    ```
 4. ✅ Add to Quick Notes:
    ```
-   - [12:32] AssetOps: Finished Vendor Claiming/Scheduling features - [[#^assetops--test| helped test]]
+   - [12:32] AssetOps: Finished Vendor Claiming/Scheduling features - [[#^assetops-{{child_name}}-test|{{child_name}} helped test]]
    ```
 5. ✅ Update task (if exists):
    ```
@@ -555,7 +555,7 @@ Always output a detailed summary showing ALL updates:
 
 **Actions:**
 1. ✅ Search 6-People/ for "Alex" → matches [[Alex Smith]]
-2. ✅ Task: `- [ ] 🟡 Follow up with [[Alex Smith]] about the analytics dashboard - Company: `
+2. ✅ Task: `- [ ] 🟡 Follow up with [[Alex Smith]] about the analytics dashboard - Company: {{company_1_name}}`
 
 ### Example 7: Urgent Task
 
@@ -672,7 +672,7 @@ Always output a detailed summary showing ALL updates:
 1. ✅ Parse: Major life event detected (moving + job change)
 2. ⚡ `person-file-management` skill **automatically activates**
 3. ✅ Skill detects: Moving (major life event) + Job change (major life event)
-4. ✅ Skill finds person file: `6-People/Professional//sarah-miller.md`
+4. ✅ Skill finds person file: `6-People/Professional/{{company_2_name}}/sarah-miller.md`
 5. ✅ Skill meets AUTO-UPDATE criteria (major life events)
 6. ✅ Skill updates Sarah's file:
    ```markdown

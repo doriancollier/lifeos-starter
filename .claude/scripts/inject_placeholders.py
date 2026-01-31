@@ -11,6 +11,13 @@ Usage:
 Templates processed:
     CLAUDE.template.md -> CLAUDE.md
     .claude/rules/coaching.template.md -> .claude/rules/coaching.md
+    .claude/commands/*.template.md -> .claude/commands/*.md
+    .claude/agents/persona-*.template.md -> .claude/agents/persona-*.md
+
+Placeholders available:
+    {{user_name}}, {{user_first_name}}, {{timezone}}, {{user_email}},
+    {{partner_name}}, {{child_name}}, {{company_1_name}}, {{company_2_name}},
+    {{company_3_name}}, {{coaching_intensity}}, {{vault_path}}, etc.
 
 Dependencies:
     pip install pyyaml
@@ -139,6 +146,17 @@ def build_placeholder_map(config: dict) -> dict:
     return placeholders
 
 
+def add_runtime_placeholders(placeholders: dict, vault_root: Path) -> dict:
+    """Add runtime-computed placeholders."""
+    # Vault path is needed by many commands/skills
+    placeholders["vault_path"] = str(vault_root)
+
+    # Current year for planning files
+    placeholders["current_year"] = str(datetime.now().year)
+
+    return placeholders
+
+
 def inject_placeholders(template_content: str, placeholders: dict) -> str:
     """Replace {{placeholder}} patterns with actual values."""
     def replacer(match):
@@ -155,7 +173,8 @@ def inject_placeholders(template_content: str, placeholders: dict) -> str:
 
 def get_template_mappings(vault_root: Path) -> list[tuple[Path, Path]]:
     """Get list of (template, output) file pairs."""
-    return [
+    mappings = [
+        # Core system files
         (
             vault_root / "CLAUDE.template.md",
             vault_root / "CLAUDE.md"
@@ -165,6 +184,42 @@ def get_template_mappings(vault_root: Path) -> list[tuple[Path, Path]]:
             vault_root / ".claude" / "rules" / "coaching.md"
         ),
     ]
+
+    # Command templates
+    commands_dir = vault_root / ".claude" / "commands"
+    command_templates = [
+        "update",
+        "daily/plan",
+        "daily/eod",
+        "daily/timebox",
+        "weekly/review",
+        "partner/stateofunion",
+        "board/advise",
+        "context/ab",
+        "context/personal",
+        "annual/plan",
+        "monthly/plan",
+    ]
+    for cmd in command_templates:
+        template = commands_dir / f"{cmd}.template.md"
+        output = commands_dir / f"{cmd}.md"
+        mappings.append((template, output))
+
+    # Agent templates
+    agents_dir = vault_root / ".claude" / "agents"
+    agent_templates = [
+        "persona-board-chair",
+        "persona-strategic-operator",
+        "persona-relationships-guardian",
+        "persona-health-steward",
+        "persona-execution-coach",
+    ]
+    for agent in agent_templates:
+        template = agents_dir / f"{agent}.template.md"
+        output = agents_dir / f"{agent}.md"
+        mappings.append((template, output))
+
+    return mappings
 
 
 def process_templates(vault_root: Path, placeholders: dict, dry_run: bool = False, verbose: bool = False) -> bool:
@@ -241,6 +296,7 @@ def main():
     # Load configuration
     config = load_user_config(vault_root)
     placeholders = build_placeholder_map(config)
+    placeholders = add_runtime_placeholders(placeholders, vault_root)
 
     if args.list_placeholders:
         print("Available placeholders:")

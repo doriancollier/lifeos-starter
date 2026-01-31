@@ -12,6 +12,17 @@ allowed-tools:
 
 Generate beautiful, printable Goal Bingo cards for gamified goal tracking. Fully configurable for any family or team.
 
+## First-Time Setup
+
+Before first use, personalize the `config.json` file at `.claude/skills/goal-bingo/config.json`:
+
+1. **Edit owner names**: Update `owners[].name` with actual family member names
+2. **Adjust emojis**: Change `owners[].emoji` to preferred representations
+3. **Update colors**: Modify `owners[].color` for preferred color scheme
+4. **Verify paths**: Ensure `paths.goalsFile` points to your goals markdown file
+
+The config includes a `{{user_first_name}}` placeholder that should be replaced with the actual name after vault personalization.
+
 ## Quick Start
 
 ### 1. Load Configuration First

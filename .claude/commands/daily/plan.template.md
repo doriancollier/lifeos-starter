@@ -12,9 +12,9 @@ Guide the user through an interactive morning planning session as their **Level 
 ## Context
 
 - **Today's date**: Use `date +%Y-%m-%d` and `date +%A` for day of week
-- **Daily notes directory**: `/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/`
-- **Template**: `/Users/doriancollier/Keep/cc-obsidian-jl/3-Resources/Templates/daily-enhanced.md`
-- **Projects directory**: `/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/Current/`
+- **Daily notes directory**: `{{vault_path}}/4-Daily/`
+- **Template**: `{{vault_path}}/3-Resources/Templates/daily-enhanced.md`
+- **Projects directory**: `{{vault_path}}/1-Projects/Current/`
 
 ## Planning Flow
 
@@ -61,7 +61,7 @@ Alternative prompts (use situationally):
 
 First, check for quarterly rocks:
 ```bash
-find "/Users/doriancollier/Keep/cc-obsidian-jl/3-Resources/Planning" -name "*quarterly*" -o -name "*Q[1-4]*" 2>/dev/null | head -3
+find "{{vault_path}}/3-Resources/Planning" -name "*quarterly*" -o -name "*Q[1-4]*" 2>/dev/null | head -3
 ```
 
 Ask: "**What quarterly goal does this week advance?**"
@@ -72,7 +72,7 @@ If no quarterly goals found: "Do you have quarterly rocks defined? Consider a qu
 
 Check for monthly planning:
 ```bash
-find "/Users/doriancollier/Keep/cc-obsidian-jl/3-Resources/Planning" -name "*monthly*" -o -name "*$(date +%B)*" 2>/dev/null | head -2
+find "{{vault_path}}/3-Resources/Planning" -name "*monthly*" -o -name "*$(date +%B)*" 2>/dev/null | head -2
 ```
 
 Ask: "**What monthly theme does today serve?**"
@@ -85,7 +85,7 @@ Surface the weekly rocks:
 
 1. Read the most recent weekly review/planning note (if exists):
    ```bash
-   find "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily" -name "*.md" -type f -mtime -7 | xargs grep -l "Weekly Big 3\|Big Rocks" | head -1
+   find "{{vault_path}}/4-Daily" -name "*.md" -type f -mtime -7 | xargs grep -l "Weekly Big 3\|Big Rocks" | head -1
    ```
 
 2. Or check for explicit weekly rocks in recent daily notes.
@@ -110,7 +110,7 @@ Surface the weekly rocks:
 2. **Fetch ALL calendar data in parallel** (one-time operation):
    ```
    mcp__google-calendar__list-events with:
-   - calendarId: ["", "", "family07897086865527719823@group.calendar.google.com", "tkn3uagc5357j3l4edhmq9qeo8@group.calendar.google.com", "en.usa#holiday@group.v.calendar.google.com"]
+   - calendarId: ["{{user_email}}", "{{work_email}}", "family07897086865527719823@group.calendar.google.com", "tkn3uagc5357j3l4edhmq9qeo8@group.calendar.google.com", "en.usa#holiday@group.v.calendar.google.com"]
    - timeMin: today at 00:00:00
    - timeMax: 14 days from today at 23:59:59
    - timeZone: America/Chicago
@@ -230,17 +230,17 @@ If the user mentioned calendar-related items in Step -1, surface them now:
 
 1. **Sync recent health data**:
    ```bash
-   python3 "/Users/doriancollier/Keep/cc-obsidian-jl/.claude/scripts/health_sync.py" sync --days 3
+   python3 "{{vault_path}}/.claude/scripts/health_sync.py" sync --days 3
    ```
 
 2. **Get yesterday's summary and weekly trends**:
    ```bash
-   python3 "/Users/doriancollier/Keep/cc-obsidian-jl/.claude/scripts/health_sync.py" status
+   python3 "{{vault_path}}/.claude/scripts/health_sync.py" status
    ```
 
 3. **Get goal progress with streaks**:
    ```bash
-   python3 "/Users/doriancollier/Keep/cc-obsidian-jl/.claude/scripts/health_sync.py" goals
+   python3 "{{vault_path}}/.claude/scripts/health_sync.py" goals
    ```
 
 4. **Present Health Summary**:
@@ -364,14 +364,14 @@ Find incomplete tasks from yesterday (and any lingering from earlier days):
 ```bash
 # Yesterday's incomplete tasks
 yesterday=$(date -v-1d +%Y-%m-%d)
-grep -E "^- \[ \]" "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/${yesterday}.md" 2>/dev/null
+grep -E "^- \[ \]" "{{vault_path}}/4-Daily/${yesterday}.md" 2>/dev/null
 ```
 
 ```bash
 # Tasks appearing multiple days (chronic carryovers)
 for i in {2..5}; do
   d=$(date -v-${i}d +%Y-%m-%d)
-  grep -E "^- \[ \]" "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/${d}.md" 2>/dev/null
+  grep -E "^- \[ \]" "{{vault_path}}/4-Daily/${d}.md" 2>/dev/null
 done
 ```
 
@@ -386,7 +386,7 @@ Use AskUserQuestion if helpful to make selection easier.
 Find any blocked tasks from recent days:
 
 ```bash
-grep -rh "^- \[ \] 🔵" "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/" --include="*.md" | head -10
+grep -rh "^- \[ \] 🔵" "{{vault_path}}/4-Daily/" --include="*.md" | head -10
 ```
 
 For each blocked task, ask: "Is [blocker] resolved? Should this become active today?"
@@ -418,15 +418,15 @@ Review meetings with multiple attendees from Step 1b:
 **Scan all projects in `1-Projects/Current/`**:
 
 ```bash
-find "/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/Current" -name "*.md" -type f
+find "{{vault_path}}/1-Projects/Current" -name "*.md" -type f
 ```
 
 For each project, read frontmatter and extract:
 - `title`, `status`, `company`, `next_steps`, `deadline`, `target_date`, `created`
 
 **Group projects by company** (only `status: current`):
-- 
-- 
+- {{company_1_name}}
+- {{company_2_name}}
 - EMC
 - Personal
 
@@ -436,7 +436,7 @@ For each project, read frontmatter and extract:
 
 | Project | Company | Deadline | Days Left |
 |---------|---------|----------|-----------|
-| [[Project]] |  | Dec 8 | 5 days |
+| [[Project]] | {{company_1_name}} | Dec 8 | 5 days |
 ```
 
 **Check for new projects (created today)**.
@@ -537,7 +537,7 @@ For each A-priority, apply these filters:
 
 ### Step 13: Set Focus Areas & Role Intention
 
-Ask: "Which contexts need attention today?" (, , EMC, Personal)
+Ask: "Which contexts need attention today?" ({{company_1_name}}, {{company_2_name}}, EMC, Personal)
 
 **Enhanced Role Check (Planning System 2.0)**:
 
@@ -548,8 +548,8 @@ For each active role, prompt intentionality:
 | Role | Question |
 |------|----------|
 | **Provider** | "What will you create/deliver that expresses love for your family?" |
-| **Father** | "When and how will you be present with  today?" |
-| **Partner** | "How will you turn toward  today?" |
+| **Father** | "When and how will you be present with {{child_name}} today?" |
+| **Partner** | "How will you turn toward {{partner_name}} today?" |
 | **Self** | "What will you do to invest in your own growth or renewal?" |
 
 **Capture specific intentions**:
@@ -575,7 +575,7 @@ Build and write the daily note content:
 For each company in focus areas, add projects dynamically:
 
 ```markdown
-### 
+### {{company_1_name}}
 
 #### [[AB-Email-Drip-Campaigns]] `current`
 *Next: Complete segmentation logic and test drip sequences*
@@ -611,7 +611,7 @@ For each company in focus areas, add projects dynamically:
 
 Generate the health section using:
 ```bash
-python3 "/Users/doriancollier/Keep/cc-obsidian-jl/.claude/scripts/health_sync.py" daily-note-section
+python3 "{{vault_path}}/.claude/scripts/health_sync.py" daily-note-section
 ```
 
 Insert after Morning Check-in section:
@@ -667,7 +667,7 @@ Insert after Morning Check-in section:
 
 | Time | Block | Tasks |
 |------|-------|-------|
-| 8:00-10:00 | [Focus]  | Task 1, Task 2 |
+| 8:00-10:00 | [Focus] {{company_1_name}} | Task 1, Task 2 |
 | 10:00-10:10 | [Break] | Short break |
 | ... | ... | ... |
 

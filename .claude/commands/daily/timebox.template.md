@@ -9,8 +9,8 @@ Create timeboxed focus blocks on your calendar to structure today's work.
 
 ## Context
 
-- **Daily notes**: `/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/`
-- **Calendar**: `` (primary)
+- **Daily notes**: `{{vault_path}}/4-Daily/`
+- **Calendar**: `{{user_email}}` (primary)
 - **Working hours**: 8:00 AM - 6:00 PM
 - **Timezone**: America/Chicago
 
@@ -20,7 +20,7 @@ Use the `daily-timebox` skill to:
 
 1. **Read today's daily note** to get A and B priority tasks
 2. **Check calendar** for existing meetings and timeboxes
-3. **Group tasks by project** (, 144, Personal, EMC)
+3. **Group tasks by project** ({{company_1_name}}, 144, Personal, EMC)
 4. **Create focus blocks** with appropriate durations
 5. **Add wellness blocks** (lunch, breaks)
 6. **Present the schedule** to the user

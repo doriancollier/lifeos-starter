@@ -23,16 +23,22 @@ LifeOS separates **your configuration** from **system files**:
               ▼
     Template Files (updated during upgrades)
     ├── CLAUDE.template.md
-    └── .claude/rules/coaching.template.md
+    ├── .claude/rules/coaching.template.md
+    ├── .claude/commands/*.template.md
+    └── .claude/agents/persona-*.template.md
               │
               ▼
     Generated Files (regenerated from templates)
     ├── CLAUDE.md
     ├── .claude/rules/coaching.md
+    ├── .claude/commands/*.md
+    ├── .claude/agents/persona-*.md
     └── .claude/settings.json
 ```
 
 **Key benefit:** System upgrades update templates, then regenerate files using your config. Your data is never lost.
+
+**Hooks also use config:** Validator hooks (frontmatter-validator, task-format-validator, reminders-task-detector) dynamically load company names from `.user/companies.yaml` at runtime.
 
 ## Configuration Files
 
@@ -156,17 +162,35 @@ helping {{user_first_name}} bridge the gap between philosophy and daily action.
 
 The `inject_placeholders.py` script reads `.user/*.yaml` and replaces placeholders.
 
+### Template Files
+
+Templates are processed from multiple locations:
+
+| Template | Output | Purpose |
+|----------|--------|---------|
+| `CLAUDE.template.md` | `CLAUDE.md` | Main system context |
+| `.claude/rules/coaching.template.md` | `.claude/rules/coaching.md` | Coaching persona |
+| `.claude/commands/*.template.md` | `.claude/commands/*.md` | Command instructions |
+| `.claude/agents/persona-*.template.md` | `.claude/agents/persona-*.md` | Advisor agents |
+
 ### Available Placeholders
 
 | Placeholder | Source |
 |-------------|--------|
 | `{{user_name}}` | identity.yaml → user.name |
 | `{{user_first_name}}` | identity.yaml → user.first_name |
+| `{{user_email}}` | identity.yaml → user.email |
 | `{{timezone}}` | identity.yaml → user.timezone |
 | `{{partner_name}}` | identity.yaml → family.partner_name |
 | `{{child_name}}` | identity.yaml → family.children[0].name |
 | `{{company_1_name}}` | companies.yaml → companies.company_1.name |
+| `{{company_2_name}}` | companies.yaml → companies.company_2.name |
+| `{{company_3_name}}` | companies.yaml → companies.company_3.name |
 | `{{coaching_intensity}}` | coaching.yaml → coaching.intensity |
+| `{{personality_type}}` | identity.yaml → user.personality_type |
+| `{{work_email}}` | identity.yaml → user.work_email |
+| `{{vault_path}}` | Runtime (auto-detected) |
+| `{{current_year}}` | Runtime (current year) |
 
 ## Integrations
 

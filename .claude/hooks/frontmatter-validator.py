@@ -29,8 +29,38 @@ logger = setup_logger("frontmatter-validator")
 # Vault configuration - uses environment variable or auto-detects from script location
 VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or str(Path(__file__).resolve().parent.parent.parent)
 
-# Valid values - these should be configured per vault
-VALID_COMPANIES = ["Company 1", "Company 2", "Company 3", "Personal", ""]
+
+def load_company_names():
+    """Load company names from .user/companies.yaml dynamically."""
+    try:
+        import yaml
+    except ImportError:
+        # Fall back to defaults if PyYAML not installed
+        return ["Personal", ""]
+
+    companies_file = os.path.join(VAULT_ROOT, ".user", "companies.yaml")
+    companies = ["Personal", ""]  # Always include Personal and empty
+
+    if os.path.exists(companies_file):
+        try:
+            with open(companies_file, 'r') as f:
+                data = yaml.safe_load(f) or {}
+
+            # Extract company names from structure
+            companies_data = data.get('companies', {})
+            for key in ['company_1', 'company_2', 'company_3']:
+                company = companies_data.get(key, {})
+                name = company.get('name', '')
+                if name and name not in companies:
+                    companies.append(name)
+        except Exception:
+            pass  # Silently fall back to defaults
+
+    return companies
+
+
+# Valid values - loaded dynamically from user config
+VALID_COMPANIES = load_company_names()
 VALID_NOTE_TYPES = ["daily-note", "meeting", "person", "project", "moc", "area", "resource", ""]
 VALID_RELATIONSHIPS = ["boss", "colleague", "friend", "family", "client", "partner", "mentor", "report", "vendor", ""]
 

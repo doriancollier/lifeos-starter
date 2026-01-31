@@ -11,10 +11,10 @@ Guide the user through a comprehensive weekly review as their **Level 10 Coach**
 
 ## Context
 
-- **Daily notes directory**: `/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/`
-- **Projects directory**: `/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/Current/`
-- **Year file**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/2026.md`
-- **Foundation**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/foundation.md`
+- **Daily notes directory**: `{{vault_path}}/4-Daily/`
+- **Projects directory**: `{{vault_path}}/1-Projects/Current/`
+- **Year file**: `{{vault_path}}/2-Areas/Personal/Years/2026.md`
+- **Foundation**: `{{vault_path}}/2-Areas/Personal/foundation.md`
 
 ## Review Flow
 
@@ -28,7 +28,7 @@ Execute these steps **sequentially**, integrating the weekly-review skill for de
 for i in {0..6}; do
   d=$(date -v-${i}d +%Y-%m-%d)
   echo "=== ${d} ==="
-  cat "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/${d}.md" 2>/dev/null | head -100
+  cat "{{vault_path}}/4-Daily/${d}.md" 2>/dev/null | head -100
 done
 ```
 
@@ -112,8 +112,8 @@ Ask: "What was your highest-leverage activity this week?"
 |------|---------------|---------------------|-----------------|
 | Father | X hours | ? | ? |
 | Partner | X hours | ? | ? |
-| Provider () | X hours | ? | ? |
-| Provider () | X hours | ? | ? |
+| Provider ({{company_1_name}}) | X hours | ? | ? |
+| Provider ({{company_2_name}}) | X hours | ? | ? |
 | Provider (EMC) | X hours | ? | ? |
 | Self | X hours | ? | ? |
 
@@ -127,8 +127,8 @@ Ask: "What was your highest-leverage activity this week?"
 **Surface neglected roles**: "Which role is being neglected that matters deeply?"
 
 **Role-specific prompts:**
-- **Father**: "How many hours of quality one-on-one time with ? What was your best conversation?"
-- **Partner**: "Did you maintain the 5:1 positive-to-negative ratio with ? Any Four Horsemen moments?"
+- **Father**: "How many hours of quality one-on-one time with {{child_name}}? What was your best conversation?"
+- **Partner**: "Did you maintain the 5:1 positive-to-negative ratio with {{partner_name}}? Any Four Horsemen moments?"
 - **Self**: "Did you invest in your own growth, health, or renewal?"
 
 ### Step 5: Energy Audit (4-Dimension Patterns)
@@ -175,7 +175,7 @@ Ask: "What was your highest-leverage activity this week?"
 
 ```bash
 # Check for quarterly rocks reference
-grep -r "Quarterly\|Q[1-4] Rock\|Big Rock" "/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/2026.md"
+grep -r "Quarterly\|Q[1-4] Rock\|Big Rock" "{{vault_path}}/2-Areas/Personal/Years/2026.md"
 ```
 
 **For each quarterly rock:**

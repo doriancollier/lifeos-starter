@@ -16,8 +16,10 @@
 # Consume stdin (hook receives JSON input that we don't need)
 cat > /dev/null
 
-# Configuration
-VAULT_ROOT="{{vault_path}}"
+# Configuration - auto-detect vault root from script location
+# Script is in .claude/hooks/, so vault root is 2 directories up
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VAULT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Change to vault directory
 cd "$VAULT_ROOT" || exit 0

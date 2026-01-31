@@ -205,6 +205,18 @@ if __name__ == "__main__":
     main()
 ```
 
+## Dynamic Configuration
+
+Several hooks read user configuration from `.user/` at runtime:
+
+| Hook | Config Used |
+|------|-------------|
+| `frontmatter-validator.py` | `.user/companies.yaml` — Valid company names for `company:` field |
+| `task-format-validator.py` | `.user/companies.yaml` — Valid company contexts for tasks |
+| `reminders-task-detector.py` | `.user/companies.yaml` — Company-to-list mapping for Reminders |
+
+This allows hooks to validate against your specific company names without hardcoding values.
+
 ## Best Practices
 
 1. **Fast execution** — Hooks run synchronously
@@ -212,3 +224,4 @@ if __name__ == "__main__":
 3. **Fail gracefully** — Don't crash on edge cases
 4. **Minimal scope** — Do one thing well
 5. **Test thoroughly** — Hooks affect all operations
+6. **Use dynamic config** — Read from `.user/` when company-specific validation is needed

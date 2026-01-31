@@ -1,11 +1,11 @@
 ---
-description: Weekly relationship check-in with  using State of Union format
+description: Weekly relationship check-in with {{partner_name}} using State of Union format
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 ---
 
 # Partner State of Union Command
 
-Guide the user through a **weekly relationship check-in with ** using the State of Union format. This is a structured 60-minute conversation that strengthens connection and prevents issues from building up.
+Guide the user through a **weekly relationship check-in with {{partner_name}}** using the State of Union format. This is a structured 60-minute conversation that strengthens connection and prevents issues from building up.
 
 > **Research Basis**: Couples who spend just one hour per week on structured check-ins transform their conflict management. The 5:1 ratio (positive to negative interactions) predicts relationship success with remarkable accuracy.
 
@@ -14,7 +14,7 @@ Guide the user through a **weekly relationship check-in with ** using the State 
 - **Template**: `[[partner-state-of-union]]` in `3-Resources/Templates/`
 - **Output location**: `5-Meetings/YYYY/MM-Month/SoU-YYYY-MM-DD.md` OR `2-Areas/Personal/Partner/State-of-Union/`
 - **Partner research**: `1-Projects/Current/Planning-System-2.0/extraction/19-partner-excellence-extraction.md`
-- **'s person file**: `6-People/Personal/.md`
+- **{{partner_name}}'s person file**: `6-People/Personal/{{partner_name}}.md`
 
 ## Process
 
@@ -30,32 +30,32 @@ Guide the user through a **weekly relationship check-in with ** using the State 
    - Search for most recent SoU note
    - If more than 7 days, note the gap
 
-3. **Review 's person file** for current context (stressors, recent events, communication preferences)
+3. **Review {{partner_name}}'s person file** for current context (stressors, recent events, communication preferences)
 
-### Step 2: Pre-Meeting Preparation (For )
+### Step 2: Pre-Meeting Preparation (For {{user_first_name}})
 
-Before the meeting with , ask :
+Before the meeting with {{partner_name}}, ask {{user_first_name}}:
 
 **Appreciations Prep**:
-Ask: "What are 5 specific things you appreciate about  from this week?"
+Ask: "What are 5 specific things you appreciate about {{partner_name}} from this week?"
 
 Prompt if needed:
 - "What did she do that made your life easier?"
-- "When did she show up for you or ?"
+- "When did she show up for you or {{child_name}}?"
 - "What character trait did you admire this week?"
 - "What made you grateful to be with her?"
 - "What small gesture meant something to you?"
 
 **Format**: Each appreciation should be specific, not generic.
 - Bad: "I appreciate that you're a good partner"
-- Good: "I appreciate how you handled 's meltdown on Tuesday with such patience"
+- Good: "I appreciate how you handled {{child_name}}'s meltdown on Tuesday with such patience"
 
 **Concerns Prep**:
 Ask: "Do you have any concerns you'd like to bring up? (Remember: concerns about behaviors, not character)"
 
 **ATTUNE Check**:
 Before entering the conversation, remind:
-- **A**wareness - Notice your state and 's
+- **A**wareness - Notice your state and {{partner_name}}'s
 - **T**olerance - Accept differences without judgment
 - **T**urning toward - Respond to bids for connection
 - **U**nderstanding - Seek to understand before being understood
@@ -72,10 +72,10 @@ Guide through the four-part structure (60 minutes total):
 
 **Format**: Each person shares 5 specific appreciations.
 
- shares first (lead by example):
+{{user_first_name}} shares first (lead by example):
 "I appreciate [specific thing] because [impact/feeling]."
 
-Then  shares 5.
+Then {{partner_name}} shares 5.
 
 **Coaching**: If appreciations are generic, gently ask: "Can you make that more specific? What exactly did she do?"
 
@@ -144,7 +144,7 @@ Optional Gottman-inspired questions:
 
 Review the week's bids:
 
-Ask: "Thinking about this week, did you turn toward or away from 's bids for connection?"
+Ask: "Thinking about this week, did you turn toward or away from {{partner_name}}'s bids for connection?"
 
 **Bid examples**:
 - "Look at this" (sharing something)
@@ -187,21 +187,21 @@ Create the State of Union note:
 title: "State of Union - YYYY-MM-DD"
 type: state-of-union
 date: YYYY-MM-DD
-participants: [, ]
+participants: [{{user_first_name}}, {{partner_name}}]
 ---
 
 # State of Union - [Day], [Month] [Date], [Year]
 
 ## Appreciations
 
-### 's Appreciations for 
+### {{user_first_name}}'s Appreciations for {{partner_name}}
 1.
 2.
 3.
 4.
 5.
 
-### 's Appreciations for 
+### {{partner_name}}'s Appreciations for {{user_first_name}}
 1.
 2.
 3.
@@ -226,8 +226,8 @@ participants: [, ]
 - **Agreement Reached**:
 
 ## Closing Affirmation
-- :
-- :
+- {{user_first_name}}:
+- {{partner_name}}:
 
 ## Bids for Connection
 **This week's reflection**: [Turn toward rate, notable moments]
@@ -257,13 +257,13 @@ participants: [, ]
 - **Separate EMC from relationship** - Business topics get noted but discussed separately
 - **Watch for Horsemen** - Redirect gently if they appear
 - **End on connection** - Never end on unresolved conflict
-- **Be a role model** -  leads with vulnerability and warmth
+- **Be a role model** - {{user_first_name}} leads with vulnerability and warmth
 
 ## Coaching Prompts
 
 Use these during or after the meeting:
 
-- "Are you treating  as A-priority or just saying you are?"
+- "Are you treating {{partner_name}} as A-priority or just saying you are?"
 - "Did you show up with courage AND love, or just efficiency?"
 - "Could your appreciation land warmer? More specific?"
 - "Are you listening to understand or to respond?"
@@ -282,7 +282,7 @@ If business topics come up:
 ## Examples
 
 **Example Appreciation**:
-- "I appreciate how you stayed calm when  had a meltdown at the restaurant on Sunday. I was getting frustrated, and your patience reminded me to breathe. It made me feel like we're a team."
+- "I appreciate how you stayed calm when {{child_name}} had a meltdown at the restaurant on Sunday. I was getting frustrated, and your patience reminded me to breathe. It made me feel like we're a team."
 
 **Example Concern (well-framed)**:
 - **Issue**: "When you're on your phone during dinner, I feel disconnected."
@@ -296,6 +296,6 @@ If business topics come up:
 ## Related
 
 - [[partner-excellence]] - Research on relationship practices
-- [[]] - Partner person file
+- [[{{partner_name}}]] - Partner person file
 - [[daily-note]] - Add daily "Did I turn toward?" reflection
 - [[monthly-retro]] - Monthly relationship review section

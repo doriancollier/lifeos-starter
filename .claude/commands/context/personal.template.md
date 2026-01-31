@@ -27,8 +27,8 @@ Load and summarize the current personal context:
 - Personal development
 
 ### 3. Review Family Context
--  - `6-People/Personal/`
--  - `6-People/Personal/`
+- {{partner_name}} - `6-People/Personal/`
+- {{child_name}} - `6-People/Personal/`
 - Family overview files
 
 ### 4. Check Recent Reflections
@@ -41,8 +41,8 @@ Load and summarize the current personal context:
 ## Personal Context Loaded
 
 ### Key People
-- **** - Partner
-- **** - Child
+- **{{partner_name}}** - Partner
+- **{{child_name}}** - Child
 
 ### Today's Personal Priorities
 - Family: [priorities from daily note]
