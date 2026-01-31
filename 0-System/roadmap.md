@@ -12,7 +12,7 @@ Vision and priorities for LifeOS development.
 
 LifeOS should be a system that anyone can adopt to manage their life with AI assistance. The core framework is generic; personalization is layered on top.
 
-## Current State (v2.1.1)
+## Current State (v0.5.0)
 
 ### What Exists
 
@@ -197,9 +197,8 @@ Someone new can:
 
 | Version | Date | Milestone |
 |---------|------|-----------|
-| 2.1.1 | 2025-12-31 | Agent resumption pattern for multi-step workflows |
-| 2.1.0 | 2025-12-08 | Provider identity integration |
-| 2.0.0 | 2025-12-07 | AI Coaching transformation (Level 10 Relentless Challenger) |
+| 0.5.0 | 2026-01-31 | Upgrade system with version checking |
+| 0.4.0 | 2025-12-31 | User/system separation, template injection |
 | 0.3.0 | 2025-12-03 | Task sync system, context isolator agent |
 | 0.2.0 | 2025-12-03 | File inbox system, task extraction |
 | 0.1.0 | 2025-12-02 | Initial productization started |

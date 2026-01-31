@@ -41,3 +41,8 @@ Thumbs.db
 # Local state files (generated at runtime)
 .claude/reminders-state.json
 0-System/scripts/supernormal/sync-state.json
+
+# Upgrade system (local cache and backups)
+.claude/cache/
+.claude/backups/
+.user/upgrade.yaml

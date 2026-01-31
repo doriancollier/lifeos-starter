@@ -1,0 +1,3 @@
+# Version-specific migration scripts
+# Naming: vX.Y.Z.py (runs when upgrading TO that version)
+# Example: v2.2.0.py runs when upgrading from any earlier version to 2.2.0+

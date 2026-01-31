@@ -46,6 +46,11 @@ def get_vault_root() -> Path:
 # Hook registry: defines all available hooks and their lifecycle events
 HOOK_REGISTRY = {
     # Core hooks (always enabled)
+    "version-check.py": {
+        "event": "SessionStart",
+        "core": True,
+        "description": "Check for LifeOS updates"
+    },
     "session-context-loader.py": {
         "event": "SessionStart",
         "core": True,

@@ -1,8 +1,8 @@
 ---
 title: "LifeOS"
-version: "2.1.0"
+version: "0.5.0"
 created: "2025-12-02"
-updated: "2025-12-30"
+updated: "2026-01-31"
 status: "active"
 ---
 
@@ -162,19 +162,9 @@ See [Learning Log](config/learning-log.md) for history of learned capabilities.
 
 ## Version
 
-Current version: **2.1.0** (Planning System 2.0 Integration)
+Current version: **0.5.0**
 
-Major additions in 2.1.0:
-- Planning hierarchy connecting daily actions to mission (Annual → Quarterly → Monthly → Weekly → Daily)
-- 95+ coaching prompts across 10 categories
-- Mental models and thinking frameworks (first principles, inversion, systems thinking)
-- Pre-mortems and retrospectives at all planning horizons
-- Energy management with 4-dimension tracking
-- Role failure mode awareness and prevention
-- 50+ new templates for planning, decisions, and reviews
-- 12 new commands for planning and review workflows
-
-See [Changelog](changelog.md) for version history.
+See [Changelog](changelog.md) for version history and [Roadmap](roadmap.md) for planned features.
 
 ## Contributing
 

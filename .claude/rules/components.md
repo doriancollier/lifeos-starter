@@ -150,7 +150,7 @@ Commands are user-invoked via `/namespace:command`.
 | `/system:learn [topic]` | Learn capabilities through experimentation, codify results |
 | `/system:inject` | Regenerate CLAUDE.md and coaching.md from templates |
 | `/system:configure-hooks` | Regenerate settings.json from .user/integrations.yaml |
-| `/system:upgrade` | Full system upgrade workflow (inject + configure-hooks) |
+| `/system:upgrade` | Fetch updates from upstream, apply safely with rollback |
 | `/goals:status` | Goals dashboard |
 | `/goals:review` | Weekly goals review |
 | `/goals:opportunity [desc]` | Evaluate new opportunity |
@@ -253,6 +253,7 @@ Hooks run automatically at lifecycle events.
 
 | Hook | Event | Purpose |
 |------|-------|---------|
+| `version-check.py` | SessionStart | Check for LifeOS updates |
 | `session-context-loader.py` | SessionStart | Load today's context |
 | `reminders-session-sync.py` | SessionStart | Pull Reminders completions to daily note |
 | `health-session-sync.py` | SessionStart | Sync health data from Health Auto Export |

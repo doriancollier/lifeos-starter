@@ -1,0 +1,16 @@
+# Upgrade Configuration
+# This file controls how LifeOS checks for and applies updates.
+
+upstream:
+  # GitHub repository to fetch updates from
+  owner: "doriancollier"
+  repo: "lifeos-starter"
+  branch: "main"
+
+preferences:
+  # How often to check for updates (in hours)
+  # Set to 0 to disable automatic checks
+  check_frequency_hours: 24
+
+  # Automatically create backup before upgrading
+  auto_backup: true

@@ -16,6 +16,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Upgrade System** — Fetch updates from upstream repository while preserving user configuration
+  - `VERSION` file at repo root for semantic versioning
+  - `.user/upgrade.yaml` for upgrade preferences (upstream repo, check frequency)
+  - `version-check.py` hook — Checks for updates on session start (cached, < 500ms)
+  - `upgrade_system.py` script — Core upgrade logic with backup, rollback, migrations
+  - `/system:upgrade` command — Check, apply, or rollback updates
+    - `--check` — Show available updates without applying
+    - `--force` — Skip modification warnings
+    - `--rollback` — Restore from most recent backup
+  - Automatic backups in `.claude/backups/` before upgrades
+  - Modification detection warns about locally changed system files
+  - Migration system in `.claude/scripts/migrations/` for version-specific updates
+
 - **User Configuration Directory** (`.user/`) — Centralized YAML configuration that survives system upgrades
   - `identity.yaml` — Name, timezone, personality, family
   - `companies.yaml` — Company definitions with contacts
