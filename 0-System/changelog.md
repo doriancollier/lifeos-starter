@@ -22,6 +22,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.6.1] - 2026-01-31
+
+### Added
+
+- **Skill YAML Frontmatter** — Added `allowed-tools` declarations to 6 skills for explicit tool permissions
+  - `personal-insight`, `planning-cadence`, `pre-mortem`, `product-management`, `weekly-aggregator`, `weekly-review`
+
+### Changed
+
+- **Hook Configuration Format** — Updated to Claude Code 2026 format
+  - `matcher` now uses regex string or `""` for non-tool hooks (previously object `{}`)
+  - Updated `configure_hooks.py` script to generate new format
+  - Updated hooks README documentation
+- **Agent Documentation** — Enhanced `system-reviewer` command with agent availability section
+  - Documented fallback options for different review sizes
+  - Added note about session requirements for agent discovery
+
+---
+
 ## [0.6.0] - 2026-01-31
 
 ### Added
