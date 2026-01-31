@@ -72,7 +72,40 @@ preferences:
 
 ## For Maintainers: Creating Releases
 
-### Release Process
+### Quick Release (Recommended)
+
+Use the `/system:release` command to automate the entire process:
+
+```bash
+/system:release         # Auto-detect version from changelog & commits
+/system:release patch   # Force patch: 0.5.0 → 0.5.1
+/system:release minor   # Force minor: 0.5.0 → 0.6.0
+/system:release major   # Force major: 0.5.0 → 1.0.0
+
+/system:release --dry-run  # Preview without changes
+```
+
+**Auto-detection** spawns an analysis agent to recommend the right version (keeps main context clean):
+- **MAJOR**: Breaking changes, removed features, significant rewrites
+- **MINOR**: New features added (looks for "### Added" in changelog, "feat:" commits)
+- **PATCH**: Bug fixes only (looks for "### Fixed" in changelog, "fix:" commits)
+
+The agent reads the changelog and commits, then returns a structured recommendation with reasoning.
+
+The command:
+1. Validates working directory is clean and on `main`
+2. Checks changelog has content in `[Unreleased]`
+3. Auto-detects version bump (or uses your override)
+4. Shows reasoning and asks for confirmation
+5. Updates VERSION file and changelog
+6. Commits with "Release vX.Y.Z"
+7. Creates annotated git tag
+8. Pushes to origin
+9. Optionally creates GitHub Release
+
+### Manual Release Process
+
+If you prefer manual steps:
 
 ```bash
 # 1. Update VERSION file

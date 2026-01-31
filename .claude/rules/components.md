@@ -68,6 +68,7 @@ Skills are model-invoked knowledge modules. Claude reads them automatically when
 | `skill-manager` | Create, review, and maintain Claude Code skills |
 | `operations` | Math, date calculations, and reliable computation guidance |
 | `proactive-suggestions` | Suggest high-value commands (`/board:advise`, `/system:learn`, `/system:update`) when context matches |
+| `orchestration-patterns` | Agent delegation patterns for efficient context management (auto-applied when designing commands) |
 
 ### Advisor Skills (for `/board:advise`)
 
@@ -151,6 +152,7 @@ Commands are user-invoked via `/namespace:command`.
 | `/system:inject` | Regenerate CLAUDE.md and coaching.md from templates |
 | `/system:configure-hooks` | Regenerate settings.json from .user/integrations.yaml |
 | `/system:upgrade` | Fetch updates from upstream, apply safely with rollback |
+| `/system:release [type]` | Auto-detect version (spawns analysis agent), create release with tag and optional GitHub Release |
 | `/goals:status` | Goals dashboard |
 | `/goals:review` | Weekly goals review |
 | `/goals:opportunity [desc]` | Evaluate new opportunity |

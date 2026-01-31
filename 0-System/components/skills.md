@@ -147,6 +147,7 @@ Show example inputs and expected behavior.
 | `skill-manager` | Create, review, and maintain Claude Code skills |
 | `operations` | Math, date calculations, and reliable computation |
 | `proactive-suggestions` | Suggest `/board:advise`, `/system:learn`, `/system:update` when context matches |
+| `orchestration-patterns` | Agent delegation and orchestration patterns for efficient context management |
 
 ### Advisor Skills
 

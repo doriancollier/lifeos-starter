@@ -16,6 +16,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Orchestration Patterns Skill** — Model-invoked knowledge for agent delegation and context management
+  - Auto-applies when designing new commands or tackling complex tasks
+  - Documents 3-tier execution model (SMALL/MEDIUM/LARGE)
+  - Provides decision framework for when to delegate vs execute directly
+  - Includes structured result patterns, session state for resumption
+  - References existing orchestrators: `/system:review`, `/system:release`, `/board:advise`
+
+- **Release System** — Create releases with automated version bumping, changelog updates, and git tagging
+  - `/system:release` command for maintainers (orchestrator pattern)
+    - **Auto-detects** version bump by spawning analysis agent (keeps main context clean)
+    - Agent analyzes changelog sections + commit messages (feat:, fix:, BREAKING markers)
+    - Override with explicit: `patch`, `minor`, `major`, or `X.Y.Z`
+  - Validation: Working directory clean, on main branch, [Unreleased] has content
+  - Shows reasoning and asks for confirmation before proceeding
+  - GitHub Release creation support via `gh` CLI
+  - `--dry-run` flag to preview without changes
+
 - **Upgrade System** — Fetch updates from upstream repository while preserving user configuration
   - `VERSION` file at repo root for semantic versioning
   - `.user/upgrade.yaml` for upgrade preferences (upstream repo, check frequency)

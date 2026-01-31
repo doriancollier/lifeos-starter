@@ -218,6 +218,9 @@ Returns results to main Claude
 - Autonomous execution
 - Returns final report
 
+**Orchestrator Pattern:**
+Commands can act as orchestrators, delegating context-heavy analysis to agents while keeping user interaction in main context. See the `orchestration-patterns` skill for detailed guidance on when and how to use this pattern.
+
 ### Hooks (Event-Triggered)
 
 Hooks run automatically at lifecycle events.
