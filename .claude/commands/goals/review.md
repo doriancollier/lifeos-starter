@@ -1,5 +1,6 @@
 ---
 description: Weekly goals review - check progress, surface stalled goals, review opportunities
+argument-hint:
 allowed-tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
 ---
 

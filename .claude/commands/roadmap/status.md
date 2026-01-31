@@ -1,3 +1,8 @@
+---
+description: Show roadmap status for products across organizations
+allowed-tools: Read, Glob, Bash
+---
+
 # Roadmap Status Dashboard
 
 Show roadmap status for products across organizations.

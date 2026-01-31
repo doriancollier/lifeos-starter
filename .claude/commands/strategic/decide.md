@@ -1,6 +1,6 @@
 ---
 description: Guided strategic decision-making with door-type analysis
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Skill
+allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion
 argument: Decision to analyze
 ---
 

@@ -97,7 +97,7 @@ Commands are user-invoked via `/namespace:command`.
 
 | Command | Purpose |
 |---------|---------|
-| `/tasks:due` | Show tasks by due date (overdue, today, upcoming) |
+| `/vault-tasks:due` | Show tasks by due date (overdue, today, upcoming) |
 
 ### Meetings
 

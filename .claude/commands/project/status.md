@@ -1,3 +1,8 @@
+---
+description: Show a comprehensive view of all current projects with progress, health, and activity status
+allowed-tools: Read, Glob, Bash, Grep
+---
+
 # Project Portfolio Dashboard
 
 Show a comprehensive view of all current projects with progress, health, and activity status.

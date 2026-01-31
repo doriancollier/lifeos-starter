@@ -51,7 +51,7 @@ grep -rEn "📅 [0-9]{4}-[0-9]{2}-[0-9]{2}" "{{vault_path}}/4-Daily/"*.md
 # Tasks due this month (December 2025)
 grep -rn "📅 2025-12-" "{{vault_path}}/4-Daily/"*.md | grep "\- \[ \]"
 
-# Overdue tasks (requires date calculation - use Python or /tasks:due command)
+# Overdue tasks (requires date calculation - use Python or /vault-tasks:due command)
 ```
 
 ### When to Use Due Dates

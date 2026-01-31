@@ -11,10 +11,10 @@ Guide the user through a comprehensive weekly review as their **Level 10 Coach**
 
 ## Context
 
-- **Daily notes directory**: `/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/`
-- **Projects directory**: `/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/Current/`
-- **Year file**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/2026.md`
-- **Foundation**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/foundation.md`
+- **Daily notes directory**: `4-Daily/`
+- **Projects directory**: `1-Projects/Current/`
+- **Year file**: `2-Areas/Personal/Years/[YEAR].md`
+- **Foundation**: `2-Areas/Personal/foundation.md`
 
 ## Review Flow
 
@@ -28,7 +28,7 @@ Execute these steps **sequentially**, integrating the weekly-review skill for de
 for i in {0..6}; do
   d=$(date -v-${i}d +%Y-%m-%d)
   echo "=== ${d} ==="
-  cat "/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/${d}.md" 2>/dev/null | head -100
+  cat "4-Daily/${d}.md" 2>/dev/null | head -100
 done
 ```
 

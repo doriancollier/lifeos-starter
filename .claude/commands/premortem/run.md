@@ -1,6 +1,6 @@
 ---
 description: Run pre-mortem exercise on a decision or project
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Skill
+allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion
 argument: Decision or project to analyze
 ---
 

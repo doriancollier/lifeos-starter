@@ -16,9 +16,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **YAML Frontmatter** — Added missing frontmatter to 3 command files
+  - `project/status.md`, `roadmap/status.md`, `create/song.md`
+
 ### Changed
 
+- **Command Reference Consistency** — Renamed `/tasks:due` to `/vault-tasks:due` across all documentation
+  - Updated CLAUDE.md, components.md, task-management guide, and related skills
+  - Aligns documentation with actual file location (`vault-tasks/due.md`)
+
 ### Fixed
+
+- **Template Injection** — Regenerated 18 files from templates via `/system:inject`
+  - Commands: `update.md`, `daily/plan.md`, `daily/eod.md`, `daily/timebox.md`, `weekly/review.md`, `partner/stateofunion.md`, `board/advise.md`, `context/ab.md`, `context/personal.md`, `annual/plan.md`, `monthly/plan.md`
+  - Agents: 5 persona agent files
+- **Hardcoded Paths** — Replaced absolute paths with relative paths in 5 command files
+  - `annual/plan.md`, `monthly/plan.md`, `weekly/review.md`, `daily/timebox.md`
+- **Invalid Tool Declarations** — Fixed `Skill` (invalid) → `AskUserQuestion` in 2 commands
+  - `strategic/decide.md`, `premortem/run.md`
+- **Orphaned Code** — Removed trailing `$ARGUMENTS` from `skill/create.md` and `skill/audit.md`
+- **Missing Frontmatter Fields** — Added `argument-hint` to `goals/status.md` and `goals/review.md`
+- **Template Improvements** — Updated `daily/timebox.template.md` to use relative paths and `{{timezone}}` variable
 
 ---
 

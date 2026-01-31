@@ -11,10 +11,10 @@ Guide the user through creating their comprehensive annual year plan. This build
 
 ## Context
 
-- **Foundation**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/foundation.md`
-- **Review input**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/[YEAR-1]-Retrospective.md`
-- **Previous year**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/[YEAR-1].md`
-- **Output**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/[YEAR].md`
+- **Foundation**: `2-Areas/Personal/foundation.md`
+- **Review input**: `2-Areas/Personal/Years/[YEAR-1]-Retrospective.md`
+- **Previous year**: `2-Areas/Personal/Years/[YEAR-1].md`
+- **Output**: `2-Areas/Personal/Years/[YEAR].md`
 - **Template reference**: `3-Resources/Templates/Planning/annual-year.md`
 - **Time investment**: 2-4 hours (can be spread across sessions)
 

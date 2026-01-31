@@ -100,5 +100,3 @@ To test your new skill:
 - List what was created
 - Provide testing instructions
 - Remind to restart Claude Code
-
-$ARGUMENTS

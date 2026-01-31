@@ -9,7 +9,7 @@ Create timeboxed focus blocks on your calendar to structure today's work.
 
 ## Context
 
-- **Daily notes**: `/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/`
+- **Daily notes**: `4-Daily/`
 - **Calendar**: `` (primary)
 - **Working hours**: 8:00 AM - 6:00 PM
 - **Timezone**: America/Chicago

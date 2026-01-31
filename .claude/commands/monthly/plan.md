@@ -11,9 +11,9 @@ Guide the user through planning the upcoming month. This translates quarterly ro
 
 ## Context
 
-- **Foundation**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/foundation.md`
-- **Annual plan**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/[YEAR].md`
-- **Quarterly plan**: `/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/Q[#]-[YEAR].md`
+- **Foundation**: `2-Areas/Personal/foundation.md`
+- **Annual plan**: `2-Areas/Personal/Years/[YEAR].md`
+- **Quarterly plan**: `2-Areas/Personal/Years/Q[#]-[YEAR].md`
 - **Monthly review**: Previous month's review if exists
 - **Template**: `[[monthly-plan]]` (3-Resources/Templates/Planning/monthly-plan.md)
 - **Time investment**: 60-90 minutes

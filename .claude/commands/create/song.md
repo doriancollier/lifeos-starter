@@ -1,3 +1,9 @@
+---
+description: Create a new song project with structure for lyrics and AI generation
+argument-hint: [song-name]
+allowed-tools: Read, Write, Bash, Glob, AskUserQuestion
+---
+
 # Create Song Command
 
 Create a new song project with proper structure for development and eventual library storage.

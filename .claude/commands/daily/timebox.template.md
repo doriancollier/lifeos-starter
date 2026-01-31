@@ -9,10 +9,10 @@ Create timeboxed focus blocks on your calendar to structure today's work.
 
 ## Context
 
-- **Daily notes**: `{{vault_path}}/4-Daily/`
+- **Daily notes**: `4-Daily/`
 - **Calendar**: `{{user_email}}` (primary)
 - **Working hours**: 8:00 AM - 6:00 PM
-- **Timezone**: America/Chicago
+- **Timezone**: {{timezone}}
 
 ## Task
 

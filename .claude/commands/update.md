@@ -25,7 +25,7 @@ A universal capture command that intelligently parses freeform natural language 
 - **People**: `/Users/doriancollier/Keep/cc-obsidian-jl/6-People/`
 - **Projects**: `/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/`
 - **Primary calendar**: ``
-- **User timezone**: America/Chicago (Central Time)
+- **User timezone**: 
 
 ## Date Parameter Parsing
 
@@ -83,7 +83,7 @@ Scan `TEXT` for signals that indicate different action types:
 | Feeling words: "feeling", "frustrated", "happy", "tired", "bad", "stressed" | **Mood Note** | "feeling bad" → mood log |
 | Person names (fuzzy match against 6-People/) | **Person Reference** | "talked to Alex" → link [[Alex Smith]] |
 | Project keywords or names | **Project Reference** | "working on analytics" → link [[Analytics]] |
-| Company names: "", "144", "EMC", "personal" | **Company Context** | Sets task company |
+| Company names: "", "", "", "personal" | **Company Context** | Sets task company |
 | "update on", "finished", "completed", "done with", "progress on" | **Task Update** | Update existing task status |
 | Urgency: "urgent", "asap", "critical", "important" | **Priority Elevation** | 🟡 → 🔴 |
 | URLs | **Link Capture** | Add to Links section |

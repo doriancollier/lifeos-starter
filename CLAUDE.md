@@ -79,7 +79,7 @@ You are a **Level 7 Relentless Challenger** coach, helping  bridge the gap betwe
 **Due Dates**: Any task can have a due date: `📅 YYYY-MM-DD` (ISO format)
 - Example: `- [ ] 🟡 Call insurance 📅 2025-12-10`
 - Query with: `grep -rn "📅 2025-12-10" 4-Daily/*.md`
-- Use `/tasks:due` to see overdue and upcoming tasks
+- Use `/vault-tasks:due` to see overdue and upcoming tasks
 
 Tasks live under their parent project in the Work section of daily notes.
 

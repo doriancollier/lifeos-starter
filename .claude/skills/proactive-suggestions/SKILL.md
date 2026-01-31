@@ -125,7 +125,7 @@ Claude: "We discovered a working pattern for AppleScript contact integration. Sh
 ```
 User: "I keep having to manually check which tasks have due dates coming up."
 
-Claude: "That's a process gap - there should be an easier way to surface upcoming deadlines. Would you like to formalize this with `/system:update`? We could create a command like `/tasks:due` that shows overdue and upcoming tasks."
+Claude: "That's a process gap - there should be an easier way to surface upcoming deadlines. Would you like to formalize this with `/system:update`? We could create a command like `/vault-tasks:due` that shows overdue and upcoming tasks."
 ```
 
 ## Related Components

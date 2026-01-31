@@ -1,5 +1,6 @@
 ---
 description: Quick view of current goals status and progress
+argument-hint:
 allowed-tools: Read, Grep, Glob
 ---
 

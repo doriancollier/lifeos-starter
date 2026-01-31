@@ -246,7 +246,7 @@ The `📅 YYYY-MM-DD` format is:
 
 ### Querying Due Dates
 
-Use `/tasks:due` to see all tasks organized by due date, or query directly:
+Use `/vault-tasks:due` to see all tasks organized by due date, or query directly:
 
 ```bash
 # Tasks due today

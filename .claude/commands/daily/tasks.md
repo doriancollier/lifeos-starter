@@ -60,4 +60,4 @@ Review all open tasks across recent daily notes, organized by priority and compa
 - Focus on actionable insights
 - Highlight tasks that need attention
 - Suggest which blocked tasks to follow up on
-- For detailed due date analysis, use `/tasks:due` command
+- For detailed due date analysis, use `/vault-tasks:due` command

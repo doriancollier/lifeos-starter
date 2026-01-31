@@ -98,5 +98,3 @@ After all skills:
 - Audit report for each skill
 - Summary with actionable recommendations
 - Offer to fix critical issues if found
-
-$ARGUMENTS
