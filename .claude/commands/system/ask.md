@@ -187,7 +187,7 @@ Reference these when answering:
 | "look up a person" | `/create:person [name]` | Search `6-People/` |
 | "create a project" | `/create:project [name]` | Create in `1-Projects/Backlog/` |
 | "today's tasks" | `/daily:tasks` | Open today's note in `4-Daily/` |
-| "prepare for meeting" | `/meeting:prep [topic]` | Use meeting-assistant agent |
+| "prepare for meeting" | `/meeting:prep [topic]` | Use `meeting-prep` skill |
 | "switch context" | `/context:ab`, `/context:144`, etc. | Load relevant area |
 | "end of day review" | `/daily:eod` | Review daily note tasks |
 | "weekly review" | Use `weekly-review` skill | Review past 7 daily notes |

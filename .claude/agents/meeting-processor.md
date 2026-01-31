@@ -58,10 +58,10 @@ find "{{vault_path}}/1-Projects/Current" -name "*144*" -type f
 cat "{{vault_path}}/2-Areas/{{company_2_name}}/context.md"
 ```
 
-**For EMC:**
+**For {{company_3_name}}:**
 ```bash
-find "{{vault_path}}/1-Projects/Current" -name "*EMC*" -type f
-cat "{{vault_path}}/2-Areas/EMC/context.md"
+find "{{vault_path}}/1-Projects/Current" -name "*{{company_3_name}}*" -type f
+cat "{{vault_path}}/2-Areas/{{company_3_name}}/context.md"
 ```
 
 **Always load:**

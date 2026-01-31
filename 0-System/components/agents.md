@@ -39,7 +39,6 @@ Agents live in `.claude/agents/[agent-name].md`:
 ├── vault-explorer.md
 ├── task-reviewer.md
 ├── meeting-processor.md
-├── meeting-assistant.md (deprecated)
 ├── relationship-manager.md
 ├── research-expert.md
 ├── product-manager.md
@@ -67,12 +66,6 @@ Agents live in `.claude/agents/[agent-name].md`:
 | `product-manager` | PM document generation | PRDs, roadmaps, user stories |
 | `email-processor` | Email triage and processing | Inbox processing, email summarization, finding important emails |
 | `system-reviewer` | Parallel system component review | Spawned by /system:review orchestrator for parallel analysis |
-
-### Deprecated
-
-| Agent | Status | Use Instead |
-|-------|--------|-------------|
-| `meeting-assistant` | Deprecated 2025-12-03 | `meeting-prep` skill + `context-isolator` agent |
 
 ### Personal Board of Advisors
 

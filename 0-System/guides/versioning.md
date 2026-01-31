@@ -135,6 +135,84 @@ We use [Semantic Versioning](https://semver.org/):
 - **MINOR** (0.1.0): New features, backward compatible
 - **PATCH** (0.0.1): Bug fixes, documentation updates
 
+## Conventional Commits
+
+LifeOS uses [Conventional Commits](https://www.conventionalcommits.org/) to automatically populate the changelog.
+
+### Format
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer]
+```
+
+### Commit Types and Changelog Mapping
+
+| Type | Changelog Section | Example |
+|------|-------------------|---------|
+| `feat:` | ### Added | `feat: Add calendar awareness skill` |
+| `fix:` | ### Fixed | `fix: Task sync not detecting changes` |
+| `docs:` | ### Changed | `docs: Update meeting workflow guide` |
+| `refactor:` | ### Changed | `refactor: Simplify hook registration` |
+| `perf:` | ### Changed | `perf: Speed up session context loading` |
+| `chore:` | *(skipped)* | `chore: Update dependencies` |
+
+### Breaking Changes
+
+Mark breaking changes with `!` after the type or include `BREAKING CHANGE:` in the footer:
+
+```bash
+# Using ! marker
+feat!: Change config format
+
+# Using footer
+feat: Change config format
+
+BREAKING CHANGE: The .user/ directory structure has changed.
+```
+
+### Scopes (Optional)
+
+Add context with scopes:
+
+```bash
+feat(calendar): Add recurring event support
+fix(hooks): Correct directory detection
+docs(guides): Update task management guide
+```
+
+### What Gets Tracked
+
+Only commits affecting **system files** are added to the changelog:
+- `.claude/skills/`, `.claude/commands/`, `.claude/agents/`, `.claude/hooks/`
+- `.claude/scripts/`, `.claude/rules/`
+- `0-System/`
+- `CLAUDE.template.md`, `VERSION`
+
+User content (`1-Projects/` through `8-Scratch/`, `.user/`, `.obsidian/`) is ignored.
+
+### Git Hook Setup
+
+To enable auto-changelog:
+
+```bash
+# Install the git hook
+.claude/scripts/install-git-hooks.sh
+
+# Check status
+.claude/scripts/install-git-hooks.sh --status
+
+# Uninstall
+.claude/scripts/install-git-hooks.sh --uninstall
+```
+
+Once installed, conventional commits automatically update `0-System/changelog.md`.
+
+---
+
 ### What Gets Updated
 
 During upgrade, these paths are updated from the tag:

@@ -528,12 +528,14 @@ The `person-context` skill provides deeper attendee information:
 - Relationship history
 - Recent interactions
 
-### Meeting Assistant Agent
+### Complex Prep with Agents
 
-For complex prep, the `meeting-assistant` agent can:
+For data-heavy prep, use the `context-isolator` agent to:
+- Pull calendar context without flooding conversation
 - Search vault deeply for relevant context
-- Find historical patterns
-- Prepare comprehensive briefings
+- Aggregate information from multiple sources
+
+The `meeting-prep` skill handles most preparation automatically.
 
 ## Related Guides
 

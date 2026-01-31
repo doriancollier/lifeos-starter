@@ -106,6 +106,7 @@ Run `/system:configure-hooks` to regenerate settings.json based on your `.user/i
 | `reminders-task-detector.py` | PostToolUse (Write/Edit) | Sync tasks to Reminders | Creates/updates macOS Reminders |
 | `auto-git-backup.sh` | SessionEnd | Auto-commit changes | Creates backup commits with change summary |
 | `git-task-sync-detector.sh` | Git post-commit (manual) | Detect external changes | Flags syncs for next session |
+| `changelog-populator.py` | Git post-commit | Auto-populate changelog | Adds entries from conventional commits |
 
 ## Hook Details
 
@@ -286,6 +287,46 @@ ln -s {{vault_path}}/.claude/hooks/git-task-sync-detector.sh \
       {{vault_path}}/.git/hooks/post-commit
 chmod +x {{vault_path}}/.git/hooks/post-commit
 ```
+
+### Changelog Populator (`changelog-populator.py`)
+
+**Event**: Git post-commit
+**Behavior**: Auto-updates changelog (does not block)
+
+Automatically populates `0-System/changelog.md` from conventional commit messages:
+- Parses commit message prefix (feat:, fix:, docs:, etc.)
+- Only processes commits that modify system files
+- Ignores user content directories
+- Amends the commit to include the changelog update
+
+Commit prefix to changelog section mapping:
+
+| Prefix | Changelog Section |
+|--------|-------------------|
+| `feat:` | ### Added |
+| `fix:` | ### Fixed |
+| `docs:` | ### Changed |
+| `refactor:` | ### Changed |
+| `chore:` | *(skipped)* |
+
+Skipped commit types:
+- `chore:` - Maintenance tasks
+- `vault backup:` - Auto-backup commits
+- Merge commits
+- Revert commits
+
+System files tracked:
+- `.claude/skills/`, `.claude/commands/`, `.claude/agents/`, `.claude/hooks/`
+- `.claude/scripts/`, `.claude/rules/`
+- `0-System/`
+- `CLAUDE.template.md`, `VERSION`
+
+**Installation**:
+```bash
+.claude/scripts/install-git-hooks.sh
+```
+
+See `0-System/guides/versioning.md` for conventional commit format details.
 
 ### Auto Git Backup (`auto-git-backup.sh`)
 

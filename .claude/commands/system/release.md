@@ -116,16 +116,58 @@ git describe --tags --abbrev=0 2>/dev/null || echo "none"
 
 ```bash
 # Check 5: Quick check that changelog has [Unreleased] content
-grep -c "^- " 0-System/changelog.md | head -1
+# Extract [Unreleased] section and count entries
+sed -n '/## \[Unreleased\]/,/## \[/p' 0-System/changelog.md | grep -c "^- " || echo "0"
 ```
 
-If `[Unreleased]` section appears empty, **STOP** and report:
-```
-## Cannot Release: No Changes to Release
+If `[Unreleased]` section appears empty (0 entries):
 
-The [Unreleased] section in the changelog appears empty.
-Add your changes to `0-System/changelog.md` under [Unreleased] before releasing.
-```
+1. **Check for commits since last tag**:
+   ```bash
+   git log $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD --oneline | wc -l
+   ```
+
+2. **If commits exist but changelog is empty**, report:
+   ```
+   ## Warning: Changelog Empty but Commits Exist
+
+   The [Unreleased] section has no entries, but there are [N] commits since the last release.
+
+   This may indicate:
+   - Commits did not use conventional commit format (feat:, fix:, etc.)
+   - The changelog-populator git hook is not installed
+
+   **Options:**
+   1. Install the git hook: `.claude/scripts/install-git-hooks.sh`
+   2. Manually add entries to `0-System/changelog.md`
+   3. Let me draft entries from commit messages (proceed to analysis)
+   ```
+
+   Use AskUserQuestion:
+   ```
+   header: "Empty Changelog"
+   question: "No changelog entries found. How would you like to proceed?"
+   options:
+     - label: "Draft entries from commits (Recommended)"
+       description: "I'll analyze commits and draft changelog entries for your review"
+     - label: "Cancel and add entries manually"
+       description: "Exit so you can populate [Unreleased] yourself"
+     - label: "Proceed anyway (empty release)"
+       description: "Create release with empty changelog (not recommended)"
+   ```
+
+   If user selects "Draft entries from commits":
+   - Run the analysis agent (Phase 3) with additional instruction to draft entries
+   - Present drafted entries for user approval before proceeding
+   - If approved, update the changelog before continuing
+
+3. **If no commits exist**, **STOP** and report:
+   ```
+   ## Cannot Release: No Changes
+
+   Both the [Unreleased] section and commit history are empty since the last release.
+   There's nothing to release.
+   ```
 
 ---
 

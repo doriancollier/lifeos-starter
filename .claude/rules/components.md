@@ -232,8 +232,6 @@ Agents are spawned via Task tool for complex, isolated tasks.
 | `persona-health-steward` | Sustainability, energy |
 | `persona-execution-coach` | Action, discipline |
 
-**Note**: `meeting-assistant` is deprecated — use `meeting-prep` skill + `context-isolator` agent.
-
 ### Agent Resumption (Multi-Step Workflows)
 
 Some agents (like `persona-board-chair`) pause for Q&A and must be resumed. When resuming:
@@ -269,6 +267,7 @@ Hooks run automatically at lifecycle events.
 | `task-sync-detector.py` | PostToolUse | Queue task syncs |
 | `reminders-task-detector.py` | PostToolUse | Push tasks to Reminders app |
 | `git-task-sync-detector.sh` | Git post-commit (manual) | Detect external task changes |
+| `changelog-populator.py` | Git post-commit | Auto-populate changelog from conventional commits |
 | `auto-git-backup.sh` | SessionEnd | Auto-commit changes with summary |
 
 **Setup**: See `.claude/hooks/README.md`
