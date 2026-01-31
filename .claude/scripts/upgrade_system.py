@@ -11,11 +11,11 @@ Options:
     --rollback  Restore from most recent backup
 
 Upgrade flow:
-1. Fetch remote VERSION and compare
+1. Fetch latest git tag and compare versions
 2. Detect local modifications to system files
 3. Create backup in .claude/backups/YYYY-MM-DD_HHMMSS/
 4. Add lifeos-upstream git remote (if not exists)
-5. Fetch and checkout system files from upstream
+5. Fetch and checkout system files from upstream tag
 6. Run migrations (if any)
 7. Run inject_placeholders.py
 8. Run configure_hooks.py
@@ -27,11 +27,10 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
-import urllib.request
-import urllib.error
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
@@ -85,10 +84,20 @@ def get_vault_root() -> Path:
 def parse_version(version_str: str) -> tuple:
     """Parse semantic version string into tuple for comparison."""
     try:
-        parts = version_str.strip().split(".")
+        # Remove 'v' prefix if present
+        version_str = version_str.strip().lstrip("v")
+        parts = version_str.split(".")
         return tuple(int(p) for p in parts[:3])
     except (ValueError, AttributeError):
         return (0, 0, 0)
+
+
+def format_version(version_str: str) -> str:
+    """Format version string with 'v' prefix for display."""
+    version_str = version_str.strip()
+    if version_str.startswith("v"):
+        return version_str
+    return f"v{version_str}"
 
 
 def load_upgrade_config(vault_root: Path) -> dict:
@@ -137,14 +146,45 @@ def get_local_version(vault_root: Path) -> str:
         return "0.0.0"
 
 
-def fetch_remote_version(owner: str, repo: str, branch: str, timeout: float = 10.0) -> Optional[str]:
-    """Fetch VERSION file from GitHub raw content."""
-    url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/VERSION"
+def fetch_latest_tag(owner: str, repo: str, timeout: float = 10.0) -> Optional[str]:
+    """Fetch the latest semver tag from the remote repository using git ls-remote."""
+    url = f"https://github.com/{owner}/{repo}.git"
+
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "LifeOS-Upgrade/1.0"})
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            return response.read().decode("utf-8").strip()
-    except Exception:
+        result = subprocess.run(
+            ["git", "ls-remote", "--tags", "--refs", url],
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+
+        if result.returncode != 0:
+            return None
+
+        # Parse tags from output
+        # Format: <sha>\trefs/tags/<tagname>
+        tags = []
+        tag_pattern = re.compile(r"refs/tags/(v?\d+\.\d+\.\d+)$")
+
+        for line in result.stdout.strip().split("\n"):
+            if not line:
+                continue
+            parts = line.split("\t")
+            if len(parts) >= 2:
+                match = tag_pattern.search(parts[1])
+                if match:
+                    tags.append(match.group(1))
+
+        if not tags:
+            return None
+
+        # Find the highest version
+        tags_with_versions = [(tag, parse_version(tag)) for tag in tags]
+        tags_with_versions.sort(key=lambda x: x[1], reverse=True)
+
+        return tags_with_versions[0][0]
+
+    except (subprocess.TimeoutExpired, subprocess.SubprocessError, Exception):
         return None
 
 
@@ -334,29 +374,30 @@ def ensure_upstream_remote(vault_root: Path, owner: str, repo: str) -> bool:
         return False
 
 
-def fetch_upstream(vault_root: Path, branch: str) -> bool:
-    """Fetch from the upstream remote."""
+def fetch_upstream_tag(vault_root: Path, tag: str) -> bool:
+    """Fetch a specific tag from the upstream remote."""
     try:
+        # Fetch the specific tag
         subprocess.run(
-            ["git", "fetch", "lifeos-upstream", branch],
+            ["git", "fetch", "lifeos-upstream", f"refs/tags/{tag}:refs/tags/{tag}"],
             cwd=vault_root,
             check=True,
             capture_output=True
         )
         return True
     except subprocess.CalledProcessError as e:
-        print(f"Error fetching upstream: {e}", file=sys.stderr)
+        print(f"Error fetching upstream tag: {e}", file=sys.stderr)
         return False
 
 
-def checkout_system_files(vault_root: Path, branch: str) -> List[str]:
-    """Checkout system files from upstream."""
+def checkout_system_files(vault_root: Path, tag: str) -> List[str]:
+    """Checkout system files from upstream tag."""
     updated_files = []
 
     for path_str in SYSTEM_PATHS:
         try:
             result = subprocess.run(
-                ["git", "checkout", f"lifeos-upstream/{branch}", "--", path_str],
+                ["git", "checkout", tag, "--", path_str],
                 cwd=vault_root,
                 capture_output=True,
                 text=True
@@ -460,22 +501,22 @@ def cmd_check(vault_root: Path, config: dict) -> int:
     branch = upstream.get("branch", "main")
 
     local_version = get_local_version(vault_root)
-    print(f"Local version: v{local_version}")
+    print(f"Local version: {format_version(local_version)}")
 
-    print(f"Checking {owner}/{repo}@{branch}...")
-    remote_version = fetch_remote_version(owner, repo, branch)
+    print(f"Checking {owner}/{repo} for latest tag...")
+    remote_version = fetch_latest_tag(owner, repo)
 
     if not remote_version:
         print("Could not fetch remote version. Check your network connection.")
         return 1
 
-    print(f"Remote version: v{remote_version}")
+    print(f"Remote version: {format_version(remote_version)}")
 
     local_tuple = parse_version(local_version)
     remote_tuple = parse_version(remote_version)
 
     if remote_tuple > local_tuple:
-        print(f"\nUpdate available: v{local_version} -> v{remote_version}")
+        print(f"\nUpdate available: {format_version(local_version)} -> {format_version(remote_version)}")
         print("Run `/system:upgrade` to apply the update.")
     elif remote_tuple == local_tuple:
         print("\nYou are running the latest version.")
@@ -536,10 +577,10 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
 
     # Step 1: Version check
     local_version = get_local_version(vault_root)
-    print(f"Current version: v{local_version}")
+    print(f"Current version: {format_version(local_version)}")
 
-    print(f"Fetching from {owner}/{repo}@{branch}...")
-    remote_version = fetch_remote_version(owner, repo, branch)
+    print(f"Fetching latest tag from {owner}/{repo}...")
+    remote_version = fetch_latest_tag(owner, repo)
 
     if not remote_version:
         print("Could not fetch remote version. Check your network connection.")
@@ -549,10 +590,10 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
     remote_tuple = parse_version(remote_version)
 
     if remote_tuple <= local_tuple:
-        print(f"Already up to date (v{local_version}).")
+        print(f"Already up to date ({format_version(local_version)}).")
         return 0
 
-    print(f"Upgrading: v{local_version} -> v{remote_version}")
+    print(f"Upgrading: {format_version(local_version)} -> {format_version(remote_version)}")
 
     # Step 2: Check for modifications
     if not force:
@@ -582,15 +623,17 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
         print("Failed to set up git remote.")
         return 1
 
-    # Step 5: Fetch from upstream
-    print("Fetching upstream changes...")
-    if not fetch_upstream(vault_root, branch):
-        print("Failed to fetch from upstream.")
+    # Step 5: Fetch tag from upstream
+    # Normalize tag format (ensure 'v' prefix for git tag)
+    tag = format_version(remote_version)
+    print(f"Fetching tag {tag}...")
+    if not fetch_upstream_tag(vault_root, tag):
+        print("Failed to fetch tag from upstream.")
         return 1
 
-    # Step 6: Checkout system files
+    # Step 6: Checkout system files from tag
     print("Updating system files...")
-    updated = checkout_system_files(vault_root, branch)
+    updated = checkout_system_files(vault_root, tag)
     print(f"Updated {len(updated)} paths")
 
     # Step 7: Run migrations
@@ -610,7 +653,7 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
     print("\n" + "=" * 50)
     print("UPGRADE COMPLETE")
     print("=" * 50)
-    print(f"Version: v{local_version} -> v{remote_version}")
+    print(f"Version: {format_version(local_version)} -> {format_version(remote_version)}")
     print(f"System paths updated: {len(updated)}")
     if migrations:
         print(f"Migrations run: {', '.join(migrations)}")

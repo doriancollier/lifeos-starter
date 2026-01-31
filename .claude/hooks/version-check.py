@@ -5,19 +5,19 @@ version-check.py - Check for LifeOS updates on session start
 Hook: SessionStart
 Performance target: < 500ms (uses cache, 3-second network timeout)
 
-Checks the remote VERSION file from the configured upstream repository
-and notifies the user if an update is available.
+Checks git tags from the configured upstream repository
+and notifies the user if a newer version is available.
 """
 
 import json
 import os
+import re
+import subprocess
 import sys
 import time
-import urllib.request
-import urllib.error
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
 try:
     import yaml
@@ -36,7 +36,9 @@ def get_vault_root() -> Path:
 def parse_version(version_str: str) -> tuple:
     """Parse semantic version string into tuple for comparison."""
     try:
-        parts = version_str.strip().split(".")
+        # Remove 'v' prefix if present
+        version_str = version_str.strip().lstrip("v")
+        parts = version_str.split(".")
         return tuple(int(p) for p in parts[:3])
     except (ValueError, AttributeError):
         return (0, 0, 0)
@@ -104,18 +106,45 @@ def save_cache(vault_root: Path, cache: dict) -> None:
         pass  # Non-critical, ignore errors
 
 
-def fetch_remote_version(owner: str, repo: str, branch: str, timeout: float = 3.0) -> Optional[str]:
-    """Fetch VERSION file from GitHub raw content."""
-    url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/VERSION"
+def fetch_latest_tag(owner: str, repo: str, timeout: float = 3.0) -> Optional[str]:
+    """Fetch the latest semver tag from the remote repository using git ls-remote."""
+    url = f"https://github.com/{owner}/{repo}.git"
 
     try:
-        req = urllib.request.Request(
-            url,
-            headers={"User-Agent": "LifeOS-VersionCheck/1.0"}
+        result = subprocess.run(
+            ["git", "ls-remote", "--tags", "--refs", url],
+            capture_output=True,
+            text=True,
+            timeout=timeout
         )
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            return response.read().decode("utf-8").strip()
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, Exception):
+
+        if result.returncode != 0:
+            return None
+
+        # Parse tags from output
+        # Format: <sha>\trefs/tags/<tagname>
+        tags = []
+        tag_pattern = re.compile(r"refs/tags/(v?\d+\.\d+\.\d+)$")
+
+        for line in result.stdout.strip().split("\n"):
+            if not line:
+                continue
+            parts = line.split("\t")
+            if len(parts) >= 2:
+                match = tag_pattern.search(parts[1])
+                if match:
+                    tags.append(match.group(1))
+
+        if not tags:
+            return None
+
+        # Find the highest version
+        tags_with_versions = [(tag, parse_version(tag)) for tag in tags]
+        tags_with_versions.sort(key=lambda x: x[1], reverse=True)
+
+        return tags_with_versions[0][0]
+
+    except (subprocess.TimeoutExpired, subprocess.SubprocessError, Exception):
         return None
 
 
@@ -170,9 +199,8 @@ def main():
     if should_check(cache, check_frequency):
         owner = upstream.get("owner", "doriancollier")
         repo = upstream.get("repo", "lifeos-starter")
-        branch = upstream.get("branch", "main")
 
-        fetched = fetch_remote_version(owner, repo, branch)
+        fetched = fetch_latest_tag(owner, repo)
         if fetched:
             remote_version = fetched
             cache["remote_version"] = remote_version
@@ -187,7 +215,10 @@ def main():
 
         if remote_tuple > local_tuple:
             # Update available!
-            print(f"[UPDATE AVAILABLE] v{remote_version} is available (you have v{local_version}). Run `/system:upgrade` to update.")
+            # Normalize version display (ensure 'v' prefix)
+            remote_display = remote_version if remote_version.startswith("v") else f"v{remote_version}"
+            local_display = f"v{local_version}" if not local_version.startswith("v") else local_version
+            print(f"[UPDATE AVAILABLE] {remote_display} is available (you have {local_display}). Run `/system:upgrade` to update.")
 
     # Always exit successfully - this hook should never block
     return 0
