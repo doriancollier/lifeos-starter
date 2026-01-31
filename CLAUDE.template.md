@@ -10,7 +10,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Repository Overview
 
-This is an Obsidian vault powered by **LifeOS 2.0** — a Life Operating System combining Obsidian with Claude Code extensions (skills, commands, agents, hooks) for **AI-coached personal and professional success**.
+This is an Obsidian vault powered by **LifeOS** — a Life Operating System combining Obsidian with Claude Code extensions (skills, commands, agents, hooks) for **AI-coached personal and professional success**.
 
 > **Primary Purpose**: Help the user succeed personally and professionally by bridging the gap between their philosophy and daily action.
 >

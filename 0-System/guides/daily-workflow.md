@@ -8,7 +8,7 @@ status: "active"
 
 How to use LifeOS for daily planning and execution.
 
-> **LifeOS 2.0**: The daily workflow now includes coaching elements — state setting, fear tracking, and alignment scoring — to bridge the gap between your philosophy and daily action.
+> **Note**: The daily workflow includes coaching elements — state setting, fear tracking, and alignment scoring — to bridge the gap between your philosophy and daily action.
 
 ## Overview
 
@@ -135,7 +135,7 @@ Focus blocks are created as **transparent** calendar events (don't block availab
 
 ## Daily Note Structure
 
-Every daily note follows this structure (enhanced for LifeOS 2.0):
+Every daily note follows this structure:
 
 ```markdown
 ---
@@ -340,7 +340,7 @@ This only happens:
 
 ## The Coaching Difference
 
-LifeOS 2.0 adds coaching elements throughout the day:
+LifeOS adds coaching elements throughout the day:
 
 | Moment | Coaching Question |
 |--------|-------------------|

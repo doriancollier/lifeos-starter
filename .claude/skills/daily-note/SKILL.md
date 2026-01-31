@@ -8,7 +8,7 @@ allowed-tools: Read, Write, Bash, AskUserQuestion, Glob
 
 Manages daily notes in this Obsidian vault. Daily notes are the primary capture point for tasks, reflections, fears, state tracking, and alignment with personal values.
 
-> **LifeOS 2.0**: Daily notes now include state tracking, fear logging, and alignment scoring to bridge the gap between philosophy and action.
+> **Note**: Daily notes include state tracking, fear logging, and alignment scoring to bridge the gap between philosophy and action.
 
 ## Vault Location
 
@@ -37,7 +37,7 @@ type: "daily-note"
 
 ### Main Sections
 
-1. **Morning Check-in** - Enhanced for LifeOS 2.0:
+1. **Morning Check-in**:
    - **Brain Dump**: Raw capture from morning planning — what was on the user's mind before structured planning
    - Energy level (from frontmatter)
    - State score (1-10)
