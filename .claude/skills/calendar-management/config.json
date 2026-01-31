@@ -1,0 +1,31 @@
+{
+  "description": "Calendar configuration for availability checking and event creation",
+  "last_configured": null,
+
+  "availability_calendars": [
+    {
+      "id": "{{user_email}}",
+      "name": "Primary",
+      "check_availability": true,
+      "notes": "Main personal calendar - always check"
+    }
+  ],
+
+  "excluded_calendars": [
+    {
+      "id": "en.usa#holiday@group.v.calendar.google.com",
+      "name": "US Holidays",
+      "reason": "Reference only - holidays don't block availability"
+    }
+  ],
+
+  "default_calendar": "{{user_email}}",
+
+  "settings": {
+    "always_check_availability": true,
+    "warn_on_conflict": true,
+    "allow_double_booking": true
+  },
+
+  "_setup_instructions": "Configure during /setup:onboard. Add work and family calendars as needed."
+}

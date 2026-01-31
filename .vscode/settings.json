@@ -1,0 +1,49 @@
+{
+    "cSpell.words": [
+        "Arweave",
+        "permaweb"
+    ],
+    // Configuration for "Open in External App" extension
+    // Install from: https://marketplace.visualstudio.com/items?itemName=YuTengjing.open-in-external-app
+    "openInExternalApp.openMapper": [
+        {
+            "extensionName": "md",
+            "apps": [
+                {
+                    "title": "Open in Obsidian",
+                    "openCommand": "open",
+                    "args": ["-a", "Obsidian", "${file}"]
+                }
+            ]
+        }
+    ],
+    "workbench.colorCustomizations": {
+        // Title bar - make it red to distinguish this repo
+        "titleBar.activeBackground": "#8B0000",
+        "titleBar.activeForeground": "#ffffff",
+        "titleBar.inactiveBackground": "#5D0000",
+        "titleBar.inactiveForeground": "#cccccc",
+        
+        // Activity bar (left sidebar) with red accent
+        "activityBar.background": "#2D0000",
+        "activityBar.foreground": "#ff6b6b",
+        "activityBar.activeBorder": "#ff0000",
+        
+        // Status bar at bottom with red theme
+        "statusBar.background": "#8B0000",
+        "statusBar.foreground": "#ffffff",
+        "statusBar.debuggingBackground": "#ff0000",
+        
+        // Tab highlighting
+        "tab.activeBorder": "#ff0000",
+        "tab.activeBorderTop": "#ff0000",
+        
+        // Editor selection and highlights
+        "editor.selectionBackground": "#ff000020",
+        "editor.selectionHighlightBackground": "#ff000015",
+        
+        // Sidebar with subtle red tint
+        "sideBar.background": "#1a0000",
+        "sideBar.border": "#3D0000"
+    }
+}

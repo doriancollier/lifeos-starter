@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "google-calendar": {
+      "command": "npx",
+      "args": ["-y", "@cocal/google-calendar-mcp"],
+      "env": {
+        "GOOGLE_OAUTH_CREDENTIALS": "{{vault_path}}/gcp-oauth.keys.json"
+      }
+    },
+    "ElevenLabs": {
+      "command": "/bin/zsh",
+      "args": ["-c", "source ~/.zshrc && uvx elevenlabs-mcp"]
+    }
+  },
+  "_setup_note": "Update {{vault_path}} with your actual vault path during setup. Run scripts/gcal-auth.sh to set up Google Calendar."
+}

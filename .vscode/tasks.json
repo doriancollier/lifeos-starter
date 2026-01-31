@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Open in Obsidian",
+            "type": "shell",
+            "command": "open",
+            "args": [
+                "-a",
+                "Obsidian",
+                "${filePath}"
+            ],
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared",
+                "close": true
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ]
+}

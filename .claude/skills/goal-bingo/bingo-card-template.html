@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!--
+  Goal Bingo Card Template
+
+  This template is used by the goal-bingo skill to generate printable bingo cards.
+
+  PLACEHOLDERS (replaced during generation):
+  - {{YEAR}}           - The year (e.g., "2026")
+  - {{CARD_TYPE}}      - "Annual Card" or "January 2026" etc.
+  - {{HEADER_ICON}}    - From config.styles.headerIcon (e.g., "🐴")
+  - {{SUBTITLE}}       - Optional subtitle (e.g., annual theme)
+  - {{OWNER_CSS}}      - Generated CSS for owner colors
+  - {{LEGEND_CSS}}     - Generated CSS for legend swatches
+  - {{GRID_ROWS}}      - "5" for annual, "4" or "5" for monthly
+  - {{CELLS}}          - Generated cell HTML
+  - {{LEGEND}}         - Generated legend HTML
+  - {{PAGE_BG}}        - From config.styles.pageBackground
+  - {{TEXT_COLOR}}     - From config.styles.textColor
+
+  Cell HTML structure (generated per goal):
+  <div class="bingo-cell bingo-cell-{owner.id} [bingo-cell-complete]">
+    <div class="bingo-cell-content">
+      <span class="bingo-icon">{icon}</span>
+      <span class="bingo-label">{goal}</span>
+    </div>
+    <span class="bingo-owner">{owner.emoji}</span>
+  </div>
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{YEAR}} Goal Bingo - {{CARD_TYPE}}</title>
+  <style>
+    @page {
+      size: letter portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .bingo-page {
+      width: 8.5in;
+      min-height: 11in;
+      padding: 0.4in;
+      background: {{PAGE_BG}};
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bingo-header {
+      text-align: center;
+      margin-bottom: 0.3in;
+    }
+
+    .bingo-header-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.15in;
+    }
+
+    .bingo-year {
+      font-size: 48px;
+      font-weight: 900;
+      color: {{TEXT_COLOR}};
+      letter-spacing: -1px;
+    }
+
+    .bingo-flower {
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    .bingo-title {
+      font-size: 48px;
+      font-weight: 900;
+      color: {{TEXT_COLOR}};
+      font-style: italic;
+      letter-spacing: -1px;
+    }
+
+    .bingo-subtitle {
+      font-size: 14px;
+      color: {{TEXT_COLOR}};
+      opacity: 0.7;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .bingo-grid {
+      display: grid;
+      gap: 8px;
+      flex: 1;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat({{GRID_ROWS}}, 1fr);
+    }
+
+    .bingo-cell {
+      background: {{PAGE_BG}};
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 12px 8px;
+      min-height: 1.4in;
+      position: relative;
+    }
+
+    .bingo-cell-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Owner colors - generated from config.owners[] */
+    {{OWNER_CSS}}
+
+    .bingo-cell-blank { background: {{PAGE_BG}}; }
+
+    .bingo-cell-complete::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 24px;
+      color: #22c55e;
+      font-weight: bold;
+    }
+
+    .bingo-icon {
+      font-size: 40px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .bingo-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: {{TEXT_COLOR}};
+      text-align: center;
+      line-height: 1.3;
+      max-width: 100%;
+      word-wrap: break-word;
+    }
+
+    .bingo-owner {
+      font-size: 20px;
+      margin-top: auto;
+      padding-top: 8px;
+      opacity: 0.9;
+    }
+
+    .bingo-owner-dual {
+      display: flex;
+      gap: 4px;
+    }
+
+    .bingo-owner-dual span {
+      font-size: 16px;
+    }
+
+    .bingo-legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+      padding-top: 12px;
+    }
+
+    .bingo-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: {{TEXT_COLOR}};
+    }
+
+    .bingo-legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    /* Legend swatches - generated from config.owners[] */
+    {{LEGEND_CSS}}
+
+    /* Monthly card specific styles */
+    .bingo-week-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: {{TEXT_COLOR}};
+      opacity: 0.6;
+      position: absolute;
+      top: 4px;
+      left: 8px;
+    }
+
+    @media print {
+      .bingo-page {
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bingo-page">
+    <header class="bingo-header">
+      <div class="bingo-header-row">
+        <span class="bingo-year">{{YEAR}}</span>
+        <span class="bingo-flower">{{HEADER_ICON}}</span>
+        <span class="bingo-title">Bingo</span>
+      </div>
+      <div class="bingo-subtitle">{{SUBTITLE}}</div>
+    </header>
+
+    <div class="bingo-grid">
+      {{CELLS}}
+    </div>
+
+    <div class="bingo-legend">
+      {{LEGEND}}
+    </div>
+  </div>
+
+</body>
+</html>

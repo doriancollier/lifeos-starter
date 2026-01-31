@@ -1,0 +1,37 @@
+# Obsidian local config (user-specific)
+.obsidian/
+
+# Google OAuth credentials - NEVER commit these
+gcp-oauth.keys.json
+*-oauth.keys.json
+credentials.json
+
+# Token files
+.google-calendar-token
+*.token.json
+
+# Environment files with secrets
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Analytics bridge session history (local state, not config)
+.claude/skills/ab-analytics-bridge/sessions.json
+
+# Personal data - never commit
+.claude/data/
+
+# SuperNormal auth state and browser profile
+0-System/scripts/supernormal/auth-state.json
+0-System/scripts/supernormal/chrome-profile/
+
+# Screenshot previews (may contain personal info)
+.playwright-mcp/
+
+# Local state files (generated at runtime)
+.claude/reminders-state.json
+0-System/scripts/supernormal/sync-state.json

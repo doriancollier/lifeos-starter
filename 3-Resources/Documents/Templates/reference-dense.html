@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reference Document Template</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    @page {
+      size: letter;
+      margin: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-size: 11pt;
+    }
+
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      padding: 0.4in 0.5in;
+      background: var(--color-white);
+    }
+
+    .document-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: var(--space-2);
+      padding-bottom: var(--space-1);
+      border-bottom: 2px solid var(--color-gray-900);
+    }
+
+    .document-title {
+      font-size: var(--text-xl);
+      margin: 0;
+    }
+
+    .document-subtitle {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--space-0.5);
+    }
+
+    .document-meta {
+      text-align: right;
+      font-size: var(--text-xs);
+      color: var(--color-text-secondary);
+    }
+
+    /* Multi-column layout */
+    .columns-2 {
+      column-count: 2;
+      column-gap: var(--space-4);
+    }
+
+    .columns-3 {
+      column-count: 3;
+      column-gap: var(--space-3);
+    }
+
+    .column-break {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    /* Section styling */
+    .ref-section {
+      margin-bottom: var(--space-3);
+      break-inside: avoid;
+    }
+
+    .ref-section-header {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      color: var(--color-text-primary);
+      padding-bottom: var(--space-0.5);
+      border-bottom: 1px solid var(--color-gray-300);
+      margin-bottom: var(--space-1);
+    }
+
+    /* Dense list */
+    .ref-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: var(--text-sm);
+    }
+
+    .ref-list-item {
+      padding: var(--space-0.5) 0;
+      border-bottom: 1px solid var(--color-gray-100);
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-1);
+    }
+
+    .ref-list-item:last-child {
+      border-bottom: none;
+    }
+
+    .ref-label {
+      font-weight: var(--weight-medium);
+      color: var(--color-text-primary);
+    }
+
+    .ref-value {
+      color: var(--color-text-secondary);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Contact card */
+    .contact-card {
+      padding: var(--space-1.5);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-1.5);
+      break-inside: avoid;
+    }
+
+    .contact-name {
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-0.5);
+    }
+
+    .contact-role {
+      font-size: var(--text-xs);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-1);
+    }
+
+    .contact-detail {
+      font-size: var(--text-xs);
+      color: var(--color-text-tertiary);
+      display: flex;
+      gap: var(--space-1);
+      margin-bottom: var(--space-0.5);
+    }
+
+    .contact-icon {
+      width: 1em;
+      opacity: 0.6;
+    }
+
+    /* Data table (compact) */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-xs);
+      margin-bottom: var(--space-2);
+    }
+
+    .ref-table th,
+    .ref-table td {
+      padding: var(--space-0.5) var(--space-1);
+      text-align: left;
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .ref-table th {
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      font-size: 9pt;
+      background: var(--color-gray-50);
+    }
+
+    .ref-table tr:nth-child(even) {
+      background: var(--color-gray-50);
+    }
+
+    .ref-table-numeric {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Key-value pairs inline */
+    .ref-kv {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1) var(--space-3);
+      font-size: var(--text-xs);
+    }
+
+    .ref-kv-item {
+      display: flex;
+      gap: var(--space-0.5);
+    }
+
+    .ref-kv-key {
+      font-weight: var(--weight-medium);
+      color: var(--color-text-secondary);
+    }
+
+    .ref-kv-value {
+      color: var(--color-text-primary);
+    }
+
+    /* Numbered items */
+    .ref-numbered {
+      counter-reset: item;
+      list-style: none;
+      padding: 0;
+    }
+
+    .ref-numbered li {
+      counter-increment: item;
+      padding: var(--space-0.5) 0 var(--space-0.5) var(--space-3);
+      position: relative;
+      font-size: var(--text-sm);
+    }
+
+    .ref-numbered li::before {
+      content: counter(item) ".";
+      position: absolute;
+      left: 0;
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-tertiary);
+    }
+
+    /* Quick reference box */
+    .ref-box {
+      background: var(--color-gray-50);
+      border-left: 3px solid var(--color-gray-400);
+      padding: var(--space-1.5);
+      margin: var(--space-2) 0;
+      font-size: var(--text-sm);
+    }
+
+    .ref-box-title {
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-0.5);
+    }
+
+    /* Footer */
+    .document-footer {
+      margin-top: var(--space-3);
+      padding-top: var(--space-1);
+      border-top: 1px solid var(--color-gray-200);
+      font-size: var(--text-xs);
+      color: var(--color-text-tertiary);
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       TEMPLATE 1: Contact Directory
+       Best for: Emergency contacts, team lists
+       ============================================ -->
+  <div class="page">
+    <header class="document-header">
+      <div>
+        <h1 class="document-title">Emergency Contacts</h1>
+        <p class="document-subtitle">Keep posted near phone</p>
+      </div>
+      <div class="document-meta">
+        <div>Updated: December 2025</div>
+      </div>
+    </header>
+
+    <div class="ref-box">
+      <div class="ref-box-title">Emergency: Call 911</div>
+      <div>For fire, medical emergency, or crime in progress</div>
+    </div>
+
+    <div class="columns-2">
+      <div class="ref-section column-break">
+        <div class="ref-section-header">Family</div>
+        <div class="contact-card">
+          <div class="contact-name">{{user_name}}</div>
+          <div class="contact-role">Dad</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📱</span>
+            <span>(512) 555-1234</span>
+          </div>
+          <div class="contact-detail">
+            <span class="contact-icon">📧</span>
+            <span>user@example.com</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Partner Name</div>
+          <div class="contact-role">Mom</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📱</span>
+            <span>(512) 555-5678</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Grandma Jane</div>
+          <div class="contact-role">Emergency Contact</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📱</span>
+            <span>(512) 555-9012</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ref-section column-break">
+        <div class="ref-section-header">Medical</div>
+        <div class="contact-card">
+          <div class="contact-name">Dr. Smith - Pediatrician</div>
+          <div class="contact-role">Austin Medical Group</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📞</span>
+            <span>(512) 555-3456</span>
+          </div>
+          <div class="contact-detail">
+            <span class="contact-icon">📍</span>
+            <span>1234 Medical Drive</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Poison Control</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📞</span>
+            <span>1-800-222-1222</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ref-section column-break">
+        <div class="ref-section-header">School</div>
+        <div class="contact-card">
+          <div class="contact-name">Main Office</div>
+          <div class="contact-role">Austin Elementary</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📞</span>
+            <span>(512) 555-7890</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">After School Program</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📞</span>
+            <span>(512) 555-2345</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ref-section column-break">
+        <div class="ref-section-header">Other</div>
+        <div class="contact-card">
+          <div class="contact-name">Home Address</div>
+          <div class="contact-detail">
+            <span>1234 Main Street</span>
+          </div>
+          <div class="contact-detail">
+            <span>Austin, TX 78701</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Neighbor - Sarah</div>
+          <div class="contact-role">Has spare key</div>
+          <div class="contact-detail">
+            <span class="contact-icon">📱</span>
+            <span>(512) 555-6789</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="document-footer">
+      <span>Family Name</span>
+      <span>Review annually</span>
+    </footer>
+  </div>
+
+  <!-- ============================================
+       TEMPLATE 2: Quick Reference Guide
+       Best for: Instructions, procedures, specs
+       Uncomment to use
+       ============================================ -->
+  <!--
+  <div class="page">
+    <header class="document-header">
+      <div>
+        <h1 class="document-title">Home Quick Reference</h1>
+        <p class="document-subtitle">Important information & procedures</p>
+      </div>
+      <div class="document-meta">
+        <div>Updated: December 2025</div>
+      </div>
+    </header>
+
+    <div class="columns-2">
+      <div class="ref-section column-break">
+        <div class="ref-section-header">WiFi & Security</div>
+        <ul class="ref-list">
+          <li class="ref-list-item">
+            <span class="ref-label">WiFi Network</span>
+            <span class="ref-value">FamilyWiFi</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">WiFi Password</span>
+            <span class="ref-value">********</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">Alarm Code</span>
+            <span class="ref-value">****</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">Garage Code</span>
+            <span class="ref-value">****</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="ref-section column-break">
+        <div class="ref-section-header">Utilities</div>
+        <ul class="ref-list">
+          <li class="ref-list-item">
+            <span class="ref-label">Electric</span>
+            <span class="ref-value">Austin Energy</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">Account #</span>
+            <span class="ref-value">123456789</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">Water</span>
+            <span class="ref-value">City of Austin</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">Account #</span>
+            <span class="ref-value">987654321</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="ref-section column-break">
+        <div class="ref-section-header">In Case of Emergency</div>
+        <ol class="ref-numbered">
+          <li>Ensure everyone is safe</li>
+          <li>Call 911 if needed</li>
+          <li>Gas leak? Leave house, don't turn on lights</li>
+          <li>Water leak? Turn off main valve (garage)</li>
+          <li>Power out? Check breaker box (utility closet)</li>
+        </ol>
+      </div>
+
+      <div class="ref-section column-break">
+        <div class="ref-section-header">Important Locations</div>
+        <ul class="ref-list">
+          <li class="ref-list-item">
+            <span class="ref-label">Water Shutoff</span>
+            <span class="ref-value">Garage, left wall</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">Breaker Box</span>
+            <span class="ref-value">Utility closet</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">Fire Extinguisher</span>
+            <span class="ref-value">Kitchen, under sink</span>
+          </li>
+          <li class="ref-list-item">
+            <span class="ref-label">First Aid Kit</span>
+            <span class="ref-value">Master bath cabinet</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-box-title">Maintenance Schedule</div>
+      <div class="ref-kv">
+        <div class="ref-kv-item">
+          <span class="ref-kv-key">HVAC Filter:</span>
+          <span class="ref-kv-value">Monthly</span>
+        </div>
+        <div class="ref-kv-item">
+          <span class="ref-kv-key">Smoke Detectors:</span>
+          <span class="ref-kv-value">Test monthly, replace yearly</span>
+        </div>
+        <div class="ref-kv-item">
+          <span class="ref-kv-key">Gutters:</span>
+          <span class="ref-kv-value">Clean twice yearly</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="document-footer">
+      <span>Family Home</span>
+      <span>Keep in kitchen drawer</span>
+    </footer>
+  </div>
+  -->
+
+  <!-- ============================================
+       TEMPLATE 3: Data Table Reference
+       Best for: Specifications, schedules with data
+       Uncomment to use
+       ============================================ -->
+  <!--
+  <div class="page">
+    <header class="document-header">
+      <div>
+        <h1 class="document-title">Medication Schedule</h1>
+        <p class="document-subtitle">Daily medications and supplements</p>
+      </div>
+      <div class="document-meta">
+        <div>As of: December 2025</div>
+        <div>Review with doctor annually</div>
+      </div>
+    </header>
+
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Medication</th>
+          <th>Dose</th>
+          <th>Time</th>
+          <th>With Food?</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Vitamin D</td>
+          <td class="ref-table-numeric">2000 IU</td>
+          <td>Morning</td>
+          <td>Yes</td>
+          <td>Take with breakfast</td>
+        </tr>
+        <tr>
+          <td>Omega-3</td>
+          <td class="ref-table-numeric">1000 mg</td>
+          <td>Morning</td>
+          <td>Yes</td>
+          <td>Fish oil capsule</td>
+        </tr>
+        <tr>
+          <td>Magnesium</td>
+          <td class="ref-table-numeric">400 mg</td>
+          <td>Evening</td>
+          <td>Optional</td>
+          <td>Before bed</td>
+        </tr>
+        <tr>
+          <td>Melatonin</td>
+          <td class="ref-table-numeric">3 mg</td>
+          <td>Evening</td>
+          <td>No</td>
+          <td>30 min before sleep, as needed</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="ref-section">
+      <div class="ref-section-header">Pharmacy Information</div>
+      <div class="ref-kv">
+        <div class="ref-kv-item">
+          <span class="ref-kv-key">Pharmacy:</span>
+          <span class="ref-kv-value">CVS - Anderson Lane</span>
+        </div>
+        <div class="ref-kv-item">
+          <span class="ref-kv-key">Phone:</span>
+          <span class="ref-kv-value">(512) 555-DRUG</span>
+        </div>
+        <div class="ref-kv-item">
+          <span class="ref-kv-key">Hours:</span>
+          <span class="ref-kv-value">8am-10pm daily</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-box">
+      <div class="ref-box-title">Allergies</div>
+      <div>None known. Update if this changes.</div>
+    </div>
+
+    <footer class="document-footer">
+      <span>Keep with medications</span>
+      <span>Last updated: December 2025</span>
+    </footer>
+  </div>
+  -->
+
+</body>
+</html>

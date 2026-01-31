@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wall Poster Template</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    /* Poster-specific overrides */
+    @page {
+      size: letter;
+      margin: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .poster {
+      width: 8.5in;
+      height: 11in;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      background: var(--color-white);
+      overflow: hidden;
+    }
+
+    .poster-header {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .poster-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .poster-item {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+    }
+
+    .poster-number {
+      font-size: var(--poster-xl);
+      font-weight: var(--weight-black);
+      color: var(--color-gray-300);
+      min-width: 1.5em;
+      text-align: right;
+    }
+
+    .poster-text {
+      font-size: var(--poster-lg);
+      font-weight: var(--weight-medium);
+      line-height: var(--leading-snug);
+    }
+
+    .poster-footer {
+      text-align: center;
+      margin-top: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 2px solid var(--color-gray-200);
+    }
+
+    /* Alternative: Icon-based layout */
+    .poster-icon-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) 0;
+    }
+
+    .poster-icon {
+      font-size: var(--poster-2xl);
+      width: 1.5em;
+      text-align: center;
+    }
+
+    /* Alternative: Centered minimal layout */
+    .poster-centered {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .poster-centered .poster-content {
+      max-width: 6in;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       TEMPLATE 1: Numbered Steps
+       Use for: routines, ordered instructions
+       ============================================ -->
+  <div class="poster">
+    <header class="poster-header">
+      <h1 class="poster-title">After School Routine</h1>
+      <p class="poster-caption">Do these things every day</p>
+    </header>
+
+    <div class="poster-content">
+      <div class="poster-item">
+        <span class="poster-number">1</span>
+        <span class="poster-text">Hang up backpack</span>
+      </div>
+      <div class="poster-item">
+        <span class="poster-number">2</span>
+        <span class="poster-text">Wash hands</span>
+      </div>
+      <div class="poster-item">
+        <span class="poster-number">3</span>
+        <span class="poster-text">Have a snack</span>
+      </div>
+      <div class="poster-item">
+        <span class="poster-number">4</span>
+        <span class="poster-text">Do homework</span>
+      </div>
+      <div class="poster-item">
+        <span class="poster-number">5</span>
+        <span class="poster-text">Free time</span>
+      </div>
+    </div>
+
+    <footer class="poster-footer">
+      <span class="poster-caption">You've got this!</span>
+    </footer>
+  </div>
+
+  <!-- ============================================
+       TEMPLATE 2: Icon-Based (with emoji)
+       Use for: visual learners, quick reference
+       Uncomment to use this layout instead
+       ============================================ -->
+  <!--
+  <div class="poster">
+    <header class="poster-header">
+      <h1 class="poster-title">Morning Checklist</h1>
+    </header>
+
+    <div class="poster-content">
+      <div class="poster-icon-item">
+        <span class="poster-icon">🛏️</span>
+        <span class="poster-text">Make your bed</span>
+      </div>
+      <div class="poster-icon-item">
+        <span class="poster-icon">🪥</span>
+        <span class="poster-text">Brush teeth</span>
+      </div>
+      <div class="poster-icon-item">
+        <span class="poster-icon">👕</span>
+        <span class="poster-text">Get dressed</span>
+      </div>
+      <div class="poster-icon-item">
+        <span class="poster-icon">🍳</span>
+        <span class="poster-text">Eat breakfast</span>
+      </div>
+      <div class="poster-icon-item">
+        <span class="poster-icon">🎒</span>
+        <span class="poster-text">Pack backpack</span>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <!-- ============================================
+       TEMPLATE 3: Centered Minimal
+       Use for: motivational, single message
+       Uncomment to use this layout instead
+       ============================================ -->
+  <!--
+  <div class="poster poster-centered">
+    <div class="poster-content">
+      <h1 class="poster-title" style="margin-bottom: var(--space-6);">
+        You Can Do<br>Hard Things
+      </h1>
+      <p class="poster-subtitle text-secondary">
+        One step at a time
+      </p>
+    </div>
+  </div>
+  -->
+
+</body>
+</html>

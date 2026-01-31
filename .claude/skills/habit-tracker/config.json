@@ -1,0 +1,66 @@
+{
+  "name": "Habit Tracker",
+  "description": "Monthly printable habit tracking sheets with streak tracking and progress bars",
+
+  "owners": [
+    {
+      "id": "user",
+      "name": "{{user_name}}",
+      "color": "#D0E8F5",
+      "colorName": "Blue",
+      "emoji": "🧑"
+    }
+  ],
+
+  "habits": [
+    {
+      "id": "exercise",
+      "name": "Exercise",
+      "frequency": "daily",
+      "target": 80,
+      "identity": "I am someone who moves my body every day because it makes me stronger, sharper, and more alive.",
+      "owner": "user"
+    },
+    {
+      "id": "practice",
+      "name": "Practice",
+      "frequency": "daily",
+      "target": 80,
+      "identity": "I am someone who cultivates inner stillness to stay grounded amid life's chaos.",
+      "owner": "user"
+    }
+  ],
+
+  "styles": {
+    "pageBackground": "#ffffff",
+    "headerLabelColor": "#9ca3af",
+    "primaryTextColor": "#1f2937",
+    "secondaryTextColor": "#6b7280",
+    "borderColor": "#e5e7eb",
+    "checkboxColor": "#9ca3af",
+    "weekendCheckboxStyle": "dashed",
+    "targetMarkerColor": "#10b981",
+    "weekDividerColor": "#d1d5db"
+  },
+
+  "paths": {
+    "templateFile": ".claude/skills/habit-tracker/habit-tracker-template.html",
+    "weekAllocationScript": ".claude/skills/goal-bingo/scripts/week_allocation.py",
+    "outputFolder": "3-Resources/Documents/Printables/"
+  },
+
+  "stats": {
+    "fields": ["target", "streak", "best", "done"],
+    "targetLabel": "Target",
+    "streakLabel": "Streak",
+    "bestLabel": "Best",
+    "doneLabel": "Done"
+  },
+
+  "messages": {
+    "subtitle": "80% consistency, not perfection",
+    "recovery": "If you miss a day, that's okay. Just don't miss two in a row."
+  },
+
+  "_setup_instructions": "Customize owners and habits during /setup:onboard or manually edit this file."
+}

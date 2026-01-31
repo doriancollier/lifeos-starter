@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TRACKER_NAME}} - {{MONTH_NAME}} {{YEAR}}</title>
+    <style>
+        @page {
+            size: letter landscape;
+            margin: 0.4in;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: {{PRIMARY_TEXT_COLOR}};
+            background: {{PAGE_BACKGROUND}};
+            padding: 0.4in;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Header - Three-line layout */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid {{BORDER_COLOR}};
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .header-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: {{HEADER_LABEL_COLOR}};
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tracker-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .month-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4b5563;
+            margin-top: 2px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: {{SECONDARY_TEXT_COLOR}};
+            font-style: italic;
+            align-self: center;
+        }
+
+        /* Tracking Grid */
+        .tracking-section {
+            margin-bottom: 20px;
+        }
+
+        .day-header {
+            display: grid;
+            grid-template-columns: 100px repeat({{DAYS_IN_GRID}}, 1fr);
+            gap: 2px;
+            margin-bottom: 4px;
+        }
+
+        .day-header-label {
+            /* Empty space above habit labels */
+        }
+
+        .day-number {
+            font-size: 10px;
+            color: #4b5563;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .day-number.weekend {
+            color: #6b7280;
+        }
+
+        .day-number.outside-month {
+            color: #6b7280;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        /* Week dividers */
+        .week-end {
+            border-right: 2px solid {{WEEK_DIVIDER_COLOR}};
+            padding-right: 4px;
+            margin-right: 2px;
+        }
+
+        .habit-row {
+            display: grid;
+            grid-template-columns: 100px repeat({{DAYS_IN_GRID}}, 1fr);
+            gap: 2px;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .habit-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #374151;
+            padding-right: 8px;
+        }
+
+        /* Blank habit label - wide underline for handwriting */
+        .habit-label-blank {
+            font-size: 11px;
+            font-weight: 500;
+            color: #374151;
+            padding-right: 8px;
+            border-bottom: 1px solid #9ca3af;
+            min-height: 16px;
+            margin-right: 8px;
+        }
+
+        .day-checkbox-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .day-checkbox-wrapper.week-end {
+            border-right: 2px solid {{WEEK_DIVIDER_COLOR}};
+            padding-right: 4px;
+            margin-right: 2px;
+        }
+
+        .day-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid {{CHECKBOX_COLOR}};
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto;
+        }
+
+        .day-checkbox.weekend {
+            border-style: {{WEEKEND_CHECKBOX_STYLE}};
+        }
+
+        .day-checkbox.outside-month,
+        .week-checkbox.outside-month {
+            border-color: #9ca3af;
+            opacity: 0.75;
+        }
+
+        .week-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid {{CHECKBOX_COLOR}};
+            border-radius: 50%;
+            background: white;
+        }
+
+        /* Bottom Section - Two Column Table */
+        .bottom-section {
+            border-top: 1px solid {{BORDER_COLOR}};
+            padding-top: 16px;
+        }
+
+        .section-headers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 12px;
+        }
+
+        .section-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: {{SECONDARY_TEXT_COLOR}};
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .habit-details-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .habit-details-row:last-child {
+            border-bottom: none;
+        }
+
+        /* Left Column - Identity */
+        .identity-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .identity-habit-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* Blank habit name - underline for handwriting */
+        .identity-habit-name-blank {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #9ca3af;
+            min-width: 120px;
+            min-height: 16px;
+            display: inline-block;
+        }
+
+        .identity-statement {
+            font-size: 11px;
+            color: {{SECONDARY_TEXT_COLOR}};
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* Blank identity statement - underlines for handwriting */
+        .identity-statement-blank {
+            font-size: 11px;
+            color: {{SECONDARY_TEXT_COLOR}};
+            line-height: 1.8;
+        }
+
+        .identity-statement-blank .blank-line {
+            display: block;
+            border-bottom: 1px solid #d1d5db;
+            min-height: 14px;
+            margin-bottom: 4px;
+        }
+
+        /* Right Column - Stats */
+        .stats-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: {{HEADER_LABEL_COLOR}};
+            vertical-align: baseline;
+            line-height: 1;
+        }
+
+        .stat-value {
+            font-size: 11px;
+            font-weight: 500;
+            color: #374151;
+            min-width: 36px;
+            padding: 2px 6px;
+            border: 1px solid {{BORDER_COLOR}};
+            border-radius: 4px;
+            background: #fafafa;
+            vertical-align: baseline;
+            line-height: 1;
+        }
+
+        .stat-value-handwrite {
+            font-size: 11px;
+            font-weight: 500;
+            color: #374151;
+            min-width: 48px;
+            display: inline-block;
+            border-bottom: 1px solid {{HEADER_LABEL_COLOR}};
+            text-align: center;
+            vertical-align: bottom;
+            line-height: 1;
+            margin-bottom: -2px;
+        }
+
+        /* Progress Bar with Ruler */
+        .progress-container {
+            width: 100%;
+        }
+
+        .progress-bar-wrapper {
+            position: relative;
+            height: 16px;
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            overflow: visible;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: transparent;
+            border-radius: 3px;
+        }
+
+        .target-marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: {{TARGET_MARKER_COLOR}};
+        }
+
+        .ruler {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 2px;
+            padding: 0 1px;
+        }
+
+        .tick {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 0;
+        }
+
+        .tick-line {
+            width: 1px;
+            height: 4px;
+            background: #d1d5db;
+        }
+
+        .tick-label {
+            font-size: 7px;
+            color: {{HEADER_LABEL_COLOR}};
+            margin-top: 1px;
+        }
+
+        .tick-label.target {
+            color: {{TARGET_MARKER_COLOR}};
+            font-weight: 600;
+        }
+
+        /* Recovery Message */
+        .recovery-message {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #166534;
+            text-align: center;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .day-checkbox, .week-checkbox {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header - Three-line layout -->
+    <div class="header">
+        <div class="header-left">
+            <div class="header-label">Habit Tracker</div>
+            <div class="tracker-name">{{TRACKER_NAME}}</div>
+            <div class="month-title">{{MONTH_NAME}} {{YEAR}}</div>
+        </div>
+        <div class="subtitle">{{SUBTITLE}}</div>
+    </div>
+
+    <!-- Tracking Grid -->
+    <div class="tracking-section">
+        <!-- Day Numbers Header -->
+        <div class="day-header">
+            <div class="day-header-label"></div>
+{{DAY_NUMBERS}}
+        </div>
+
+{{HABIT_ROWS}}
+    </div>
+
+    <!-- Bottom Section - Two Column Table -->
+    <div class="bottom-section">
+        <div class="section-headers">
+            <div class="section-header">Why These Habits Matter</div>
+            <div class="section-header">Monthly Stats</div>
+        </div>
+
+{{HABIT_DETAILS}}
+    </div>
+
+    <!-- Recovery Message -->
+    <div class="recovery-message">
+        <strong>Never Miss Twice:</strong> {{RECOVERY_MESSAGE}}
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Pronunciation Lexicon for ElevenLabs TTS
+#
+# ElevenLabs doesn't support PLS files, so Claude applies these
+# replacements before sending text to the TTS API.
+#
+# Format: Original word -> Phonetic spelling
+# The replacement should be spelled how you want it pronounced.
+#
+# Usage: Claude reads this file and applies all replacements to text
+# before calling mcp__ElevenLabs__text_to_speech.
+
+replacements:
+  # People
+  Child: "Deeus"              # Son's name - pronounced "Day-us"
+
+  # Add more as needed:
+  # Partner: "Partner"               # No change needed
+  # Example: "Ecks-ample"    # If "Example" was mispronounced

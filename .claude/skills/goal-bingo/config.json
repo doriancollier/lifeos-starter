@@ -1,0 +1,95 @@
+{
+  "name": "Goal Bingo",
+  "description": "A gamified goal tracking system using printable bingo cards",
+
+  "owners": [
+    {
+      "id": "partner",
+      "name": "Partner",
+      "color": "#F5D0E0",
+      "colorName": "Pink",
+      "cssClass": "bingo-cell-partner",
+      "emoji": "👩🏾"
+    },
+    {
+      "id": "user",
+      "name": "{{user_first_name}}",
+      "color": "#D0E8F5",
+      "colorName": "Blue",
+      "cssClass": "bingo-cell-user",
+      "emoji": "👨🏾"
+    },
+    {
+      "id": "child",
+      "name": "Child",
+      "color": "#F5E0D0",
+      "colorName": "Orange",
+      "cssClass": "bingo-cell-child",
+      "emoji": "👦🏾"
+    },
+    {
+      "id": "parents",
+      "name": "Parents",
+      "color": "#D0F5D8",
+      "colorName": "Green",
+      "cssClass": "bingo-cell-parents",
+      "emoji": "👩🏾👨🏾",
+      "isGroup": true,
+      "members": ["partner", "user"]
+    }
+  ],
+
+  "styles": {
+    "pageBackground": "#E8F4FD",
+    "blankCellColor": "#E8F4FD",
+    "textColor": "#1e3a5f",
+    "headerIcon": "🐴"
+  },
+
+  "paths": {
+    "goalsFile": "2-Areas/Personal/bingo-goals.md",
+    "documentationHub": "3-Resources/Goal-Bingo/",
+    "templateFile": ".claude/skills/goal-bingo/bingo-card-template.html",
+    "templateFileMonthly": ".claude/skills/goal-bingo/bingo-card-template-monthly.html",
+    "weekAllocationScript": ".claude/skills/goal-bingo/scripts/week_allocation.py",
+    "outputFolder": "3-Resources/Documents/Printables/"
+  },
+
+  "cardTypes": {
+    "annual": {
+      "grid": "5x5",
+      "description": "One-time goals (trips, milestones, health appointments)"
+    },
+    "monthly": {
+      "grid": "5x4-5",
+      "description": "Weekly recurring habits tracked by week"
+    }
+  },
+
+  "prizeTiers": [
+    {
+      "id": "small",
+      "name": "Small",
+      "emoji": "🟢",
+      "description": "Quick wins, low-cost treats"
+    },
+    {
+      "id": "medium",
+      "name": "Medium",
+      "emoji": "🔵",
+      "description": "Special experiences, moderate cost"
+    },
+    {
+      "id": "big",
+      "name": "Big",
+      "emoji": "🟣",
+      "description": "Major rewards, high value"
+    }
+  ],
+
+  "goalStatus": {
+    "values": ["incomplete", "complete"],
+    "default": "incomplete",
+    "completeClass": "bingo-cell-complete"
+  }
+}

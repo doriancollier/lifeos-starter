@@ -1,0 +1,47 @@
+{
+  "$schema": "./tracker.schema.json#/definitions/styles",
+  "description": "Shared visual styles for all habit trackers",
+
+  "page": {
+    "background": "#ffffff",
+    "orientation": "landscape"
+  },
+
+  "header": {
+    "labelColor": "#9ca3af",
+    "titleColor": "#111827",
+    "subtitleColor": "#6b7280"
+  },
+
+  "text": {
+    "primaryColor": "#1f2937",
+    "secondaryColor": "#6b7280",
+    "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+  },
+
+  "checkbox": {
+    "size": "18px",
+    "weeklySize": "20px",
+    "borderWidth": "1.5px",
+    "borderColor": "#9ca3af",
+    "weekendStyle": "dashed"
+  },
+
+  "grid": {
+    "borderColor": "#e5e7eb",
+    "weekDividerColor": "#d1d5db",
+    "outsideMonthOpacity": 0.75
+  },
+
+  "progress": {
+    "targetMarkerColor": "#10b981",
+    "barBackground": "#f9fafb",
+    "barBorderColor": "#d1d5db"
+  },
+
+  "recovery": {
+    "background": "#f0fdf4",
+    "borderColor": "#bbf7d0",
+    "textColor": "#166534"
+  }
+}

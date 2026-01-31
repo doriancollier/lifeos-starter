@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!--
+  Goal Bingo Monthly Card Template
+
+  This template is used by the goal-bingo skill to generate printable monthly bingo cards.
+  Monthly cards track weekly habits with 5 columns (goals) x 4-5 rows (weeks).
+
+  PLACEHOLDERS (replaced during generation):
+  - {{YEAR}}           - The year (e.g., "2026")
+  - {{MONTH}}          - The month name (e.g., "January")
+  - {{HEADER_ICON}}    - From config.styles.headerIcon (e.g., "🐴")
+  - {{START_DATE}}     - Week start date (e.g., "Dec 29")
+  - {{OWNER_CSS}}      - Generated CSS for owner colors
+  - {{LEGEND_CSS}}     - Generated CSS for legend swatches
+  - {{GRID_ROWS}}      - "4" or "5" depending on weeks in month
+  - {{CELLS}}          - Generated cell HTML (5 cols x 4-5 rows)
+  - {{LEGEND}}         - Generated legend HTML
+  - {{PAGE_BG}}        - From config.styles.pageBackground
+  - {{TEXT_COLOR}}     - From config.styles.textColor
+
+  Header structure:
+  <header class="bingo-header">
+    <div class="bingo-header-row">
+      <span class="bingo-month-year">{{MONTH}} {{YEAR}}</span>
+      <span class="bingo-header-icon">{{HEADER_ICON}}</span>
+      <span class="bingo-title">Bingo</span>
+    </div>
+    <div class="bingo-subtitle">Weekly Goals · Weeks starting {{START_DATE}}</div>
+  </header>
+
+  Cell HTML structure (generated per goal per week):
+  <div class="bingo-cell bingo-cell-{owner.id} [bingo-cell-complete]">
+    <span class="bingo-week-label">{week_start_date}</span>
+    <div class="bingo-cell-content">
+      <span class="bingo-icon">{icon}</span>
+      <span class="bingo-label">{goal}</span>
+    </div>
+    <span class="bingo-owner">{owner.emoji}</span>
+  </div>
+
+  Note: Week labels only appear in the first column of each row.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{YEAR}} {{MONTH}} Goal Bingo</title>
+  <style>
+    @page {
+      size: letter portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .bingo-page {
+      width: 8.5in;
+      min-height: 11in;
+      padding: 0.4in;
+      background: {{PAGE_BG}};
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bingo-header {
+      text-align: center;
+      margin-bottom: 0.25in;
+    }
+
+    .bingo-header-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.15in;
+    }
+
+    .bingo-month-year {
+      font-size: 42px;
+      font-weight: 900;
+      color: {{TEXT_COLOR}};
+      letter-spacing: -1px;
+    }
+
+    .bingo-header-icon {
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .bingo-title {
+      font-size: 42px;
+      font-weight: 900;
+      color: {{TEXT_COLOR}};
+      font-style: italic;
+      letter-spacing: -1px;
+    }
+
+    .bingo-subtitle {
+      font-size: 12px;
+      color: {{TEXT_COLOR}};
+      opacity: 0.5;
+      margin-top: 4px;
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+
+    .bingo-grid {
+      display: grid;
+      gap: 8px;
+      flex: 1;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat({{GRID_ROWS}}, 1fr);
+    }
+
+    .bingo-cell {
+      background: {{PAGE_BG}};
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 12px 8px;
+      position: relative;
+    }
+
+    .bingo-cell-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Owner colors - generated from config.owners[] */
+    {{OWNER_CSS}}
+
+    .bingo-cell-blank { background: {{PAGE_BG}}; }
+
+    .bingo-cell-complete::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 22px;
+      color: #22c55e;
+      font-weight: bold;
+    }
+
+    .bingo-icon {
+      font-size: 36px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .bingo-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: {{TEXT_COLOR}};
+      text-align: center;
+      line-height: 1.2;
+      max-width: 100%;
+      word-wrap: break-word;
+    }
+
+    .bingo-owner {
+      font-size: 18px;
+      margin-top: auto;
+      padding-top: 6px;
+      opacity: 0.9;
+    }
+
+    .bingo-owner-dual {
+      display: flex;
+      gap: 2px;
+    }
+
+    .bingo-owner-dual span {
+      font-size: 14px;
+    }
+
+    /* Week label - shows start date in first column only */
+    .bingo-week-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: {{TEXT_COLOR}};
+      opacity: 0.5;
+      position: absolute;
+      top: 4px;
+      left: 6px;
+    }
+
+    .bingo-legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 12px;
+      padding-top: 10px;
+    }
+
+    .bingo-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9px;
+      color: {{TEXT_COLOR}};
+    }
+
+    .bingo-legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+
+    /* Legend swatches - generated from config.owners[] */
+    {{LEGEND_CSS}}
+
+    @media print {
+      .bingo-page {
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bingo-page">
+    <header class="bingo-header">
+      <div class="bingo-header-row">
+        <span class="bingo-month-year">{{MONTH}} {{YEAR}}</span>
+        <span class="bingo-header-icon">{{HEADER_ICON}}</span>
+        <span class="bingo-title">Bingo</span>
+      </div>
+      <div class="bingo-subtitle">Weekly Goals · Weeks starting {{START_DATE}}</div>
+    </header>
+
+    <div class="bingo-grid">
+      {{CELLS}}
+    </div>
+
+    <div class="bingo-legend">
+      {{LEGEND}}
+    </div>
+  </div>
+
+</body>
+</html>

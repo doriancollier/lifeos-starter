@@ -1,0 +1,17 @@
+[
+    {
+        "key": "cmd+shift+o",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Open in Obsidian"
+    }
+]
+
+
+
+
+
+
+
+
+
+

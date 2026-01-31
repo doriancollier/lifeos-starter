@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule Grid Template</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    @page {
+      size: letter landscape;
+      margin: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .page {
+      width: 11in;
+      min-height: 8.5in;
+      padding: 0.5in;
+      background: var(--color-white);
+    }
+
+    .page-portrait {
+      width: 8.5in;
+      min-height: 11in;
+    }
+
+    .document-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: var(--space-3);
+      padding-bottom: var(--space-2);
+      border-bottom: 2px solid var(--color-gray-900);
+    }
+
+    .document-title {
+      margin: 0;
+    }
+
+    /* Schedule Grid */
+    .schedule-grid {
+      display: grid;
+      gap: 1px;
+      background: var(--color-gray-300);
+      border: 1px solid var(--color-gray-300);
+    }
+
+    .schedule-grid-7 {
+      grid-template-columns: 100px repeat(7, 1fr);
+    }
+
+    .schedule-grid-5 {
+      grid-template-columns: 100px repeat(5, 1fr);
+    }
+
+    .schedule-cell {
+      background: var(--color-white);
+      padding: var(--space-1.5);
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .schedule-header {
+      background: var(--color-gray-900);
+      color: var(--color-white);
+      font-weight: var(--weight-semibold);
+      text-align: center;
+      padding: var(--space-1.5);
+      font-size: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+    }
+
+    .schedule-row-header {
+      background: var(--color-gray-100);
+      font-weight: var(--weight-medium);
+      font-size: var(--text-sm);
+      justify-content: center;
+    }
+
+    .schedule-time {
+      font-size: var(--text-xs);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-0.5);
+    }
+
+    .schedule-activity {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+    }
+
+    .schedule-location {
+      font-size: var(--text-xs);
+      color: var(--color-text-tertiary);
+      margin-top: auto;
+    }
+
+    /* With Checkboxes */
+    .schedule-cell-checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .schedule-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--color-gray-400);
+      border-radius: var(--radius-sm);
+    }
+
+    /* Compact Variant */
+    .schedule-compact .schedule-cell {
+      min-height: 40px;
+      padding: var(--space-1);
+    }
+
+    .schedule-compact .schedule-activity {
+      font-size: var(--text-xs);
+    }
+
+    /* Highlighted cells */
+    .schedule-highlight {
+      background: var(--color-gray-50);
+    }
+
+    .schedule-highlight-accent {
+      background: #eff6ff;
+      border-left: 3px solid var(--color-accent);
+    }
+
+    /* Activity Schedule (vertical) */
+    .activity-schedule {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .activity-day {
+      margin-bottom: var(--space-3);
+    }
+
+    .activity-day-header {
+      font-size: var(--text-md);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      padding-bottom: var(--space-1);
+      border-bottom: 2px solid var(--color-gray-900);
+      margin-bottom: var(--space-1.5);
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: var(--space-2);
+      padding: var(--space-1) 0;
+      border-bottom: 1px solid var(--color-gray-100);
+    }
+
+    .activity-time {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .activity-name {
+      font-size: var(--text-base);
+      font-weight: var(--weight-medium);
+    }
+
+    .activity-detail {
+      font-size: var(--text-sm);
+      color: var(--color-text-tertiary);
+    }
+
+    /* Legend */
+    .schedule-legend {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-3);
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--color-gray-200);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--text-xs);
+      color: var(--color-text-secondary);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: var(--radius-sm);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       TEMPLATE 1: Weekly Schedule Grid (Landscape)
+       Best for: Class schedules, activity calendars
+       ============================================ -->
+  <div class="page">
+    <header class="document-header">
+      <div>
+        <h1 class="document-title">Weekly Schedule</h1>
+        <p class="caption">Fall 2025</p>
+      </div>
+      <div class="document-meta">
+        <span class="badge">Week of: _____________</span>
+      </div>
+    </header>
+
+    <div class="schedule-grid schedule-grid-7">
+      <!-- Header Row -->
+      <div class="schedule-header"></div>
+      <div class="schedule-header">Monday</div>
+      <div class="schedule-header">Tuesday</div>
+      <div class="schedule-header">Wednesday</div>
+      <div class="schedule-header">Thursday</div>
+      <div class="schedule-header">Friday</div>
+      <div class="schedule-header">Saturday</div>
+      <div class="schedule-header">Sunday</div>
+
+      <!-- Morning Row -->
+      <div class="schedule-cell schedule-row-header">Morning</div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">School</span>
+        <span class="schedule-time">8:00 - 3:00</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">School</span>
+        <span class="schedule-time">8:00 - 3:00</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">School</span>
+        <span class="schedule-time">8:00 - 3:00</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">School</span>
+        <span class="schedule-time">8:00 - 3:00</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">School</span>
+        <span class="schedule-time">8:00 - 3:00</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Free</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Free</span>
+      </div>
+
+      <!-- Afternoon Row -->
+      <div class="schedule-cell schedule-row-header">Afternoon</div>
+      <div class="schedule-cell schedule-highlight-accent">
+        <span class="schedule-activity">Soccer Practice</span>
+        <span class="schedule-time">3:30 - 5:00</span>
+        <span class="schedule-location">YMCA Fields</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Homework</span>
+        <span class="schedule-time">3:30 - 4:30</span>
+      </div>
+      <div class="schedule-cell schedule-highlight-accent">
+        <span class="schedule-activity">Piano Lesson</span>
+        <span class="schedule-time">4:00 - 5:00</span>
+        <span class="schedule-location">Ms. Smith's</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Homework</span>
+        <span class="schedule-time">3:30 - 4:30</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Free</span>
+      </div>
+      <div class="schedule-cell schedule-highlight-accent">
+        <span class="schedule-activity">Art Class</span>
+        <span class="schedule-time">10:00 - 11:30</span>
+        <span class="schedule-location">Community Ctr</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Family Time</span>
+      </div>
+
+      <!-- Evening Row -->
+      <div class="schedule-cell schedule-row-header">Evening</div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Dinner & Free</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Dinner & Free</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Dinner & Free</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Dinner & Free</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Dinner & Free</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Dinner & Free</span>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-activity">Dinner & Free</span>
+      </div>
+    </div>
+
+    <div class="schedule-legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background: #eff6ff; border: 1px solid #2563eb;"></div>
+        <span>Scheduled Activities</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: var(--color-white); border: 1px solid var(--color-gray-300);"></div>
+        <span>Flexible Time</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       TEMPLATE 2: Chore Chart with Checkboxes
+       Portrait orientation, tracking grid
+       Uncomment to use
+       ============================================ -->
+  <!--
+  <div class="page page-portrait">
+    <header class="document-header">
+      <div>
+        <h1 class="document-title">Chore Chart</h1>
+      </div>
+      <div class="document-meta">
+        <span class="badge">Week of: _____________</span>
+      </div>
+    </header>
+
+    <div class="schedule-grid schedule-grid-7 schedule-compact">
+      <div class="schedule-header">Chore</div>
+      <div class="schedule-header">M</div>
+      <div class="schedule-header">T</div>
+      <div class="schedule-header">W</div>
+      <div class="schedule-header">Th</div>
+      <div class="schedule-header">F</div>
+      <div class="schedule-header">S</div>
+      <div class="schedule-header">Su</div>
+
+      <div class="schedule-cell schedule-row-header">
+        <span class="schedule-activity">Make bed</span>
+      </div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+
+      <div class="schedule-cell schedule-row-header">
+        <span class="schedule-activity">Tidy room</span>
+      </div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+
+      <div class="schedule-cell schedule-row-header">
+        <span class="schedule-activity">Homework done</span>
+      </div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"></div>
+      <div class="schedule-cell schedule-cell-checkbox"></div>
+
+      <div class="schedule-cell schedule-row-header">
+        <span class="schedule-activity">Set table</span>
+      </div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+
+      <div class="schedule-cell schedule-row-header">
+        <span class="schedule-activity">Clear dishes</span>
+      </div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+
+      <div class="schedule-cell schedule-row-header">
+        <span class="schedule-activity">Take out trash</span>
+      </div>
+      <div class="schedule-cell schedule-cell-checkbox"></div>
+      <div class="schedule-cell schedule-cell-checkbox"></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"></div>
+      <div class="schedule-cell schedule-cell-checkbox"></div>
+      <div class="schedule-cell schedule-cell-checkbox"><div class="schedule-checkbox"></div></div>
+      <div class="schedule-cell schedule-cell-checkbox"></div>
+    </div>
+  </div>
+  -->
+
+  <!-- ============================================
+       TEMPLATE 3: Activity List (Vertical)
+       Best for: detailed activity schedules
+       Uncomment to use
+       ============================================ -->
+  <!--
+  <div class="page page-portrait">
+    <header class="document-header">
+      <div>
+        <h1 class="document-title">Activities Schedule</h1>
+        <p class="caption">Extracurricular Activities</p>
+      </div>
+    </header>
+
+    <div class="activity-schedule">
+      <div class="activity-day">
+        <div class="activity-day-header">Monday</div>
+        <div class="activity-item">
+          <span class="activity-time">3:30 PM</span>
+          <div>
+            <div class="activity-name">Soccer Practice</div>
+            <div class="activity-detail">YMCA Fields · Bring cleats & water</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-day">
+        <div class="activity-day-header">Wednesday</div>
+        <div class="activity-item">
+          <span class="activity-time">4:00 PM</span>
+          <div>
+            <div class="activity-name">Piano Lesson</div>
+            <div class="activity-detail">Ms. Smith's Studio · 123 Main St</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-day">
+        <div class="activity-day-header">Saturday</div>
+        <div class="activity-item">
+          <span class="activity-time">10:00 AM</span>
+          <div>
+            <div class="activity-name">Art Class</div>
+            <div class="activity-detail">Community Center · Room 204</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <span class="activity-time">2:00 PM</span>
+          <div>
+            <div class="activity-name">Soccer Game</div>
+            <div class="activity-detail">Away game · Check team app for location</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+
+</body>
+</html>

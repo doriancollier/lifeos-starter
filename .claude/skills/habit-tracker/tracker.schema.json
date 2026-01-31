@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tracker.schema.json",
+  "title": "Habit Tracker Configuration",
+  "description": "Schema for habit tracker configuration files",
+
+  "type": "object",
+  "required": ["id", "name", "habits"],
+  "additionalProperties": false,
+
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema file for editor validation"
+    },
+
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Unique identifier for this tracker (lowercase, alphanumeric with hyphens)",
+      "examples": ["user", "partner", "family", "child"]
+    },
+
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "description": "Display name shown on the printed tracker",
+      "examples": ["{{user_first_name}}'s Tracker", "{{partner_name}}'s Tracker", "Family Tracker"]
+    },
+
+    "subtitle": {
+      "type": "string",
+      "maxLength": 100,
+      "default": "80% consistency, not perfection",
+      "description": "Subtitle shown in the header"
+    },
+
+    "recovery": {
+      "type": "string",
+      "maxLength": 200,
+      "default": "If you miss a day, that's okay. Just don't miss two in a row.",
+      "description": "Recovery message shown at the bottom of the tracker"
+    },
+
+    "habits": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "description": "List of habits to track",
+      "items": {
+        "$ref": "#/definitions/habit"
+      }
+    }
+  },
+
+  "definitions": {
+    "habit": {
+      "type": "object",
+      "required": ["frequency"],
+      "additionalProperties": false,
+      "description": "A habit to track (either named or blank for handwriting)",
+
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Unique identifier for this habit"
+        },
+
+        "name": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Display name for the habit. Omit or leave empty for blank habits."
+        },
+
+        "frequency": {
+          "type": "string",
+          "enum": ["daily", "weekly"],
+          "description": "How often the habit is tracked"
+        },
+
+        "target": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 80,
+          "description": "Target percentage (0-100)"
+        },
+
+        "identity": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Identity statement explaining why this habit matters. Omit for blank habits."
+        },
+
+        "blank": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, renders as a blank row for handwriting the habit name and identity"
+        }
+      },
+
+      "if": {
+        "properties": { "blank": { "const": true } }
+      },
+      "then": {
+        "required": ["frequency"],
+        "properties": {
+          "name": { "maxLength": 0 },
+          "identity": { "maxLength": 0 }
+        }
+      },
+      "else": {
+        "required": ["id", "name", "frequency", "identity"]
+      }
+    },
+
+    "styles": {
+      "type": "object",
+      "description": "Shared visual styles configuration",
+      "additionalProperties": true,
+
+      "properties": {
+        "page": {
+          "type": "object",
+          "properties": {
+            "background": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "orientation": { "type": "string", "enum": ["landscape", "portrait"] }
+          }
+        },
+
+        "header": {
+          "type": "object",
+          "properties": {
+            "labelColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "titleColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "subtitleColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        },
+
+        "text": {
+          "type": "object",
+          "properties": {
+            "primaryColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "secondaryColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "fontFamily": { "type": "string" }
+          }
+        },
+
+        "checkbox": {
+          "type": "object",
+          "properties": {
+            "size": { "type": "string" },
+            "weeklySize": { "type": "string" },
+            "borderWidth": { "type": "string" },
+            "borderColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "weekendStyle": { "type": "string", "enum": ["solid", "dashed", "dotted"] }
+          }
+        },
+
+        "grid": {
+          "type": "object",
+          "properties": {
+            "borderColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "weekDividerColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "outsideMonthOpacity": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+
+        "progress": {
+          "type": "object",
+          "properties": {
+            "targetMarkerColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "barBackground": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "barBorderColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        },
+
+        "recovery": {
+          "type": "object",
+          "properties": {
+            "background": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "borderColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "textColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        }
+      }
+    }
+  }
+}

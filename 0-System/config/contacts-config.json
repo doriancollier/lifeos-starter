@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Machine-readable contacts configuration. Populated during /setup:onboard or manually.",
+
+  "companies": {
+    "company_1": {
+      "name": "{{company_1_name}}",
+      "id": "",
+      "keywords": [],
+      "contacts": []
+    },
+    "company_2": {
+      "name": "{{company_2_name}}",
+      "id": "",
+      "keywords": [],
+      "contacts": []
+    },
+    "company_3": {
+      "name": "{{company_3_name}}",
+      "id": "",
+      "keywords": [],
+      "contacts": []
+    }
+  },
+
+  "collaborators": [],
+
+  "personal": {
+    "partner": null,
+    "children": []
+  },
+
+  "_meta": {
+    "version": "1.0.0",
+    "lastUpdated": null,
+    "description": "Contact definitions for meeting sync, relationship management, and personalization. Add contacts via /setup:onboard or edit directly."
+  },
+
+  "_schema": {
+    "contact": {
+      "name": "string (full name)",
+      "aliases": "string[] (lowercase variations for matching)",
+      "role": "string (optional)",
+      "email": "string (optional)",
+      "communicationPreference": "string (optional: 'email', 'slack', 'sms', 'call')"
+    },
+    "example": {
+      "name": "Alex Smith",
+      "aliases": ["alex", "alex smith", "a. smith"],
+      "role": "CTO",
+      "email": "alex@example.com",
+      "communicationPreference": "slack"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+# Hook log files - excluded from version control
+*.log
+*.log.*

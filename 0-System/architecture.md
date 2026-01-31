@@ -1,0 +1,274 @@
+---
+title: "LifeOS Architecture"
+created: "2025-12-02"
+status: "active"
+---
+
+# LifeOS Architecture
+
+This document describes how LifeOS is structured and how its components interact.
+
+## Layers
+
+LifeOS has five distinct layers:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    USER CONTEXT                          │
+│              (CLAUDE.md - quick reference)               │
+├─────────────────────────────────────────────────────────┤
+│                   IDENTITY LAYER                         │
+│    (2-Areas/Personal/ - foundation, roles, practice)     │
+├─────────────────────────────────────────────────────────┤
+│                    CONTENT LAYER                         │
+│     (1-Projects, 2-Areas, 4-Daily, 5-Meetings, etc.)    │
+├─────────────────────────────────────────────────────────┤
+│                  EXTENSION LAYER                         │
+│        (.claude/ - skills, commands, agents, hooks)      │
+├─────────────────────────────────────────────────────────┤
+│               DOCUMENTATION & CONFIG                     │
+│         (0-System/ - docs, guides, config)               │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Layer 1: Documentation & Config (0-System/)
+
+Product documentation and system configuration:
+- Architecture and patterns
+- Component documentation (skills, commands, agents, hooks)
+- User guides (daily workflow, task management, calendar, etc.)
+- System configuration (`0-System/config/lifeos-config.md`)
+- Roadmap and changelog
+
+**Key files:**
+- `config/lifeos-config.md` — Coaching intensity, INTJ profile, fear categories, alignment hooks
+
+**Shareable:** Yes — core docs are generic, config is personal.
+
+### Layer 2: Extensions (.claude/)
+
+The implementation layer that makes LifeOS work:
+
+| Component | Invocation | Purpose |
+|-----------|------------|---------|
+| **Skills** | Model-invoked | Specialized knowledge Claude reads automatically |
+| **Commands** | User-invoked | Slash commands for explicit actions |
+| **Agents** | Tool-invoked | Autonomous task executors |
+| **Hooks** | Event-triggered | Lifecycle automation |
+
+**Shareable:** Mostly — core components are generic, some need personalization.
+
+### Layer 3: Content (1-8 directories)
+
+Your actual content organized by the PARA method:
+
+| Directory | Purpose | PARA Category |
+|-----------|---------|---------------|
+| `1-Projects/` | Active work with end dates | Projects |
+| `2-Areas/` | Ongoing responsibilities | Areas |
+| `3-Resources/` | Reference materials | Resources |
+| `4-Daily/` | Daily notes | (Time-based) |
+| `5-Meetings/` | Meeting notes | (Time-based) |
+| `6-People/` | Relationship management | Resources |
+| `7-MOCs/` | Maps of Content | Resources |
+| `8-Scratch/` | Temporary workspace | (Inbox) |
+
+**Shareable:** No — this is your personal content.
+
+### Layer 4: Identity (2-Areas/Personal/)
+
+Your personal foundation and identity:
+- `foundation.md` — Identity statements, mission, vision, principles, commandments
+- `daily-practice.md` — The core Daily Practice audio script
+- `Roles/` — Individual role documents with character aspirations and growth edges
+- `context.md` — Decision-making patterns, about me
+
+**Key files:**
+- `foundation.md` — Who you are and what you stand for
+- `Roles/Father.md`, `Roles/Husband.md`, `Roles/Professional.md`, etc.
+
+**Shareable:** No — this is your identity.
+
+### Layer 5: User Context (CLAUDE.md + .claude/rules/)
+
+Quick reference, coaching persona, and modular rules:
+- `CLAUDE.md` — Core identity, structure, quick references (~160 lines)
+- `.claude/rules/` — Detailed instructions loaded automatically:
+  - `coaching.md` — Full coaching questions and prompts (~200 lines)
+  - `components.md` — Complete skills, commands, agents, hooks tables (~240 lines)
+  - `questioning.md` — AskUserQuestion defaults, option quality, recommendations (~100 lines)
+
+This modular structure keeps CLAUDE.md lean while providing comprehensive guidance through rule files that Claude loads automatically.
+
+**Shareable:** Template yes, content no.
+
+## Information Flow
+
+```
+                    ┌──────────────┐
+                    │    User      │
+                    └──────┬───────┘
+                           │
+              ┌────────────▼────────────┐
+              │      CLAUDE.md          │
+              │   (context injection)   │
+              └────────────┬────────────┘
+                           │
+         ┌─────────────────┼─────────────────┐
+         │                 │                 │
+    ┌────▼────┐      ┌─────▼─────┐     ┌────▼────┐
+    │ Commands │      │  Skills   │     │  Hooks  │
+    │ (user)   │      │ (model)   │     │ (event) │
+    └────┬────┘      └─────┬─────┘     └────┬────┘
+         │                 │                 │
+         └─────────────────┼─────────────────┘
+                           │
+                    ┌──────▼───────┐
+                    │    Agents    │
+                    │ (autonomous) │
+                    └──────┬───────┘
+                           │
+              ┌────────────▼────────────┐
+              │     Content Layer       │
+              │ (Projects, Daily, etc.) │
+              └─────────────────────────┘
+```
+
+## Component Interaction Model
+
+### Skills (Model-Invoked)
+
+Skills are knowledge modules that Claude reads autonomously when the context matches.
+
+```
+User: "What's on my calendar today?"
+       ↓
+Claude detects calendar-related context
+       ↓
+Reads calendar-awareness skill
+       ↓
+Applies skill instructions to respond
+```
+
+**Key characteristics:**
+- Claude decides when to use them
+- Provide specialized knowledge
+- No explicit user invocation
+
+### Commands (User-Invoked)
+
+Slash commands are explicit actions triggered by the user.
+
+```
+User: "/daily:plan"
+       ↓
+Command file loaded as prompt
+       ↓
+Claude executes the workflow
+       ↓
+Produces structured output
+```
+
+**Key characteristics:**
+- User explicitly invokes
+- Defined workflows
+- Predictable outcomes
+
+### Agents (Tool-Invoked)
+
+Agents are spawned via the Task tool for complex, isolated work.
+
+```
+Claude: needs deep vault exploration
+       ↓
+Spawns vault-explorer agent
+       ↓
+Agent works autonomously
+       ↓
+Returns results to main Claude
+```
+
+**Key characteristics:**
+- Separate context window
+- Autonomous execution
+- Returns final report
+
+### Hooks (Event-Triggered)
+
+Hooks run automatically at lifecycle events.
+
+```
+Event: SessionStart
+       ↓
+session-context-loader.py runs
+       ↓
+Today's context injected
+       ↓
+Claude starts with awareness
+```
+
+**Key characteristics:**
+- Deterministic execution
+- Can block operations
+- No Claude involvement in trigger
+
+## Directory Enforcement
+
+LifeOS enforces content placement through the `directory-guard` hook:
+
+| Content Type | Required Location |
+|--------------|-------------------|
+| Daily notes | `4-Daily/` |
+| Meeting notes | `5-Meetings/YYYY/MM-Month/` |
+| Person files | `6-People/` |
+| Templates | `3-Resources/Templates/` |
+| Projects | `1-Projects/` |
+
+This ensures consistency and predictable AI navigation.
+
+## Session Lifecycle
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ SessionStart                                             │
+│  ├─ session-context-loader.py                           │
+│  │   └─ Today's tasks, meetings, energy, focus areas    │
+│  ├─ reminders-session-sync.py                           │
+│  │   └─ Pull Reminders completions to daily note        │
+│  └─ git-task-sync-detector.sh                           │
+│      └─ Detect external task changes                    │
+├─────────────────────────────────────────────────────────┤
+│ UserPromptSubmit                                         │
+│  ├─ prompt-timestamp.py                                 │
+│  └─ Current time injected                               │
+├─────────────────────────────────────────────────────────┤
+│ PreToolUse                                               │
+│  ├─ directory-guard.py (Write/Edit)                     │
+│  │   └─ BLOCKS wrong directory writes                   │
+│  └─ calendar-protection.py (Calendar)                   │
+│      └─ BLOCKS unconfirmed event changes                │
+├─────────────────────────────────────────────────────────┤
+│ PostToolUse                                              │
+│  ├─ frontmatter-validator.py (Write/Edit)               │
+│  ├─ task-format-validator.py (Write/Edit)               │
+│  ├─ task-sync-detector.py (Write/Edit)                  │
+│  │   └─ Queue task syncs for reconciliation             │
+│  └─ reminders-task-detector.py (Write/Edit)             │
+│      └─ Push new tasks to macOS Reminders               │
+├─────────────────────────────────────────────────────────┤
+│ Stop                                                     │
+│  └─ auto-git-backup.sh commits changes                  │
+└─────────────────────────────────────────────────────────┘
+```
+
+## Extension Points
+
+LifeOS is designed for extension:
+
+1. **New Skills** — Add to `.claude/skills/[name]/SKILL.md`
+2. **New Commands** — Add to `.claude/commands/[namespace]/[name].md`
+3. **New Agents** — Add to `.claude/agents/[name].md`
+4. **New Hooks** — Add to `.claude/hooks/` and configure in settings
+5. **New Templates** — Add to `3-Resources/Templates/`
+
+See [Patterns](patterns.md) for conventions when extending.
