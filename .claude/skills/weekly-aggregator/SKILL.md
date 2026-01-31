@@ -1,6 +1,7 @@
 ---
 name: weekly-aggregator
 description: Automatically aggregate yesterday's daily note data into the rolling weekly document. Called during /daily:plan to progressively build weekly reviews.
+allowed-tools: Read, Write, Edit, Grep, Glob
 ---
 
 # Weekly Aggregator Skill

@@ -1,6 +1,7 @@
 ---
 name: personal-insight
 description: Detect and capture substantive personal insights to maintain {{user_first_name}}'s personal profile. Use when conversations reveal new information about strengths, weaknesses, patterns, fears, or decision-making tendencies.
+allowed-tools: Read, Edit, Grep, Glob, AskUserQuestion
 ---
 
 # Personal Insight Skill

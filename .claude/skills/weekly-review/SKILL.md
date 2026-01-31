@@ -1,6 +1,7 @@
 ---
 name: weekly-review
 description: Aggregate weekly accomplishments, patterns, and insights from daily notes. Use for end-of-week reviews, planning, or understanding work patterns over time.
+allowed-tools: Read, Grep, Glob
 ---
 
 # Weekly Review Skill

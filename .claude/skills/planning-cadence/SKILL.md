@@ -1,6 +1,7 @@
 ---
 name: planning-cadence
 description: Guide planning at all horizons from annual to daily. Use during planning sessions, reviews, goal setting, or when connecting daily actions to larger purpose.
+allowed-tools: Read, Grep, Glob
 ---
 
 # Planning Cadence Skill
