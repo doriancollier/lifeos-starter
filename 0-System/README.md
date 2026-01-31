@@ -112,6 +112,7 @@ See [Architecture](architecture.md) for system structure and [Patterns](patterns
 | [Decision Making](guides/decision-making.md) | Structured decision processes |
 | [Retrospectives](guides/retrospectives.md) | Learning from experience |
 | [Getting Started](guides/getting-started.md) | New user onboarding |
+| [Versioning & Upgrades](guides/versioning.md) | Version system and upgrade process |
 
 ## Self-Learning System
 
