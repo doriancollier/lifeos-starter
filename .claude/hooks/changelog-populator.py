@@ -286,6 +286,11 @@ def main() -> int:
     """Main entry point for the post-commit hook."""
     vault_root = get_vault_root()
     changelog_path = vault_root / "0-System" / "changelog.md"
+    lock_file = vault_root / ".claude" / ".changelog-populator.lock"
+
+    # Prevent re-entry (amend triggers post-commit again)
+    if lock_file.exists():
+        return 0
 
     # Get commit info
     message = get_last_commit_message()
@@ -320,22 +325,30 @@ def main() -> int:
     new_content = insert_changelog_entry(content, section, entry)
 
     if new_content != content:
-        write_changelog(changelog_path, new_content)
+        try:
+            # Create lock file to prevent re-entry during amend
+            lock_file.touch()
 
-        # Stage the changelog change
-        subprocess.run(
-            ["git", "add", str(changelog_path)],
-            capture_output=True
-        )
+            write_changelog(changelog_path, new_content)
 
-        # Amend the commit to include the changelog update
-        # Note: We do this silently; the original commit message is preserved
-        subprocess.run(
-            ["git", "commit", "--amend", "--no-edit", "--no-verify"],
-            capture_output=True
-        )
+            # Stage the changelog change
+            subprocess.run(
+                ["git", "add", str(changelog_path)],
+                capture_output=True
+            )
 
-        print(f"Changelog updated: {entry}")
+            # Amend the commit to include the changelog update
+            # Note: We do this silently; the original commit message is preserved
+            subprocess.run(
+                ["git", "commit", "--amend", "--no-edit", "--no-verify"],
+                capture_output=True
+            )
+
+            print(f"Changelog updated: {entry}")
+        finally:
+            # Always remove lock file
+            if lock_file.exists():
+                lock_file.unlink()
 
     return 0
 
