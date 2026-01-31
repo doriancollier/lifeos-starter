@@ -547,3 +547,16 @@ AskUserQuestion({
 - **Batch changes** - Group related fixes and confirm before applying
 - **Preserve intent** - Fix bugs, don't redesign unless asked
 - **Track progress** - Update tasks as phases complete
+
+---
+
+## Agent Availability Note
+
+This command uses the `system-reviewer` agent for parallel analysis. If the agent isn't available (error: "Agent type 'system-reviewer' not found"), fall back to:
+
+1. **For SMALL/MEDIUM reviews**: Use `general-purpose` agent instead
+2. **For LARGE reviews**: Consider splitting into multiple sessions
+
+The `system-reviewer` agent is defined in `.claude/agents/system-reviewer.md` and should be auto-discovered at session start. If it's not available, ensure:
+- The file exists with valid YAML frontmatter
+- You've started a new Claude Code session after the agent file was created

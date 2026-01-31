@@ -135,6 +135,9 @@ Task tool with:
 4. **Write instructions** for autonomous execution
 5. **Specify output format** for the final report
 6. **Add to CLAUDE.md** agents table
+7. **Start new session** — Agents are discovered at session start
+
+**Important:** Claude Code discovers available agents when a session begins. If you create a new agent file mid-session, it won't be available until you start a new session.
 
 ### Template
 
