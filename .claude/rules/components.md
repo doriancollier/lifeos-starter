@@ -218,6 +218,7 @@ Agents are spawned via Task tool for complex, isolated tasks.
 | `research-expert` | Focused research tasks |
 | `product-manager` | PRD and roadmap generation |
 | `email-processor` | Email triage, inbox processing, summarization |
+| `system-reviewer` | Parallel system component review (spawned by /system:review) |
 
 ### Board of Advisors Agents
 

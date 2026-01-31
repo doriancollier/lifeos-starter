@@ -135,7 +135,7 @@ For **narrative/diary content** (personal stories, dreams, family moments), use 
 4. **Suggest next steps** - keep momentum going
 5. **Use task context prefix** in logs (e.g., "Prescription: ...")
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Leverage Assessment
 

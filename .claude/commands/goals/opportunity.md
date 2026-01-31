@@ -35,7 +35,7 @@ Apply the focus filter (NFT + Physical + AI):
 - 1 pillar = Medium
 - 0 pillars = Low
 
-### Step 2b: Decision Framework Analysis (Planning System 2.0)
+### Step 2b: Decision Framework Analysis
 
 **For Medium and High alignment opportunities, apply these additional filters:**
 

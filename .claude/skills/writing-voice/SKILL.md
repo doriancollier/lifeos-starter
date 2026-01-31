@@ -268,7 +268,7 @@ During `/daily:eod` reflection, if significant communication happened:
 
 This is gentle, not exhaustive. The goal is awareness over time, not perfection in any single message.
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Warmth Prompts
 

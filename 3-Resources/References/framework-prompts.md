@@ -580,4 +580,4 @@ Comprehensive collection of coaching prompts organized by context. Claude refere
 ---
 
 *Last updated: 2025-12-30*
-*Sources: Planning System 2.0 extraction documents (01-20)*
+*Sources: Framework extraction documents (01-20)*

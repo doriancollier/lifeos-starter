@@ -148,7 +148,7 @@ Key contacts loaded from `contacts-config.json` under `companies.company_2.conta
 - Use **task-system** skill to find related tasks
 - Use **obsidian-open** skill to open relevant notes in Obsidian
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Pre-Mortem Consideration
 

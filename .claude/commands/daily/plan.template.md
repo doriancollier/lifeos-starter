@@ -53,7 +53,7 @@ Alternative prompts (use situationally):
 
 ---
 
-### Step 0: Planning Horizon Context (Planning System 2.0)
+### Step 0: Planning Horizon Context
 
 **Before diving into daily tasks**, establish connection to higher planning horizons.
 
@@ -518,7 +518,7 @@ Ask: "What are your top priorities today? (Max 5 - I'll help you stay realistic)
 
 **Coaching**: For each A-priority, briefly ask "Why does this matter?" Connect to mission or roles.
 
-#### Planning System 2.0: Values Check & Strategic Filter
+#### Values Check & Strategic Filter
 
 For each A-priority, apply these filters:
 
@@ -539,7 +539,7 @@ For each A-priority, apply these filters:
 
 Ask: "Which contexts need attention today?" ({{company_1_name}}, {{company_2_name}}, EMC, Personal)
 
-**Enhanced Role Check (Planning System 2.0)**:
+**Enhanced Role Check**:
 
 Ask: "**Which roles will you inhabit today? How will you show up in each?**"
 

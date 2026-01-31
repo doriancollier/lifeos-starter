@@ -330,7 +330,7 @@ This behavior activates whenever memories are being captured via:
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 These additions integrate the multi-horizon planning framework from [[planning-horizons]] and the coaching prompts from [[framework-prompts]].
 

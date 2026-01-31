@@ -72,7 +72,7 @@ When used in board deliberations, provide:
 - Short-term vs long-term trade-offs
 - Specific questions to consider
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Runway Framing
 

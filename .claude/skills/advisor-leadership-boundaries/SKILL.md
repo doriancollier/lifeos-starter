@@ -82,7 +82,7 @@ When used in board deliberations, provide:
 
 ---
 
-## Planning System 2.0: Life Role Boundary Enhancements
+## Life Role Boundary Enhancements
 
 ### Protective Boundary Framework
 

@@ -82,7 +82,7 @@ When used in board deliberations, provide:
 
 ---
 
-## Planning System 2.0: {{partner_name}}-Specific Context
+## {{partner_name}}-Specific Context
 
 {{partner_name}} is both life partner AND business partner (EMC), requiring careful context separation.
 

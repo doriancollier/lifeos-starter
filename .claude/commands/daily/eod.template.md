@@ -58,7 +58,7 @@ Ask: "Did you face the fear you committed to this morning?"
 - Ask: "Will you face this tomorrow?"
 - Update the Fears → Avoided Today section
 
-### 4. State Check, Health Review & Energy Assessment (Planning System 2.0)
+### 4. State Check, Health Review & Energy Assessment
 
 **4a. State Check**
 
@@ -131,7 +131,7 @@ Track any grip stress indicators:
 
 If grip stress suspected: "Did you get enough alone time today? What renewal do you need tonight?"
 
-### 5. Daily Micro-Retro: The 3 Ls (Planning System 2.0)
+### 5. Daily Micro-Retro: The 3 Ls
 
 **Before the broader reflection, do a quick structured retro using the 3 Ls framework:**
 
@@ -192,7 +192,7 @@ Ask: "On a scale of 1-10, how well did your actions match your values today?"
 
 Update frontmatter: `alignment_score: [X]`
 
-**Values Check (Planning System 2.0)**:
+**Values Check**:
 
 Ask: "Did you embody courage and love today?"
 
@@ -208,7 +208,7 @@ Ask: "Did you embody courage and love today?"
 
 **Integration**: "The goal is courage AND love, not one or the other. Where did you show both today?"
 
-### 7. Role Reflection (Planning System 2.0)
+### 7. Role Reflection
 
 **Enhanced role check with specific prompts for each role:**
 

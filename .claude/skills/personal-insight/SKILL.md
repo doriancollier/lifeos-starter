@@ -145,7 +145,7 @@ Updated personal profile:
 
 This keeps {{user_first_name}} aware of how his profile is evolving.
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Retrospective Insight Routing
 

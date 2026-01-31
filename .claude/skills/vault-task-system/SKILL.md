@@ -207,7 +207,7 @@ done
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 These additions integrate leverage thinking and quadrant assessment from [[planning-horizons]] and [[framework-prompts]].
 

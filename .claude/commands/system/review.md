@@ -1,12 +1,18 @@
 ---
 description: Review processes for clarity, consistency, and improvements
 argument-hint: [area to review (optional)]
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion
+allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, Task, TaskCreate, TaskList, TaskUpdate, TaskOutput
 ---
 
-# System Review Command
+# System Review Command (Orchestrator)
 
 Review Claude Code processes (commands, skills, hooks, agents, templates, configuration) for clarity, consistency, and potential improvements.
+
+This command operates as an **orchestrator** that:
+- Determines review scope and mode based on file count
+- Spawns parallel `system-reviewer` agents for large reviews
+- Synthesizes findings from all sources
+- Presents unified recommendations
 
 ## Arguments
 
@@ -14,190 +20,422 @@ Review Claude Code processes (commands, skills, hooks, agents, templates, config
   - Valid areas: `commands`, `skills`, `hooks`, `agents`, `templates`, `config`, `memory` (CLAUDE.md), `guides` (0-System), `docs` (0-System)
   - Can also specify a specific file or pattern: `daily commands`, `task-system skill`
 
-## Review Scope
+## Review Areas
 
-### Files and Directories to Review
+| Area | Location | File Pattern |
+|------|----------|--------------|
+| **Commands** | `.claude/commands/` | `**/*.md` |
+| **Skills** | `.claude/skills/` | `**/SKILL.md` |
+| **Hooks** | `.claude/hooks/` | `*.py`, `*.sh` |
+| **Agents** | `.claude/agents/` | `*.md` |
+| **Templates** | `3-Resources/Templates/` | `*.md` |
+| **0-System** | `0-System/` | `**/*.md` |
+| **CLAUDE.md** | Root | `CLAUDE.md`, `.claude/rules/*.md` |
 
-| Area | Location | What to Check |
-|------|----------|---------------|
-| **Product Docs** | `/0-System/` | Accuracy, completeness, sync with CLAUDE.md |
-| **Guides** | `/0-System/guides/*.md` | Workflow accuracy, user-friendliness |
-| **Components** | `/0-System/components/*.md` | Up-to-date with actual implementation |
-| **Memory/Instructions** | `/CLAUDE.md` | Main instructions, accuracy, completeness |
-| **Commands** | `/.claude/commands/**/*.md` | Clarity, consistency, functionality |
-| **Skills** | `/.claude/skills/**/SKILL.md` | Accuracy, usefulness, overlap |
-| **Agents** | `/.claude/agents/*.md` | Purpose clarity, tool access, instructions |
-| **Hooks** | `/.claude/hooks/*.py`, `*.sh` | Functionality, error handling, documentation |
-| **Templates** | `/3-Resources/Templates/*.md` | Completeness, frontmatter, consistency |
-| **Obsidian Config** | `/.obsidian/` | Plugin settings, hotkeys, community plugins |
-| **Directory Structure** | `/1-Projects/`, `/2-Areas/`, etc. | Organization, naming conventions |
+## Execution Modes
 
-## Order of Operations
+| Mode | File Count | Strategy |
+|------|------------|----------|
+| **Small** | <20 files | Direct analysis in main context |
+| **Medium** | 20-100 files | 2-3 parallel agents (synchronous) |
+| **Large** | >100 files | Full fan-out with `run_in_background: true` |
 
-Execute these steps sequentially. This is an **interactive review** - ask questions and wait for responses.
+---
 
-### Phase 1: Discovery & Inventory
+## Phase 1: Discovery & Inventory
 
-- [ ] **1.1** Determine scope from `$ARGUMENTS`
-  - If empty → review everything
-  - If specified → focus on that area + its connections
+### 1.1 Determine Scope
 
-- [ ] **1.2** Build inventory of files to review:
-  ```bash
-  # Product Documentation (0-System)
-  find "/0-System" -name "*.md" -type f
+Parse `$ARGUMENTS` to determine what to review:
+- If empty → review ALL areas
+- If area specified → focus on that area + cross-references
+- If specific file → review just that file
 
-  # Commands
-  find "/.claude/commands" -name "*.md" -type f
+### 1.2 Build Inventory
 
-  # Skills
-  find "/.claude/skills" -name "SKILL.md" -type f
+Count files in each area using Glob:
 
-  # Agents
-  find "/.claude/agents" -name "*.md" -type f
+```
+Commands:   Glob(".claude/commands/**/*.md")
+Skills:     Glob(".claude/skills/**/SKILL.md")
+Hooks:      Glob(".claude/hooks/*.py") + Glob(".claude/hooks/*.sh")
+Agents:     Glob(".claude/agents/*.md") (exclude .template.md)
+Templates:  Glob("3-Resources/Templates/*.md")
+0-System:   Glob("0-System/**/*.md")
+CLAUDE.md:  CLAUDE.md + .claude/rules/*.md
+```
 
-  # Hooks
-  find "/.claude/hooks" -type f \( -name "*.py" -o -name "*.sh" \)
+### 1.3 Determine Mode
 
-  # Templates
-  find "/3-Resources/Templates" -name "*.md" -type f
+```
+total_files = sum of all area counts
+if total_files < 20:     MODE = "SMALL"
+elif total_files <= 100: MODE = "MEDIUM"
+else:                    MODE = "LARGE"
+```
 
-  # Memory files
-  ls -la "/CLAUDE.md"
-  ```
+### 1.4 Report to User
 
-- [ ] **1.3** Report inventory to user:
-  ```
-  Found X commands, Y skills, Z hooks, W agents, V templates to review.
-  ```
+```markdown
+## System Review: Discovery
 
-### Phase 2: Read & Analyze
+**Scope:** [areas being reviewed]
+**Mode:** [SMALL/MEDIUM/LARGE]
 
-- [ ] **2.1** Read CLAUDE.md first (it's the source of truth)
-  - Note all documented processes
-  - Note all referenced commands/skills/hooks
-  - Build a mental model of how things should work
+| Area | Files |
+|------|-------|
+| Commands | X |
+| Skills | Y |
+| Hooks | Z |
+| ... | ... |
+| **Total** | **N** |
 
-- [ ] **2.2** Read each file in scope, checking for:
+[For MEDIUM/LARGE: Creating session directory for tracking]
+```
 
-**Clarity Issues:**
-- Ambiguous instructions
-- Missing context
-- Unclear when to use
-- Missing examples
+### 1.5 Create Session Directory (Medium/Large Only)
 
-**Consistency Issues:**
-- Conflicting instructions between files
-- Different terminology for same concepts
-- Inconsistent formatting
-- Mismatched YAML frontmatter
+For Medium and Large reviews:
 
-**Functionality Issues:**
-- Broken file paths
-- Outdated references
-- Missing dependencies
-- Logic errors in hooks
+```
+session_dir = ".claude/review-sessions/YYYY-MM-DD-[scope]/"
 
-**Completeness Issues:**
-- Missing documentation
-- Incomplete instructions
-- Missing edge case handling
+Create:
+  {session_dir}/config.json
+  {session_dir}/inventory.md
+  {session_dir}/findings/
+  {session_dir}/cross-references/
+  {session_dir}/synthesis/
+  {session_dir}/fixes/
+```
 
-- [ ] **2.3** Check cross-references:
-  - Does CLAUDE.md accurately list all commands/skills/hooks?
-  - Do commands reference skills that exist?
-  - Do hooks validate things that are documented?
+**config.json:**
+```json
+{
+  "created": "ISO timestamp",
+  "scope": "[scope description]",
+  "mode": "SMALL|MEDIUM|LARGE",
+  "current_phase": "discovery",
+  "areas": {
+    "commands": {"files": N, "status": "pending"},
+    "skills": {"files": N, "status": "pending"},
+    ...
+  },
+  "agents": {}
+}
+```
 
-### Phase 3: Identify Issues
+---
 
-- [ ] **3.1** Categorize findings:
+## Phase 2: Task Creation
 
-| Severity | Meaning | Action |
-|----------|---------|--------|
-| **Critical** | Broken functionality, blocking errors | Must fix |
-| **Warning** | Inconsistency, confusion risk | Should fix |
-| **Suggestion** | Improvement opportunity | Optional |
+Create tasks to track progress:
 
-- [ ] **3.2** For each issue, determine:
-  - Can it be fixed automatically?
-  - Is there an obvious correct answer?
-  - Does it require user input?
+```javascript
+// Main orchestration tasks
+TaskCreate({ subject: "Discovery & Inventory", activeForm: "Building inventory" })
+TaskCreate({ subject: "Analyze components", activeForm: "Analyzing" })
+TaskCreate({ subject: "Cross-reference validation", activeForm: "Validating cross-references" })
+TaskCreate({ subject: "Synthesize findings", activeForm: "Synthesizing" })
+TaskCreate({ subject: "Present findings", activeForm: "Presenting" })
+TaskCreate({ subject: "Apply approved fixes", activeForm: "Applying fixes" })
 
-### Phase 4: Present Findings
+// Set dependencies
+TaskUpdate({ taskId: "cross-ref", addBlockedBy: ["analyze"] })
+TaskUpdate({ taskId: "synthesize", addBlockedBy: ["cross-ref"] })
+TaskUpdate({ taskId: "present", addBlockedBy: ["synthesize"] })
+TaskUpdate({ taskId: "fixes", addBlockedBy: ["present"] })
+```
 
-- [ ] **4.1** Present summary to user:
-  ```markdown
-  ## Process Review Summary
+For MEDIUM/LARGE modes, also create per-area tasks:
+```javascript
+TaskCreate({ subject: "Review commands (N files)", activeForm: "Reviewing commands" })
+TaskCreate({ subject: "Review skills (N files)", activeForm: "Reviewing skills" })
+// ... for each area with files
+```
 
-  **Scope**: [what was reviewed]
-  **Files Reviewed**: X
+---
 
-  ### Critical Issues (must fix)
-  - [ ] [Issue description] in `file.md`
+## Phase 3: Analysis
 
-  ### Warnings (should fix)
-  - [ ] [Issue description] in `file.md`
+### SMALL Mode (Direct Analysis)
 
-  ### Suggestions (optional improvements)
-  - [ ] [Improvement idea]
-  ```
+For <20 files, analyze directly in main context:
 
-- [ ] **4.2** For issues requiring decisions, use AskUserQuestion:
-  - Present the conflict/ambiguity
-  - Offer clear options
-  - Include a recommendation when possible
+1. Read CLAUDE.md first (source of truth)
+2. Read each file in scope
+3. Apply relevant checklist (see Review Checklists below)
+4. Classify issues as Critical/Warning/Suggestion
+5. Note cross-reference items for Phase 4
 
-### Phase 5: Apply Fixes
+### MEDIUM Mode (Parallel Agents, Synchronous)
 
-- [ ] **5.1** Group proposed changes by file
+For 20-100 files, spawn 2-3 agents synchronously:
 
-- [ ] **5.2** Present batch of changes:
-  ```markdown
-  ## Proposed Changes
+Group areas into batches:
+- Batch 1: Commands + Skills (code-like)
+- Batch 2: Hooks + Agents (implementation)
+- Batch 3: Templates + Docs (content)
 
-  ### File: `.claude/commands/daily/note.md`
-  - Change 1: [description]
-  - Change 2: [description]
+Spawn agents in a single message (parallel execution):
 
-  ### File: `CLAUDE.md`
-  - Change 1: [description]
+```
+Task #1:
+  subagent_type: system-reviewer
+  description: "Review commands and skills"
+  prompt: |
+    ## Assignment: Commands & Skills Review
 
-  **Proceed with these X changes?**
-  ```
+    **Session Directory:** {session_dir}
 
-- [ ] **5.3** Wait for user confirmation before making changes
+    **Commands to review:**
+    {list of command files}
 
-- [ ] **5.4** Apply approved changes using Edit tool
+    **Skills to review:**
+    {list of skill files}
 
-- [ ] **5.5** Report completion:
-  ```markdown
-  ## Changes Applied
+    Apply the Commands checklist to each command file.
+    Apply the Skills checklist to each skill file.
 
-  - [x] Updated `file1.md`: [what changed]
-  - [x] Updated `file2.md`: [what changed]
+    Write findings to:
+    - {session_dir}/findings/commands.md
+    - {session_dir}/findings/skills.md
 
-  ## Remaining Items
-  - [ ] [Any deferred items]
-  ```
+    Write cross-references to:
+    - {session_dir}/cross-references/commands.json
+    - {session_dir}/cross-references/skills.json
 
-### Phase 6: Recommendations
+Task #2:
+  subagent_type: system-reviewer
+  description: "Review hooks and agents"
+  prompt: [similar structure for hooks + agents]
 
-- [ ] **6.1** Present improvement opportunities:
-  ```markdown
-  ## Improvement Recommendations
+Task #3:
+  subagent_type: system-reviewer
+  description: "Review templates and docs"
+  prompt: [similar structure for templates + docs]
+```
 
-  ### High Value
-  1. **[Recommendation]**: [Why and how]
+Wait for all agents to complete, then read findings from session directory.
 
-  ### Nice to Have
-  1. **[Recommendation]**: [Why and how]
-  ```
+### LARGE Mode (Background Agents, Asynchronous)
 
-- [ ] **6.2** Ask user which (if any) to implement now
+For >100 files, spawn all area agents with `run_in_background: true`:
+
+Spawn one agent per area in a single message:
+
+```
+Task #1:
+  subagent_type: system-reviewer
+  run_in_background: true
+  description: "Review commands"
+  prompt: [commands-specific prompt]
+
+Task #2:
+  subagent_type: system-reviewer
+  run_in_background: true
+  description: "Review skills"
+  prompt: [skills-specific prompt]
+
+Task #3:
+  subagent_type: system-reviewer
+  run_in_background: true
+  description: "Review hooks"
+  prompt: [hooks-specific prompt]
+
+... (all areas in single message for true parallelism)
+```
+
+Update config.json with agent output_file paths.
+
+Poll for completion:
+```javascript
+// Check periodically until all complete
+for each agent_id in config.agents:
+  result = TaskOutput({ task_id: agent_id, block: false })
+  if result.status == "completed":
+    update config.agents[area].status = "completed"
+```
+
+Report progress to user while waiting:
+```markdown
+## Review Progress
+
+| Area | Status | Files |
+|------|--------|-------|
+| Commands | Complete | 69 |
+| Skills | In Progress... | 49 |
+| Hooks | Complete | 15 |
+| ... | ... | ... |
+```
+
+---
+
+## Phase 4: Cross-Reference Validation
+
+After all area analyses complete:
+
+1. Read all cross-reference JSON files from `{session_dir}/cross-references/`
+2. Build unified reference map
+3. Validate each reference:
+   - Commands → Skills: Does referenced skill exist?
+   - Commands → Commands: Does referenced command exist?
+   - Hooks → Patterns: Does validated pattern exist?
+   - CLAUDE.md → All: Are all components listed?
+4. Classify validation failures as Critical/Warning
+
+```markdown
+## Cross-Reference Validation
+
+### Missing References
+- `daily/plan.md` references skill `calendar-awareness` - **FOUND**
+- `daily/plan.md` references command `health:sync` - **FOUND**
+- `system/update.md` references skill `nonexistent-skill` - **NOT FOUND** (Critical)
+
+### CLAUDE.md Sync
+- Commands listed: 85, actual: 87 - **MISMATCH** (Warning)
+  - Missing from CLAUDE.md: `/new:command`, `/other:command`
+```
+
+---
+
+## Phase 5: Synthesis
+
+Combine all findings into unified report:
+
+1. Read all findings from `{session_dir}/findings/`
+2. Merge into single list, deduplicating
+3. Sort by severity (Critical → Warning → Suggestion)
+4. Group by area or by fix type
+5. Identify patterns (same issue across multiple files)
+
+Write synthesis to `{session_dir}/synthesis/report.md`:
+
+```markdown
+## Synthesis Report
+
+**Total Issues:** X Critical, Y Warning, Z Suggestions
+**Files Affected:** N
+
+### Patterns Detected
+- "Missing examples" appears in 12 command files
+- "Outdated paths" appears in 5 skill files
+
+### Critical Issues (must fix)
+1. [Issue] in `file.md` - [brief description]
+2. ...
+
+### Warnings (should fix)
+1. ...
+
+### Suggestions (optional)
+1. ...
+```
+
+---
+
+## Phase 6: User Review
+
+Present findings with AskUserQuestion for decisions:
+
+```markdown
+## System Review: Findings
+
+**Scope:** [what was reviewed]
+**Files Reviewed:** X
+**Issues Found:** Y Critical, Z Warning, W Suggestions
+
+### Critical Issues (must fix)
+
+- [ ] **Missing skill reference** in `.claude/commands/daily/plan.md`
+  - References `nonexistent-skill` which doesn't exist
+  - **Fix:** Remove reference or create skill
+
+### Warnings (should fix)
+
+- [ ] **CLAUDE.md out of sync**
+  - Commands table missing 2 entries
+  - **Fix:** Add missing commands
+
+### Suggestions
+
+- [ ] Add examples to 12 command files
+```
+
+For issues requiring decisions:
+```javascript
+AskUserQuestion({
+  questions: [{
+    header: "Fix approach",
+    question: "How should we handle the missing skill reference?",
+    options: [
+      { label: "Remove reference (Recommended)", description: "Simplest fix" },
+      { label: "Create the skill", description: "If the functionality is needed" },
+      { label: "Skip", description: "Don't fix this" }
+    ]
+  }]
+})
+```
+
+---
+
+## Phase 7: Apply Fixes
+
+After user approves:
+
+1. Group approved changes by file
+2. Present batch summary:
+   ```markdown
+   ## Proposed Changes
+
+   ### File: `.claude/commands/daily/plan.md`
+   - Remove reference to nonexistent skill
+
+   ### File: `CLAUDE.md`
+   - Add missing commands to table
+
+   **Proceed with these X changes?**
+   ```
+
+3. Wait for confirmation
+4. Apply changes using Edit tool
+5. Log changes to `{session_dir}/fixes/log.md`
+
+---
+
+## Phase 8: Report
+
+Final summary:
+
+```markdown
+## System Review Complete
+
+**Session:** {session_dir}
+**Duration:** [time elapsed]
+
+### Changes Applied
+- [x] Fixed X critical issues
+- [x] Fixed Y warnings
+- [ ] Z suggestions deferred
+
+### Files Modified
+- `.claude/commands/daily/plan.md`: Removed invalid reference
+- `CLAUDE.md`: Added 2 missing commands
+
+### Remaining Items
+- [ ] [Any deferred items]
+
+### Recommendations
+1. [High-value improvement opportunity]
+2. [Nice-to-have improvement]
+```
+
+---
 
 ## Review Checklists
 
 ### For Commands
+
 - [ ] Has valid YAML frontmatter (description, argument-hint, allowed-tools)
 - [ ] Clear purpose statement
 - [ ] Arguments documented
@@ -206,116 +444,106 @@ Execute these steps sequentially. This is an **interactive review** - ask questi
 - [ ] Edge cases handled
 - [ ] File paths are correct
 - [ ] Referenced skills/commands exist
+- [ ] Listed in CLAUDE.md or components.md
 
 ### For Skills
+
 - [ ] Has valid YAML frontmatter (name, description)
-- [ ] Description clearly indicates when Claude should autonomously invoke this Skill
+- [ ] Description indicates when Claude should invoke autonomously
 - [ ] Includes `allowed-tools` if tool access should be restricted
-- [ ] Tools in `allowed-tools` are appropriate for Skill's purpose (if present)
-- [ ] Clear explanation of contexts/triggers for automatic invocation
-- [ ] Practical examples showing what Claude can do with this knowledge
-- [ ] Integration with other processes documented (which Commands reference this, etc.)
-- [ ] Explains what knowledge/capabilities this provides to Claude
+- [ ] Tools in `allowed-tools` are appropriate for purpose
+- [ ] Clear trigger conditions
+- [ ] Practical examples
+- [ ] Integration documented
+- [ ] Listed in CLAUDE.md or components.md
 
 ### For Hooks
+
 - [ ] Has docstring explaining purpose
-- [ ] Matches appropriate lifecycle event (SessionStart, PreToolUse, PostToolUse, UserPromptSubmit, Notification, Stop)
-- [ ] Event choice justified (why this event vs others?)
-- [ ] Input/output format documented for the specific event type
-- [ ] Error handling present (hooks should fail gracefully)
+- [ ] Matches appropriate lifecycle event
+- [ ] Event choice justified
+- [ ] Input/output format documented
+- [ ] Error handling present
 - [ ] File paths correct
-- [ ] Registered in settings.json (if applicable)
-- [ ] For PreToolUse: Uses correct permission decision format (permissionDecision: "allow"/"deny")
-- [ ] For SessionStart: Properly handles environment variable persistence if needed
+- [ ] Registered in settings.json
+- [ ] For PreToolUse: Uses correct permission decision format
+- [ ] Listed in CLAUDE.md or components.md
 
 ### For Agents
-- [ ] Has valid YAML frontmatter (name, description, tools, model)
-- [ ] Clear role definition (what specialized task does this handle?)
-- [ ] Appropriate tool access for agent's isolated purpose
-- [ ] Output guidelines (what should agent return to main conversation?)
-- [ ] Justification for why this needs to be an Agent (context isolation, complexity, etc.)
-- [ ] Documentation explains agent is invoked via Task tool
-- [ ] Notes that agent cannot spawn other agents (no infinite nesting)
-- [ ] Explains benefits of separate context window for this task
+
+- [ ] Valid YAML frontmatter (name, description, tools, model)
+- [ ] Clear role definition
+- [ ] Appropriate tool access
+- [ ] Output guidelines defined
+- [ ] Justification for agent vs skill
+- [ ] Documentation explains Task tool invocation
+- [ ] Listed in CLAUDE.md or components.md
 
 ### For Templates
+
 - [ ] Valid YAML frontmatter with required fields
 - [ ] Placeholder instructions clear
 - [ ] Consistent with documented patterns
 
-### For CLAUDE.md
-- [ ] All commands listed and accurate
-- [ ] All skills listed and accurate
-- [ ] All hooks listed and accurate
-- [ ] All agents listed and accurate
-- [ ] Directory structure accurate
-- [ ] Examples work correctly
+### For 0-System Documentation
 
-### For 0-System/ (Product Documentation)
-- [ ] README.md provides accurate overview
-- [ ] architecture.md reflects current system design
-- [ ] patterns.md conventions match actual usage
-- [ ] Guides in 0-System/guides/ match actual workflows
-- [ ] Components in 0-System/components/ match .claude/ implementations
-- [ ] roadmap.md reflects current development priorities
-- [ ] changelog.md is up to date with recent changes
-- [ ] No conflicts between 0-System/ and CLAUDE.md
+- [ ] Content accuracy (matches actual implementation)
+- [ ] Completeness (covers all relevant components)
+- [ ] Sync with CLAUDE.md (no conflicts)
+- [ ] Examples work correctly
+- [ ] Links/references valid
+
+---
 
 ## Cross-Reference Validation
 
 Check these relationships:
 
 ```
-0-System/guides ←→ CLAUDE.md (workflows documented in both? consistent?)
-0-System/components ←→ .claude/ (component docs match actual implementation?)
-0-System/architecture ←→ CLAUDE.md (structure descriptions aligned?)
-CLAUDE.md ←→ Commands (all listed? user-invoked via /cmd?)
-CLAUDE.md ←→ Skills (all listed? model-invoked autonomously?)
-CLAUDE.md ←→ Hooks (all listed? event-triggered at correct lifecycle points?)
-CLAUDE.md ←→ Agents (all listed? tool-invoked via Task?)
-Commands ←→ Skills (do Commands reference Skills that exist?)
-Commands ←→ Agents (do Commands use Task tool to invoke Agents?)
-Skills ←→ allowed-tools (are tool restrictions appropriate for Skill's purpose?)
-Agents ←→ Task tool invocation (are Agents documented as being invoked via Task?)
-Agents ←→ tools frontmatter (does tool access match agent's specialized purpose?)
-Hooks ←→ Lifecycle events (does hook use appropriate event for its purpose?)
-Hooks ←→ Templates (does validation match template format?)
-Hooks ←→ Event-specific behavior (PreToolUse = permission decisions, SessionStart = env vars, etc.)
-Directory rules in hooks ←→ CLAUDE.md directory docs
+0-System/guides ←→ CLAUDE.md (workflows consistent?)
+0-System/components ←→ .claude/ (docs match implementation?)
+CLAUDE.md ←→ Commands (all listed?)
+CLAUDE.md ←→ Skills (all listed?)
+CLAUDE.md ←→ Hooks (all listed?)
+CLAUDE.md ←→ Agents (all listed?)
+Commands ←→ Skills (referenced skills exist?)
+Commands ←→ Agents (Task tool invocations valid?)
+Hooks ←→ Patterns (validated patterns exist?)
 ```
 
-### Architecture-Specific Validations
+---
 
-**For Skills:**
-- If Skill modifies files, does it have Write/Edit in `allowed-tools`?
-- If Skill only reads, is it restricted to Read/Grep/Glob?
-- Does description explain WHEN Claude should autonomously use it?
+## Resumption Support
 
-**For Agents:**
-- Is there a clear reason why this needs context isolation?
-- Could this be a Skill instead (if it's just knowledge, not execution)?
-- Are agents used via Task tool (not directly invoked)?
+If review is interrupted, it can be resumed:
 
-**For Hooks:**
-- Is the lifecycle event correct for the hook's purpose?
-  - Validation/blocking → PreToolUse
-  - Checking/logging → PostToolUse
-  - Context loading → SessionStart or UserPromptSubmit
-  - Cleanup → Stop
-- Does hook fail gracefully with proper error messages?
+1. Check for existing session: `Glob(".claude/review-sessions/YYYY-MM-DD-*")`
+2. If found, read `config.json` for state
+3. Resume from `current_phase`
+4. For background agents, check `TaskOutput` for any completed
+
+Ask user:
+```javascript
+AskUserQuestion({
+  questions: [{
+    header: "Resume",
+    question: "Found existing session from today. Resume or start fresh?",
+    options: [
+      { label: "Resume (Recommended)", description: "Continue where you left off" },
+      { label: "Start fresh", description: "Archive old session and start new" }
+    ]
+  }]
+})
+```
+
+---
 
 ## Interaction Guidelines
 
-- **Be thorough but efficient** - don't overwhelm with minor issues
-- **Prioritize clarity** - always explain why something is an issue
-- **Infer when possible** - if the right answer is obvious from CLAUDE.md, just fix it
-- **Ask when uncertain** - use AskUserQuestion for genuine ambiguity
-- **Batch changes** - group related fixes and confirm before applying
-- **Preserve intent** - fix bugs, don't redesign unless asked
-
-## Edge Cases
-
-- **No issues found**: Report clean bill of health, suggest any improvements
-- **Many issues**: Prioritize critical first, offer to fix in batches
-- **Conflicting sources**: CLAUDE.md is authoritative, but ask if conflict seems intentional
-- **Scope unclear**: Ask user to clarify what they want reviewed
+- **Be thorough but efficient** - Don't overwhelm with minor issues
+- **Prioritize clarity** - Always explain why something is an issue
+- **Infer when possible** - If the right answer is obvious, just fix it
+- **Ask when uncertain** - Use AskUserQuestion for genuine ambiguity
+- **Batch changes** - Group related fixes and confirm before applying
+- **Preserve intent** - Fix bugs, don't redesign unless asked
+- **Track progress** - Update tasks as phases complete

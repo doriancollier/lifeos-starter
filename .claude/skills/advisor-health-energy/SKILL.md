@@ -80,7 +80,7 @@ When used in board deliberations, provide:
 - Warning signs to watch for
 - Recovery requirements
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Four-Dimension Energy Management
 

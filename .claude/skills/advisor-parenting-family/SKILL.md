@@ -82,7 +82,7 @@ When used in board deliberations, provide:
 
 ---
 
-## Planning System 2.0: {{child_name}}-Specific Context
+## {{child_name}}-Specific Context
 
 {{child_name}} (age 15, turning 16 in 2026) has ADHD and NVLD. These years represent a non-renewable developmental window.
 

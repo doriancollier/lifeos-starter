@@ -188,7 +188,7 @@ Against focus filter (2026: NFT + Physical + AI):
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 These evaluation frameworks integrate with [[decision-frameworks]] and [[planning-horizons]] to ensure goals and opportunities pass rigorous strategic filters.
 

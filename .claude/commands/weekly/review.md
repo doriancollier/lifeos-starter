@@ -1,5 +1,5 @@
 ---
-description: Comprehensive weekly review with Planning System 2.0 frameworks
+description: Comprehensive weekly review with planning frameworks
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion
 ---
 

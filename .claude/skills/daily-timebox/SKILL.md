@@ -306,7 +306,7 @@ After creating timeboxes, present summary:
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 These scheduling enhancements integrate with [[planning-horizons]] and [[decision-frameworks]] to create more effective daily schedules.
 

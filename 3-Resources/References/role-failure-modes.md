@@ -3,7 +3,7 @@ title: "Role Failure Modes Reference"
 type: "reference"
 created: "2025-12-30"
 purpose: "Identify and prevent common failure patterns in each life role"
-source: "Planning System 2.0 extractions"
+source: "Framework extractions"
 ---
 
 # Role Failure Modes Reference
@@ -726,4 +726,4 @@ Rate your current proximity to each major failure mode (1-10 scale).
 ---
 
 *Reference created: 2025-12-30*
-*Sources: Planning System 2.0 research extractions on inversion, work-life integration, provider excellence, father excellence, partner excellence*
+*Sources: Framework research extractions on inversion, work-life integration, provider excellence, father excellence, partner excellence*

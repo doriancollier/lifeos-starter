@@ -7,7 +7,7 @@ modified: "2026-01-03"
 
 # Template Index
 
-Master index for all Planning System 2.0 templates, organized multiple ways for easy discovery.
+Master index for planning and decision templates, organized multiple ways for easy discovery.
 
 ---
 
@@ -157,4 +157,4 @@ Templates for sustainable integration.
 ---
 
 > [!ai-context]
-> This is the master template index for Planning System 2.0. Use it to find the right template for any situation. Templates are accessed via commands (e.g., `/plan:quarterly`) or directly from this index.
+> This is the master template index. Use it to find the right template for any situation. Templates are accessed via commands (e.g., `/plan:quarterly`) or directly from this index.

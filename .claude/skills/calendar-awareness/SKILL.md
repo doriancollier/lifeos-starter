@@ -192,7 +192,7 @@ On Mondays or when asked, provide a week-at-a-glance:
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 These planning rhythm features integrate with [[planning-horizons]] and [[quarterly-planning-extraction]] to ensure proactive awareness of strategic planning needs.
 

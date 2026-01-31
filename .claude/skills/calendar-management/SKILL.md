@@ -605,7 +605,7 @@ When modifying single instance of recurring event, use the instance-specific eve
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 These scheduling concepts integrate with [[planning-horizons]] and [[decision-frameworks]] to ensure calendar management supports strategic priorities.
 

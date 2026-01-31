@@ -80,7 +80,7 @@ When used in board deliberations, provide:
 - System design considerations
 - Implementation complexity estimate
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Feedback Loop Mapping
 

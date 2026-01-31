@@ -77,7 +77,7 @@ If any goals are at risk or stalled:
 - [Relationship] - No touchpoint in [X weeks]
 ```
 
-### Step 4: Monthly Milestone Progress (Planning System 2.0)
+### Step 4: Monthly Milestone Progress
 
 **Check progress against monthly milestones:**
 
@@ -102,7 +102,7 @@ For each quarterly rock, identify:
 
 If milestones are missing, prompt: "Your quarterly rocks don't have monthly milestones defined. Would you like to set them now?"
 
-### Step 5: Seasonal Context (Planning System 2.0)
+### Step 5: Seasonal Context
 
 **Surface life season awareness:**
 

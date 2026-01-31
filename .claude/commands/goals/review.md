@@ -85,7 +85,7 @@ For any goals that have progressed:
 2. Update the progress percentage
 3. Add any new projects to the Projects column
 
-### Step 7: Pareto & Leverage Analysis (Planning System 2.0)
+### Step 7: Pareto & Leverage Analysis
 
 **Before generating summary, analyze effectiveness:**
 

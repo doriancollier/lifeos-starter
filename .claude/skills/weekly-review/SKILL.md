@@ -156,7 +156,7 @@ Count tasks and activities by company:
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 These additions integrate strategic review patterns from [[planning-horizons]] and [[framework-prompts]].
 

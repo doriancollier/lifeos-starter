@@ -275,7 +275,7 @@ All advisors can draw on:
 - `advisor-legal-literacy` — Contracts, IP, regulatory awareness
 - `advisor-librarian-context` — Vault search and context retrieval
 
-## Planning System 2.0 Integrations
+## Framework Integrations
 
 The Board deliberation process now includes these additional frameworks:
 

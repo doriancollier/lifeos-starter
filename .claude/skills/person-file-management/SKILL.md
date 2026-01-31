@@ -399,7 +399,7 @@ If new information conflicts with existing data:
 - Don't delete old information (shows history)
 - Let user decide which is current
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### Learning Profile (For {{child_name}} Specifically)
 

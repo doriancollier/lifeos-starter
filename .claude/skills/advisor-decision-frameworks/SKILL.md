@@ -85,7 +85,7 @@ When used in board deliberations, provide:
 
 ---
 
-## Planning System 2.0 Enhancements
+## Enhancements
 
 ### First Principles Questioning
 

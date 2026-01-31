@@ -12,9 +12,9 @@ Templates provide consistent structure for different note types.
 
 Templates live in `3-Resources/Templates/` and are used when creating new notes of specific types.
 
-> **Planning System 2.0**: 50+ new templates have been added for planning, decisions, retrospectives, roles, productivity, strategic thinking, and work-life integration. See [[3-Resources/Templates/_Template-Index|Template Index]] for the complete list organized by domain and context.
+> **Planning Templates**: 50+ new templates have been added for planning, decisions, retrospectives, roles, productivity, strategic thinking, and work-life integration. See [[3-Resources/Templates/_Template-Index|Template Index]] for the complete list organized by domain and context.
 
-## Planning System 2.0 Templates
+## Planning Templates
 
 | Domain | Count | Purpose |
 |--------|-------|---------|
