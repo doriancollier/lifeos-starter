@@ -5,13 +5,21 @@ configure_hooks.py - Generate settings.json from integration configuration
 Reads .user/integrations.yaml and generates .claude/settings.json with
 appropriate hooks enabled or disabled based on user preferences.
 
+Uses the new hooks format (2026+):
+    {
+        "matcher": "pattern" or {},
+        "hooks": [{"type": "command", "command": "..."}]
+    }
+
 Usage:
     python configure_hooks.py [--dry-run] [--verbose]
 
 Core hooks (always enabled):
+    - version-check.py
     - session-context-loader.py
     - prompt-timestamp.py
     - directory-guard.py
+    - calendar-protection.py
     - frontmatter-validator.py
     - task-format-validator.py
     - table-format-validator.py
@@ -159,13 +167,22 @@ def get_enabled_integrations(config: dict) -> set:
 
 
 def build_hook_config(hook_name: str, hook_info: dict, hooks_dir: str) -> dict:
-    """Build a hook configuration entry for settings.json."""
-    config = {
+    """Build a hook configuration entry for settings.json (new format).
+
+    New format (2026+):
+    {
+        "matcher": "pattern" or {},  # string for tool matching, {} for no filter
+        "hooks": [
+            {"type": "command", "command": "..."}
+        ]
+    }
+    """
+    hook_definition = {
         "type": "command",
         "command": f'"{hooks_dir}/{hook_name}"'
     }
 
-    # Add matcher if defined
+    # Determine matcher (empty string for no filtering, regex string for tool matching)
     if "matcher" in hook_info:
         matcher = hook_info["matcher"]
         if "tool_name" in matcher:
@@ -173,11 +190,18 @@ def build_hook_config(hook_name: str, hook_info: dict, hooks_dir: str) -> dict:
             if isinstance(tool_name, list):
                 # Multiple tools - use regex pattern
                 pattern = "|".join(tool_name)
-                config["matcher"] = {"tool_name": f"^({pattern})$"}
+                matcher_value = f"^({pattern})$"
             else:
-                config["matcher"] = {"tool_name": tool_name}
+                matcher_value = tool_name
+        else:
+            matcher_value = ""
+    else:
+        matcher_value = ""
 
-    return config
+    return {
+        "matcher": matcher_value,
+        "hooks": [hook_definition]
+    }
 
 
 def generate_settings(vault_root: Path, enabled_integrations: set, verbose: bool = False) -> dict:

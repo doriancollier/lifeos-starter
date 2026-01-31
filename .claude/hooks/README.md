@@ -11,29 +11,23 @@ Add the following configuration to your Claude Code settings file at `~/.claude/
   "hooks": {
     "SessionStart": [
       {
+        "matcher": "",
         "hooks": [
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/session-context-loader.py"
-          },
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/reminders-session-sync.py"
-          },
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/health-session-sync.py"
-          }
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/version-check.py"}
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/session-context-loader.py"}
         ]
       }
     ],
     "UserPromptSubmit": [
       {
+        "matcher": "",
         "hooks": [
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/prompt-timestamp.py"
-          }
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/prompt-timestamp.py"}
         ]
       }
     ],
@@ -41,62 +35,59 @@ Add the following configuration to your Claude Code settings file at `~/.claude/
       {
         "matcher": "Write",
         "hooks": [
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/directory-guard.py"
-          }
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/directory-guard.py"}
         ]
       },
       {
-        "matcher": "mcp__google-calendar__delete-event|mcp__google-calendar__update-event",
+        "matcher": "mcp__google-calendar__delete-event",
         "hooks": [
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/calendar-protection.py"
-          }
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/calendar-protection.py"}
         ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "^(Write|Edit)$",
         "hooks": [
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/frontmatter-validator.py"
-          },
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/task-format-validator.py"
-          },
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/table-format-validator.py"
-          },
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/task-sync-detector.py"
-          },
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/reminders-task-detector.py"
-          }
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/frontmatter-validator.py"}
+        ]
+      },
+      {
+        "matcher": "^(Write|Edit)$",
+        "hooks": [
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/task-format-validator.py"}
+        ]
+      },
+      {
+        "matcher": "^(Write|Edit)$",
+        "hooks": [
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/table-format-validator.py"}
+        ]
+      },
+      {
+        "matcher": "^(Write|Edit)$",
+        "hooks": [
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/task-sync-detector.py"}
         ]
       }
     ],
     "SessionEnd": [
       {
+        "matcher": "",
         "hooks": [
-          {
-            "type": "command",
-            "command": "{{vault_path}}/.claude/hooks/auto-git-backup.sh"
-          }
+          {"type": "command", "command": "{{vault_path}}/.claude/hooks/auto-git-backup.sh"}
         ]
       }
     ]
   }
 }
 ```
+
+**Note**: The format changed in early 2026. Each hook entry requires:
+- `"matcher"`: A regex string for tool filtering, or `""` (empty string) for no filtering
+- `"hooks"`: Array of hook definitions
+
+Run `/system:configure-hooks` to regenerate settings.json based on your `.user/integrations.yaml`.
 
 ## Hooks Overview
 
