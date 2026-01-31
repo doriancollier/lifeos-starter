@@ -717,11 +717,11 @@ Rate your current proximity to each major failure mode (1-10 scale).
 
 - Role documents: `2-Areas/Personal/Roles/`
 - Personal foundation: `2-Areas/Personal/foundation.md`
-- Inversion thinking: `1-Projects/Current/Planning-System-2.0/extraction/03-inversion-extraction.md`
-- Provider excellence: `1-Projects/Current/Planning-System-2.0/extraction/17-provider-excellence-extraction.md`
-- Father excellence: `1-Projects/Current/Planning-System-2.0/extraction/18-father-excellence-extraction.md`
-- Partner excellence: `1-Projects/Current/Planning-System-2.0/extraction/19-partner-excellence-extraction.md`
-- Work-life integration: `1-Projects/Current/Planning-System-2.0/extraction/16-work-life-integration-extraction.md`
+- Inversion thinking: `1-Projects/Current/Planning-System/extraction/03-inversion-extraction.md`
+- Provider excellence: `1-Projects/Current/Planning-System/extraction/17-provider-excellence-extraction.md`
+- Father excellence: `1-Projects/Current/Planning-System/extraction/18-father-excellence-extraction.md`
+- Partner excellence: `1-Projects/Current/Planning-System/extraction/19-partner-excellence-extraction.md`
+- Work-life integration: `1-Projects/Current/Planning-System/extraction/16-work-life-integration-extraction.md`
 
 ---
 

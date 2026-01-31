@@ -13,7 +13,7 @@ Guide the user through a **weekly relationship check-in with ** using the State 
 
 - **Template**: `[[partner-state-of-union]]` in `3-Resources/Templates/`
 - **Output location**: `5-Meetings/YYYY/MM-Month/SoU-YYYY-MM-DD.md` OR `2-Areas/Personal/Partner/State-of-Union/`
-- **Partner research**: `1-Projects/Current/Planning-System-2.0/extraction/19-partner-excellence-extraction.md`
+- **Partner research**: `1-Projects/Current/Planning-System/extraction/19-partner-excellence-extraction.md`
 - **'s person file**: `6-People/Personal/.md`
 
 ## Process
