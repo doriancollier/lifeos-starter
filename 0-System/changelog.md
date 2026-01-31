@@ -16,6 +16,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+### Changed
+
+### Fixed
+
+---
+
+## [0.7.0] - 2026-01-31
+
+### Added
+
 - **Auto-Changelog System** — Conventional commits now auto-populate the changelog
   - `changelog-populator.py` git post-commit hook parses commit prefixes (feat:, fix:, docs:)
   - `install-git-hooks.sh` setup script for easy installation
