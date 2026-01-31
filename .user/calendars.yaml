@@ -1,0 +1,61 @@
+# Calendar Configuration
+# Settings for Google Calendar integration via MCP server.
+
+calendars:
+  # Primary calendar (usually personal email)
+  primary:
+    email: ""
+    name: "Primary"
+    color: "#4285f4"
+
+  # Additional calendars to sync
+  additional: []
+  # Example:
+  # - email: "work@company.com"
+  #   name: "Work"
+  #   color: "#0f9d58"
+  # - email: "family@gmail.com"
+  #   name: "Family"
+  #   color: "#db4437"
+
+# Default calendar for new events (by email)
+default_calendar: ""
+
+# Event creation defaults
+defaults:
+  # Default duration in minutes for new events
+  duration_minutes: 60
+
+  # Default reminder in minutes before event
+  reminder_minutes: 15
+
+  # Add travel time buffer for in-person meetings
+  travel_buffer_minutes: 15
+
+  # Extended property to mark Claude-created events
+  source_tag: "claude-code"
+
+# Calendar awareness settings
+awareness:
+  # Check calendar during /daily:plan
+  check_during_planning: true
+
+  # Warn before modifying events with attendees
+  protect_events_with_attendees: true
+
+  # Days ahead to show in planning
+  planning_horizon_days: 7
+
+  # Show holidays in planning
+  show_holidays: true
+
+# Working hours (for availability calculations)
+working_hours:
+  start: "09:00"
+  end: "18:00"
+  days:
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday

@@ -1,138 +1,221 @@
 ---
 title: "LifeOS Personalization"
 created: "2025-12-02"
-status: "draft"
+updated: "2026-01-31"
+status: "active"
 ---
 
 # LifeOS Personalization
 
 How to customize LifeOS for your context.
 
-> [!note]
-> This guide is a draft. It will be expanded as part of Phase 2 of the roadmap.
+## Architecture
 
-## Overview
+LifeOS separates **your configuration** from **system files**:
 
-LifeOS separates **generic system** from **personal configuration**:
+```
+.user/ (YOUR DATA - preserved during upgrades)
+    ├── identity.yaml
+    ├── companies.yaml
+    ├── coaching.yaml
+    └── integrations.yaml
+              │
+              ▼
+    Template Files (updated during upgrades)
+    ├── CLAUDE.template.md
+    └── .claude/rules/coaching.template.md
+              │
+              ▼
+    Generated Files (regenerated from templates)
+    ├── CLAUDE.md
+    ├── .claude/rules/coaching.md
+    └── .claude/settings.json
+```
 
-| Layer | What It Contains | Shareable? |
-|-------|-----------------|------------|
-| 0-System/ | Product documentation | Yes |
-| .claude/ | Skills, commands, agents, hooks | Mostly |
-| CLAUDE.md | Your identity and context | No |
-| 2-Areas/ | Your companies and responsibilities | No |
-| 6-People/ | Your relationships | No |
+**Key benefit:** System upgrades update templates, then regenerate files using your config. Your data is never lost.
 
-## CLAUDE.md Configuration
+## Configuration Files
 
-The primary personalization point is `CLAUDE.md`. This file tells Claude who you are and how to work with you.
+All user configuration lives in `.user/`:
 
-### Required Sections
+| File | Purpose |
+|------|---------|
+| `identity.yaml` | Name, timezone, personality, family members |
+| `companies.yaml` | Company definitions with IDs, keywords, contacts |
+| `coaching.yaml` | Coaching intensity (1-10), style preferences |
+| `integrations.yaml` | Which integrations are enabled |
+| `health.yaml` | Health export path and targets |
+| `calendars.yaml` | Calendar configuration and defaults |
 
-**Repository Overview:**
+### identity.yaml
+
+```yaml
+user:
+  name: "Your Name"
+  first_name: "Your"
+  timezone: "America/Chicago"
+  email: "you@example.com"
+  personality_type: "INTJ"  # Optional
+
+family:
+  partner_name: "Partner"
+  children:
+    - name: "Child"
+
+onboarding:
+  complete: true
+```
+
+### companies.yaml
+
+```yaml
+companies:
+  company_1:
+    name: "Acme Corp"
+    id: "acme"  # Short ID for commands
+    keywords: ["acme", "project-x"]  # For meeting detection
+    contacts:
+      - name: "Alex Smith"
+        role: "CTO"
+        communication_preference: "slack"
+
+  company_2:
+    name: "Side Project"
+    id: "sp"
+    keywords: []
+    contacts: []
+```
+
+### coaching.yaml
+
+```yaml
+coaching:
+  intensity: 7  # 1-10 scale
+  style_label: "Challenging"
+
+# Intensity levels:
+# 1-3: Supportive - gentle reminders
+# 4-6: Balanced - moderate accountability
+# 7-8: Challenging - pushes limits
+# 9-10: Relentless - maximum accountability
+```
+
+### integrations.yaml
+
+```yaml
+integrations:
+  reminders:
+    enabled: true  # Sync with macOS Reminders
+  health:
+    enabled: false  # Sync Apple Health data
+  calendar:
+    enabled: true  # Google Calendar (MCP-based)
+  email:
+    enabled: false  # Read from Mail.app
+```
+
+## Modifying Configuration
+
+### Method 1: Edit YAML Files Directly
+
+1. Open files in `.user/` directory
+2. Make changes (valid YAML required)
+3. Run regeneration commands:
+
+```bash
+/system:inject           # Regenerate CLAUDE.md
+/system:configure-hooks  # Regenerate settings.json
+```
+
+### Method 2: Re-run Onboarding
+
+```bash
+/setup:onboard
+```
+
+This walks through all configuration interactively.
+
+## System Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/system:inject` | Regenerate CLAUDE.md and coaching.md from templates |
+| `/system:configure-hooks` | Regenerate settings.json from integrations.yaml |
+| `/system:upgrade` | Full upgrade workflow (both of the above) |
+| `/setup:onboard` | Interactive configuration wizard |
+
+## Template System
+
+Templates use `{{placeholder}}` syntax:
+
 ```markdown
-## Repository Overview
-
-This is an Obsidian vault serving as a personal knowledge management
-system and AI agent memory for [Your Name].
+# From CLAUDE.template.md
+You are a **Level {{coaching_intensity}} Relentless Challenger** coach,
+helping {{user_first_name}} bridge the gap between philosophy and daily action.
 ```
 
-**User Context:**
-```markdown
-## Key Contexts
+The `inject_placeholders.py` script reads `.user/*.yaml` and replaces placeholders.
 
-### Companies
-- **[Company 1]**: Description and your role
-- **[Company 2]**: Description and your role
+### Available Placeholders
 
-### User Context
-- Name: [Your Name]
-- Location: [City, State] ([Timezone])
-- Working style: [Your preferences]
+| Placeholder | Source |
+|-------------|--------|
+| `{{user_name}}` | identity.yaml → user.name |
+| `{{user_first_name}}` | identity.yaml → user.first_name |
+| `{{timezone}}` | identity.yaml → user.timezone |
+| `{{partner_name}}` | identity.yaml → family.partner_name |
+| `{{child_name}}` | identity.yaml → family.children[0].name |
+| `{{company_1_name}}` | companies.yaml → companies.company_1.name |
+| `{{coaching_intensity}}` | coaching.yaml → coaching.intensity |
+
+## Integrations
+
+### Enabling an Integration
+
+1. Edit `.user/integrations.yaml`
+2. Set `enabled: true` for the integration
+3. Run `/system:configure-hooks`
+
+This regenerates `.claude/settings.json` with the appropriate hooks.
+
+### Available Integrations
+
+| Integration | Hooks Added | Requirements |
+|-------------|-------------|--------------|
+| `reminders` | reminders-session-sync.py, reminders-task-detector.py | macOS |
+| `health` | health-session-sync.py | Health Auto Export app |
+| `calendar` | (none - MCP-based) | Google Calendar MCP |
+| `email` | (none - on-demand) | macOS Mail.app |
+
+## System Upgrades
+
+When you upgrade LifeOS:
+
+1. **Templates may change** — New features, bug fixes
+2. **Your `.user/` is preserved** — Your config stays intact
+3. **Run `/system:upgrade`** — Regenerates files from new templates
+
+```bash
+# After updating LifeOS files
+/system:upgrade
 ```
 
-### Optional Sections
+This runs both `/system:inject` and `/system:configure-hooks`.
 
-- Personal profile reference
-- Key people
-- Custom workflows
-- Integration notes
+## Backup Recommendations
 
-## Company Contexts
+- `.user/identity.yaml` contains personal info — consider excluding from git
+- `.user/health.yaml` contains health targets — consider excluding from git
+- Other `.user/` files are generally safe to commit
 
-Each company/life area gets a context file in `2-Areas/`:
+See `.gitignore` for current exclusions.
 
-```
-2-Areas/
-├── [Company1]/
-│   └── context.md
-├── [Company2]/
-│   └── context.md
-└── Personal/
-    └── context.md
+## Migration from Old Config
+
+If you have existing config in `0-System/config/`:
+
+```bash
+python3 .claude/scripts/migrate_to_user_dir.py
 ```
 
-### Context File Template
-
-```markdown
----
-title: "[Company] Context"
-type: "company-context"
----
-
-# [Company] Context
-
-## Overview
-What this company/area is about.
-
-## Key People
-- [[Person 1]] - Role
-- [[Person 2]] - Role
-
-## Current Focus
-What you're working on here.
-
-## Processes
-How work gets done.
-
-## AI Guidance
-> [!ai-context]
-> Notes to help Claude understand this context.
-```
-
-## Calendar Configuration
-
-If using Google Calendar integration:
-
-1. List your calendars in CLAUDE.md
-2. Define calendar selection logic
-3. Set up context windows for timeboxing
-
-## Extending the System
-
-### Adding Personal Skills
-
-Create skills in `.claude/skills/` that are specific to your workflow.
-
-### Custom Commands
-
-Add commands in `.claude/commands/` for your repeated actions.
-
-### Personal Agents
-
-Define agents in `.claude/agents/` for your complex workflows.
-
----
-
-## Migration Path
-
-> [!note]
-> Detailed migration guide coming in Phase 2.
-
-For now:
-
-1. Start with the generic template
-2. Fill in CLAUDE.md with your context
-3. Create company context files
-4. Set up person files for key relationships
-5. Begin using daily notes
+This reads old config files and creates new `.user/` YAML files.

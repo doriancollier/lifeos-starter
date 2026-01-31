@@ -55,11 +55,11 @@ LifeOS is an Obsidian vault architecture combined with Claude Code extensions (s
 ### Manual Setup (Alternative)
 
 If you prefer manual configuration:
-1. Customize `CLAUDE.md` with your context (name, companies, preferences)
-2. Set up your foundation in `2-Areas/Personal/foundation.md` (identity, mission, principles)
-3. Configure coaching intensity in `0-System/config/lifeos-config.md`
-4. Create role documents in `2-Areas/Personal/Roles/`
-5. Set up the `.claude/` hooks (see [Hooks Guide](components/hooks.md))
+1. Edit files in `.user/` directory (identity, companies, coaching, integrations)
+2. Run `/system:inject` to generate CLAUDE.md from templates
+3. Run `/system:configure-hooks` to set up hooks based on your integrations
+4. Set up your foundation in `2-Areas/Personal/foundation.md`
+5. Create role documents in `2-Areas/Personal/Roles/`
 
 ### For Existing Users
 
@@ -69,8 +69,9 @@ See [Architecture](architecture.md) for system structure and [Patterns](patterns
 
 | File | Purpose |
 |------|---------|
-| `CLAUDE.md` | Core identity and quick reference (detailed rules in `.claude/rules/`) |
-| `0-System/config/lifeos-config.md` | System configuration (coaching intensity, INTJ profile, etc.) |
+| `.user/` | Your configuration (identity, integrations, coaching) - preserved during upgrades |
+| `CLAUDE.md` | Generated from template using your `.user/` config |
+| `CLAUDE.template.md` | Template for CLAUDE.md (updated during system upgrades) |
 | `2-Areas/Personal/foundation.md` | Your identity, mission, vision, principles |
 | `2-Areas/Personal/Roles/` | Individual role documents with growth edges |
 
@@ -135,6 +136,11 @@ See [Learning Log](config/learning-log.md) for history of learned capabilities.
 
 ```
 /
+├── .user/             # YOUR CONFIG (preserved during upgrades)
+│   ├── identity.yaml  # Name, timezone, personality
+│   ├── companies.yaml # Company definitions
+│   ├── coaching.yaml  # Coaching preferences
+│   └── integrations.yaml # Enabled integrations
 ├── 0-System/          # LifeOS documentation (you are here)
 ├── 1-Projects/        # Active work with end dates
 ├── 2-Areas/           # Ongoing responsibilities (no end date)
@@ -148,8 +154,10 @@ See [Learning Log](config/learning-log.md) for history of learned capabilities.
 │   ├── skills/        # Specialized knowledge
 │   ├── commands/      # Slash commands
 │   ├── agents/        # Autonomous agents
-│   └── hooks/         # Event automation
-└── CLAUDE.md          # User context and quick reference
+│   ├── hooks/         # Event automation
+│   └── scripts/       # Configuration scripts
+├── CLAUDE.template.md # Template (updated during upgrades)
+└── CLAUDE.md          # Generated from template
 ```
 
 ## Version

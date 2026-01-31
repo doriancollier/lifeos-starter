@@ -148,6 +148,9 @@ Commands are user-invoked via `/namespace:command`.
 | `/system:review [area]` | Review processes |
 | `/system:update [description]` | Add/update processes |
 | `/system:learn [topic]` | Learn capabilities through experimentation, codify results |
+| `/system:inject` | Regenerate CLAUDE.md and coaching.md from templates |
+| `/system:configure-hooks` | Regenerate settings.json from .user/integrations.yaml |
+| `/system:upgrade` | Full system upgrade workflow (inject + configure-hooks) |
 | `/goals:status` | Goals dashboard |
 | `/goals:review` | Weekly goals review |
 | `/goals:opportunity [desc]` | Evaluate new opportunity |

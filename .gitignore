@@ -25,6 +25,12 @@ Thumbs.db
 # Personal data - never commit
 .claude/data/
 
+# User configuration - contains personal information
+# Include .user/ in repo but protect sensitive files
+.user/identity.yaml
+.user/health.yaml
+# Note: companies.yaml, integrations.yaml, calendars.yaml, coaching.yaml are safe to commit
+
 # SuperNormal auth state and browser profile
 0-System/scripts/supernormal/auth-state.json
 0-System/scripts/supernormal/chrome-profile/

@@ -251,7 +251,6 @@ Fire these suggestions **alongside** coaching questions:
 ## Reference Files
 
 - `.user/coaching.yaml` — Coaching intensity and preferences
-- `.user/identity.yaml` — Name, timezone, personality, family
 - `2-Areas/Personal/foundation.md` — Identity, mission, vision, principles
 - `2-Areas/Personal/Roles/` — Individual role documents with growth edges
 

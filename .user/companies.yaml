@@ -1,0 +1,52 @@
+# Company Configuration
+# Defines work contexts for context switching, meeting routing, and project organization.
+# Each company has an ID, keywords for detection, and key contacts.
+
+companies:
+  # Primary company (referenced as company_1 in templates)
+  company_1:
+    # Full company name (e.g., "Acme Corporation")
+    name: ""
+
+    # Short ID for context switching (2-4 chars, e.g., "acme", "ab")
+    id: ""
+
+    # Keywords for meeting title detection (lowercase)
+    keywords: []
+
+    # Key contacts at this company
+    contacts: []
+    # Example contact:
+    # - name: "Alex Smith"
+    #   role: "CTO"
+    #   email: "alex@acme.com"
+    #   aliases: ["alex", "a. smith"]
+    #   communication_preference: "slack"
+
+  # Secondary company
+  company_2:
+    name: ""
+    id: ""
+    keywords: []
+    contacts: []
+
+  # Tertiary company
+  company_3:
+    name: ""
+    id: ""
+    keywords: []
+    contacts: []
+
+# External collaborators (people who span multiple contexts)
+collaborators: []
+# Example:
+# - name: "Jordan Lee"
+#   role: "Consultant"
+#   email: "jordan@consulting.com"
+#   contexts: ["company_1", "company_2"]
+
+# Personal context (family, friends)
+personal:
+  # This context is always available via /context:personal
+  id: "personal"
+  keywords: ["personal", "family", "home"]

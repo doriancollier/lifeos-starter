@@ -1,0 +1,63 @@
+# Integration Configuration
+# Controls which external integrations are enabled and their associated hooks.
+# Use /system:configure-hooks to regenerate settings.json after changes.
+
+integrations:
+  # macOS Reminders sync (requires macOS with Reminders app)
+  reminders:
+    enabled: false
+    description: "Bidirectional sync with macOS Reminders for mobile/Siri access"
+    hooks:
+      - reminders-session-sync.py
+      - reminders-task-detector.py
+    requirements:
+      - "macOS with Reminders app"
+      - "osascript permissions"
+
+  # Apple Health data sync (requires Health Auto Export app)
+  health:
+    enabled: false
+    description: "Sync health metrics from Apple Health via Health Auto Export"
+    hooks:
+      - health-session-sync.py
+    requirements:
+      - "Health Auto Export iOS app"
+      - "iCloud Drive enabled"
+
+  # Google Calendar (MCP-based, no hooks needed)
+  calendar:
+    enabled: true
+    description: "Google Calendar integration via MCP server"
+    hooks: []
+    requirements:
+      - "Google Calendar MCP server configured"
+
+  # Email reading (on-demand via skill, no hooks)
+  email:
+    enabled: false
+    description: "Read emails from Mail.app"
+    hooks: []
+    requirements:
+      - "macOS with Mail.app"
+      - "osascript permissions"
+
+  # SuperNormal meeting sync (manual script)
+  supernormal:
+    enabled: false
+    description: "Import meeting transcripts from SuperNormal"
+    hooks: []
+    requirements:
+      - "SuperNormal account"
+      - "API access configured"
+
+# Core hooks that are always enabled (not configurable)
+# These provide essential vault functionality
+core_hooks:
+  - session-context-loader.py
+  - prompt-timestamp.py
+  - directory-guard.py
+  - frontmatter-validator.py
+  - task-format-validator.py
+  - table-format-validator.py
+  - task-sync-detector.py
+  - auto-git-backup.sh

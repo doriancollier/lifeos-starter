@@ -112,6 +112,9 @@ Commands live in `.claude/commands/[namespace]/[name].md`:
 | `/system:update [description]` | Add/update processes |
 | `/system:review [area]` | Review processes |
 | `/system:learn [topic]` | Learn through experimentation, codify results |
+| `/system:inject` | Regenerate CLAUDE.md and coaching.md from templates |
+| `/system:configure-hooks` | Regenerate settings.json from .user/integrations.yaml |
+| `/system:upgrade` | Full upgrade workflow (inject + configure-hooks) |
 
 ### Skills (`/skill:*`)
 

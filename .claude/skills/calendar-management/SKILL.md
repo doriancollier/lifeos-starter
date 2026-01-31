@@ -40,28 +40,28 @@ This opens a browser for OAuth. Wait for "Authentication completed successfully!
 
 ## 📋 Calendar Configuration (READ THIS)
 
-**Configuration file**: `.claude/skills/calendar-management/config.json`
+**Configuration file**: `.user/calendars.yaml`
 
 This file controls which calendars are checked for availability. **Always read this config before creating events.**
 
 ### Loading Configuration
 
 ```
-1. Read: .claude/skills/calendar-management/config.json
+1. Read: .user/calendars.yaml
 2. Extract availability_calendars where check_availability: true
 3. Use these calendar IDs for get-freebusy calls
 ```
 
 ### If Config Missing or Empty
 
-If `config.json` doesn't exist or `availability_calendars` is empty:
+If `.user/calendars.yaml` doesn't exist or `availability_calendars` is empty:
 
 ```
 AskUserQuestion: "No calendar availability configuration found. Which calendars should I check for conflicts?"
 
 Use mcp__google-calendar__list-calendars to show options.
 
-After user selects, create/update config.json with their choices.
+After user selects, create/update .user/calendars.yaml with their choices.
 ```
 
 ### Current Configured Calendars (for reference)
@@ -89,7 +89,7 @@ This skill activates autonomously when:
 
 ## Key Calendars (Quick Reference)
 
-Configure your calendars in `config.json`. Example structure:
+Configure your calendars in `.user/calendars.yaml`. Example structure:
 
 | Calendar ID | Name | Use For |
 |-------------|------|---------|
@@ -98,7 +98,7 @@ Configure your calendars in `config.json`. Example structure:
 | [family-calendar-id] | Family | Family-wide events |
 | [child-calendar-id] | {{child_name}} | Child's schedule, school, activities |
 
-> **Note**: Full calendar list and availability settings are in `config.json`
+> **Note**: Full calendar list and availability settings are in `.user/calendars.yaml`
 
 ## Key Reference Information
 
@@ -111,7 +111,7 @@ Configure your calendars in `config.json`. Example structure:
 
 **Key People Email Lookup**:
 - Look up attendee emails in `6-People/` directory
-- Configure key contacts in `config.json` or person files
+- Configure key contacts in `.user/calendars.yaml` or person files
 
 ## Color Coding Standards
 
@@ -176,7 +176,7 @@ Options:
 - "Both calendars" - Add to both for visibility
 ```
 
-**Child calendar ID**: [Configure in config.json]
+**Child calendar ID**: [Configure in .user/calendars.yaml]
 
 ### Rule 3: Events Involving Partner - Attendee Invitation
 
@@ -191,7 +191,7 @@ Options:
 - "No, don't invite" - Event is just for your awareness
 ```
 
-**Partner's email**: [Configure in person file or config.json]
+**Partner's email**: [Configure in person file or .user/calendars.yaml]
 
 **If inviting:**
 ```
@@ -346,7 +346,7 @@ mcp__google-calendar__create-event with:
 
 **Step 1: Load configured calendars**
 ```
-Read: .claude/skills/calendar-management/config.json
+Read: .claude/skills/calendar-management/.user/calendars.yaml
 Extract all calendar IDs where check_availability: true
 ```
 

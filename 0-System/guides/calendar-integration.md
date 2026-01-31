@@ -18,7 +18,7 @@ LifeOS integrates with Google Calendar via MCP to provide:
 
 ## Available Calendars
 
-**Configuration file**: `.claude/skills/calendar-management/config.json`
+**Configuration file**: `.user/calendars.yaml`
 
 ### Checked for Availability
 
@@ -39,7 +39,7 @@ These calendars are checked before creating any event:
 | `en.usa#holiday@group.v.calendar.google.com` | US Holidays |
 | Trash Schedule | Utility reminders |
 
-> **Note**: Edit `config.json` to change which calendars are checked for conflicts.
+> **Note**: Edit `.user/calendars.yaml` to change which calendars are checked for conflicts.
 
 ## Timeboxing
 

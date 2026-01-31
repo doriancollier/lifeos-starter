@@ -10,12 +10,15 @@ This document describes how LifeOS is structured and how its components interact
 
 ## Layers
 
-LifeOS has five distinct layers:
+LifeOS has six distinct layers:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
+│                 USER CONFIGURATION                       │
+│         (.user/ - preserved during upgrades)             │
+├─────────────────────────────────────────────────────────┤
 │                    USER CONTEXT                          │
-│              (CLAUDE.md - quick reference)               │
+│         (CLAUDE.md - generated from templates)           │
 ├─────────────────────────────────────────────────────────┤
 │                   IDENTITY LAYER                         │
 │    (2-Areas/Personal/ - foundation, roles, practice)     │
@@ -26,10 +29,34 @@ LifeOS has five distinct layers:
 │                  EXTENSION LAYER                         │
 │        (.claude/ - skills, commands, agents, hooks)      │
 ├─────────────────────────────────────────────────────────┤
-│               DOCUMENTATION & CONFIG                     │
-│         (0-System/ - docs, guides, config)               │
+│               DOCUMENTATION & TEMPLATES                  │
+│     (0-System/, CLAUDE.template.md, coaching.template)   │
 └─────────────────────────────────────────────────────────┘
 ```
+
+### Layer 0: User Configuration (.user/)
+
+Your personal configuration that survives system upgrades:
+- `identity.yaml` — Name, timezone, personality, family
+- `companies.yaml` — Company definitions with contacts
+- `coaching.yaml` — Coaching intensity and preferences
+- `integrations.yaml` — Which integrations are enabled (Reminders, Health, etc.)
+- `health.yaml` — Health export path and targets
+- `calendars.yaml` — Calendar configuration
+
+**Key property:** Never modified by system upgrades.
+
+**How it works:**
+```
+.user/*.yaml ──┬──> inject_placeholders.py ──> CLAUDE.md
+               │
+               └──> configure_hooks.py ──> .claude/settings.json
+```
+
+**Commands:**
+- `/system:inject` — Regenerate CLAUDE.md from templates
+- `/system:configure-hooks` — Regenerate settings.json
+- `/system:upgrade` — Full upgrade workflow
 
 ### Layer 1: Documentation & Config (0-System/)
 
@@ -37,13 +64,11 @@ Product documentation and system configuration:
 - Architecture and patterns
 - Component documentation (skills, commands, agents, hooks)
 - User guides (daily workflow, task management, calendar, etc.)
-- System configuration (`0-System/config/lifeos-config.md`)
 - Roadmap and changelog
 
-**Key files:**
-- `config/lifeos-config.md` — Coaching intensity, INTJ profile, fear categories, alignment hooks
+**Note:** User-specific configuration now lives in `.user/` (Layer 0), not in `0-System/`.
 
-**Shareable:** Yes — core docs are generic, config is personal.
+**Shareable:** Yes — core docs are generic.
 
 ### Layer 2: Extensions (.claude/)
 

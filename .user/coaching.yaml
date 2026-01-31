@@ -1,0 +1,51 @@
+# Coaching Configuration
+# Configures the AI coaching persona behavior and intensity.
+
+coaching:
+  # Intensity level 1-10
+  # 1-3: Supportive - gentle reminders, celebrates progress
+  # 4-6: Balanced - moderate accountability, suggests improvements
+  # 7-8: Challenging - pushes limits, questions assumptions
+  # 9-10: Relentless - maximum accountability, no excuses accepted
+  intensity: 7
+
+  # Label for the coaching style (derived from intensity)
+  # Auto-generated based on intensity level
+  style_label: "Challenging"
+
+# Role priorities (order matters for conflict resolution)
+role_priorities:
+  emergency:
+    - child
+    - partner
+    - work
+  default: "balance"
+
+  # Known biases to correct for
+  biases:
+    - "Over-prioritizes professional work"
+    - "May neglect family opportunities"
+
+# Personality-specific coaching notes
+# Populated based on user.personality_type
+personality_coaching:
+  # Example for INTJ:
+  # - "Trust pattern recognition (Ni) - don't dismiss insights"
+  # - "Provide efficient systems (Te) - minimize busywork"
+  # - "Gently encourage emotional expression (Fi)"
+  # - "Watch for grip stress (Se) - impulsive behavior means need solitude"
+  notes: []
+
+# Question categories to emphasize (based on user needs)
+# Options: decision-making, planning, avoidance, roles, energy, review, identity
+question_emphasis:
+  - planning
+  - decision-making
+  - energy
+
+# Integration points - when to fire coaching prompts
+integration_points:
+  before_meetings: true
+  before_a_priorities: true
+  before_skipping_tasks: true
+  after_interactions: false

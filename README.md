@@ -2,6 +2,8 @@
 
 A personal operating system powered by Obsidian + Claude Code. Combines knowledge management, AI coaching, and automated workflows to bridge the gap between philosophy and daily action.
 
+> **This is a template repository.** Click "Use this template" to create your own private copy. Your vault will be completely independent with no connection back to this repo.
+
 ## Features
 
 - **AI Coaching**: Configurable coaching persona that challenges assumptions and holds you accountable
@@ -12,18 +14,35 @@ A personal operating system powered by Obsidian + Claude Code. Combines knowledg
 - **Calendar Integration**: Google Calendar sync with smart defaults
 - **Self-Learning**: System improves through `/system:learn` sessions
 
-## Quick Start
+## Getting Started
 
-1. **Clone this repo** into your Obsidian vaults directory
-2. **Open in Obsidian** as a vault
-3. **Start Claude Code** in the vault directory
-4. **Onboarding starts automatically** — answer the questions to personalize
+### As a User
+
+Use this if you want your own LifeOS vault:
+
+1. Click **"Use this template"** → **"Create a new repository"**
+2. Name it (e.g., `my-lifeos`) and set to **Private**
+3. Clone your new repo into your Obsidian vaults directory
+4. Open in Obsidian as a vault
+5. Run Claude Code in the vault directory — onboarding starts automatically
 
 The first-run wizard configures:
 - Your identity (name, timezone, location)
 - Companies/areas you work with
 - Coaching intensity preferences
 - Calendar and integration settings
+
+### As a Contributor
+
+Use this if you want to improve LifeOS itself:
+
+1. **Fork** this repository
+2. Clone your fork locally
+3. Create a feature branch
+4. Make changes and test with placeholder values
+5. Submit a PR
+
+Please don't include personal data in PRs.
 
 ## Directory Structure
 
@@ -90,4 +109,4 @@ MIT License — use freely, attribution appreciated.
 
 ## Privacy Note
 
-This template creates a private vault for personal data. After personalization, your vault will contain sensitive information. Keep it private and back up regularly.
+When you use this template, you get a completely independent repository with no history or connection to the original. After personalization, your vault will contain sensitive information — **keep your repo private** and back up regularly.
