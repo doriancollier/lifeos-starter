@@ -44,6 +44,7 @@ Agents live in `.claude/agents/[agent-name].md`:
 ├── research-expert.md
 ├── product-manager.md
 ├── email-processor.md
+├── system-reviewer.md
 ├── persona-board-chair.md
 ├── persona-strategic-operator.md
 ├── persona-relationships-guardian.md
@@ -65,6 +66,7 @@ Agents live in `.claude/agents/[agent-name].md`:
 | `research-expert` | Parallel research | Focused research tasks |
 | `product-manager` | PM document generation | PRDs, roadmaps, user stories |
 | `email-processor` | Email triage and processing | Inbox processing, email summarization, finding important emails |
+| `system-reviewer` | Parallel system component review | Spawned by /system:review orchestrator for parallel analysis |
 
 ### Deprecated
 

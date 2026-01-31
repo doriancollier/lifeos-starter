@@ -1,0 +1,19 @@
+# Review Sessions Directory
+
+This directory stores session data for `/system:review` command.
+
+Each review session creates a subdirectory:
+```
+.claude/review-sessions/YYYY-MM-DD-[scope]/
+├── config.json           # Session metadata, resumption support
+├── inventory.md          # Files to review
+├── findings/             # Agent outputs (one per area)
+├── cross-references/     # Cross-ref validation results
+├── synthesis/            # Combined findings, recommendations
+└── fixes/               # Applied changes log
+```
+
+Session directories are created during Medium/Large reviews for:
+- Progress tracking across multiple agents
+- Resumption support if review is interrupted
+- Audit trail of what was reviewed and fixed
