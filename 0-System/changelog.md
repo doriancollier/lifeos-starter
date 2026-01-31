@@ -16,6 +16,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+### Changed
+
+### Fixed
+
+---
+
+## [0.6.0] - 2026-01-31
+
+### Added
+
 - **Orchestration Patterns Skill** — Model-invoked knowledge for agent delegation and context management
   - Auto-applies when designing new commands or tackling complex tasks
   - Documents 3-tier execution model (SMALL/MEDIUM/LARGE)
@@ -88,8 +98,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Deprecated
 
 - `0-System/config/user-config.md` — Replaced by `.user/` directory
-
-### Removed
 
 ---
 
