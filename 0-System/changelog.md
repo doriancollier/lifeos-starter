@@ -16,11 +16,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- Improve onboarding wizard with structured questioning guidelines
-
 ### Changed
 
 ### Fixed
+
+---
+
+## [0.10.0] - 2026-02-01
+
+### Added
+
+- **Enhanced Onboarding Wizard** — Better guided setup with explicit questioning patterns
+  - Structured questioning guidelines for choosing between AskUserQuestion vs plain text input
+  - Intelligent defaults marked with "(Recommended)" labels for faster setup
+  - Automatic first name inference from full name input
+  - Platform-aware integration recommendations (macOS detection for native features)
+  - One-question-at-a-time approach for clearer user experience
+  - Optional features (contacts, health, personality) now skipped by default to reduce cognitive load
 
 ---
 
