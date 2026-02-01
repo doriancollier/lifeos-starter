@@ -231,7 +231,20 @@ Task tool:
     - Only "### Fixed" or "### Changed" with minor changes
     - Only "fix:", "docs:", "chore:" commits
 
-    ### Step 4: Return Structured Result
+    ### Step 4: Transform Entries to User-Friendly Language
+
+    For each changelog entry, rewrite to be user-focused:
+    - Focus on what users can DO, not what files changed
+    - Use imperative verbs (Add, Fix, Change, Remove)
+    - Explain benefits, not just mechanisms
+
+    **Examples:**
+    - Bad: "Add obsidian_manager.py for auto vault registration"
+    - Good: "Open files in Obsidian without manual vault setup"
+    - Bad: "fix: Use relative paths in theme commands"
+    - Good: "Fix theme commands failing when run from different directories"
+
+    ### Step 5: Return Structured Result
 
     Return your analysis in this EXACT format:
 
@@ -257,8 +270,17 @@ Task tool:
     REASONING:
     [1-2 sentence explanation of why this bump type]
 
-    CHANGELOG_CONTENT:
-    [The full [Unreleased] section content for display]
+    CHANGELOG_CONTENT_RAW:
+    [The original [Unreleased] section content]
+
+    CHANGELOG_CONTENT_IMPROVED:
+    [User-friendly rewritten version of the changelog entries]
+
+    RELEASE_THEME:
+    [1 sentence describing the focus/theme of this release for GitHub release notes]
+
+    RELEASE_HIGHLIGHTS:
+    [2-3 most significant changes with emoji and benefit explanation]
     ```
 ```
 
@@ -267,7 +289,8 @@ Task tool:
 - `NEXT_VERSION`
 - Signals for display
 - Reasoning
-- Changelog content
+- Raw and improved changelog content
+- Release theme and highlights for GitHub release notes
 
 ---
 
@@ -409,7 +432,9 @@ git push origin main && git push origin v0.6.0
 
 If push fails, report error and provide recovery commands.
 
-### 5.6: Optional GitHub Release
+### 5.6: GitHub Release Notes
+
+**Reference**: Use the `changelog-writing` skill for guidance on writing user-friendly release notes.
 
 Ask using AskUserQuestion:
 ```
@@ -417,14 +442,64 @@ header: "GitHub Release"
 question: "Create a GitHub Release?"
 options:
   - label: "Yes, create GitHub Release (Recommended)"
-    description: "Creates a release on GitHub with the changelog as notes"
+    description: "Creates a release on GitHub with narrative release notes"
   - label: "No, skip"
     description: "Tag is pushed, but no GitHub Release created"
 ```
 
-If yes and `gh` is available:
+If yes, generate **narrative release notes** (not just a copy of the changelog):
+
+#### Release Notes Template
+
+```markdown
+## What's New in v0.6.0
+
+[1-2 sentence theme describing the focus of this release]
+
+### Highlights
+
+[emoji] **[Feature Name]** - [One sentence explaining the benefit and how to use it]
+
+[emoji] **[Feature Name]** - [One sentence explaining the benefit and how to use it]
+
+### All Changes
+
+- [User-friendly bullet list]
+- [Include references when available: (#123) or (abc1234)]
+
+**Full Changelog**: https://github.com/[owner]/[repo]/compare/v[prev]...v[new]
+```
+
+#### Pre-Release Checklist
+
+Before publishing, verify each entry:
+
+- [ ] Starts with imperative verb (Add, Fix, Change, Remove, Improve)
+- [ ] Describes user benefit, not just implementation detail
+- [ ] Uses plain language (no unexplained jargon)
+- [ ] Includes reference link when applicable
+
+For the overall release:
+
+- [ ] Has a theme sentence summarizing the release focus
+- [ ] 2-3 highlights for significant changes
+- [ ] Link to full changelog
+
+#### Emoji Reference
+
+| Emoji | Use For |
+|-------|---------|
+| ✨ | Major new feature |
+| 🎨 | UI/UX, themes |
+| 📂 | File handling |
+| 🔧 | Fixes, improvements |
+| ⚡ | Performance |
+| 🔒 | Security |
+
+#### Create the Release
+
 ```bash
-gh release create v0.6.0 --title "v0.6.0" --notes "[changelog content]"
+gh release create v0.6.0 --title "v0.6.0" --notes "[narrative release notes]"
 ```
 
 ---

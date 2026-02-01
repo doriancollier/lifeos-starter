@@ -49,6 +49,13 @@ Skills are model-invoked knowledge modules. Claude reads them automatically when
 |-------|---------|
 | `theme-management` | Generate synchronized VS Code + Obsidian themes from color palettes |
 
+### Writing & Documentation Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `changelog-writing` | Write human-friendly changelog entries and release notes |
+| `writing-voice` | Write in {{user_first_name}}'s authentic voice (emails, Slack, SMS, docs) |
+
 ### Other Skills
 
 | Skill | Purpose |
