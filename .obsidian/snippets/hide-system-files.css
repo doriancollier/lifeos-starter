@@ -1,0 +1,17 @@
+/* Hide system/development files from file explorer */
+/* These files are used by LifeOS but not needed in day-to-day vault use */
+/* Toggle off in Settings → Appearance → CSS Snippets to show hidden files */
+
+/* npm files */
+.nav-file-title[data-path="package.json"],
+.nav-file-title[data-path="package-lock.json"],
+
+/* System files */
+.nav-file-title[data-path="VERSION"],
+.nav-file-title[data-path="CLAUDE.template.md"],
+.nav-file-title[data-path="LICENSE"],
+
+/* Scripts folder */
+.nav-folder-title[data-path="scripts"] {
+  display: none;
+}

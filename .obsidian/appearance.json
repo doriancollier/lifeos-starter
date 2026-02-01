@@ -6,6 +6,7 @@
   "cssTheme": "",
   "theme": "obsidian",
   "enabledCssSnippets": [
-    "themed-chrome"
+    "themed-chrome",
+    "hide-system-files"
   ]
 }
