@@ -1,27 +1,19 @@
 {
   "items": [
     {
-      "type": "file",
-      "ctime": 1723833411209,
-      "path": "kanban/mainBoard.md",
-      "title": "Kanban Board"
+      "type": "folder",
+      "path": "0-Inbox",
+      "title": "Inbox"
     },
     {
       "type": "folder",
-      "ctime": 1723648366866,
-      "path": "communityLabs",
-      "title": "Community Labs"
-    },
-    {
-      "type": "file",
-      "ctime": 1723641605263,
-      "path": "communityLabs/board.md",
-      "title": "CL Board"
+      "path": "1-Projects/Current",
+      "title": "Current Projects"
     },
     {
       "type": "folder",
-      "ctime": 1728349644652,
-      "path": "Todo"
+      "path": "4-Daily",
+      "title": "Daily Notes"
     }
   ]
 }
