@@ -54,7 +54,7 @@ Verify that `.user/integrations.yaml` exists. If not, use defaults (core hooks o
 Execute the hook configuration script:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/configure_hooks.py" $ARGUMENTS
+python ./.claude/scripts/configure_hooks.py $ARGUMENTS
 ```
 
 ### Step 3: Report Results

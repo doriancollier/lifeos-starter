@@ -81,22 +81,22 @@ Run the appropriate command based on arguments:
 
 **Check for updates (--check):**
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/upgrade_system.py" --check
+python ./.claude/scripts/upgrade_system.py --check
 ```
 
 **Rollback (--rollback):**
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/upgrade_system.py" --rollback
+python ./.claude/scripts/upgrade_system.py --rollback
 ```
 
 **Full upgrade (default):**
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/upgrade_system.py"
+python ./.claude/scripts/upgrade_system.py
 ```
 
 **Force upgrade (--force):**
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/upgrade_system.py" --force
+python ./.claude/scripts/upgrade_system.py --force
 ```
 
 ### Step 3: Handle Local Modifications
@@ -110,7 +110,7 @@ If the upgrade script reports locally modified system files:
 
 2. If user chooses to proceed with force:
    ```bash
-   python "$CLAUDE_PROJECT_DIR/.claude/scripts/upgrade_system.py" --force
+   python ./.claude/scripts/upgrade_system.py --force
    ```
 
 ### Step 4: Report Results

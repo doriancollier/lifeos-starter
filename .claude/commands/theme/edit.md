@@ -78,7 +78,7 @@ Ask for a name for the modified theme, then save to `.user/themes.yaml`.
 ### 6. Apply Updated Theme
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" "[theme_name]"
+python ./.claude/skills/theme-management/scripts/generate_theme.py "[theme_name]"
 ```
 
 ### 7. Report Results

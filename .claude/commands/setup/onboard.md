@@ -31,7 +31,7 @@ This wizard collects user information and writes it to YAML configuration files 
 Before starting the wizard, ensure required Python packages are installed:
 
 ```bash
-python3 "$CLAUDE_PROJECT_DIR/.claude/scripts/ensure_dependencies.py"
+python3 ./.claude/scripts/ensure_dependencies.py
 ```
 
 This installs PyYAML if missing. If installation fails (e.g., permissions), inform the user:
@@ -357,7 +357,7 @@ After collecting all information, execute these steps:
 Run the template injection script:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/inject_placeholders.py" --verbose
+python ./.claude/scripts/inject_placeholders.py --verbose
 ```
 
 This generates:
@@ -369,7 +369,7 @@ This generates:
 Run the hook configuration script:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/configure_hooks.py" --verbose
+python ./.claude/scripts/configure_hooks.py --verbose
 ```
 
 This generates `.claude/settings.json` with appropriate hooks based on enabled integrations.

@@ -46,7 +46,7 @@ If prerequisites are missing, inform the user:
 Execute the injection script with any provided flags:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/scripts/inject_placeholders.py" $ARGUMENTS
+python ./.claude/scripts/inject_placeholders.py $ARGUMENTS
 ```
 
 ### Step 3: Report Results
