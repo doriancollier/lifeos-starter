@@ -16,16 +16,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+### Changed
+
+### Fixed
+
+---
+
+## [0.8.0] - 2026-02-01
+
+### Added
+
 - Accept 'default' as theme alias
 - Add obsidian_manager.py for auto vault registration
 - Add theme management skill for synchronized VS Code + Obsidian themes
-
-### Changed
 
 ### Fixed
 
 - Use relative paths in theme commands instead of $CLAUDE_PROJECT_DIR
 - Remove 2.0 suffix from Planning-System path references
+
 ---
 
 ## [0.7.0] - 2026-01-31
