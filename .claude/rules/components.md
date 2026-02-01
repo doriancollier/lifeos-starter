@@ -162,6 +162,12 @@ Commands are user-invoked via `/namespace:command`.
 |---------|---------|
 | `/personal:audit` | Audit personal documents for completeness |
 
+### Changelog
+
+| Command | Purpose |
+|---------|---------|
+| `/changelog:backfill` | Populate [Unreleased] from commits since last tag |
+
 ### System & Goals
 
 | Command | Purpose |

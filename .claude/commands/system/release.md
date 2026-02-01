@@ -115,59 +115,75 @@ git describe --tags --abbrev=0 2>/dev/null || echo "none"
 ```
 
 ```bash
-# Check 5: Quick check that changelog has [Unreleased] content
-# Extract [Unreleased] section and count entries
-sed -n '/## \[Unreleased\]/,/## \[/p' 0-System/changelog.md | grep -c "^- " || echo "0"
+# Check 5: Run changelog backfill analysis to check for missing entries
+python3 .claude/scripts/changelog_backfill.py --json
 ```
 
-If `[Unreleased]` section appears empty (0 entries):
+Parse the JSON output:
+- `existing_entries` - Current entries in [Unreleased]
+- `missing_entries` - Commits not yet in changelog
+- `commits_analyzed` - Total commits since last tag
 
-1. **Check for commits since last tag**:
-   ```bash
-   git log $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD --oneline | wc -l
-   ```
+### If missing entries exist (changelog is incomplete)
 
-2. **If commits exist but changelog is empty**, report:
-   ```
-   ## Warning: Changelog Empty but Commits Exist
+This is the most important check. Even if [Unreleased] has some entries, commits may be missing.
 
-   The [Unreleased] section has no entries, but there are [N] commits since the last release.
+Report and ask:
+```markdown
+## Changelog Review
 
-   This may indicate:
-   - Commits did not use conventional commit format (feat:, fix:, etc.)
-   - The changelog-populator git hook is not installed
+**Since tag**: [since_tag]
+**Commits analyzed**: [commits_analyzed]
+**Current entries**: [existing_entries]
+**Missing entries**: [count of missing_entries]
 
-   **Options:**
-   1. Install the git hook: `.claude/scripts/install-git-hooks.sh`
-   2. Manually add entries to `0-System/changelog.md`
-   3. Let me draft entries from commit messages (proceed to analysis)
-   ```
+### Missing from Changelog
 
-   Use AskUserQuestion:
-   ```
-   header: "Empty Changelog"
-   question: "No changelog entries found. How would you like to proceed?"
-   options:
-     - label: "Draft entries from commits (Recommended)"
-       description: "I'll analyze commits and draft changelog entries for your review"
-     - label: "Cancel and add entries manually"
-       description: "Exit so you can populate [Unreleased] yourself"
-     - label: "Proceed anyway (empty release)"
-       description: "Create release with empty changelog (not recommended)"
-   ```
+The following commits are not represented in the [Unreleased] section:
 
-   If user selects "Draft entries from commits":
-   - Run the analysis agent (Phase 3) with additional instruction to draft entries
-   - Present drafted entries for user approval before proceeding
-   - If approved, update the changelog before continuing
+#### Added
+- [entry] ([commit])
+  *From*: `[original message]`
 
-3. **If no commits exist**, **STOP** and report:
-   ```
-   ## Cannot Release: No Changes
+#### Fixed
+- [entry] ([commit])
+  *From*: `[original message]`
+```
 
-   Both the [Unreleased] section and commit history are empty since the last release.
-   There's nothing to release.
-   ```
+Use AskUserQuestion:
+```
+header: "Backfill"
+question: "Add missing entries to changelog before releasing?"
+options:
+  - label: "Yes, add all missing entries (Recommended)"
+    description: "Ensures release notes capture all changes since last release"
+  - label: "No, release with current changelog"
+    description: "Use only entries already in [Unreleased]"
+  - label: "Cancel and edit manually"
+    description: "Exit so you can edit the changelog yourself"
+```
+
+If user selects "Yes, add all":
+```bash
+python3 .claude/scripts/changelog_backfill.py --apply
+```
+
+Then continue to Phase 3.
+
+### If no entries exist at all (completely empty)
+
+If both `existing_entries` and `missing_entries` are 0:
+
+```
+## Cannot Release: No Changes
+
+Both the [Unreleased] section and commit history are empty since the last release.
+There's nothing to release.
+
+**Tip**: Use conventional commit format (feat:, fix:, etc.) so the changelog-populator hook can track changes automatically.
+```
+
+**STOP** the release process.
 
 ---
 
