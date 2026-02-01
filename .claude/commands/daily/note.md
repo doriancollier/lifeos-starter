@@ -18,7 +18,7 @@ Create or open today's daily note.
 1. Check if today's daily note exists at `4-Daily/YYYY-MM-DD.md`
 2. If it exists:
    - Read and summarize the current state (tasks, meetings, energy level)
-   - Open it in Obsidian using: `open "obsidian://{{vault_path}}/4-Daily/YYYY-MM-DD.md"`
+   - Open it in Obsidian using: `python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/4-Daily/YYYY-MM-DD.md"`
 3. If it doesn't exist:
    - Read the template from `3-Resources/Templates/daily-enhanced.md`
    - Create the new daily note with today's date

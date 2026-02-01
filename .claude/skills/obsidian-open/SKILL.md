@@ -16,31 +16,36 @@ Opens markdown files in the Obsidian desktop application using the native URI sc
 ## Instructions
 
 1. Determine the absolute path to the markdown file the user wants to open
-2. Use the `open` command with the `obsidian://` URI scheme
-3. The format is: `open "obsidian:///absolute/path/to/file.md"`
+2. Use the obsidian_manager.py script which handles vault registration automatically
+3. The format is: `python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "/absolute/path/to/file.md"`
 
 ## Important notes
 
 - The path must be absolute (starting with `/`)
 - The vault root is: `{{vault_path}}`
-- Spaces in paths are handled automatically by quoting the URL
-- Obsidian must be installed and the vault must be open/registered
+- The script auto-registers the vault in Obsidian if needed (idempotent)
+- Returns JSON with success status and any registration info
 
 ## Examples
 
 ### Open a specific note by path
 ```bash
-open "obsidian://{{vault_path}}/README.md"
+python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/README.md"
 ```
 
 ### Open today's daily note
 ```bash
-open "obsidian://{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
+python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 ### Open a note in a subdirectory
 ```bash
-open "obsidian://{{vault_path}}/2-Areas/{{company_1_name}}/Overview.md"
+python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/2-Areas/{{company_1_name}}/Overview.md"
+```
+
+### Check vault registration status
+```bash
+python3 {{vault_path}}/.claude/scripts/obsidian_manager.py check
 ```
 
 ## Vault structure reference
