@@ -1,0 +1,18 @@
+# Custom User Themes
+# Themes defined here are available alongside built-in presets
+# Use /theme:create or /theme:from-color to add new themes
+
+# Example:
+# custom_themes:
+#   my-brand:
+#     name: My Brand
+#     description: Corporate brand colors
+#     primary: "#2a4858"
+#     primaryInactive: "#1e3540"
+#     secondary: "#1a2f3a"
+#     tertiary: "#0f1a20"
+#     border: "#3a5868"
+#     accent: "#00b4d8"
+#     accentLight: "#48cae4"
+
+custom_themes: {}

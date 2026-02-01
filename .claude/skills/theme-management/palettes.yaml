@@ -1,0 +1,80 @@
+# Theme Palettes Configuration
+# Each palette defines 7 core colors for synchronized VS Code + Obsidian theming
+#
+# Color roles:
+#   primary        - Titlebar, status bar backgrounds
+#   primaryInactive - Inactive title/status bars
+#   secondary      - Activity bar, ribbon, active tabs
+#   tertiary       - Sidebar backgrounds
+#   border         - All UI borders
+#   accent         - Active indicators, focus rings
+#   accentLight    - Icons, highlights
+
+default_theme: midnight
+
+palettes:
+  midnight:
+    name: Midnight
+    description: Deep navy with blue accent
+    primary: "#1a1a2e"
+    primaryInactive: "#141428"
+    secondary: "#16213e"
+    tertiary: "#0f0f1a"
+    border: "#2a2a4a"
+    accent: "#4a9eff"
+    accentLight: "#7eb8ff"
+
+  red:
+    name: Red
+    description: Dark red theme (original)
+    primary: "#8B0000"
+    primaryInactive: "#5D0000"
+    secondary: "#2D0000"
+    tertiary: "#1a0000"
+    border: "#3D0000"
+    accent: "#ff0000"
+    accentLight: "#ff6b6b"
+
+  forest:
+    name: Forest
+    description: Dark green nature theme
+    primary: "#1a3320"
+    primaryInactive: "#152a1a"
+    secondary: "#0d2818"
+    tertiary: "#081810"
+    border: "#2a4a32"
+    accent: "#4ade80"
+    accentLight: "#86efac"
+
+  purple:
+    name: Purple
+    description: Deep purple royal theme
+    primary: "#2d1b4e"
+    primaryInactive: "#241540"
+    secondary: "#1a1030"
+    tertiary: "#0f0a1a"
+    border: "#3d2a5e"
+    accent: "#a855f7"
+    accentLight: "#c084fc"
+
+  orange:
+    name: Orange
+    description: Warm amber sunset theme
+    primary: "#3d2000"
+    primaryInactive: "#301a00"
+    secondary: "#2a1500"
+    tertiary: "#1a0d00"
+    border: "#4d3000"
+    accent: "#f97316"
+    accentLight: "#fb923c"
+
+  ocean:
+    name: Ocean
+    description: Teal cyan deep sea theme
+    primary: "#0c2d3f"
+    primaryInactive: "#092433"
+    secondary: "#081d2a"
+    tertiary: "#04121a"
+    border: "#1a3d4f"
+    accent: "#22d3ee"
+    accentLight: "#67e8f9"

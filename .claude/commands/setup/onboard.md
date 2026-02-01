@@ -287,11 +287,72 @@ core_hooks:
 
 ---
 
-## Phase 5: Finalization
+## Phase 5: Theme Preferences
+
+Ask about visual customization:
+
+### 5.1 Favorite Color
+
+Ask using AskUserQuestion:
+
+```
+question: "What's your favorite color? This can be used to personalize your theme."
+header: "Color"
+options:
+  - label: "Blue (#4a9eff)"
+    description: "Professional, calm, trustworthy"
+  - label: "Green (#4ade80)"
+    description: "Natural, growth, balance"
+  - label: "Purple (#a855f7)"
+    description: "Creative, unique, sophisticated"
+  - label: "Orange (#f97316)"
+    description: "Energetic, warm, enthusiastic"
+```
+
+If user selects "Other", accept a hex color code.
+
+Store in `.user/identity.yaml`:
+
+```yaml
+user:
+  favorite_color: "[hex color]"
+```
+
+### 5.2 Theme Generation
+
+Ask:
+
+```
+question: "Would you like me to create a personalized theme based on your favorite color?"
+header: "Theme"
+options:
+  - label: "Yes, create my theme (Recommended)"
+    description: "Generate a custom theme from your color for VS Code and Obsidian"
+  - label: "No, use the default midnight theme"
+    description: "Use the built-in midnight theme (deep navy with blue accent)"
+```
+
+**If yes:**
+1. Run the theme generator:
+   ```bash
+   python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" \
+     --from-color "[favorite_color]" --name "personal" --save
+   ```
+2. This creates a "personal" theme saved to `.user/themes.yaml` and applies it
+
+**If no:**
+1. Apply the default midnight theme:
+   ```bash
+   python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" midnight
+   ```
+
+---
+
+## Phase 6: Finalization
 
 After collecting all information, execute these steps:
 
-### 5.1 Generate Personalized Files
+### 6.1 Generate Personalized Files
 
 Run the template injection script:
 
@@ -303,7 +364,7 @@ This generates:
 - `CLAUDE.md` from `CLAUDE.template.md`
 - `.claude/rules/coaching.md` from `.claude/rules/coaching.template.md`
 
-### 5.2 Configure Hooks
+### 6.2 Configure Hooks
 
 Run the hook configuration script:
 
@@ -313,13 +374,13 @@ python "$CLAUDE_PROJECT_DIR/.claude/scripts/configure_hooks.py" --verbose
 
 This generates `.claude/settings.json` with appropriate hooks based on enabled integrations.
 
-### 5.3 Create Initial Files
+### 6.3 Create Initial Files
 
 1. **Create company context files** in `/2-Areas/` for each company
 2. **Create `/2-Areas/Personal/foundation.md`** with identity and values
 3. **Optionally create person files** in `/6-People/` for key contacts
 
-### 5.4 Mark Onboarding Complete
+### 6.4 Mark Onboarding Complete
 
 Update `.user/identity.yaml`:
 

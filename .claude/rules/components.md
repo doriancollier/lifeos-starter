@@ -43,6 +43,12 @@ Skills are model-invoked knowledge modules. Claude reads them automatically when
 |-------|---------|
 | `health-awareness` | Health data integration and coaching for daily planning |
 
+### Theme Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `theme-management` | Generate synchronized VS Code + Obsidian themes from color palettes |
+
 ### Other Skills
 
 | Skill | Purpose |
@@ -128,6 +134,15 @@ Commands are user-invoked via `/namespace:command`.
 | Command | Purpose |
 |---------|---------|
 | `/setup:onboard` | First-run setup wizard to personalize LifeOS |
+
+### Theme
+
+| Command | Purpose |
+|---------|---------|
+| `/theme:set [name]` | Apply a theme (preset or custom) |
+| `/theme:create [name]` | Create a custom theme palette interactively |
+| `/theme:edit [name]` | Modify an existing palette |
+| `/theme:from-color [hex]` | Generate theme from favorite color |
 
 ### Reminders
 

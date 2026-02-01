@@ -1,0 +1,18 @@
+{
+    "titleBar.activeBackground": "{{primary}}",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveBackground": "{{primaryInactive}}",
+    "titleBar.inactiveForeground": "#cccccc",
+    "activityBar.background": "{{secondary}}",
+    "activityBar.foreground": "{{accentLight}}",
+    "activityBar.activeBorder": "{{accent}}",
+    "statusBar.background": "{{primary}}",
+    "statusBar.foreground": "#ffffff",
+    "statusBar.debuggingBackground": "{{accent}}",
+    "tab.activeBorder": "{{accent}}",
+    "tab.activeBorderTop": "{{accent}}",
+    "editor.selectionBackground": "{{accentAlpha20}}",
+    "editor.selectionHighlightBackground": "{{accentAlpha15}}",
+    "sideBar.background": "{{tertiary}}",
+    "sideBar.border": "{{border}}"
+}

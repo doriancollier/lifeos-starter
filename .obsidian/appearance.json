@@ -6,6 +6,6 @@
   "cssTheme": "",
   "theme": "obsidian",
   "enabledCssSnippets": [
-    "vscode-dark-red"
+    "themed-chrome"
   ]
 }
