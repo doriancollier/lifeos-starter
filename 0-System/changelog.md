@@ -20,7 +20,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- Replace hardcoded paths with relative paths and fix documentation issues
+---
+
+## [0.8.1] - 2026-02-01
+
+### Fixed
+
+- Fix hardcoded file paths in daily planning and task update commands for better vault portability
+  - Replaced absolute paths with relative paths in daily/plan, daily/eod, update, and weekly/review commands (19 instances)
+  - Added missing YAML frontmatter to theme-management skill
+  - Fixed duplicate writing-voice entry in component reference
+  - Fixed duplicate step in getting-started guide
+
 ---
 
 ## [0.8.0] - 2026-02-01
