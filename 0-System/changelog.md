@@ -16,11 +16,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- Add changelog backfill system for complete release notes
-
 ### Changed
 
 ### Fixed
+
+---
+
+## [0.9.0] - 2026-02-01
+
+### Added
+
+- **Changelog Backfill System** — Ensure release notes capture all changes since last tag
+  - `changelog_backfill.py` script analyzes commits and identifies missing changelog entries
+  - `/changelog:backfill` command for standalone backfill operations
+  - `/system:release` now runs backfill analysis in Phase 2 before releasing
 
 ---
 
