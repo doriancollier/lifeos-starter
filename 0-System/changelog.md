@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Accept 'default' as theme alias
 - Add obsidian_manager.py for auto vault registration
 - Add theme management skill for synchronized VS Code + Obsidian themes
 

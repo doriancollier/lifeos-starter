@@ -102,6 +102,7 @@ def list_themes(project_dir):
             desc = p.get("description", p.get("name", ""))
             print(f"  {name} - {desc}")
 
+    print(f"\nTip: Use 'default' to apply the default theme ({default})")
     print()
 
 
@@ -296,6 +297,12 @@ def save_user_theme(palette, name, project_dir):
 
 def apply_theme(theme_name, project_dir, save_as_default=False):
     """Apply a theme by name."""
+    # Handle "default" as an alias for the default theme
+    if theme_name.lower() == "default":
+        data = load_palettes(project_dir)
+        theme_name = data.get("default_theme", "midnight")
+        print(f"Using default theme: {theme_name}")
+
     palette, source = get_palette(theme_name, project_dir)
 
     if palette is None:
