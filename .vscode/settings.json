@@ -20,21 +20,21 @@
         }
     ],
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#1a1a2e",
+        "titleBar.activeBackground": "#1a3320",
         "titleBar.activeForeground": "#ffffff",
-        "titleBar.inactiveBackground": "#141428",
+        "titleBar.inactiveBackground": "#152a1a",
         "titleBar.inactiveForeground": "#cccccc",
-        "activityBar.background": "#16213e",
-        "activityBar.foreground": "#7eb8ff",
-        "activityBar.activeBorder": "#4a9eff",
-        "statusBar.background": "#1a1a2e",
+        "activityBar.background": "#0d2818",
+        "activityBar.foreground": "#86efac",
+        "activityBar.activeBorder": "#4ade80",
+        "statusBar.background": "#1a3320",
         "statusBar.foreground": "#ffffff",
-        "statusBar.debuggingBackground": "#4a9eff",
-        "tab.activeBorder": "#4a9eff",
-        "tab.activeBorderTop": "#4a9eff",
-        "editor.selectionBackground": "#4a9eff20",
-        "editor.selectionHighlightBackground": "#4a9eff15",
-        "sideBar.background": "#0f0f1a",
-        "sideBar.border": "#2a2a4a"
+        "statusBar.debuggingBackground": "#4ade80",
+        "tab.activeBorder": "#4ade80",
+        "tab.activeBorderTop": "#4ade80",
+        "editor.selectionBackground": "#4ade8020",
+        "editor.selectionHighlightBackground": "#4ade8015",
+        "sideBar.background": "#081810",
+        "sideBar.border": "#2a4a32"
     }
 }

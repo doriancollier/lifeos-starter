@@ -12,5 +12,6 @@
   },
   "userIgnoreFilters": null,
   "newFileLocation": "current",
-  "showUnsupportedFiles": true
+  "showUnsupportedFiles": true,
+  "openBehavior": "daily"
 }
