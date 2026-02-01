@@ -335,7 +335,7 @@ options:
 **If yes:**
 1. Run the theme generator:
    ```bash
-   python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" \
+   python3 .claude/skills/theme-management/scripts/generate_theme.py \
      --from-color "[favorite_color]" --name "personal" --save
    ```
 2. This creates a "personal" theme saved to `.user/themes.yaml` and applies it
@@ -343,7 +343,7 @@ options:
 **If no:**
 1. Apply the default midnight theme:
    ```bash
-   python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" midnight
+   python3 .claude/skills/theme-management/scripts/generate_theme.py midnight
    ```
 
 ---

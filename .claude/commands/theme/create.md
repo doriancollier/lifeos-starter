@@ -60,7 +60,7 @@ If user chose "Generate from a single color":
 
 2. Generate and save theme:
    ```bash
-   python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" \
+   python3 .claude/skills/theme-management/scripts/generate_theme.py \
      --from-color "<hex>" --name "$ARGUMENTS" --save
    ```
 
@@ -108,7 +108,7 @@ If user chose "Start from an existing theme":
 After saving, apply the new theme:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" "$ARGUMENTS"
+python3 .claude/skills/theme-management/scripts/generate_theme.py "$ARGUMENTS"
 ```
 
 ### 5. Report Results

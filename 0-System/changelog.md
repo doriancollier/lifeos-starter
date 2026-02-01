@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Use relative paths in theme commands instead of $CLAUDE_PROJECT_DIR
 - Remove 2.0 suffix from Planning-System path references
 ---
 

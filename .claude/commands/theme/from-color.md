@@ -56,7 +56,7 @@ options:
 Run the generation script:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" \
+python3 .claude/skills/theme-management/scripts/generate_theme.py \
   --from-color "[hex]" --name "[name]" --save
 ```
 

@@ -19,7 +19,7 @@ Apply a theme to both VS Code and Obsidian simultaneously.
 If no argument provided, list available themes and ask user to choose:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" --list
+python3 .claude/skills/theme-management/scripts/generate_theme.py --list
 ```
 
 ### 2. Apply Theme
@@ -27,7 +27,7 @@ python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_the
 Run the generation script:
 
 ```bash
-python "$CLAUDE_PROJECT_DIR/.claude/skills/theme-management/scripts/generate_theme.py" "$ARGUMENTS"
+python3 .claude/skills/theme-management/scripts/generate_theme.py "$ARGUMENTS"
 ```
 
 ### 3. Verify Success
