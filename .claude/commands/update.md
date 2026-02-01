@@ -20,12 +20,12 @@ A universal capture command that intelligently parses freeform natural language 
 
 ## Context
 
-- **Daily notes**: `/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/`
+- **Daily notes**: `4-Daily/`
 - **Today's note**: `4-Daily/YYYY-MM-DD.md`
-- **People**: `/Users/doriancollier/Keep/cc-obsidian-jl/6-People/`
-- **Projects**: `/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/`
+- **People**: `6-People/`
+- **Projects**: `1-Projects/`
 - **Primary calendar**: ``
-- **User timezone**: 
+- **User timezone**:
 
 ## Date Parameter Parsing
 
@@ -157,7 +157,7 @@ Default priority is **🟡 B (Important)**. Adjust based on:
 **For People:**
 ```bash
 # Search for person names in 6-People/
-find "/Users/doriancollier/Keep/cc-obsidian-jl/6-People" -name "*.md" -type f
+find "6-People" -name "*.md" -type f
 ```
 
 - Match first names, last names, or partial names
@@ -167,7 +167,7 @@ find "/Users/doriancollier/Keep/cc-obsidian-jl/6-People" -name "*.md" -type f
 **For Projects:**
 ```bash
 # Search for projects
-find "/Users/doriancollier/Keep/cc-obsidian-jl/1-Projects/Current" -name "*.md" -type f
+find "1-Projects/Current" -name "*.md" -type f
 ```
 
 ### Step 6: Handle Time References
@@ -207,7 +207,7 @@ When creating a calendar event that involves another person:
 2. **Extract person name and match against known people**:
    ```bash
    # Search for person in 6-People/ directory
-   find "/Users/doriancollier/Keep/cc-obsidian-jl/6-People" -iname "*[person-name]*" -type f
+   find "6-People" -iname "*[person-name]*" -type f
    ```
 
 3. **Use AskUserQuestion with context-based suggestions**:
@@ -287,7 +287,7 @@ Parse:
 ### 2. Find or Create Target Daily Note
 
 ```bash
-TARGET_NOTE="/Users/doriancollier/Keep/cc-obsidian-jl/4-Daily/${TARGET_DATE}.md"
+TARGET_NOTE="4-Daily/${TARGET_DATE}.md"
 
 # Note: If daily note doesn't exist, the `daily-note` skill will automatically create it
 # The skill also handles offering /daily:plan if the note appears unplanned

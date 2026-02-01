@@ -77,7 +77,6 @@ Skills are model-invoked knowledge modules. Claude reads them automatically when
 | `weekly-review` | Aggregate weekly patterns |
 | `weekly-aggregator` | Auto-aggregate daily data into rolling weekly doc (runs during /daily:plan) |
 | `obsidian-open` | Open files in Obsidian UI |
-| `writing-voice` | Write in {{user_first_name}}'s authentic voice (emails, Slack, SMS, docs) |
 | `skill-manager` | Create, review, and maintain Claude Code skills |
 | `operations` | Math, date calculations, and reliable computation guidance |
 | `proactive-suggestions` | Suggest high-value commands (`/board:advise`, `/system:learn`, `/system:update`) when context matches |

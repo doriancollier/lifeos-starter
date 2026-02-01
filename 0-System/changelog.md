@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Replace hardcoded paths with relative paths and fix documentation issues
 ---
 
 ## [0.8.0] - 2026-02-01

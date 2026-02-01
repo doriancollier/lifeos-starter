@@ -19,11 +19,7 @@ When you start Claude Code in this vault for the first time, the onboarding wiza
    - Creates today's daily note
    - Guides you through morning planning
 
-2. **Start Your First Day**: `/daily:plan`
-   - Creates today's daily note
-   - Guides you through morning planning
-
-3. **Learn the Basics**:
+2. **Learn the Basics**:
    - Tasks use priority symbols: 🔴 (must do), 🟡 (should do), 🟢 (nice to have)
    - Capture anything quickly with `/update [text]`
    - End your day with `/daily:eod`

@@ -1,3 +1,8 @@
+---
+name: theme-management
+description: Generate synchronized VS Code + Obsidian themes from color palettes. Use when user asks about themes, colors, or visual customization.
+---
+
 # Theme Management Skill
 
 Generates synchronized VS Code and Obsidian themes from a single color palette definition.

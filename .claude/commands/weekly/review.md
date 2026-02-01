@@ -175,7 +175,7 @@ Ask: "What was your highest-leverage activity this week?"
 
 ```bash
 # Check for quarterly rocks reference
-grep -r "Quarterly\|Q[1-4] Rock\|Big Rock" "/Users/doriancollier/Keep/cc-obsidian-jl/2-Areas/Personal/Years/2026.md"
+grep -r "Quarterly\|Q[1-4] Rock\|Big Rock" "2-Areas/Personal/Years/$(date +%Y).md"
 ```
 
 **For each quarterly rock:**
