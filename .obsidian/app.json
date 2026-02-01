@@ -1,0 +1,16 @@
+{
+  "foldHeading": true,
+  "showLineNumber": true,
+  "showInlineTitle": false,
+  "alwaysUpdateLinks": true,
+  "readableLineLength": false,
+  "pdfExportSettings": {
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 80
+  },
+  "userIgnoreFilters": null,
+  "newFileLocation": "current",
+  "showUnsupportedFiles": true
+}

@@ -1,6 +1,3 @@
-# Obsidian local config (user-specific)
-.obsidian/
-
 # Google OAuth credentials - NEVER commit these
 gcp-oauth.keys.json
 *-oauth.keys.json

@@ -1,0 +1,11 @@
+{
+  "showViewHeader": true,
+  "translucency": false,
+  "showRibbon": true,
+  "baseFontSize": 16,
+  "cssTheme": "",
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "vscode-dark-red"
+  ]
+}
