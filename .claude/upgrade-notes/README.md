@@ -10,6 +10,17 @@ These notes complement migrations (automated code changes) by providing:
 - Verification steps
 - Feature highlights to explore
 
+## How Notes Are Used
+
+During `/system:upgrade`, the AI:
+1. Parses all upgrade notes between the old and new version
+2. Creates a **TaskList** from "User Action Required" items
+3. Guides the user through each task interactively
+4. Runs verification steps to confirm success
+5. Uses "Notes for AI" for context-aware assistance
+
+**The "User Action Required" section is critical** - each checkbox becomes a tracked task.
+
 ## Format
 
 Each file is named after the version being upgraded TO: `v0.11.0.md`
@@ -23,10 +34,16 @@ Each file is named after the version being upgraded TO: `v0.11.0.md`
 [One sentence describing the main theme of this upgrade]
 
 ## User Action Required
-[Things the user must do manually after upgrade]
+[Things the user must do manually after upgrade - EACH BECOMES A TRACKED TASK]
 
-- [ ] Action item 1
-- [ ] Action item 2
+- [ ] Action item with specific instructions (e.g., "Re-open Obsidian pointing to `workspace/` folder")
+- [ ] Another actionable step (e.g., "Run `/daily:plan` to verify daily notes work")
+
+**Guidelines for action items:**
+- Be specific and actionable (not "check the system")
+- Include the exact command, path, or UI action needed
+- Order by dependency (do X before Y if Y depends on X)
+- Each item should be independently verifiable
 
 ## Breaking Changes
 [Changes that might affect existing workflows]

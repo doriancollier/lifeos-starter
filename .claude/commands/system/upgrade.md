@@ -165,34 +165,117 @@ Upstream: doriancollier/lifeos-starter@main
 
 ### Step 5: Process Upgrade Notes
 
-The upgrade script outputs any applicable upgrade notes after completion.
+The upgrade script outputs any applicable upgrade notes after completion. Look for content between "UPGRADE NOTES FOR AI" markers.
 
-When upgrade notes are present in the output (look for "UPGRADE NOTES FOR AI" markers):
+#### 5.1: Parse and Combine Notes
 
-1. **Parse the notes** between the markers
-2. **Summarize for user**:
-   ```markdown
-   ## Post-Upgrade Actions
+When upgrading across multiple versions, you may receive multiple upgrade notes files. Parse each one and extract:
 
-   Based on the upgrade notes, here's what you should know:
+- **Summary** - Theme of each version's changes
+- **User Action Required** - Checkbox items (combine, deduplicate across versions)
+- **Breaking Changes** - Old/new behavior pairs
+- **New Features to Explore** - Features with commands to try
+- **Configuration Changes** - Config updates needed
+- **Verification** - Steps to confirm upgrade worked
+- **Notes for AI** - Internal guidance (don't show to user directly)
 
-   ### Action Items
-   - [List any manual actions needed]
+#### 5.2: Create Task List
 
-   ### New Features
-   - [Highlight new capabilities]
+Use **TaskCreate** to create trackable tasks for each action item from "User Action Required":
 
-   ### Verification
-   Run these to confirm the upgrade worked:
-   - [Verification steps]
-   ```
+```
+For each action item:
+  TaskCreate:
+    subject: [Action item text without checkbox]
+    description: [Any additional context from Breaking Changes or Notes for AI]
+    activeForm: [Present participle form, e.g., "Updating Obsidian vault path"]
+```
 
-3. **Offer to help** with any action items:
-   - "Would you like me to help you with [action item]?"
-   - For new features: "Want me to demonstrate [feature]?"
+This allows you to track completion and ensures nothing is missed.
 
-4. **Track completion** (optional):
-   - If action items exist, offer to track them in today's daily note
+#### 5.3: Present Upgrade Summary
+
+Show the user a clear summary:
+
+```markdown
+## Upgrade Complete: v{old} → v{new}
+
+### What Changed
+[1-2 sentence summary combining all version themes]
+
+### Breaking Changes
+[If any - explain what changed and how it affects them]
+
+### Action Items Required
+I've created {N} tasks to guide you through the post-upgrade steps:
+
+1. [ ] [Action item 1]
+2. [ ] [Action item 2]
+...
+
+### New Features
+[Highlight 2-3 most interesting new capabilities with commands to try]
+```
+
+#### 5.4: Interactive Walkthrough
+
+**Immediately begin helping with the first task.** Don't just list tasks and wait.
+
+For each task:
+1. Mark as `in_progress` using TaskUpdate
+2. Explain what needs to happen and why
+3. If you can help (run a command, check a file), do it
+4. If user action required (open Obsidian, enter password), guide them
+5. Run any verification steps related to this task
+6. Mark as `completed` when done
+7. Move to next task
+
+**Example flow:**
+```
+Let me help you with the first action item: Re-opening Obsidian with the new vault path.
+
+The vault content has moved from the repository root to `workspace/`. You'll need to:
+1. Close Obsidian if it's open
+2. Open Obsidian
+3. Choose "Open folder as vault"
+4. Select the `workspace/` folder inside your repository
+
+Once you've done that, let me know and I'll verify it's working correctly.
+```
+
+#### 5.5: Verification
+
+After all action items are complete, run the verification steps from the upgrade notes:
+
+```markdown
+### Verification Complete
+
+✓ Hook errors: None detected
+✓ Daily note path: workspace/4-Daily/ (correct)
+✓ New directories: integrations/, tasks/, data/, state/, extensions/ exist
+✓ Config files: CLAUDE.md regenerated successfully
+
+All {N} upgrade tasks completed successfully!
+```
+
+#### 5.6: Use "Notes for AI" Internally
+
+The "Notes for AI" section contains guidance for future interactions. Remember these hints:
+- If user reports specific errors, check the noted causes first
+- Remind user about relevant new features when context matches
+- Don't show this section to the user directly
+
+#### 5.7: Offer Next Steps
+
+After upgrade is complete:
+
+```markdown
+### What's Next?
+
+- Run `/daily:plan` to start your day with the upgraded system
+- Try [new feature command] to explore what's new
+- If you encounter any issues, the backup is at `.claude/backups/{timestamp}/`
+```
 
 ## Upgrade Configuration
 
