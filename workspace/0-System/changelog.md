@@ -16,21 +16,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- Add extension loading mechanism for user customizations
-- Add interactive task-based upgrade walkthrough
-- Add AI upgrade instructions to release/upgrade system
-- Add heartbeat system and restructure directory architecture
+### Changed
+
+### Fixed
+
+---
+
+## [0.11.0] - 2026-02-06
+
+### Added
+
+- Extension loading mechanism for user customizations via `extensions/` directory
+- Interactive task-based upgrade walkthrough during `/system:upgrade`
+- AI upgrade instructions system attached to each release
+- Heartbeat system for background vault health monitoring
+- Directory restructuring — vault content moved to `workspace/` subdirectory
 
 ### Changed
 
-- Document upgrade notes system across guides
-- Move vault content to workspace/ subdirectory
+- Document upgrade notes system across versioning and component guides
+- Core vault structure reorganized under `workspace/` for cleaner project layout
 
 ### Fixed
 
 - Sync upgrade docs with extensions sync in upgrade_system.py
 - Address review findings in release and upgrade commands
 - Enhance release agent to generate comprehensive upgrade notes
+
 ---
 
 ## [0.10.0] - 2026-02-01
