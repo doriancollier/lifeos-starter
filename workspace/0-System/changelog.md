@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Sync upgrade docs with extensions sync in upgrade_system.py
 - Address review findings in release and upgrade commands
 - Enhance release agent to generate comprehensive upgrade notes
 ---

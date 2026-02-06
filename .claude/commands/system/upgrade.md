@@ -17,7 +17,9 @@ When LifeOS releases updates, this command:
 4. Fetches and applies system file updates via git
 5. Runs any version-specific migrations
 6. Regenerates personalized files (CLAUDE.md, coaching.md, settings.json)
-7. Reports results and any warnings
+7. Syncs extension symlinks
+8. Processes upgrade notes and guides you through action items
+9. Reports results and any warnings
 
 ## Arguments
 
@@ -127,6 +129,7 @@ Present upgrade summary based on script output:
 - 15 system paths updated from upstream
 - Template injection: OK
 - Hook configuration: OK
+- Extensions sync: OK
 
 ### Preserved
 All files in .user/ and content directories were preserved.

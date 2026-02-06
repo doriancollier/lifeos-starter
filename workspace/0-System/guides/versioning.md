@@ -41,7 +41,7 @@ When you run `/system:upgrade`:
 4. **Fetch tag**: Downloads the specific version tag from upstream
 5. **Checkout**: Updates system files from the tag (including VERSION file)
 6. **Migrations**: Runs any version-specific migration scripts
-7. **Regenerate**: Runs `inject_placeholders.py` and `configure_hooks.py`
+7. **Regenerate**: Runs `inject_placeholders.py`, `configure_hooks.py`, and `sync-extensions.py`
 8. **Upgrade notes**: Outputs AI guidance for post-upgrade actions
 9. **Interactive walkthrough**: Creates tasks and guides you through action items
 10. **Verification**: Confirms upgrade completed successfully
