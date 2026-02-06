@@ -41,6 +41,8 @@ SYNC_QUEUE_FILE = os.path.join(PROJECT_ROOT, ".claude", "sync-queue.json")
 USER_CONFIG_FILE = os.path.join(VAULT_ROOT, "0-System", "config", "user-config.md")
 LEARNING_LOG_FILE = os.path.join(VAULT_ROOT, "0-System", "config", "learning-log.md")
 OPPORTUNITIES_FILE = os.path.join(VAULT_ROOT, "7-MOCs", "Opportunities-Pipeline.md")
+HEARTBEAT_STATE_FILE = os.path.join(PROJECT_ROOT, "state", "heartbeat", "state.json")
+HEARTBEAT_RUNS_FILE = os.path.join(PROJECT_ROOT, "state", "heartbeat", "runs.jsonl")
 
 
 def check_onboarding_status():
@@ -291,6 +293,55 @@ def load_daily_note_context():
     return context_parts
 
 
+def get_heartbeat_status():
+    """Get heartbeat status for session context."""
+    status_info = {
+        'installed': False,
+        'last_run': None,
+        'last_status': None,
+        'alerts': [],
+        'suppressed': []
+    }
+
+    # Check if launchd agent is running
+    import subprocess
+    try:
+        result = subprocess.run(
+            ['launchctl', 'list'],
+            capture_output=True, text=True, timeout=5
+        )
+        status_info['installed'] = 'com.lifeos.heartbeat' in result.stdout
+    except Exception:
+        pass
+
+    # Read state file
+    if os.path.exists(HEARTBEAT_STATE_FILE):
+        try:
+            with open(HEARTBEAT_STATE_FILE, 'r') as f:
+                state = json.load(f)
+            status_info['last_run'] = state.get('last_updated')
+            status_info['last_status'] = state.get('last_status')
+            status_info['alerts'] = state.get('alerts', [])
+            status_info['suppressed'] = state.get('suppressed', [])
+        except Exception:
+            pass
+
+    # Get last few runs from runs.jsonl
+    if os.path.exists(HEARTBEAT_RUNS_FILE):
+        try:
+            with open(HEARTBEAT_RUNS_FILE, 'r') as f:
+                lines = f.readlines()[-5:]  # Last 5 runs
+            runs = [json.loads(line) for line in lines if line.strip()]
+            if runs:
+                last = runs[-1]
+                status_info['last_run'] = f"{last.get('date')} {last.get('time')}"
+                status_info['last_status'] = last.get('status')
+        except Exception:
+            pass
+
+    return status_info
+
+
 def detect_learning_opportunities():
     """Detect if /system:learn should be suggested based on learning log staleness."""
     suggestions = []
@@ -469,6 +520,22 @@ def main():
             context_parts.append("  Use the task-sync skill to reconcile daily notes with project files")
         else:
             context_parts.append("[Task Sync] External changes detected - consider running task-sync skill")
+
+    # Check heartbeat status
+    t0 = time.time()
+    heartbeat = get_heartbeat_status()
+    timings['heartbeat'] = time.time() - t0
+    if heartbeat['installed']:
+        if heartbeat['last_status'] == 'ALERT' and heartbeat['alerts']:
+            context_parts.append(f"[Heartbeat] ALERT - {len(heartbeat['alerts'])} active issue(s):")
+            for alert in heartbeat['alerts'][:2]:
+                alert_type = alert.get('type', 'unknown')
+                alert_msg = alert.get('message', '')
+                context_parts.append(f"  - {alert_type}: {alert_msg}")
+            context_parts.append("  Use `/heartbeat:ack` to suppress or address the issues")
+        elif heartbeat['last_run']:
+            context_parts.append(f"[Heartbeat] Last check: {heartbeat['last_run']} - {heartbeat['last_status'] or 'OK'}")
+    # Note: Don't nag about heartbeat not being installed - it's optional
 
     # Proactive command suggestions
     t0 = time.time()

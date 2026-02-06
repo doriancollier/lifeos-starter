@@ -53,3 +53,12 @@ dist/
 
 # Build
 .cache/
+
+# Imported external data (backed up separately, too large for git)
+/data/
+
+# Runtime state (ephemeral, regenerable)
+/state/
+
+# Generated launchd plist files
+/tasks/heartbeat/plist/*.generated.plist

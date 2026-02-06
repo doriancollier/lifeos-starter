@@ -300,3 +300,58 @@ LifeOS is designed for extension:
 5. **New Templates** — Add to `3-Resources/Templates/`
 
 See [Patterns](patterns.md) for conventions when extending.
+
+## Infrastructure Layer (Future)
+
+Beyond the core vault layers, LifeOS includes infrastructure for background processing and multi-channel access:
+
+### Background Tasks (tasks/)
+
+Scheduled processes that run independently via launchd:
+
+| Component | Purpose |
+|-----------|---------|
+| `tasks/heartbeat/` | Periodic vault health checks |
+| `tasks/cron/` | Scheduled automation jobs (future) |
+| `tasks/oneshot/` | Deferred one-time tasks (future) |
+
+### Data Management
+
+External data flows through three directories:
+
+| Directory | Purpose | Git? | Backup? |
+|-----------|---------|------|---------|
+| `integrations/` | Import scripts and connectors | Yes | Yes |
+| `data/` | Imported external data | No | Yes |
+| `state/` | Ephemeral runtime state | No | No |
+
+**Data flow:**
+```
+External Source → integrations/[name]/importer → data/[name]/
+                                    ↓
+                         .claude/skills/ reads data
+```
+
+### Gateway (Future)
+
+Multi-channel access layer:
+```
+gateway/
+├── src/
+│   ├── server/      # REST API + WebSocket
+│   └── channels/    # Channel adapters (web, telegram, slack)
+```
+
+### User Extensions
+
+User-added functionality mirrors core structure:
+```
+extensions/
+├── skills/          # User skills
+├── commands/        # User commands
+├── channels/        # User channel adapters
+├── tasks/           # User background tasks
+└── integrations/    # User data integrations
+```
+
+See [guides/directory-structure.md](guides/directory-structure.md) for complete architecture details.

@@ -50,6 +50,15 @@ integrations:
       - "SuperNormal account"
       - "API access configured"
 
+  # Heartbeat - periodic background health checks
+  heartbeat:
+    enabled: false
+    description: "Periodic AI heartbeat checks via launchd"
+    hooks: []  # No Claude Code hooks - runs independently via launchd
+    requirements:
+      - "Claude Code CLI installed"
+      - "macOS with launchd"
+
 # Core hooks that are always enabled (not configurable)
 # These provide essential vault functionality
 core_hooks:

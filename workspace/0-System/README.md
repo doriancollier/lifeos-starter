@@ -137,29 +137,36 @@ See [Learning Log](config/learning-log.md) for history of learned capabilities.
 
 ```
 /
-├── .user/             # YOUR CONFIG (preserved during upgrades)
-│   ├── identity.yaml  # Name, timezone, personality
-│   ├── companies.yaml # Company definitions
-│   ├── coaching.yaml  # Coaching preferences
-│   └── integrations.yaml # Enabled integrations
-├── 0-System/          # LifeOS documentation (you are here)
-├── 1-Projects/        # Active work with end dates
-├── 2-Areas/           # Ongoing responsibilities (no end date)
-├── 3-Resources/       # Reference materials
-├── 4-Daily/           # Daily notes (YYYY-MM-DD.md)
-├── 5-Meetings/        # Meeting notes by date
-├── 6-People/          # Relationship management
-├── 7-MOCs/            # Maps of Content
-├── 8-Scratch/         # Temporary workspace
-├── .claude/           # Claude Code extensions
-│   ├── skills/        # Specialized knowledge
-│   ├── commands/      # Slash commands
-│   ├── agents/        # Autonomous agents
-│   ├── hooks/         # Event automation
-│   └── scripts/       # Configuration scripts
-├── CLAUDE.template.md # Template (updated during upgrades)
-└── CLAUDE.md          # Generated from template
+├── CLAUDE.md                    # AI instructions (entry point)
+├── package.json                 # Node.js project root
+│
+├── workspace/                   # Obsidian vault (user content)
+│   ├── 0-System/                # LifeOS documentation (you are here)
+│   ├── 1-Projects/              # Active work with end dates
+│   ├── 2-Areas/                 # Ongoing responsibilities
+│   ├── 3-Resources/             # Reference materials
+│   ├── 4-Daily/                 # Daily notes (YYYY-MM-DD.md)
+│   ├── 5-Meetings/              # Meeting notes by date
+│   ├── 6-People/                # Relationship management
+│   ├── 7-MOCs/                  # Maps of Content
+│   └── 8-Scratch/               # Temporary workspace
+│
+├── .user/                       # User configuration (preserved on upgrade)
+├── .claude/                     # Claude Code extensions
+│   ├── skills/                  # Model-invoked knowledge
+│   ├── commands/                # User-invoked actions
+│   ├── agents/                  # Spawned subprocesses
+│   └── hooks/                   # Lifecycle automation
+│
+├── gateway/                     # Node.js API server (future)
+├── tasks/                       # Background tasks (heartbeat, cron)
+├── integrations/                # Data source connectors
+├── extensions/                  # User-added plugins
+├── data/                        # Imported data (gitignored, backed up)
+└── state/                       # Runtime state (gitignored, ephemeral)
 ```
+
+See [guides/directory-structure.md](guides/directory-structure.md) for design philosophy.
 
 ## Version
 

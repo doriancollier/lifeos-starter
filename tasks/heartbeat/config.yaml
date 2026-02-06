@@ -1,0 +1,47 @@
+# LifeOS Heartbeat Configuration
+# Periodic background checks of vault state
+
+heartbeat:
+  # Enable/disable heartbeat
+  enabled: true
+
+  # Check interval in minutes
+  interval_minutes: 30
+
+  # Model to use (haiku is cheaper for routine checks)
+  model: "claude-haiku-4-20250514"
+
+  # Maximum runs per day (cost control)
+  max_daily_runs: 24
+
+  # Active hours (24h format, local timezone)
+  active_hours:
+    start: "07:00"
+    end: "22:00"
+
+  # Skip weekends entirely
+  skip_weekends: false
+
+alerts:
+  # Send macOS notifications for alerts
+  macos_notification: true
+
+  # Cooldown between repeated alerts (minutes)
+  cooldown_minutes: 120
+
+  # Log retention (days)
+  log_retention_days: 30
+
+checks:
+  # What to check during heartbeat
+  daily_note: true
+  overdue_tasks: true
+  upcoming_meetings: true
+  meeting_prep: true
+  project_deadlines: true
+  inbox_overflow: true
+  task_sync_pending: true
+
+  # Thresholds
+  inbox_overflow_threshold: 10
+  meeting_prep_window_minutes: 30

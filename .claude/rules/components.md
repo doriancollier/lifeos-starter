@@ -215,6 +215,15 @@ Commands are user-invoked via `/namespace:command`.
 |---------|---------|
 | `/health:sync [days]` | Sync health data from Health Auto Export and show status |
 
+### Heartbeat
+
+| Command | Purpose |
+|---------|---------|
+| `/heartbeat:install` | Install and start the launchd agent |
+| `/heartbeat:status` | Check launchd status, show recent run history |
+| `/heartbeat:trigger` | Run heartbeat check manually |
+| `/heartbeat:ack [type] [duration]` | Suppress an alert temporarily |
+
 ### Retrospectives
 
 | Command | Purpose |
