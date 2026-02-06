@@ -42,9 +42,21 @@ When you run `/system:upgrade`:
 5. **Checkout**: Updates system files from the tag (including VERSION file)
 6. **Migrations**: Runs any version-specific migration scripts
 7. **Regenerate**: Runs `inject_placeholders.py` and `configure_hooks.py`
-8. **Report**: Shows what was updated
+8. **Upgrade notes**: Outputs AI guidance for post-upgrade actions
+9. **Interactive walkthrough**: Creates tasks and guides you through action items
+10. **Verification**: Confirms upgrade completed successfully
 
 Your `.user/` configuration and all content directories are never touched.
+
+### Upgrade Notes
+
+Each release may include upgrade notes (`.claude/upgrade-notes/v{version}.md`) that provide:
+- **User Action Required**: Manual steps the AI will guide you through
+- **Breaking Changes**: What changed and how to adapt
+- **New Features**: Highlights of what's new to explore
+- **Verification**: Steps to confirm the upgrade worked
+
+During upgrade, the AI creates a task list from the action items and walks you through each one interactively.
 
 ## Upgrade Commands
 
@@ -96,12 +108,14 @@ The command:
 1. Validates working directory is clean and on `main`
 2. Checks changelog has content in `[Unreleased]`
 3. Auto-detects version bump (or uses your override)
-4. Shows reasoning and asks for confirmation
-5. Updates VERSION file and changelog
-6. Commits with "Release vX.Y.Z"
-7. Creates annotated git tag
-8. Pushes to origin
-9. Optionally creates GitHub Release
+4. Generates upgrade notes draft (if breaking changes or new features)
+5. Shows reasoning and asks for confirmation
+6. Updates VERSION file and changelog
+7. Saves upgrade notes (if approved)
+8. Commits with "Release vX.Y.Z"
+9. Creates annotated git tag
+10. Pushes to origin
+11. Optionally creates GitHub Release
 
 ### Manual Release Process
 
@@ -218,22 +232,28 @@ Once installed, conventional commits automatically update `0-System/changelog.md
 During upgrade, these paths are updated from the tag:
 
 - `VERSION`
-- `0-System/`
+- `workspace/0-System/`
 - `.claude/skills/`
 - `.claude/commands/`
 - `.claude/agents/`
 - `.claude/hooks/`
 - `.claude/scripts/`
 - `.claude/rules/`
+- `.claude/upgrade-notes/`
 - `CLAUDE.template.md`
+- `integrations/`
+- `tasks/`
+- `scripts/`
 
 ### What's Protected
 
 These are never modified by upgrade:
 
 - `.user/` (user configuration)
-- `1-Projects/` through `8-Scratch/` (user content)
-- `.obsidian/` (Obsidian settings)
+- `workspace/1-Projects/` through `workspace/8-Scratch/` (user content)
+- `workspace/.obsidian/` (Obsidian settings)
+- `extensions/` (user plugins and customizations)
+- `data/` (imported external data)
 - Generated files (`CLAUDE.md`, `coaching.md`, `settings.json`) - regenerated after upgrade
 
 ## Migrations

@@ -107,7 +107,9 @@ The integration *code* lives in `integrations/`, but the *data* lives in `data/`
 │   ├── commands/                # User-invoked actions
 │   ├── agents/                  # Spawned subprocesses
 │   ├── hooks/                   # Lifecycle automation
-│   └── scripts/                 # Configuration scripts
+│   ├── scripts/                 # Configuration scripts
+│   ├── rules/                   # Persistent context (coaching, components)
+│   └── upgrade-notes/           # AI guidance for version upgrades
 │
 ├── gateway/                     # Node.js API server (future)
 │   └── src/

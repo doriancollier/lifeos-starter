@@ -307,3 +307,21 @@ Hooks run automatically at lifecycle events.
 | `auto-git-backup.sh` | SessionEnd | Auto-commit changes with summary |
 
 **Setup**: See `.claude/hooks/README.md`
+
+## Upgrade Notes (`.claude/upgrade-notes/`)
+
+Per-version AI guidance for helping users through upgrades.
+
+| File | Purpose |
+|------|---------|
+| `README.md` | Template and format documentation |
+| `v{X.Y.Z}.md` | Upgrade notes for specific version |
+
+Each upgrade notes file contains:
+- **User Action Required** - Checkbox items that become tracked tasks
+- **Breaking Changes** - What changed and how to adapt
+- **New Features** - Highlights to explore
+- **Verification** - Steps to confirm success
+- **Notes for AI** - Internal guidance (not shown to user)
+
+During `/system:upgrade`, the AI creates tasks from action items and guides users through each one interactively.
