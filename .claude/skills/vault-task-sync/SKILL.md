@@ -57,8 +57,8 @@ Project: "- [x] Fix Next.js CVE-2025-55182"
 
 ## File Locations
 
-- **Daily notes**: `{{vault_path}}/4-Daily/YYYY-MM-DD.md`
-- **Projects**: `{{vault_path}}/1-Projects/Current/`
+- **Daily notes**: `{{vault_path}}/workspace/4-Daily/YYYY-MM-DD.md`
+- **Projects**: `{{vault_path}}/workspace/1-Projects/Current/`
 - **Sync queue**: `{{vault_path}}/.claude/sync-queue.json`
 - **Sync pending flag**: `{{vault_path}}/.claude/sync-pending`
 

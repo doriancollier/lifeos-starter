@@ -187,7 +187,7 @@ Ask: "Where's the gap between what you say matters and how you spent your time?"
 
 ### Step 11: Create Review Document
 
-Write to daily note for last day of month OR `2-Areas/Personal/Years/[YEAR]-[Month]-Review.md`:
+Write to daily note for last day of month OR `workspace/2-Areas/Personal/Years/[YEAR]-[Month]-Review.md`:
 
 ```markdown
 ---

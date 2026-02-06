@@ -22,7 +22,7 @@ Extract the song name from arguments. Convert to appropriate formats:
 
 ### 2. Create Project Structure
 
-Create the following in `1-Projects/Current/`:
+Create the following in `workspace/1-Projects/Current/`:
 
 ```
 [Song-Name]/
@@ -170,7 +170,7 @@ tool: "Suno v5"
 
 ### 5. Add to Music Library Index
 
-Update `3-Resources/Music/_Music-Library.md`:
+Update `workspace/3-Resources/Music/_Music-Library.md`:
 - Add song to "In Progress" table
 - Link to the project
 
@@ -205,7 +205,7 @@ Next steps:
 
 ## Notes
 
-- Projects live in `1-Projects/Current/` during active development
-- When finished, final song file moves to `3-Resources/Music/Songs/`
-- Audio files go to `3-Resources/Music/Audio/`
+- Projects live in `workspace/1-Projects/Current/` during active development
+- When finished, final song file moves to `workspace/3-Resources/Music/Songs/`
+- Audio files go to `workspace/3-Resources/Music/Audio/`
 - The `_Music-Library.md` index tracks all songs

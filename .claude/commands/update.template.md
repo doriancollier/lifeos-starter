@@ -21,7 +21,7 @@ A universal capture command that intelligently parses freeform natural language 
 ## Context
 
 - **Daily notes**: `{{vault_path}}/4-Daily/`
-- **Today's note**: `4-Daily/YYYY-MM-DD.md`
+- **Today's note**: `{{vault_path}}/4-Daily/YYYY-MM-DD.md`
 - **People**: `{{vault_path}}/6-People/`
 - **Projects**: `{{vault_path}}/1-Projects/`
 - **Primary calendar**: `{{user_email}}`
@@ -415,7 +415,7 @@ Update **BOTH** sections:
 #### For Life Events
 
 - Detect major life events (trips, weddings, holidays, birthdays, vacations)
-- Read `/7-MOCs/Life-Events-Timeline.md`
+- Read `{{vault_path}}/7-MOCs/Life-Events-Timeline.md`
 - Add entry to appropriate timeframe section
 - Update "Last Updated" date in timeline
 
@@ -672,7 +672,7 @@ Always output a detailed summary showing ALL updates:
 1. ✅ Parse: Major life event detected (moving + job change)
 2. ⚡ `person-file-management` skill **automatically activates**
 3. ✅ Skill detects: Moving (major life event) + Job change (major life event)
-4. ✅ Skill finds person file: `6-People/Professional/{{company_2_name}}/sarah-miller.md`
+4. ✅ Skill finds person file: `{{vault_path}}/6-People/Professional/{{company_2_name}}/sarah-miller.md`
 5. ✅ Skill meets AUTO-UPDATE criteria (major life events)
 6. ✅ Skill updates Sarah's file:
    ```markdown

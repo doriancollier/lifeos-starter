@@ -260,7 +260,7 @@ def analyze_and_generate(
     Returns a dictionary with analysis results.
     """
     vault_root = get_vault_root()
-    changelog_path = vault_root / "0-System" / "changelog.md"
+    changelog_path = vault_root / "workspace" / "0-System" / "changelog.md"
 
     # Get tag to compare against
     if since_tag is None:
@@ -462,7 +462,7 @@ def main():
     # Apply if requested
     if args.apply and result['missing_entries']:
         vault_root = get_vault_root()
-        changelog_path = vault_root / "0-System" / "changelog.md"
+        changelog_path = vault_root / "workspace" / "0-System" / "changelog.md"
 
         if apply_entries_to_changelog(result['missing_entries'], changelog_path):
             if not args.json:

@@ -30,13 +30,13 @@ Guide the user through a comprehensive year-end reflection using the **annual-re
    - Otherwise, use current year
 
 2. **Check for existing review file**
-   - Look for `2-Areas/Personal/Years/[YEAR]-Review.md` (or legacy `[YEAR]-Retrospective.md`)
+   - Look for `workspace/2-Areas/Personal/Years/[YEAR]-Review.md` (or legacy `[YEAR]-Retrospective.md`)
    - If exists, ask: "Resume previous review or start fresh?"
 
 3. **Load context**
-   - Read `2-Areas/Personal/foundation.md` for mission, vision, principles
-   - Read year file if exists (`7-MOCs/Year-[YEAR].md` or similar)
-   - Scan `4-Daily/` notes from that year for patterns
+   - Read `workspace/2-Areas/Personal/foundation.md` for mission, vision, principles
+   - Read year file if exists (`workspace/7-MOCs/Year-[YEAR].md` or similar)
+   - Scan `workspace/4-Daily/` notes from that year for patterns
 
 ### Step 2: Wins & Accomplishments
 
@@ -190,7 +190,7 @@ Walk through these reflection questions:
 
 ### Step 11: Create Review Document
 
-Compile all reflections into `2-Areas/Personal/Years/[YEAR]-Review.md`:
+Compile all reflections into `workspace/2-Areas/Personal/Years/[YEAR]-Review.md`:
 
 ```markdown
 ---
@@ -245,7 +245,7 @@ Ask: "Ready to use these insights to plan next year? Run `/annual:plan` when you
 ## Output
 
 By the end, the user should have:
-1. **Comprehensive year review** saved to `2-Areas/Personal/Years/[YEAR]-Review.md`
+1. **Comprehensive year review** saved to `workspace/2-Areas/Personal/Years/[YEAR]-Review.md`
 2. **Honest assessment** of wins, challenges, and learnings across all life domains
 3. **Role balance clarity** with specific growth edges identified
 4. **Foundation alignment check** completed

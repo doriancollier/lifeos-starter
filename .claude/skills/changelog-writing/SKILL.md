@@ -11,7 +11,7 @@ Write changelog entries and release notes that humans actually want to read. Thi
 
 ## When to Use
 
-- Writing entries for `0-System/changelog.md`
+- Writing entries for `workspace/0-System/changelog.md`
 - Preparing GitHub release notes via `/system:release`
 - Reviewing changelog entries before release
 - Transforming commit messages into user-friendly descriptions

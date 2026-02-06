@@ -12,9 +12,9 @@ Guide the user through a **60-90 minute monthly retrospective** using the 4Ls fo
 ## Context
 
 - **Daily notes directory**: `{{vault_path}}/4-Daily/`
-- **Template**: `[[monthly-retro]]` in `3-Resources/Templates/Retrospectives/`
-- **Output location**: `3-Resources/Reviews/Monthly/YYYY-MM-retro.md`
-- **Role documents**: `2-Areas/Personal/Roles/`
+- **Template**: `[[monthly-retro]]` in `workspace/3-Resources/Templates/Retrospectives/`
+- **Output location**: `workspace/3-Resources/Reviews/Monthly/YYYY-MM-retro.md`
+- **Role documents**: `workspace/2-Areas/Personal/Roles/`
 
 ## Process
 
@@ -315,7 +315,7 @@ overall_score: X
 *Next monthly retro scheduled for: [last Friday of next month]*
 ```
 
-**Location**: `3-Resources/Reviews/Monthly/YYYY-MM-retro.md`
+**Location**: `workspace/3-Resources/Reviews/Monthly/YYYY-MM-retro.md`
 
 ## Interaction Guidelines
 

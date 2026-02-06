@@ -55,7 +55,7 @@ After sync completes, summarize:
 
 ## What Gets Imported
 
-Each meeting creates a folder in `5-Meetings/YYYY/MM-Month/`:
+Each meeting creates a folder in `workspace/5-Meetings/YYYY/MM-Month/`:
 
 | File | Contents |
 |------|----------|
@@ -71,4 +71,4 @@ SuperNormal doesn't provide explicit attendee lists. The script detects attendee
 
 - `/meeting:prep` - Prepare context before a meeting
 - `/meeting:ab`, `/meeting:144`, `/meeting:emh` - Create manual meeting notes
-- See `0-System/guides/meeting-workflow.md` for full documentation
+- See `workspace/0-System/guides/meeting-workflow.md` for full documentation

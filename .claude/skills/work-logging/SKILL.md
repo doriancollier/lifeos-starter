@@ -111,7 +111,7 @@ When all subtasks are done OR user says the main task is complete:
 
 ## Integration Notes
 
-- **Daily note location:** `{{vault_path}}/4-Daily/YYYY-MM-DD.md`
+- **Daily note location:** `{{vault_path}}/workspace/4-Daily/YYYY-MM-DD.md`
 - **Subtasks go under:** The parent task in `Today's Task Overview` section
 - **Logs go in:** `### Quick Notes` section (for work/task progress)
 - **NOT for:** `### Daily Memories` section (that's for narrative/diary entries - see `/update` command)

@@ -222,7 +222,7 @@ Task tool:
 
     ### Step 1: Read Changelog
 
-    Read the [Unreleased] section from `0-System/changelog.md`:
+    Read the [Unreleased] section from `workspace/0-System/changelog.md`:
     - Extract content between `## [Unreleased]` and the next `## [` heading
     - Note which sections have content: Added, Changed, Fixed, Removed, Deprecated
 
@@ -344,7 +344,7 @@ Present the release plan to the user:
 ### Files to be Modified
 
 1. `VERSION` — 0.5.0 → 0.6.0
-2. `0-System/changelog.md` — [Unreleased] → [0.6.0] - YYYY-MM-DD
+2. `workspace/0-System/changelog.md` — [Unreleased] → [0.6.0] - YYYY-MM-DD
 
 ### Git Operations
 
@@ -398,7 +398,7 @@ echo "0.6.0" > VERSION
 
 ### 5.3: Update Changelog
 
-Edit `0-System/changelog.md` using the Edit tool:
+Edit `workspace/0-System/changelog.md` using the Edit tool:
 
 1. Replace the `## [Unreleased]` section with a fresh empty one
 2. Insert the new version section with today's date

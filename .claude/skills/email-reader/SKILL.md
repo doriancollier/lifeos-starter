@@ -213,7 +213,7 @@ Prompt: "Triage my Google inbox. Categorize unread emails into: action required,
 
 **Workaround**: Use `mark-read` to dismiss emails, then manually archive via Mail.app UI when convenient.
 
-**Future**: See `1-Projects/Backlog/Gmail API Migration.md` for planned Gmail API integration that will enable proper archiving.
+**Future**: See `workspace/1-Projects/Backlog/Gmail API Migration.md` for planned Gmail API integration that will enable proper archiving.
 
 ### Gmail Archive Search
 

@@ -47,12 +47,12 @@
   },
 
   "paths": {
-    "goalsFile": "2-Areas/Personal/bingo-goals.md",
-    "documentationHub": "3-Resources/Goal-Bingo/",
+    "goalsFile": "workspace/2-Areas/Personal/bingo-goals.md",
+    "documentationHub": "workspace/3-Resources/Goal-Bingo/",
     "templateFile": ".claude/skills/goal-bingo/bingo-card-template.html",
     "templateFileMonthly": ".claude/skills/goal-bingo/bingo-card-template-monthly.html",
     "weekAllocationScript": ".claude/skills/goal-bingo/scripts/week_allocation.py",
-    "outputFolder": "3-Resources/Documents/Printables/"
+    "outputFolder": "workspace/3-Resources/Documents/Printables/"
   },
 
   "cardTypes": {

@@ -370,7 +370,7 @@ If content has emotional variation (calm → excited → grounded), test on the 
 
 | Type | Location | Purpose |
 |------|----------|---------|
-| **Scratch/Testing** | `8-Scratch/Audio/` | Temporary files, experiments |
+| **Scratch/Testing** | `workspace/8-Scratch/Audio/` | Temporary files, experiments |
 | **Permanent** | User-specified or `~/Music/DailyPractice/` | Final keeper files |
 
 ### Workflow
@@ -582,7 +582,7 @@ Research shows affirmations work best when you have some existing belief in them
 ## Integration Points
 
 - **Pronunciation lexicon**: See `.claude/skills/audio-generator/pronunciation.yaml` for word replacements
-- **Daily Practice project**: See `1-Projects/Current/Daily-Practice-Refresh-2026/audio-generation-workflow.md` for a real-world example of the three-layer tracking system
+- **Daily Practice project**: See `workspace/1-Projects/Current/Daily-Practice-Refresh-2026/audio-generation-workflow.md` for a real-world example of the three-layer tracking system
 - **document-generator skill**: Complements printable materials with audio
 - **personal-insight skill**: Captures self-insights that could inform personal development audio content
 

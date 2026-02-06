@@ -11,19 +11,19 @@ Helps transition between different work contexts (companies/areas) by loading re
 ## Work Contexts
 
 ### {{company_1_name}}
-- **Area folder**: `2-Areas/{{company_1_name}}/`
+- **Area folder**: `workspace/2-Areas/{{company_1_name}}/`
 - **Key people**: Load from `contacts-config.json` → `companies.company_1.contacts`
 
 ### {{company_2_name}}
-- **Area folder**: `2-Areas/{{company_2_name}}/`
+- **Area folder**: `workspace/2-Areas/{{company_2_name}}/`
 - **Key people**: Load from `contacts-config.json` → `companies.company_2.contacts`
 
 ### {{company_3_name}}
-- **Area folder**: `2-Areas/{{company_3_name}}/`
+- **Area folder**: `workspace/2-Areas/{{company_3_name}}/`
 - **Key people**: {{partner_name}}
 
 ### Personal
-- **Area folder**: `2-Areas/Personal/`
+- **Area folder**: `workspace/2-Areas/Personal/`
 - **Key people**: {{partner_name}} (partner), {{child_name}} (child)
 - **Focus areas**: Family, health/wellness, personal development
 
@@ -33,26 +33,26 @@ When switching to a context:
 
 ### 1. Load Area Overview
 ```bash
-ls "{{vault_path}}/2-Areas/[Company]/"
+ls "{{vault_path}}/workspace/2-Areas/[Company]/"
 ```
 
 ### 2. Check Active Projects
 ```bash
-ls "{{vault_path}}/1-Projects/Current/" | grep -i "[company]"
+ls "{{vault_path}}/workspace/1-Projects/Current/" | grep -i "[company]"
 ```
 
 ### 3. Find Recent Activity
 ```bash
 # Recent meetings
-ls -la "{{vault_path}}/5-Meetings/2025/" | tail -5
+ls -la "{{vault_path}}/workspace/5-Meetings/2025/" | tail -5
 
 # Recent mentions in daily notes
-grep -r "[Company]" "{{vault_path}}/4-Daily/" --include="*.md" | tail -10
+grep -r "[Company]" "{{vault_path}}/workspace/4-Daily/" --include="*.md" | tail -10
 ```
 
 ### 4. Check Open Tasks
 ```bash
-grep -r "Company: [Company]" "{{vault_path}}/4-Daily/" --include="*.md" | grep "- \[ \]"
+grep -r "Company: [Company]" "{{vault_path}}/workspace/4-Daily/" --include="*.md" | grep "- \[ \]"
 ```
 
 ### 5. Review Key People

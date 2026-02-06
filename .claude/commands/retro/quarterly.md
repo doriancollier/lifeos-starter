@@ -12,11 +12,11 @@ Guide the user through a **3-4 hour quarterly retrospective** using the Sailboat
 ## Context
 
 - **Daily notes directory**: `{{vault_path}}/4-Daily/`
-- **Monthly retros**: `3-Resources/Reviews/Monthly/`
-- **Template**: `[[quarterly-retro]]` in `3-Resources/Templates/Retrospectives/`
-- **Output location**: `3-Resources/Reviews/Quarterly/YYYY-QX-retro.md`
-- **Foundation**: `2-Areas/Personal/foundation.md`
-- **Goals**: `2-Areas/Personal/goals/`
+- **Monthly retros**: `workspace/3-Resources/Reviews/Monthly/`
+- **Template**: `[[quarterly-retro]]` in `workspace/3-Resources/Templates/Retrospectives/`
+- **Output location**: `workspace/3-Resources/Reviews/Quarterly/YYYY-QX-retro.md`
+- **Foundation**: `workspace/2-Areas/Personal/foundation.md`
+- **Goals**: `workspace/2-Areas/Personal/goals/`
 
 ## Process
 
@@ -417,7 +417,7 @@ next_quarter_theme: "[theme]"
 *"Pain + Reflection = Progress" - Ray Dalio*
 ```
 
-**Location**: `3-Resources/Reviews/Quarterly/YYYY-QX-retro.md`
+**Location**: `workspace/3-Resources/Reviews/Quarterly/YYYY-QX-retro.md`
 
 ## Interaction Guidelines
 

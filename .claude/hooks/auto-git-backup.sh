@@ -16,13 +16,14 @@
 # Consume stdin (hook receives JSON input that we don't need)
 cat > /dev/null
 
-# Configuration - auto-detect vault root from script location
-# Script is in .claude/hooks/, so vault root is 2 directories up
+# Configuration - auto-detect project root from script location
+# Script is in .claude/hooks/, so project root is 2 directories up
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-VAULT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+VAULT_ROOT="${OBSIDIAN_VAULT_ROOT:-$PROJECT_ROOT/workspace}"
 
-# Change to vault directory
-cd "$VAULT_ROOT" || exit 0
+# Change to project directory
+cd "$PROJECT_ROOT" || exit 0
 
 # Check if this is a git repository
 if [ ! -d ".git" ]; then

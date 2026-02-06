@@ -27,7 +27,8 @@ from hook_logger import setup_logger, log_hook_execution
 logger = setup_logger("task-format-validator")
 
 # Vault configuration - uses environment variable or auto-detects from script location
-VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or str(Path(__file__).resolve().parent.parent.parent)
+PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
+VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or os.path.join(PROJECT_ROOT, "workspace")
 
 # Task patterns
 A_PRIORITY_PATTERN = re.compile(r'- \[[ x]\] 🔴(\d)?\.?\s*(.*)')
@@ -48,7 +49,7 @@ def load_company_names():
         # Fall back to defaults if PyYAML not installed
         return ["Personal"]
 
-    companies_file = os.path.join(VAULT_ROOT, ".user", "companies.yaml")
+    companies_file = os.path.join(PROJECT_ROOT, ".user", "companies.yaml")
     companies = ["Personal"]  # Always include Personal
 
     if os.path.exists(companies_file):

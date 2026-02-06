@@ -67,7 +67,7 @@ extendedProperties: {
     "source": "claude-code",           // Identifies system origin
     "feature": "timebox",              // Feature type
     "created": "YYYY-MM-DD",           // Creation date
-    "vault_link": "4-Daily/YYYY-MM-DD.md"  // Source daily note
+    "vault_link": "workspace/4-Daily/YYYY-MM-DD.md"  // Source daily note
   }
 }
 ```
@@ -78,7 +78,7 @@ extendedProperties: {
 - Allows feature-specific cleanup
 - Maintains historical record
 
-See [Calendar Tagging Convention](/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
+See [Calendar Tagging Convention](/workspace/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
 
 ## Context Windows
 
@@ -134,7 +134,7 @@ Parse the company/context from the event name prefix:
 ### Step 1: Gather Context
 
 1. Get current time via `mcp__google-calendar__get-current-time`
-2. Read today's daily note from `/4-Daily/YYYY-MM-DD.md`
+2. Read today's daily note from `workspace/4-Daily/YYYY-MM-DD.md`
 3. Extract A and B priority tasks (skip C priority)
 4. Check existing calendar events for today (to avoid conflicts with real meetings)
 5. **Identify context windows** (events with "Focus"/"Window"/"Time" + `transparency: transparent`)
@@ -250,7 +250,7 @@ mcp__google-calendar__create-event with:
       "source": "claude-code",
       "feature": "timebox",
       "created": "YYYY-MM-DD",
-      "vault_link": "4-Daily/YYYY-MM-DD.md"
+      "vault_link": "workspace/4-Daily/YYYY-MM-DD.md"
     }
   }
 ```
@@ -449,7 +449,7 @@ These scheduling enhancements integrate with [[planning-horizons]] and [[decisio
 
 **Big Rock Identification:**
 
-1. Check quarterly rocks in year file (`/2-Areas/Personal/Years/YYYY.md`)
+1. Check quarterly rocks in year file (`workspace/2-Areas/Personal/Years/YYYY.md`)
 2. Check weekly Big 3 in daily note
 3. A-priority tasks that directly advance quarterly goals
 

@@ -12,10 +12,10 @@ Manages daily notes in this Obsidian vault. Daily notes are the primary capture 
 
 ## Vault Location
 
-- **Daily notes directory**: `{{vault_path}}/4-Daily/`
+- **Daily notes directory**: `{{vault_path}}/workspace/4-Daily/`
 - **Naming format**: `YYYY-MM-DD.md` (e.g., `2025-11-24.md`)
-- **Template location**: `{{vault_path}}/3-Resources/Templates/daily-enhanced.md`
-- **Projects directory**: `{{vault_path}}/1-Projects/Current/`
+- **Template location**: `{{vault_path}}/workspace/3-Resources/Templates/daily-enhanced.md`
+- **Projects directory**: `{{vault_path}}/workspace/1-Projects/Current/`
 
 ## Daily Note Structure
 
@@ -94,9 +94,9 @@ type: "daily-note"
 
 ## Project Population
 
-When creating or populating a daily note, projects should be dynamically pulled from `1-Projects/Current/`:
+When creating or populating a daily note, projects should be dynamically pulled from `workspace/1-Projects/Current/`:
 
-1. **Scan projects**: Read all `.md` files in `1-Projects/Current/` (including subdirectories)
+1. **Scan projects**: Read all `.md` files in `workspace/1-Projects/Current/` (including subdirectories)
 2. **Read frontmatter**: Extract `title`, `status`, `company`, `next_steps`
 3. **Filter**: Only include projects with `status: current`
 4. **Group by company**: {{company_1_name}}, {{company_2_name}}, EMC, Personal
@@ -125,7 +125,7 @@ When creating or populating a daily note, projects should be dynamically pulled 
 
 **Creation process**:
 
-1. **Check if target daily note exists** at `4-Daily/YYYY-MM-DD.md`
+1. **Check if target daily note exists** at `workspace/4-Daily/YYYY-MM-DD.md`
 
 2. **If missing, create it**:
    - Read template from template location
@@ -133,7 +133,7 @@ When creating or populating a daily note, projects should be dynamically pulled 
      - `{{date:YYYY-MM-DD}}` → actual date (e.g., `2025-11-28`)
      - `{{date:dddd}}` → day of week (e.g., `Friday`)
      - `{{date:ddd, MMM D, YYYY}}` → formatted date (e.g., `Fri, Nov 28, 2025`)
-   - Write new daily note to `4-Daily/YYYY-MM-DD.md`
+   - Write new daily note to `workspace/4-Daily/YYYY-MM-DD.md`
    - Silently confirm: "Created daily note for YYYY-MM-DD"
 
 3. **After creation, check if planning is needed** (see Planning Detection below)
@@ -182,22 +182,22 @@ If user selects "Yes", execute `/daily:plan` using the SlashCommand tool.
 ### Find today's daily note
 ```bash
 # Today's note path
-ls "{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
+ls "{{vault_path}}/workspace/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 ### Open daily note in Obsidian
 ```bash
-open "obsidian://{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
+open "obsidian://{{vault_path}}/workspace/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 ### Find recent daily notes
 ```bash
-ls -la "{{vault_path}}/4-Daily/" | tail -10
+ls -la "{{vault_path}}/workspace/4-Daily/" | tail -10
 ```
 
 ### Search for content in daily notes
 ```bash
-grep -r "search term" "{{vault_path}}/4-Daily/"
+grep -r "search term" "{{vault_path}}/workspace/4-Daily/"
 ```
 
 ## Task Formatting
@@ -228,14 +228,14 @@ Max 5 numbered A-priority tasks per day.
 ## Examples
 
 ### Creating a new daily note
-1. Copy template from `3-Resources/Templates/daily-enhanced.md`
+1. Copy template from `workspace/3-Resources/Templates/daily-enhanced.md`
 2. Replace date variables
-3. Save to `4-Daily/YYYY-MM-DD.md`
+3. Save to `workspace/4-Daily/YYYY-MM-DD.md`
 4. Populate with current projects (optional, done during planning)
 
 ### Finding incomplete tasks from a specific day
 ```bash
-grep -E "^- \[ \]" "{{vault_path}}/4-Daily/2025-11-24.md"
+grep -E "^- \[ \]" "{{vault_path}}/workspace/4-Daily/2025-11-24.md"
 ```
 
 ### Auto-creation workflow example
@@ -246,7 +246,7 @@ grep -E "^- \[ \]" "{{vault_path}}/4-Daily/2025-11-24.md"
 1. ✅ `daily-note` skill activates (update command references daily note)
 2. ✅ Check: Daily note for today doesn't exist
 3. ✅ Read template and replace variables
-4. ✅ Write new file to `4-Daily/YYYY-MM-DD.md`
+4. ✅ Write new file to `workspace/4-Daily/YYYY-MM-DD.md`
 5. ✅ Check planning criteria (Morning empty, no tasks, etc.)
 6. ❓ Ask user if they want to run `/daily:plan`
 7. **If "Yes"**: Execute `/daily:plan` → User goes through guided planning

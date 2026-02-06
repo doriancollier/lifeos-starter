@@ -10,13 +10,13 @@ Manages the goals system including annual goals, goal-project linkage, and oppor
 
 ## Goals Location
 
-**Source of Truth**: Year files in `/2-Areas/Personal/Years/`
+**Source of Truth**: Year files in `workspace/2-Areas/Personal/Years/`
 - `2025.md` - Theme: "About Experimentation"
 - `2026.md` - Theme: "Nothing New"
 
 **Supporting Files**:
-- `/7-MOCs/Opportunities-Pipeline.md` - Opportunity tracking and evaluation
-- `/1-Projects/Current/2026-Annual-Planning/2026-Goals-Draft.md` - Working draft for 2026
+- `workspace/7-MOCs/Opportunities-Pipeline.md` - Opportunity tracking and evaluation
+- `workspace/1-Projects/Current/2026-Annual-Planning/2026-Goals-Draft.md` - Working draft for 2026
 
 ## Goal Categories
 
@@ -75,14 +75,14 @@ goal_alignment: "high"  # high, medium, low
 ### Finding Projects by Goal
 
 ```bash
-grep -r "supports_goal:" "{{vault_path}}/1-Projects/Current" --include="*.md"
+grep -r "supports_goal:" "{{vault_path}}/workspace/1-Projects/Current" --include="*.md"
 ```
 
 ### Finding Unlinked Projects
 
 ```bash
 # Projects without supports_goal frontmatter
-for f in {{vault_path}}/1-Projects/Current/*/*.md; do
+for f in {{vault_path}}/workspace/1-Projects/Current/*/*.md; do
   grep -L "supports_goal:" "$f" 2>/dev/null
 done
 ```
@@ -102,7 +102,7 @@ During Monday `/daily:plan` or dedicated weekly review:
 - Any goals with no active projects?
 
 ### 3. Process Opportunity Pipeline
-- Check `/7-MOCs/Opportunities-Pipeline.md`
+- Check `workspace/7-MOCs/Opportunities-Pipeline.md`
 - Any opportunities awaiting evaluation?
 - Prompt for `/board:advise` if significant ones pending
 
@@ -176,10 +176,10 @@ Against focus filter (2026: NFT + Physical + AI):
 
 ## Key Files
 
-- Year goals: `/2-Areas/Personal/Years/2026.md`
-- Working draft: `/1-Projects/Current/2026-Annual-Planning/2026-Goals-Draft.md`
-- Opportunities: `/7-MOCs/Opportunities-Pipeline.md`
-- Life events: `/7-MOCs/Life-Events-Timeline.md`
+- Year goals: `workspace/2-Areas/Personal/Years/2026.md`
+- Working draft: `workspace/1-Projects/Current/2026-Annual-Planning/2026-Goals-Draft.md`
+- Opportunities: `workspace/7-MOCs/Opportunities-Pipeline.md`
+- Life events: `workspace/7-MOCs/Life-Events-Timeline.md`
 
 ## Related Skills
 

@@ -86,7 +86,7 @@ Skills are model-invoked knowledge modules. Claude reads them automatically when
 
 11 domain skills: `advisor-financial`, `advisor-business-strategy`, `advisor-ops-systems`, `advisor-health-energy`, `advisor-relationships`, `advisor-parenting-family`, `advisor-leadership-boundaries`, `advisor-success-execution`, `advisor-decision-frameworks`, `advisor-legal-literacy`, `advisor-librarian-context`
 
-**Full list**: See `0-System/components/skills.md`
+**Full list**: See `workspace/0-System/components/skills.md`
 
 ## Commands (`.claude/commands/`)
 
@@ -231,7 +231,7 @@ Commands are user-invoked via `/namespace:command`.
 | `/premortem:run` | Run pre-mortem on decision/project |
 | `/partner:stateofunion` | Weekly relationship check-in |
 
-**Full list**: See `0-System/components/commands.md`
+**Full list**: See `workspace/0-System/components/commands.md`
 
 ## Agents (`.claude/agents/`)
 
@@ -273,7 +273,7 @@ Some agents (like `persona-board-chair`) pause for Q&A and must be resumed. When
 
 Failure to pass session state causes duplicate directories and fragmented session files.
 
-**Full list**: See `0-System/components/agents.md`
+**Full list**: See `workspace/0-System/components/agents.md`
 
 ## Hooks (`.claude/hooks/`)
 

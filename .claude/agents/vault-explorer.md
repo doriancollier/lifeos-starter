@@ -103,11 +103,11 @@ Grep(pattern="tags:.*project", glob="*.md", output_mode="files_with_matches")
 
 | Type | Location | Identifier |
 |------|----------|------------|
-| Daily notes | `4-Daily/` | `type: "daily-note"` |
-| Meeting notes | `5-Meetings/` | `type: "meeting"` |
-| Person profiles | `6-People/` | `type: "person"` |
-| Projects | `1-Projects/` | `type: "project"` |
-| MOCs | `7-MOCs/` | Navigation hubs |
+| Daily notes | `workspace/4-Daily/` | `type: "daily-note"` |
+| Meeting notes | `workspace/5-Meetings/` | `type: "meeting"` |
+| Person profiles | `workspace/6-People/` | `type: "person"` |
+| Projects | `workspace/1-Projects/` | `type: "project"` |
+| MOCs | `workspace/7-MOCs/` | Navigation hubs |
 
 ## Link Analysis
 

@@ -12,7 +12,7 @@ Guide the user through a **15-minute weekly retrospective** using the 3 Ls forma
 ## Context
 
 - **Daily notes directory**: `{{vault_path}}/4-Daily/`
-- **Template**: `[[weekly-retro]]` in `3-Resources/Templates/Retrospectives/`
+- **Template**: `[[weekly-retro]]` in `workspace/3-Resources/Templates/Retrospectives/`
 - **Output location**: Add to current week's Friday daily note under "## Weekly Retrospective" OR create standalone if running on weekend
 
 ## Process
@@ -157,7 +157,7 @@ Create or update the weekly retro section:
 **Location**:
 - If Friday: Add to today's daily note
 - If weekend: Add to Friday's daily note
-- If missing Friday note: Create standalone in `3-Resources/Reviews/Weekly/`
+- If missing Friday note: Create standalone in `workspace/3-Resources/Reviews/Weekly/`
 
 ## Interaction Guidelines
 

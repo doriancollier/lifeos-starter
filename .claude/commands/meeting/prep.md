@@ -43,7 +43,7 @@ If a template is found:
 ### 2. Gather Person Context
 
 For each relevant person:
-- Search `6-People/Professional/` and `6-People/Personal/` for their profile
+- Search `{{vault_path}}/6-People/Professional/` and `{{vault_path}}/6-People/Personal/` for their profile
 - Note their role, communication style, preferences
 - Find recent interactions and meetings
 

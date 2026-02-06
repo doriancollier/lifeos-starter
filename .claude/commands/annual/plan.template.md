@@ -15,7 +15,7 @@ Guide the user through creating their comprehensive annual year plan. This build
 - **Review input**: `{{vault_path}}/2-Areas/Personal/Years/[YEAR-1]-Retrospective.md`
 - **Previous year**: `{{vault_path}}/2-Areas/Personal/Years/[YEAR-1].md`
 - **Output**: `{{vault_path}}/2-Areas/Personal/Years/[YEAR].md`
-- **Template reference**: `3-Resources/Templates/Planning/annual-year.md`
+- **Template reference**: `workspace/3-Resources/Templates/Planning/annual-year.md`
 - **Time investment**: 2-4 hours (can be spread across sessions)
 
 ## Arguments
@@ -51,7 +51,7 @@ The annual year document follows this structure (see template for details):
    - Otherwise: if Dec/Jan, plan upcoming year
 
 2. **Load essential context**:
-   - Read `2-Areas/Personal/foundation.md` (mission, vision, principles)
+   - Read `workspace/2-Areas/Personal/foundation.md` (mission, vision, principles)
    - Read previous year's retrospective (`[YEAR-1]-Retrospective.md`)
    - Read previous year's plan if exists (`[YEAR-1].md`)
    - Check for any existing year context files
@@ -242,7 +242,7 @@ Detail the first quarter:
 
 ### Step 12: Create the Document
 
-Write to `2-Areas/Personal/Years/[YEAR].md` using the structure from the template.
+Write to `workspace/2-Areas/Personal/Years/[YEAR].md` using the structure from the template.
 
 **Frontmatter**:
 ```yaml
@@ -278,7 +278,7 @@ Coaching send-off:
 ## Output
 
 By the end, the user should have:
-1. **Comprehensive year document** at `2-Areas/Personal/Years/[YEAR].md`
+1. **Comprehensive year document** at `workspace/2-Areas/Personal/Years/[YEAR].md`
 2. **Annual theme** that serves as a decision filter for all domains
 3. **3-5 annual goals** with embedded WOOP, quarterly milestones, and strategies
 4. **Anti-goals** of explicit declines
@@ -303,7 +303,7 @@ By the end, the user should have:
 ## Multi-Session Support
 
 This process can span multiple sessions. Track progress:
-- Save drafts to `8-Scratch/annual-plan-draft-[YEAR].md`
+- Save drafts to `workspace/8-Scratch/annual-plan-draft-[YEAR].md`
 - Resume by reading the draft and continuing
 - Move to final location when complete
 

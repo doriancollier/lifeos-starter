@@ -15,9 +15,9 @@ Create a new project note in the backlog using standardized structure.
 ## Context
 
 - **Projects directory**: `{{vault_path}}/1-Projects/`
-- **Backlog**: `1-Projects/Backlog/`
-- **Current**: `1-Projects/Current/`
-- **Templates**: `3-Resources/Templates/Projects/`
+- **Backlog**: `{{vault_path}}/1-Projects/Backlog/`
+- **Current**: `{{vault_path}}/1-Projects/Current/`
+- **Templates**: `{{vault_path}}/3-Resources/Templates/Projects/`
 - **Structure Guide**: See `project-structure` skill for conventions
 
 ## Task
@@ -44,9 +44,9 @@ Use AskUserQuestion to determine project type:
 
 ### 4a. Create Simple Project (Single File)
 
-Create file: `1-Projects/Backlog/[Project-Name].md`
+Create file: `{{vault_path}}/1-Projects/Backlog/[Project-Name].md`
 
-Use template from `3-Resources/Templates/Projects/project-simple.md`:
+Use template from `{{vault_path}}/3-Resources/Templates/Projects/project-simple.md`:
 
 ```markdown
 ---
@@ -109,10 +109,10 @@ Project created.
 
 ### 4b. Create Complex Project (Folder)
 
-1. Create folder: `1-Projects/Backlog/[Project-Name]/`
-2. Create entry file: `1-Projects/Backlog/[Project-Name]/_[Project-Name].md`
+1. Create folder: `{{vault_path}}/1-Projects/Backlog/[Project-Name]/`
+2. Create entry file: `{{vault_path}}/1-Projects/Backlog/[Project-Name]/_[Project-Name].md`
 
-Use template from `3-Resources/Templates/Projects/project-complex.md`:
+Use template from `{{vault_path}}/3-Resources/Templates/Projects/project-complex.md`:
 
 ```markdown
 ---
@@ -235,4 +235,4 @@ After creation, suggest:
 1. Fill in Overview section with objective and success criteria
 2. Add initial tasks
 3. Link to relevant goal in `supports_goal` field
-4. When ready to start, move to `1-Projects/Current/`
+4. When ready to start, move to `{{vault_path}}/1-Projects/Current/`

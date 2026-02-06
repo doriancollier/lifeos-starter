@@ -36,7 +36,7 @@ Guide the user through a structured review of the past quarter. Assess progress 
    - Identify the 3-5 quarterly rocks that were set
 
 3. **Gather data from daily/weekly notes**
-   - Scan `4-Daily/` notes from the quarter for completed tasks
+   - Scan `workspace/4-Daily/` notes from the quarter for completed tasks
    - Look for patterns in completions, blockers, energy levels
 
 ### Step 2: Rock Assessment
@@ -152,7 +152,7 @@ This becomes a touchstone for future planning.
 
 ### Step 10: Create Review Document
 
-Write to `2-Areas/Personal/Years/Q[#]-[YEAR]-Review.md` or update quarterly file:
+Write to `workspace/2-Areas/Personal/Years/Q[#]-[YEAR]-Review.md` or update quarterly file:
 
 ```markdown
 ---

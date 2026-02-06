@@ -18,9 +18,9 @@ This skill activates autonomously when:
 
 ## Key Locations
 
-- **Biography**: `{{vault_path}}/2-Areas/Personal/biography.md`
-- **Life Timeline MOC**: `{{vault_path}}/7-MOCs/Life-Timeline.md`
-- **Person files**: `{{vault_path}}/6-People/`
+- **Biography**: `{{vault_path}}/workspace/2-Areas/Personal/biography.md`
+- **Life Timeline MOC**: `{{vault_path}}/workspace/7-MOCs/Life-Timeline.md`
+- **Person files**: `{{vault_path}}/workspace/6-People/`
 - **Google Sheet (primary)**: https://docs.google.com/spreadsheets/d/1Qhwyi37rkhLQOUpVYF7dUtygG2PQjbNffzkfkEU8FWA/edit?gid=0#gid=0
 
 ## Core Principle
@@ -169,10 +169,10 @@ Before adding, verify it's not already documented:
 
 ```bash
 # Search biography for existing mention
-grep -i "[key terms]" "{{vault_path}}/2-Areas/Personal/biography.md"
+grep -i "[key terms]" "{{vault_path}}/workspace/2-Areas/Personal/biography.md"
 
 # Search Life-Timeline
-grep -i "[key terms]" "{{vault_path}}/7-MOCs/Life-Timeline.md"
+grep -i "[key terms]" "{{vault_path}}/workspace/7-MOCs/Life-Timeline.md"
 ```
 
 ### Step 5: Ask Follow-up Questions

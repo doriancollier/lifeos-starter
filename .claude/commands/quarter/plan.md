@@ -187,7 +187,7 @@ Also schedule:
 
 ### Step 9: Create Quarterly Plan Document
 
-Write to `2-Areas/Personal/Years/Q[#]-[YEAR].md`:
+Write to `workspace/2-Areas/Personal/Years/Q[#]-[YEAR].md`:
 
 ```markdown
 ---
@@ -293,7 +293,7 @@ By the end, the user should have:
 5. **Obstacle plans** for top rocks (if-then statements)
 6. **Check-in dates** scheduled on calendar
 7. **Week 1 priorities** identified
-8. **Quarterly plan document** saved to `2-Areas/Personal/Years/Q[#]-[YEAR].md`
+8. **Quarterly plan document** saved to `workspace/2-Areas/Personal/Years/Q[#]-[YEAR].md`
 
 ## Interaction Guidelines
 

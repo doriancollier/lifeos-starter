@@ -13,15 +13,16 @@
 # SessionStart hook will process in the next Claude Code session.
 #
 
-# Auto-detect vault root from script location
-# Script is in .claude/hooks/, so vault root is 2 directories up
+# Auto-detect project root from script location
+# Script is in .claude/hooks/, so project root is 2 directories up
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-VAULT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-SYNC_QUEUE_FILE="$VAULT_ROOT/.claude/sync-queue.json"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+VAULT_ROOT="${OBSIDIAN_VAULT_ROOT:-$PROJECT_ROOT/workspace}"
+SYNC_QUEUE_FILE="$PROJECT_ROOT/.claude/sync-queue.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-# Ensure we're in the vault directory
-cd "$VAULT_ROOT" || exit 1
+# Ensure we're in the project directory
+cd "$PROJECT_ROOT" || exit 1
 
 # Check if this is being run from a git commit
 if [ -z "$GIT_AUTHOR_NAME" ]; then
@@ -43,7 +44,7 @@ fi
 # Filter for relevant files (daily notes and project files)
 RELEVANT_FILES=""
 while IFS= read -r file; do
-    if [[ "$file" == 1-Projects/Current/*.md ]] || [[ "$file" == 4-Daily/*.md ]]; then
+    if [[ "$file" == workspace/1-Projects/Current/*.md ]] || [[ "$file" == workspace/4-Daily/*.md ]]; then
         RELEVANT_FILES="$RELEVANT_FILES$file"$'\n'
     fi
 done <<< "$CHANGED_FILES"
@@ -73,7 +74,7 @@ while IFS= read -r file; do
     # Check if diff contains task patterns
     if echo "$DIFF" | grep -qE '^\+.*- \[([ x])\]|^-.*- \[([ x])\]'; then
         # Determine source type
-        if [[ "$file" == 4-Daily/*.md ]]; then
+        if [[ "$file" == workspace/4-Daily/*.md ]]; then
             SOURCE_TYPE="daily"
             # Extract date from filename
             FILENAME=$(basename "$file" .md)
@@ -105,7 +106,7 @@ EOF
         ENTRIES_ADDED=$((ENTRIES_ADDED + 1))
 
         # Create a marker file for the session start hook
-        echo "$TIMESTAMP" > "$VAULT_ROOT/.claude/sync-pending"
+        echo "$TIMESTAMP" > "$PROJECT_ROOT/.claude/sync-pending"
     fi
 done <<< "$RELEVANT_FILES"
 

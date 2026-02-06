@@ -10,7 +10,7 @@ Automatically detect and capture substantive personal insights to keep {{user_fi
 
 ## Purpose
 
-{{user_first_name}}'s personal profile (`2-Areas/Personal/context.md` → "About Me" section) should evolve over time as new insights emerge from:
+{{user_first_name}}'s personal profile (`workspace/2-Areas/Personal/context.md` → "About Me" section) should evolve over time as new insights emerge from:
 - Retrospectives and reviews
 - Board of Advisors deliberations
 - Casual conversation and updates
@@ -67,7 +67,7 @@ This skill defines **when** and **how** to update the profile.
 ## How to Update
 
 ### Location
-Edit: `2-Areas/Personal/context.md` → "About Me (Personal Profile)" section
+Edit: `workspace/2-Areas/Personal/context.md` → "About Me (Personal Profile)" section
 
 ### Format
 - Use the existing structure (Strengths, Weaknesses, Fears, etc.)
@@ -244,7 +244,7 @@ The personal profile should track growth edges organized by life role:
 - Explicit feedback on role performance
 
 **Integration with role failure modes:**
-Cross-reference `3-Resources/References/role-failure-modes.md` when updating growth edges:
+Cross-reference `workspace/3-Resources/References/role-failure-modes.md` when updating growth edges:
 - If proximity rating > 6 on any failure mode, flag as active growth edge
 - Track movement toward or away from failure modes over time
 

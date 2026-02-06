@@ -21,7 +21,7 @@ Integrates Apple Health data into LifeOS workflows for coached health goal achie
 Health data is synced from Health Auto Export app via `.claude/scripts/health_sync.py`.
 
 **Database**: `.claude/data/health.db`
-**Config**: `0-System/config/health-config.md`
+**Config**: `workspace/0-System/config/health-config.md`
 
 ## Quick Commands
 

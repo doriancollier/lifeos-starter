@@ -17,19 +17,19 @@ Guide through these reflection steps:
 
 ```bash
 today=$(date +%Y-%m-%d)
-cat "4-Daily/${today}.md"
+cat "workspace/4-Daily/${today}.md"
 ```
 
 ### 2. Task Analysis
 
 **Find completed tasks:**
 ```bash
-grep -E "^- \[x\]" "4-Daily/$(date +%Y-%m-%d).md"
+grep -E "^- \[x\]" "workspace/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 **Find incomplete tasks:**
 ```bash
-grep -E "^- \[ \]" "4-Daily/$(date +%Y-%m-%d).md"
+grep -E "^- \[ \]" "workspace/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 Present summary:
@@ -73,8 +73,8 @@ Compare to morning state:
 Sync and review today's health metrics:
 
 ```bash
-python3 ".claude/scripts/health_sync.py" sync
-python3 ".claude/scripts/health_sync.py" status --format compact
+python3 .claude/scripts/health_sync.py sync
+python3 .claude/scripts/health_sync.py status --format compact
 ```
 
 **Present health summary:**
@@ -264,7 +264,7 @@ Help set up tomorrow:
 
 **Update Health Metrics section** with final day's data:
 ```bash
-python3 ".claude/scripts/health_sync.py" daily-note-section
+python3 .claude/scripts/health_sync.py daily-note-section
 ```
 
 Write to the End of Day section:

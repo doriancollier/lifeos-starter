@@ -35,12 +35,12 @@ python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/
 
 ### Open today's daily note
 ```bash
-python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
+python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/workspace/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 ### Open a note in a subdirectory
 ```bash
-python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/2-Areas/{{company_1_name}}/Overview.md"
+python3 {{vault_path}}/.claude/scripts/obsidian_manager.py open "{{vault_path}}/workspace/2-Areas/{{company_1_name}}/Overview.md"
 ```
 
 ### Check vault registration status
@@ -51,9 +51,9 @@ python3 {{vault_path}}/.claude/scripts/obsidian_manager.py check
 ## Vault structure reference
 
 Common locations in this vault:
-- Daily notes: `4-Daily/YYYY-MM-DD.md`
-- Projects: `1-Projects/Current/` or `1-Projects/Backlog/`
-- Areas: `2-Areas/{{{company_1_name}},{{company_2_name}},{{company_3_name}},Personal}/`
-- Meeting notes: `5-Meetings/YYYY/MM-Month/`
-- People: `6-People/Professional/` or `6-People/Personal/`
-- MOCs: `7-MOCs/`
+- Daily notes: `workspace/4-Daily/YYYY-MM-DD.md`
+- Projects: `workspace/1-Projects/Current/` or `workspace/1-Projects/Backlog/`
+- Areas: `workspace/2-Areas/{{{company_1_name}},{{company_2_name}},{{company_3_name}},Personal}/`
+- Meeting notes: `workspace/5-Meetings/YYYY/MM-Month/`
+- People: `workspace/6-People/Professional/` or `workspace/6-People/Personal/`
+- MOCs: `workspace/7-MOCs/`

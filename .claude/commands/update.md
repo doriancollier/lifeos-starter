@@ -20,10 +20,10 @@ A universal capture command that intelligently parses freeform natural language 
 
 ## Context
 
-- **Daily notes**: `4-Daily/`
-- **Today's note**: `4-Daily/YYYY-MM-DD.md`
-- **People**: `6-People/`
-- **Projects**: `1-Projects/`
+- **Daily notes**: `workspace/4-Daily/`
+- **Today's note**: `workspace/4-Daily/YYYY-MM-DD.md`
+- **People**: `workspace/6-People/`
+- **Projects**: `workspace/1-Projects/`
 - **Primary calendar**: ``
 - **User timezone**:
 
@@ -156,8 +156,8 @@ Default priority is **🟡 B (Important)**. Adjust based on:
 
 **For People:**
 ```bash
-# Search for person names in 6-People/
-find "6-People" -name "*.md" -type f
+# Search for person names in workspace/6-People/
+find "workspace/6-People" -name "*.md" -type f
 ```
 
 - Match first names, last names, or partial names
@@ -167,7 +167,7 @@ find "6-People" -name "*.md" -type f
 **For Projects:**
 ```bash
 # Search for projects
-find "1-Projects/Current" -name "*.md" -type f
+find "workspace/1-Projects/Current" -name "*.md" -type f
 ```
 
 ### Step 6: Handle Time References
@@ -206,8 +206,8 @@ When creating a calendar event that involves another person:
 
 2. **Extract person name and match against known people**:
    ```bash
-   # Search for person in 6-People/ directory
-   find "6-People" -iname "*[person-name]*" -type f
+   # Search for person in workspace/6-People/ directory
+   find "workspace/6-People" -iname "*[person-name]*" -type f
    ```
 
 3. **Use AskUserQuestion with context-based suggestions**:
@@ -287,7 +287,7 @@ Parse:
 ### 2. Find or Create Target Daily Note
 
 ```bash
-TARGET_NOTE="4-Daily/${TARGET_DATE}.md"
+TARGET_NOTE="workspace/4-Daily/${TARGET_DATE}.md"
 
 # Note: If daily note doesn't exist, the `daily-note` skill will automatically create it
 # The skill also handles offering /daily:plan if the note appears unplanned
@@ -415,7 +415,7 @@ Update **BOTH** sections:
 #### For Life Events
 
 - Detect major life events (trips, weddings, holidays, birthdays, vacations)
-- Read `/7-MOCs/Life-Events-Timeline.md`
+- Read `workspace/7-MOCs/Life-Events-Timeline.md`
 - Add entry to appropriate timeframe section
 - Update "Last Updated" date in timeline
 
@@ -672,7 +672,7 @@ Always output a detailed summary showing ALL updates:
 1. ✅ Parse: Major life event detected (moving + job change)
 2. ⚡ `person-file-management` skill **automatically activates**
 3. ✅ Skill detects: Moving (major life event) + Job change (major life event)
-4. ✅ Skill finds person file: `6-People/Professional//sarah-miller.md`
+4. ✅ Skill finds person file: `workspace/6-People/Professional//sarah-miller.md`
 5. ✅ Skill meets AUTO-UPDATE criteria (major life events)
 6. ✅ Skill updates Sarah's file:
    ```markdown

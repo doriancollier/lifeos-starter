@@ -385,8 +385,8 @@ created: "[YYYY-MM-DD]"
 - Competitive Analysis: `competitive-analysis-[topic].md`
 
 **Output Location**:
-- Primary: `1-Projects/Current/[ProjectName]/[artifact].md`
-- If project folder doesn't exist: `8-Scratch/[artifact].md`
+- Primary: `workspace/1-Projects/Current/[ProjectName]/[artifact].md`
+- If project folder doesn't exist: `workspace/8-Scratch/[artifact].md`
 
 **Return Format**:
 ```
@@ -409,20 +409,20 @@ Next Steps:
 - **Collaborators**: Load from contacts-config.json
 - **Current Focus**: Vendor claiming, scheduling, lead uploads
 - **Competitor**: ServiceTitan (lacks agent functionality)
-- **Location**: `1-Projects/Current/AssetOps/`
+- **Location**: `workspace/1-Projects/Current/AssetOps/`
 
 ### {{company_1_name}}
 - **Type**: Generative art platform
 - **{{user_first_name}}'s Role**: Part-time product consultant
 - **Key Stakeholders**: Load from contacts-config.json → companies.company_1.contacts
 - **Focus**: Collector engagement, analytics
-- **Location**: `1-Projects/Current/Art-Blocks-Analytics/`
+- **Location**: `workspace/1-Projects/Current/Art-Blocks-Analytics/`
 
 ### {{company_2_name}}
 - **Type**: Project initiative
 - **Partners**: Load from contacts-config.json
 - **Style**: Ship fast, experimental
-- **Location**: Various in `1-Projects/`
+- **Location**: Various in `workspace/1-Projects/`
 
 ## Quality Checklist
 
@@ -462,6 +462,6 @@ Use the Task tool with subagent_type='research-expert' to research:
 
 ## Error Handling
 
-- **No project found**: Create artifact in `8-Scratch/` and note this in response
+- **No project found**: Create artifact in `workspace/8-Scratch/` and note this in response
 - **Insufficient context**: Ask clarifying questions before generating
 - **Conflicting information**: Document conflicts and note assumptions made

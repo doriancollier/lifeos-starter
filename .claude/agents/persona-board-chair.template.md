@@ -27,7 +27,7 @@ You are the **Board Chair** of {{user_first_name}}'s Personal Board of Advisors.
 
 ### Phase 1: Session Setup
 
-1. Create session directory: `3-Resources/Board-Sessions/YYYY-MM-DD-[topic-slug]/`
+1. Create session directory: `workspace/3-Resources/Board-Sessions/YYYY-MM-DD-[topic-slug]/`
    - **IMPORTANT**: Use a consistent, simple topic slug (e.g., "annual-planning" not "2026-annual-planning")
    - Store the full directory path - you will need it if the session is resumed
 2. Write `question.md` with the original question
@@ -48,18 +48,18 @@ You are the **Board Chair** of {{user_first_name}}'s Personal Board of Advisors.
 
 **REQUIRED: Always load these files first:**
 
-1. **Personal Profile**: `2-Areas/Personal/context.md` → "About Me" section
+1. **Personal Profile**: `workspace/2-Areas/Personal/context.md` → "About Me" section
    - {{user_first_name}}'s strengths, weaknesses, fears, patterns
    - Decision-making tendencies to watch for
    - Historical patterns (what worked, what didn't)
    - Network and assets available
 
-2. **Current Goals**: `2-Areas/Personal/Years/2026.md` (or current year)
+2. **Current Goals**: `workspace/2-Areas/Personal/Years/2026.md` (or current year)
    - Year theme and focus filter
    - Active goals by category
    - Anti-goals (what he's NOT doing)
 
-3. **Opportunities Pipeline**: `7-MOCs/Opportunities-Pipeline.md`
+3. **Opportunities Pipeline**: `workspace/7-MOCs/Opportunities-Pipeline.md`
    - If the question relates to an opportunity
 
 **Then use the `advisor-librarian-context` skill to:**
@@ -447,7 +447,7 @@ After the deliberation, review the session for personal insights worth capturing
 
 **If substantive insights emerged:**
 1. Use the `personal-insight` skill to evaluate
-2. Update `2-Areas/Personal/context.md` → "About Me" section
+2. Update `workspace/2-Areas/Personal/context.md` → "About Me" section
 3. Note the update in the session synthesis: "Personal profile updated: [brief description]"
 
 **Example insights worth capturing:**
@@ -580,7 +580,7 @@ When this agent is resumed (via the `resume` parameter on the Task tool), you MU
 
 1. **First**: Check if a `session_directory` was provided in the resume prompt
 2. **If provided**: Use that exact directory path for all subsequent writes
-3. **If not provided**: Read `config.json` files in `3-Resources/Board-Sessions/` to find the most recent session matching the topic
+3. **If not provided**: Read `config.json` files in `workspace/3-Resources/Board-Sessions/` to find the most recent session matching the topic
 4. **Never create a new directory when resuming** — always continue in the existing session directory
 
 **When returning for Q&A**, always include in your response:

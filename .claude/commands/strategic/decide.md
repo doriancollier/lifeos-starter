@@ -12,8 +12,8 @@ Guide the user through a **structured strategic decision-making process** for th
 
 ## Context
 
-- **Decision frameworks**: `3-Resources/References/decision-frameworks.md`
-- **Templates**: `3-Resources/Templates/Decisions/`
+- **Decision frameworks**: `workspace/3-Resources/References/decision-frameworks.md`
+- **Templates**: `workspace/3-Resources/Templates/Decisions/`
 - **Board of Advisors**: `/board:advise`
 - **Pre-mortem**: `/premortem:run`
 
@@ -408,7 +408,7 @@ What would guarantee failure:
 *Decision recorded: YYYY-MM-DD*
 ```
 
-**Location**: `3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
+**Location**: `workspace/3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
 
 ## Interaction Guidelines
 

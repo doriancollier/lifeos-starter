@@ -12,21 +12,21 @@ Switch mental context to  work.
 Load and summarize the current  context:
 
 ### 1. Read Area Overview
-- Check `2-Areas//` for any overview or status files
+- Check `workspace/2-Areas//` for any overview or status files
 
 ### 2. Find Active Projects
-- List projects in `1-Projects/Current/` related to 
+- List projects in `workspace/1-Projects/Current/` related to
 
 ### 3. Check Today's Tasks
 - Search today's daily note for  tasks
 - Look for `Company: ` in task lines
 
 ### 4. Find Recent Meetings
-- Check `5-Meetings/` for recent  meetings
+- Check `workspace/5-Meetings/` for recent  meetings
 - Look for meetings with key colleagues
 
 ### 5. Review Key People Status
-- Check person files in `6-People/Professional/`
+- Check person files in `workspace/6-People/Professional/`
 - Any open action items with them
 
 ## Output Format

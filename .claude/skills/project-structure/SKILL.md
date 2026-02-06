@@ -231,7 +231,7 @@ When detecting a messy project:
 ```
 This project has grown to [X files / Y lines]. Consider reorganizing:
 
-1. Create folder: `1-Projects/Current/ProjectName/`
+1. Create folder: `workspace/1-Projects/Current/ProjectName/`
 2. Move files into it
 3. Rename entry file to `_ProjectName.md`
 4. Group: research/ for research, assets/ for media
@@ -267,7 +267,7 @@ ResearchTopic/
 
 ### Event/Trip Projects
 
-Use existing `trip-planning.md` template in `3-Resources/Templates/`
+Use existing `trip-planning.md` template in `workspace/3-Resources/Templates/`
 
 ### Administrative Projects
 
@@ -282,7 +282,7 @@ AdminProject/
 
 ## Meeting Notes Location
 
-**Standard:** Meeting notes stay in `5-Meetings/YYYY/MM-Month/`
+**Standard:** Meeting notes stay in `workspace/5-Meetings/YYYY/MM-Month/`
 
 **In project file:** Link to meetings, don't embed:
 
@@ -306,10 +306,10 @@ ProjectName/
 
 | Template | Location | Purpose |
 |----------|----------|---------|
-| Simple project | `3-Resources/Templates/Projects/project-simple.md` | Single-file projects |
-| Complex entry | `3-Resources/Templates/Projects/project-complex.md` | Folder entry file |
-| Roadmap | `3-Resources/Templates/Projects/project-roadmap.md` | Phase planning |
-| Retrospective | `3-Resources/Templates/Retrospectives/project-retro.md` | Post-completion review |
+| Simple project | `workspace/3-Resources/Templates/Projects/project-simple.md` | Single-file projects |
+| Complex entry | `workspace/3-Resources/Templates/Projects/project-complex.md` | Folder entry file |
+| Roadmap | `workspace/3-Resources/Templates/Projects/project-roadmap.md` | Phase planning |
+| Retrospective | `workspace/3-Resources/Templates/Retrospectives/project-retro.md` | Post-completion review |
 
 ---
 
@@ -368,5 +368,5 @@ When converting existing projects to this standard:
 | Research folder | `research/` |
 | Assets folder | `assets/` |
 | Date format | `YYYY-MM-DD` |
-| Meeting location | `5-Meetings/` (link from project) |
+| Meeting location | `workspace/5-Meetings/` (link from project) |
 | Reorganize trigger | > 5 files or > 300 lines |

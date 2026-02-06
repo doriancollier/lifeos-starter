@@ -11,10 +11,10 @@ Guide the user through a comprehensive weekly review as their **Level 10 Coach**
 
 ## Context
 
-- **Daily notes directory**: `4-Daily/`
-- **Projects directory**: `1-Projects/Current/`
-- **Year file**: `2-Areas/Personal/Years/[YEAR].md`
-- **Foundation**: `2-Areas/Personal/foundation.md`
+- **Daily notes directory**: `workspace/4-Daily/`
+- **Projects directory**: `workspace/1-Projects/Current/`
+- **Year file**: `workspace/2-Areas/Personal/Years/[YEAR].md`
+- **Foundation**: `workspace/2-Areas/Personal/foundation.md`
 
 ## Review Flow
 
@@ -28,7 +28,7 @@ Execute these steps **sequentially**, integrating the weekly-review skill for de
 for i in {0..6}; do
   d=$(date -v-${i}d +%Y-%m-%d)
   echo "=== ${d} ==="
-  cat "4-Daily/${d}.md" 2>/dev/null | head -100
+  cat "workspace/4-Daily/${d}.md" 2>/dev/null | head -100
 done
 ```
 
@@ -175,7 +175,7 @@ Ask: "What was your highest-leverage activity this week?"
 
 ```bash
 # Check for quarterly rocks reference
-grep -r "Quarterly\|Q[1-4] Rock\|Big Rock" "2-Areas/Personal/Years/$(date +%Y).md"
+grep -r "Quarterly\|Q[1-4] Rock\|Big Rock" "workspace/2-Areas/Personal/Years/$(date +%Y).md"
 ```
 
 **For each quarterly rock:**

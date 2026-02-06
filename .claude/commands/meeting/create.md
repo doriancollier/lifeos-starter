@@ -34,7 +34,7 @@ Create a new meeting note for a specified company using the generic meeting temp
 
 1. **Parse arguments** to extract company ID and meeting title
 2. **Load contacts config** to get full company name
-3. **Read the meeting template** from `3-Resources/Templates/meeting.md`
+3. **Read the meeting template** from `workspace/3-Resources/Templates/meeting.md`
 4. **Create meeting note** with filename format: `YYYY-MM-DD - [Meeting Title].md`
 5. **Replace template variables**:
    - `{{title}}` with the meeting title

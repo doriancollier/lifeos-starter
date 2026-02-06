@@ -11,9 +11,9 @@ Guide the user through a **focused reflection session** on their pre-aggregated 
 
 ## Context
 
-- **Weekly documents**: `3-Resources/Planning/Weekly/YYYY-Www.md`
-- **Foundation**: `2-Areas/Personal/foundation.md`
-- **Annual goals**: `2-Areas/Personal/Years/2026.md`
+- **Weekly documents**: `workspace/3-Resources/Planning/Weekly/YYYY-Www.md`
+- **Foundation**: `workspace/2-Areas/Personal/foundation.md`
+- **Annual goals**: `workspace/2-Areas/Personal/Years/2026.md`
 
 ## When to Use
 

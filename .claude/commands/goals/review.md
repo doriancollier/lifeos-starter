@@ -10,9 +10,9 @@ Perform a weekly review of goals, projects, and opportunities. Use this on Monda
 
 ## Context
 
-- **Year file**: `/2-Areas/Personal/Years/2026.md`
-- **Opportunities**: `/7-MOCs/Opportunities-Pipeline.md`
-- **Projects**: `/1-Projects/Current/`
+- **Year file**: `workspace/2-Areas/Personal/Years/2026.md`
+- **Opportunities**: `workspace/7-MOCs/Opportunities-Pipeline.md`
+- **Projects**: `workspace/1-Projects/Current/`
 
 ## Review Flow
 

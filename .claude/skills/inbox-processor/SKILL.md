@@ -18,7 +18,7 @@ Knowledge for identifying file types and routing them to the correct vault locat
 ## Inbox Location
 
 ```
-{{vault_path}}/0-Inbox/
+{{vault_path}}/workspace/0-Inbox/
 ```
 
 This is a staging area for files that need triage before permanent placement.
@@ -34,7 +34,7 @@ This is a staging area for files that need triage before permanent placement.
 - AI notetaker signatures: "Otter.ai", "Fireflies", "Grain", "tl;dv"
 - Long-form conversation structure
 
-**Routing:** `5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/transcript.md`
+**Routing:** `workspace/5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/transcript.md`
 
 ### Meeting Notes
 
@@ -45,7 +45,7 @@ This is a staging area for files that need triage before permanent placement.
 - Agenda or discussion points
 - Company context ({{company_1_name}}, {{company_2_name}}, EMC)
 
-**Routing:** `5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/meeting.md` or `notes-[person].md`
+**Routing:** `workspace/5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/meeting.md` or `notes-[person].md`
 
 ### Person Information
 
@@ -55,7 +55,7 @@ This is a staging area for files that need triage before permanent placement.
 - "About [Name]" or bio content
 - Relationship context
 
-**Routing:** `6-People/Professional/[Company]/` or `6-People/Personal/`
+**Routing:** `workspace/6-People/Professional/[Company]/` or `workspace/6-People/Personal/`
 
 ### Project Documents
 
@@ -65,7 +65,7 @@ This is a staging area for files that need triage before permanent placement.
 - Project timeline or milestones
 - Task lists with deadlines
 
-**Routing:** `1-Projects/Current/[Project]/`
+**Routing:** `workspace/1-Projects/Current/[Project]/`
 
 ### Reference Material
 
@@ -75,7 +75,7 @@ This is a staging area for files that need triage before permanent placement.
 - Templates or boilerplate
 - Research or reference content
 
-**Routing:** `3-Resources/Documentation/` or `3-Resources/Templates/`
+**Routing:** `workspace/3-Resources/Documentation/` or `workspace/3-Resources/Templates/`
 
 ## Meeting Matching
 
@@ -95,7 +95,7 @@ Look for names and match to:
 ### By Topic
 Match keywords to:
 - Recurring meeting names (Product Sync, Engineering Sync)
-- Project names (from `1-Projects/Current/`)
+- Project names (from `workspace/1-Projects/Current/`)
 - Company indicators (from contacts-config.json)
 
 ## Multi-Artifact Meeting Structure
@@ -103,7 +103,7 @@ Match keywords to:
 When a meeting has multiple artifacts, use directory structure:
 
 ```
-5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/
+workspace/5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/
 ├── meeting.md              # Main meeting note (canonical)
 ├── transcript.md           # Full transcript
 ├── transcript-otter.md     # If multiple transcripts (different sources)
@@ -194,9 +194,9 @@ Action Items:
 - Same project context AND similar outcome
 
 **Search locations for duplicates:**
-1. Daily notes (last 7 days): `4-Daily/*.md`
-2. Current projects: `1-Projects/Current/**/*.md`
-3. Recent meetings: `5-Meetings/2025/**/*.md`
+1. Daily notes (last 7 days): `workspace/4-Daily/*.md`
+2. Current projects: `workspace/1-Projects/Current/**/*.md`
+3. Recent meetings: `workspace/5-Meetings/2025/**/*.md`
 
 **Keyword extraction for search:**
 - Remove stop words (the, a, an, to, for, with)
@@ -265,14 +265,14 @@ Identify main discussion threads by:
 
 | Content Type | Destination Pattern |
 |--------------|---------------------|
-| Daily note content | `4-Daily/YYYY-MM-DD.md` |
-| Meeting transcript | `5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/transcript.md` |
-| Meeting notes | `5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/meeting.md` |
-| Person info | `6-People/[Professional or Personal]/[name].md` |
-| Project doc | `1-Projects/Current/[Project]/[doc].md` |
-| Template | `3-Resources/Templates/[name].md` |
-| Reference | `3-Resources/Documentation/[name].md` |
-| Unknown | Ask user or `8-Scratch/` temporarily |
+| Daily note content | `workspace/4-Daily/YYYY-MM-DD.md` |
+| Meeting transcript | `workspace/5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/transcript.md` |
+| Meeting notes | `workspace/5-Meetings/YYYY/MM-Month/YYYY-MM-DD-title/meeting.md` |
+| Person info | `workspace/6-People/[Professional or Personal]/[name].md` |
+| Project doc | `workspace/1-Projects/Current/[Project]/[doc].md` |
+| Template | `workspace/3-Resources/Templates/[name].md` |
+| Reference | `workspace/3-Resources/Documentation/[name].md` |
+| Unknown | Ask user or `workspace/8-Scratch/` temporarily |
 
 ## Integration
 

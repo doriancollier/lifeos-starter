@@ -73,7 +73,7 @@ Match the extracted name against known people:
 
 ```bash
 # Search for person in 6-People/ directory
-find "{{vault_path}}/6-People" -iname "*[person-name]*" -type f
+find "{{vault_path}}/workspace/6-People" -iname "*[person-name]*" -type f
 ```
 
 **Results:**
@@ -136,7 +136,7 @@ mcp__google-calendar__create-event with:
       "source": "claude-code",
       "feature": "birthday",
       "created": "YYYY-MM-DD",
-      "person_file": "6-People/[path]/[person-name].md"
+      "person_file": "workspace/6-People/[path]/[person-name].md"
     }
   }
 ```
@@ -210,7 +210,7 @@ If birth year was provided:
 **Actions:**
 1. ✅ Detect pattern: "[Name]'s birthday is [date]"
 2. ✅ Extract: Name = "Jane Doe", Date = "December 15" → 2025-12-15
-3. ✅ Search person files: Find `6-People/Personal/jane-doe.md`
+3. ✅ Search person files: Find `workspace/6-People/Personal/jane-doe.md`
 4. ✅ Check calendar for existing birthday
 5. ❌ Not found in calendar
 6. ❓ AskUserQuestion:
@@ -245,7 +245,7 @@ If birth year was provided:
 **Actions:**
 1. ✅ Detect pattern: "Happy birthday [Name]"
 2. ✅ Extract: Name = "John", Date = "today" → 2025-11-28
-3. ✅ Search person files: Find `6-People/Professional/{{company_1_name}}/john-smith.md`
+3. ✅ Search person files: Find `workspace/6-People/Professional/{{company_1_name}}/john-smith.md`
 4. ✅ Check calendar for existing birthday
 5. ❌ Not found
 6. ❓ AskUserQuestion:
@@ -270,7 +270,7 @@ If birth year was provided:
 1. ✅ Detect pattern: "[Name] was born on [date]"
 2. ✅ Extract: Name = "Sarah Miller", Date = "March 3, 1990" → 1990-03-03
 3. ✅ Calculate age: 2025 - 1990 = 35 years old
-4. ✅ Search person files: Find `6-People/Professional/{{company_2_name}}/sarah-miller.md`
+4. ✅ Search person files: Find `workspace/6-People/Professional/{{company_2_name}}/sarah-miller.md`
 5. ✅ Check calendar for existing birthday
 6. ❌ Not found
 7. ❓ AskUserQuestion: [offers both options]
@@ -291,7 +291,7 @@ If birth year was provided:
 **Actions:**
 1. ✅ Detect pattern: "[Name]'s birthday is [date]"
 2. ✅ Extract: Name = "Alex Johnson", Date = "July 15" → 2025-07-15
-3. ✅ Search person files: Find `6-People/Personal/alex-johnson.md`
+3. ✅ Search person files: Find `workspace/6-People/Personal/alex-johnson.md`
 4. ✅ Check calendar for existing birthday
 5. ✅ **Found**: "🎂 Alex Johnson's Birthday" on July 15 (recurring)
 6. ℹ️ Notify: "[[Alex Johnson]]'s birthday is already in your calendar (July 15th, recurring yearly)"
@@ -310,7 +310,7 @@ If birth year was provided:
 1. ✅ Detect pattern: "[Name] turns [age] [when]"
 2. ✅ Extract: Name = "Robert Chen", Age = 30, Date = "tomorrow" → 2025-11-29
 3. ✅ Calculate birth year: 2025 - 30 = 1995
-4. ✅ Search person files: Find `6-People/Professional/AustinDiabetesCenter/robert-chen.md`
+4. ✅ Search person files: Find `workspace/6-People/Professional/AustinDiabetesCenter/robert-chen.md`
 5. ✅ Check calendar
 6. ❌ Not found
 7. ❓ AskUserQuestion: [offers both options]
@@ -328,8 +328,8 @@ If birth year was provided:
 2. ✅ Extract: Name = "John", Date = "April 5" → 2025-04-05
 3. ✅ Search person files
 4. ⚠️ **Multiple matches found**:
-   - `6-People/Professional/{{company_1_name}}/john-smith.md`
-   - `6-People/Personal/john-doe.md`
+   - `workspace/6-People/Professional/{{company_1_name}}/john-smith.md`
+   - `workspace/6-People/Personal/john-doe.md`
 5. ❓ AskUserQuestion:
    ```
    "Which John did you mean?
@@ -362,7 +362,7 @@ Extended Properties:
   private.source: "claude-code"
   private.feature: "birthday"
   private.created: "YYYY-MM-DD"
-  private.person_file: "6-People/[path]/[name].md" (optional)
+  private.person_file: "workspace/6-People/[path]/[name].md" (optional)
 ```
 
 ### Why This Format?
@@ -381,7 +381,7 @@ To find all system-created birthday events:
 privateExtendedProperty: ["source=claude-code", "feature=birthday"]
 ```
 
-See [Calendar Tagging Convention](/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
+See [Calendar Tagging Convention](/workspace/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
 
 ## Person File Birthday Format
 

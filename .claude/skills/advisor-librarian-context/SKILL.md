@@ -19,12 +19,12 @@ The Librarian skill enables efficient context retrieval for board deliberations:
 ## Vault Navigation
 
 ### Key Locations
-- **Daily Notes**: `4-Daily/YYYY-MM-DD.md` - Tasks, reflections, captures
-- **Meetings**: `5-Meetings/YYYY/MM-Month/` - Meeting notes and decisions
-- **People**: `6-People/Professional/` and `6-People/Personal/` - Relationship context
-- **Projects**: `1-Projects/Current/` - Active work
-- **Areas**: `2-Areas/` - Ongoing responsibilities by company
-- **Prior Sessions**: `3-Resources/Board-Sessions/` - Past board deliberations
+- **Daily Notes**: `workspace/4-Daily/YYYY-MM-DD.md` - Tasks, reflections, captures
+- **Meetings**: `workspace/5-Meetings/YYYY/MM-Month/` - Meeting notes and decisions
+- **People**: `workspace/6-People/Professional/` and `workspace/6-People/Personal/` - Relationship context
+- **Projects**: `workspace/1-Projects/Current/` - Active work
+- **Areas**: `workspace/2-Areas/` - Ongoing responsibilities by company
+- **Prior Sessions**: `workspace/3-Resources/Board-Sessions/` - Past board deliberations
 
 ### Search Strategies
 
@@ -36,7 +36,7 @@ grep -r "topic" --include="*.md" -l
 **Find recent discussions:**
 ```bash
 # Recent daily notes
-ls -t 4-Daily/*.md | head -14
+ls -t workspace/4-Daily/*.md | head -14
 ```
 
 **Find related people:**
@@ -46,7 +46,7 @@ grep -r "\[\[Person Name\]\]" --include="*.md" -l
 
 **Find prior board sessions:**
 ```bash
-ls -la "3-Resources/Board-Sessions/"
+ls -la "workspace/3-Resources/Board-Sessions/"
 ```
 
 ## Summarization Guidelines

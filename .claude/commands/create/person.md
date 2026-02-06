@@ -42,10 +42,10 @@ Ask user:
 - What is their role?
 
 Then:
-1. Read template from `3-Resources/Templates/person-template.md`
+1. Read template from `workspace/3-Resources/Templates/person-template.md`
 2. Create new file:
-   - Professional: `6-People/Professional/[Company]/[name].md`
-   - Personal: `6-People/Personal/[name].md`
+   - Professional: `workspace/6-People/Professional/[Company]/[name].md`
+   - Personal: `workspace/6-People/Personal/[name].md`
 3. Fill in basic information
 4. Open in Obsidian
 

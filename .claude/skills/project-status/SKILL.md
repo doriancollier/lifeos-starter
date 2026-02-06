@@ -9,10 +9,10 @@ Manages project lifecycle and provides visibility into project portfolio.
 
 ## Project Locations
 
-- **Current**: `1-Projects/Current/` - Active projects being worked on
-- **Backlog**: `1-Projects/Backlog/` - Future projects waiting to start
-- **Completed**: `1-Projects/Completed/` - Finished projects
-- **Cancelled**: `1-Projects/Cancelled/` - Abandoned projects
+- **Current**: `workspace/1-Projects/Current/` - Active projects being worked on
+- **Backlog**: `workspace/1-Projects/Backlog/` - Future projects waiting to start
+- **Completed**: `workspace/1-Projects/Completed/` - Finished projects
+- **Cancelled**: `workspace/1-Projects/Cancelled/` - Abandoned projects
 
 ## Project Lifecycle
 
@@ -26,22 +26,22 @@ Backlog → Current → Completed
 
 ### List all current projects
 ```bash
-ls -la "{{vault_path}}/1-Projects/Current/"
+ls -la "{{vault_path}}/workspace/1-Projects/Current/"
 ```
 
 ### List backlog
 ```bash
-ls -la "{{vault_path}}/1-Projects/Backlog/"
+ls -la "{{vault_path}}/workspace/1-Projects/Backlog/"
 ```
 
 ### Find projects by company
 ```bash
-grep -r "company:.*{{company_1_name}}" "{{vault_path}}/1-Projects/" --include="*.md" -l
+grep -r "company:.*{{company_1_name}}" "{{vault_path}}/workspace/1-Projects/" --include="*.md" -l
 ```
 
 ### Find projects by status
 ```bash
-grep -r "status:.*current" "{{vault_path}}/1-Projects/" --include="*.md" -l
+grep -r "status:.*current" "{{vault_path}}/workspace/1-Projects/" --include="*.md" -l
 ```
 
 ## Project Note Structure
@@ -100,7 +100,7 @@ When `health` is not explicitly set:
 
 ## Key Project Directories
 
-Projects are organized by company context. Check `1-Projects/Current/` for active projects.
+Projects are organized by company context. Check `workspace/1-Projects/Current/` for active projects.
 
 ### Project Folder Structure (Complex Projects)
 
@@ -186,7 +186,7 @@ When asked about a specific project by name:
 
 ```bash
 # Search for project file or folder
-find "{{vault_path}}/1-Projects" -iname "*[project-name]*" -type f -o -iname "*[project-name]*" -type d
+find "{{vault_path}}/workspace/1-Projects" -iname "*[project-name]*" -type f -o -iname "*[project-name]*" -type d
 ```
 
 ### 2. Identify Entry Point
@@ -197,7 +197,7 @@ For found project:
 
 ```bash
 # For folder projects, find entry point
-ls "{{vault_path}}/1-Projects/Current/[ProjectName]/" | grep -E "^_.*\.md$|^README\.md$"
+ls "{{vault_path}}/workspace/1-Projects/Current/[ProjectName]/" | grep -E "^_.*\.md$|^README\.md$"
 ```
 
 ### 3. Extract Status Information
@@ -212,7 +212,7 @@ From the entry file, extract:
 
 ```bash
 # Find mentions in last 7 daily notes
-grep -l "[ProjectName]" {{vault_path}}/4-Daily/*.md | tail -7
+grep -l "[ProjectName]" {{vault_path}}/workspace/4-Daily/*.md | tail -7
 ```
 
 ### 5. Format Single Project Report
@@ -259,5 +259,5 @@ After displaying status, offer:
 - Projects link to daily notes where work happens
 - Projects link to meetings where decisions are made
 - Projects link to people involved
-- MOCs provide navigation: `7-MOCs/[Company]-Projects.md` for each company context
+- MOCs provide navigation: `workspace/7-MOCs/[Company]-Projects.md` for each company context
 - See `project-structure` skill for organization conventions

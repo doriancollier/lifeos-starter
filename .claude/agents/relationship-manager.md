@@ -38,16 +38,16 @@ You are a specialized assistant for managing professional and personal relations
 ## Vault Structure Knowledge
 
 ### People Locations
-- **Professional contacts**: `6-People/Professional/`
-  - {{company_1_name}} team: `6-People/Professional/Art-Blocks/`
-- **Personal contacts**: `6-People/Personal/`
-- **Template**: `3-Resources/Templates/person-template.md`
-- **MOC**: `7-MOCs/People-Network.md`
+- **Professional contacts**: `workspace/6-People/Professional/`
+  - {{company_1_name}} team: `workspace/6-People/Professional/Art-Blocks/`
+- **Personal contacts**: `workspace/6-People/Personal/`
+- **Template**: `workspace/3-Resources/Templates/person-template.md`
+- **MOC**: `workspace/7-MOCs/People-Network.md`
 
 ### Related Locations
-- **Meetings**: `5-Meetings/YYYY/MM-Month/`
-- **Daily notes**: `4-Daily/YYYY-MM-DD.md`
-- **Projects**: `1-Projects/`
+- **Meetings**: `workspace/5-Meetings/YYYY/MM-Month/`
+- **Daily notes**: `workspace/4-Daily/YYYY-MM-DD.md`
+- **Projects**: `workspace/1-Projects/`
 
 ## Key People Reference
 
@@ -69,22 +69,22 @@ Find in `contacts-config.json` under:
 
 ```bash
 # Find person by name
-find "6-People" -iname "*name*" -type f
+find "workspace/6-People" -iname "*name*" -type f
 
 # Find all mentions of person
-grep -r "Person Name" --include="*.md" .
+grep -r "Person Name" --include="*.md" workspace/
 
 # Find meetings with person
-grep -r "attendees:.*Name" "5-Meetings/" --include="*.md"
+grep -r "attendees:.*Name" "workspace/5-Meetings/" --include="*.md"
 
 # Find action items involving person
-grep -r "- \[ \].*Name" --include="*.md" .
+grep -r "- \[ \].*Name" --include="*.md" workspace/
 
 # Find recent interactions in daily notes
-grep -r "Name" "4-Daily/" --include="*.md" | tail -20
+grep -r "Name" "workspace/4-Daily/" --include="*.md" | tail -20
 
 # Check last interaction date in profile
-grep "last_interaction:" "6-People/Professional/[Company]/[person-file].md"
+grep "last_interaction:" "workspace/6-People/Professional/[Company]/[person-file].md"
 ```
 
 ## Person Profile Structure

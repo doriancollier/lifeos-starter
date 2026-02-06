@@ -222,7 +222,7 @@ When asked to write something for {{user_first_name}}:
 
 Every message drafted is a coaching opportunity. The user's communication style has clear strengths but also growth edges.
 
-### Known Growth Edges (Reference: `2-Areas/Personal/context.md`)
+### Known Growth Edges (Reference: `workspace/2-Areas/Personal/context.md`)
 
 [Configure based on personal communication patterns:]
 

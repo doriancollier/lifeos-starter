@@ -22,7 +22,8 @@ from hook_logger import setup_logger, log_hook_execution
 logger = setup_logger("table-format-validator")
 
 # Vault configuration - uses environment variable or auto-detects from script location
-VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or str(Path(__file__).resolve().parent.parent.parent)
+PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
+VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or os.path.join(PROJECT_ROOT, "workspace")
 
 
 def find_tables_missing_blank_lines(content):

@@ -9,11 +9,11 @@ Manages information about people and relationships within the vault.
 
 ## Vault Locations
 
-- **Professional contacts**: `{{vault_path}}/6-People/Professional/`
-  - {{company_1_name}} team: `6-People/Professional/Art-Blocks/`
-- **Personal contacts**: `{{vault_path}}/6-People/Personal/`
-- **Person template**: `{{vault_path}}/3-Resources/Templates/person-template.md`
-- **People MOC**: `{{vault_path}}/7-MOCs/People-Network.md`
+- **Professional contacts**: `{{vault_path}}/workspace/6-People/Professional/`
+  - {{company_1_name}} team: `workspace/6-People/Professional/Art-Blocks/`
+- **Personal contacts**: `{{vault_path}}/workspace/6-People/Personal/`
+- **Person template**: `{{vault_path}}/workspace/3-Resources/Templates/person-template.md`
+- **People MOC**: `{{vault_path}}/workspace/7-MOCs/People-Network.md`
 
 ## Person Note Structure
 
@@ -43,7 +43,7 @@ type: "person"
 
 ## Key People Reference
 
-Key people are loaded dynamically from `/0-System/config/contacts-config.json`.
+Key people are loaded dynamically from `workspace/0-System/config/contacts-config.json`.
 
 ### Company Contacts
 Find in `contacts-config.json` under:
@@ -61,21 +61,21 @@ Find in `contacts-config.json` under:
 
 ### Search for a person by name
 ```bash
-find "{{vault_path}}/6-People" -iname "*name*" -type f
+find "{{vault_path}}/workspace/6-People" -iname "*name*" -type f
 ```
 
 ### Get person's communication preference
 ```bash
-grep "communication_preference:" "{{vault_path}}/6-People/Professional/[Company]/[person-file].md"
+grep "communication_preference:" "{{vault_path}}/workspace/6-People/Professional/[Company]/[person-file].md"
 ```
 
 ### Find all interactions with a person
 ```bash
 # In meeting notes
-grep -r "[Person Name]" "{{vault_path}}/5-Meetings/" --include="*.md" -l
+grep -r "[Person Name]" "{{vault_path}}/workspace/5-Meetings/" --include="*.md" -l
 
 # In daily notes
-grep -r "[Person Name]" "{{vault_path}}/4-Daily/" --include="*.md" -l
+grep -r "[Person Name]" "{{vault_path}}/workspace/4-Daily/" --include="*.md" -l
 ```
 
 ### Find action items involving a person
@@ -102,10 +102,10 @@ Track relationship health through:
 
 ## Creating New Person Notes
 
-1. Copy template from `3-Resources/Templates/person-template.md`
+1. Copy template from `workspace/3-Resources/Templates/person-template.md`
 2. Save to appropriate directory:
-   - Professional: `6-People/Professional/[Company]/[name].md`
-   - Personal: `6-People/Personal/[name].md`
+   - Professional: `workspace/6-People/Professional/[Company]/[name].md`
+   - Personal: `workspace/6-People/Personal/[name].md`
 3. Fill in known information
 4. Add initial AI context notes
 

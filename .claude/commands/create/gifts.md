@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, AskUserQuestion
 
 # Create Gifts Command
 
-Creates a new gift planning project in `/1-Projects/Current/` using the gift planning template.
+Creates a new gift planning project in `workspace/1-Projects/Current/` using the gift planning template.
 
 ## Arguments
 
@@ -71,7 +71,7 @@ For common occasions:
 
 ### Step 8: Update Life Events Timeline
 
-Read and update `/7-MOCs/Life-Events-Timeline.md`:
+Read and update `workspace/7-MOCs/Life-Events-Timeline.md`:
 
 1. Calculate days until occasion
 2. Determine which timeframe section based on occasion date
@@ -106,7 +106,7 @@ Read and update `/7-MOCs/Life-Events-Timeline.md`:
 ```markdown
 ## Gift Planning Created: [Occasion]
 
-**Location**: `/1-Projects/Current/[Occasion]-Gifts/`
+**Location**: `workspace/1-Projects/Current/[Occasion]-Gifts/`
 
 ### Details
 - **Occasion**: [occasion]

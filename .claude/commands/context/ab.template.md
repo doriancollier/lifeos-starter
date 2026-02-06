@@ -12,21 +12,21 @@ Switch mental context to {{company_1_name}} work.
 Load and summarize the current {{company_1_name}} context:
 
 ### 1. Read Area Overview
-- Check `2-Areas/{{company_1_name}}/` for any overview or status files
+- Check `workspace/2-Areas/{{company_1_name}}/` for any overview or status files
 
 ### 2. Find Active Projects
-- List projects in `1-Projects/Current/` related to {{company_1_name}}
+- List projects in `workspace/1-Projects/Current/` related to {{company_1_name}}
 
 ### 3. Check Today's Tasks
 - Search today's daily note for {{company_1_name}} tasks
 - Look for `Company: {{company_1_name}}` in task lines
 
 ### 4. Find Recent Meetings
-- Check `5-Meetings/` for recent {{company_1_name}} meetings
+- Check `workspace/5-Meetings/` for recent {{company_1_name}} meetings
 - Look for meetings with key colleagues
 
 ### 5. Review Key People Status
-- Check person files in `6-People/Professional/`
+- Check person files in `workspace/6-People/Professional/`
 - Any open action items with them
 
 ## Output Format

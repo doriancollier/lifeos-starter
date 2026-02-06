@@ -110,7 +110,7 @@ Configure your calendars in `.user/calendars.yaml`. Example structure:
 **Timezone**: {{timezone}}
 
 **Key People Email Lookup**:
-- Look up attendee emails in `6-People/` directory
+- Look up attendee emails in `workspace/6-People/` directory
 - Configure key contacts in `.user/calendars.yaml` or person files
 
 ## Color Coding Standards
@@ -215,7 +215,7 @@ Options:
 **To find their email:**
 ```bash
 # Search person files
-find "{{vault_path}}/6-People" -iname "*[person-name]*" -type f
+find "{{vault_path}}/workspace/6-People" -iname "*[person-name]*" -type f
 ```
 
 Then read the file and extract email from Contact Information section.
@@ -411,7 +411,7 @@ When adding attendees:
 
 1. Search for person in vault:
    ```bash
-   find "6-People" -iname "*[name]*" -type f
+   find "workspace/6-People" -iname "*[name]*" -type f
    ```
 
 2. Read person file and extract email from Contact Information
@@ -562,7 +562,7 @@ privateExtendedProperty: ["source=claude-code"]
 privateExtendedProperty: ["source=claude-code", "feature=travel"]
 ```
 
-See [Calendar Tagging Convention](/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
+See [Calendar Tagging Convention](/workspace/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
 
 ---
 
@@ -646,7 +646,7 @@ These scheduling concepts integrate with [[planning-horizons]] and [[decision-fr
 | Recovery needed (post-deadline) | More buffer time, lighter scheduling |
 
 **Seasonal Detection:**
-- Check year file (`/2-Areas/Personal/Years/YYYY.md`) for current theme
+- Check year file (`workspace/2-Areas/Personal/Years/YYYY.md`) for current theme
 - Check quarterly rocks for priority signals
 - Look for recent high-intensity periods (many late meetings, weekend work)
 

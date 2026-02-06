@@ -235,7 +235,7 @@ Where `TrackerName` is the capitalized tracker id (e.g., "{{user_first_name}}", 
 
 **Tracker**: {tracker.name}
 **Month**: {Month} {Year}
-**File**: `3-Resources/Documents/Printables/Habit-Tracker-{Year}-{Month}-{TrackerName}.html`
+**File**: `workspace/3-Resources/Documents/Printables/Habit-Tracker-{Year}-{Month}-{TrackerName}.html`
 
 ### Habits Tracked
 

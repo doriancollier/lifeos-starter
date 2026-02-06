@@ -11,15 +11,15 @@ Show roadmap status for products across organizations.
 
 ### Step 1: Identify Products
 
-Products are defined in `2-Areas/[Company]/products/` directories. Each product has a `roadmap.md` file.
+Products are defined in `workspace/2-Areas/[Company]/products/` directories. Each product has a `roadmap.md` file.
 
 **Known Products:**
 
 | Company | Product | Location |
 |---------|---------|----------|
-| {{company_1_name}} | (Configure products) | `2-Areas/{{company_1_name}}/products/` |
-| {{company_2_name}} | (Configure products) | `2-Areas/{{company_2_name}}/products/` |
-| {{company_3_name}} | (Configure products) | `2-Areas/{{company_3_name}}/products/` |
+| {{company_1_name}} | (Configure products) | `workspace/2-Areas/{{company_1_name}}/products/` |
+| {{company_2_name}} | (Configure products) | `workspace/2-Areas/{{company_2_name}}/products/` |
+| {{company_3_name}} | (Configure products) | `workspace/2-Areas/{{company_3_name}}/products/` |
 
 ### Step 2: Scan for Product Roadmaps
 

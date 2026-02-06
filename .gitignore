@@ -29,17 +29,27 @@ Thumbs.db
 # Note: companies.yaml, integrations.yaml, calendars.yaml, coaching.yaml are safe to commit
 
 # SuperNormal auth state and browser profile
-0-System/scripts/supernormal/auth-state.json
-0-System/scripts/supernormal/chrome-profile/
+workspace/0-System/scripts/supernormal/auth-state.json
+workspace/0-System/scripts/supernormal/chrome-profile/
 
 # Screenshot previews (may contain personal info)
 .playwright-mcp/
 
 # Local state files (generated at runtime)
 .claude/reminders-state.json
-0-System/scripts/supernormal/sync-state.json
+workspace/0-System/scripts/supernormal/sync-state.json
 
 # Upgrade system (local cache and backups)
 .claude/cache/
 .claude/backups/
 .user/upgrade.yaml
+
+# Node.js
+node_modules/
+dist/
+.next/
+.turbo/
+*.tsbuildinfo
+
+# Build
+.cache/

@@ -27,7 +27,7 @@ Daily Note Tasks ←→ reminders_manager.py ←→ macOS Reminders.app
 
 - **Script**: `.claude/scripts/reminders_manager.py`
 - **State file**: `.claude/reminders-state.json`
-- **Daily notes**: `4-Daily/YYYY-MM-DD.md`
+- **Daily notes**: `workspace/4-Daily/YYYY-MM-DD.md`
 - **Reminder lists**: {{company_1_name}}, {{company_2_name}}, EMC, Personal
 
 ## Task Priority Mapping
@@ -68,7 +68,7 @@ Read existing mappings between tasks and reminders.
 date +%Y-%m-%d
 ```
 
-Read today's daily note at `4-Daily/YYYY-MM-DD.md`.
+Read today's daily note at `workspace/4-Daily/YYYY-MM-DD.md`.
 
 ### 3. Extract All Tasks from Daily Note
 

@@ -39,14 +39,14 @@ SYSTEM_PATHS = [
     ".claude/hooks/",
     ".claude/scripts/",
     ".claude/rules/",
-    "0-System/",
+    "workspace/0-System/",
     "CLAUDE.template.md",
     "VERSION",
 ]
 
 # Paths explicitly excluded (even if they match system paths)
 EXCLUDED_PATHS = [
-    "0-System/changelog.md",  # Don't create entries for changelog edits
+    "workspace/0-System/changelog.md",  # Don't create entries for changelog edits
 ]
 
 # Commit prefixes to skip (maintenance, not notable)
@@ -285,7 +285,7 @@ def write_changelog(changelog_path: Path, content: str) -> None:
 def main() -> int:
     """Main entry point for the post-commit hook."""
     vault_root = get_vault_root()
-    changelog_path = vault_root / "0-System" / "changelog.md"
+    changelog_path = vault_root / "workspace" / "0-System" / "changelog.md"
     lock_file = vault_root / ".claude" / ".changelog-populator.lock"
 
     # Prevent re-entry (amend triggers post-commit again)

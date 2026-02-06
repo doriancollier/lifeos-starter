@@ -31,12 +31,13 @@ from hook_logger import setup_logger, log_hook_execution
 logger = setup_logger("session-context-loader")
 
 # Vault configuration - uses environment variable or auto-detects from script location
-VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or str(Path(__file__).resolve().parent.parent.parent)
+PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
+VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or os.path.join(PROJECT_ROOT, "workspace")
 DAILY_DIR = os.path.join(VAULT_ROOT, "4-Daily")
 INBOX_DIR = os.path.join(VAULT_ROOT, "0-Inbox")
 PROJECTS_DIR = os.path.join(VAULT_ROOT, "1-Projects", "Current")
-SYNC_PENDING_FILE = os.path.join(VAULT_ROOT, ".claude", "sync-pending")
-SYNC_QUEUE_FILE = os.path.join(VAULT_ROOT, ".claude", "sync-queue.json")
+SYNC_PENDING_FILE = os.path.join(PROJECT_ROOT, ".claude", "sync-pending")
+SYNC_QUEUE_FILE = os.path.join(PROJECT_ROOT, ".claude", "sync-queue.json")
 USER_CONFIG_FILE = os.path.join(VAULT_ROOT, "0-System", "config", "user-config.md")
 LEARNING_LOG_FILE = os.path.join(VAULT_ROOT, "0-System", "config", "learning-log.md")
 OPPORTUNITIES_FILE = os.path.join(VAULT_ROOT, "7-MOCs", "Opportunities-Pipeline.md")

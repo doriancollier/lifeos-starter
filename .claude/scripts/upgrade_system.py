@@ -45,7 +45,7 @@ except ImportError:
 # System directories/files that get updated during upgrade
 SYSTEM_PATHS = [
     "VERSION",
-    "0-System/",
+    "workspace/0-System/",
     ".claude/skills/",
     ".claude/commands/",
     ".claude/agents/",
@@ -58,16 +58,16 @@ SYSTEM_PATHS = [
 # Paths that should NEVER be modified by upgrade
 PROTECTED_PATHS = [
     ".user/",
-    "1-Projects/",
-    "2-Areas/",
-    "3-Resources/",
-    "4-Daily/",
-    "5-Meetings/",
-    "6-People/",
-    "7-MOCs/",
-    "8-Scratch/",
-    "0-Inbox/",
-    ".obsidian/",
+    "workspace/1-Projects/",
+    "workspace/2-Areas/",
+    "workspace/3-Resources/",
+    "workspace/4-Daily/",
+    "workspace/5-Meetings/",
+    "workspace/6-People/",
+    "workspace/7-MOCs/",
+    "workspace/8-Scratch/",
+    "workspace/0-Inbox/",
+    "workspace/.obsidian/",
     "CLAUDE.md",  # Generated file
     ".claude/settings.json",  # Generated file
     ".claude/rules/coaching.md",  # Generated file

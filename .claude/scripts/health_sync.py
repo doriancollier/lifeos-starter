@@ -39,9 +39,10 @@ from typing import Optional
 # Configuration
 # ============================================================================
 
-VAULT_ROOT = Path(__file__).parent.parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+VAULT_ROOT = Path(os.environ.get("OBSIDIAN_VAULT_ROOT") or str(PROJECT_ROOT / "workspace"))
 CONFIG_PATH = VAULT_ROOT / "0-System" / "config" / "health-config.md"
-DB_PATH = VAULT_ROOT / ".claude" / "data" / "health.db"
+DB_PATH = PROJECT_ROOT / ".claude" / "data" / "health.db"
 
 # Default export path (can be overridden by config)
 DEFAULT_EXPORT_PATH = Path.home() / "Library" / "Mobile Documents" / "iCloud~com~ifunography~HealthExport" / "Documents" / "Dc test automation"

@@ -43,13 +43,13 @@ Tasks can have due dates using the `📅 YYYY-MM-DD` format. Due dates are **ann
 
 ```bash
 # Tasks due today
-grep -rn "📅 $(date +%Y-%m-%d)" "{{vault_path}}/4-Daily/"*.md | grep "\- \[ \]"
+grep -rn "📅 $(date +%Y-%m-%d)" "{{vault_path}}/workspace/4-Daily/"*.md | grep "\- \[ \]"
 
 # All tasks with due dates
-grep -rEn "📅 [0-9]{4}-[0-9]{2}-[0-9]{2}" "{{vault_path}}/4-Daily/"*.md
+grep -rEn "📅 [0-9]{4}-[0-9]{2}-[0-9]{2}" "{{vault_path}}/workspace/4-Daily/"*.md
 
 # Tasks due this month (December 2025)
-grep -rn "📅 2025-12-" "{{vault_path}}/4-Daily/"*.md | grep "\- \[ \]"
+grep -rn "📅 2025-12-" "{{vault_path}}/workspace/4-Daily/"*.md | grep "\- \[ \]"
 
 # Overdue tasks (requires date calculation - use Python or /vault-tasks:due command)
 ```
@@ -129,22 +129,22 @@ Tasks appear in these locations in daily notes:
 
 ### All incomplete tasks in a daily note
 ```bash
-grep -E "^- \[ \]" "{{vault_path}}/4-Daily/YYYY-MM-DD.md"
+grep -E "^- \[ \]" "{{vault_path}}/workspace/4-Daily/YYYY-MM-DD.md"
 ```
 
 ### All A priority (critical) tasks
 ```bash
-grep -E "^- \[ \] 🔴" "{{vault_path}}/4-Daily/"*.md
+grep -E "^- \[ \] 🔴" "{{vault_path}}/workspace/4-Daily/"*.md
 ```
 
 ### All blocked tasks
 ```bash
-grep -E "^- \[ \] 🔵" "{{vault_path}}/4-Daily/"*.md
+grep -E "^- \[ \] 🔵" "{{vault_path}}/workspace/4-Daily/"*.md
 ```
 
 ### Completed tasks from today
 ```bash
-grep -E "^- \[x\]" "{{vault_path}}/4-Daily/$(date +%Y-%m-%d).md"
+grep -E "^- \[x\]" "{{vault_path}}/workspace/4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 ## Task Lifecycle
@@ -185,13 +185,13 @@ When a task is completed, the `work-logging` skill can update:
 ### Find tasks that appear in multiple days (carried over)
 ```bash
 # Find a specific task text across daily notes
-grep -r "task description" "{{vault_path}}/4-Daily/" --include="*.md"
+grep -r "task description" "{{vault_path}}/workspace/4-Daily/" --include="*.md"
 ```
 
 ### Find incomplete tasks from the past week
 ```bash
 # List recent daily notes and search for incomplete tasks
-for f in $(ls -t "{{vault_path}}/4-Daily/"*.md | head -7); do
+for f in $(ls -t "{{vault_path}}/workspace/4-Daily/"*.md | head -7); do
   echo "=== $f ==="
   grep -E "^- \[ \]" "$f"
 done

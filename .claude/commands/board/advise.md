@@ -127,7 +127,7 @@ Task tool:
 The Board Chair will:
 1. Gather pre-round information if needed
 2. Run the multi-round deliberation with Q&A phases
-3. Save all memos and Q&A to `3-Resources/Board-Sessions/[date-topic]/`
+3. Save all memos and Q&A to `workspace/3-Resources/Board-Sessions/[date-topic]/`
 4. Produce a synthesized recommendation
 5. Present the recommendation with next steps
 

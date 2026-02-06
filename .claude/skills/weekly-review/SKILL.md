@@ -10,9 +10,9 @@ Aggregates and analyzes data from daily notes to support weekly reviews and plan
 
 ## Data Sources
 
-- **Daily notes**: `4-Daily/YYYY-MM-DD.md`
-- **Meeting notes**: `5-Meetings/YYYY/MM-Month/`
-- **Projects**: `1-Projects/Current/`
+- **Daily notes**: `workspace/4-Daily/YYYY-MM-DD.md`
+- **Meeting notes**: `workspace/5-Meetings/YYYY/MM-Month/`
+- **Projects**: `workspace/1-Projects/Current/`
 
 ## Weekly Review Components
 
@@ -23,7 +23,7 @@ Aggregates and analyzes data from daily notes to support weekly reviews and plan
 for i in {0..6}; do
   date_str=$(date -v-${i}d +%Y-%m-%d)
   echo "=== $date_str ==="
-  grep -E "^- \[x\]" "{{vault_path}}/4-Daily/${date_str}.md" 2>/dev/null
+  grep -E "^- \[x\]" "{{vault_path}}/workspace/4-Daily/${date_str}.md" 2>/dev/null
 done
 ```
 
@@ -33,7 +33,7 @@ done
 # Find tasks that appeared in multiple days (carried over)
 for i in {0..6}; do
   date_str=$(date -v-${i}d +%Y-%m-%d)
-  grep -E "^- \[ \]" "{{vault_path}}/4-Daily/${date_str}.md" 2>/dev/null
+  grep -E "^- \[ \]" "{{vault_path}}/workspace/4-Daily/${date_str}.md" 2>/dev/null
 done | sort | uniq -c | sort -rn
 ```
 
@@ -41,7 +41,7 @@ done | sort | uniq -c | sort -rn
 
 ```bash
 # List meetings from the past week
-find "{{vault_path}}/5-Meetings/2025/" -name "*.md" -mtime -7
+find "{{vault_path}}/workspace/5-Meetings/2025/" -name "*.md" -mtime -7
 ```
 
 ### 4. Energy & Mood Patterns
@@ -51,7 +51,7 @@ find "{{vault_path}}/5-Meetings/2025/" -name "*.md" -mtime -7
 for i in {0..6}; do
   date_str=$(date -v-${i}d +%Y-%m-%d)
   echo -n "$date_str: "
-  grep "energy_level:" "{{vault_path}}/4-Daily/${date_str}.md" 2>/dev/null
+  grep "energy_level:" "{{vault_path}}/workspace/4-Daily/${date_str}.md" 2>/dev/null
 done
 ```
 
@@ -378,7 +378,7 @@ Track daily and weekly rhythm adherence:
 for i in {0..6}; do
   date_str=$(date -v-${i}d +%Y-%m-%d)
   echo "=== $date_str ==="
-  grep -E "^\- \[x\]" "{{vault_path}}/4-Daily/${date_str}.md" 2>/dev/null | grep -E "(Daily Practice|Daily Movement|Sleep Protocol|Morning Light|caffeine|Appreciation|{{child_name}} Moment)"
+  grep -E "^\- \[x\]" "{{vault_path}}/workspace/4-Daily/${date_str}.md" 2>/dev/null | grep -E "(Daily Practice|Daily Movement|Sleep Protocol|Morning Light|caffeine|Appreciation|{{child_name}} Moment)"
 done
 ```
 

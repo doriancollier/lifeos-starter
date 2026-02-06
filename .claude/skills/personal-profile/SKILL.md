@@ -24,40 +24,40 @@ This skill activates when:
 
 | Document | Path | Purpose |
 |----------|------|---------|
-| Foundation | `2-Areas/Personal/foundation.md` | Mission, vision, principles |
-| Biography | `2-Areas/Personal/biography.md` | Life narrative |
-| Context | `2-Areas/Personal/context.md` | Current life context |
-| Daily Practice | `2-Areas/Personal/daily-practice.md` | Daily affirmations |
-| Roles | `2-Areas/Personal/Roles/*.md` | Role-based identity |
+| Foundation | `workspace/2-Areas/Personal/foundation.md` | Mission, vision, principles |
+| Biography | `workspace/2-Areas/Personal/biography.md` | Life narrative |
+| Context | `workspace/2-Areas/Personal/context.md` | Current life context |
+| Daily Practice | `workspace/2-Areas/Personal/daily-practice.md` | Daily affirmations |
+| Roles | `workspace/2-Areas/Personal/Roles/*.md` | Role-based identity |
 
 ### Professional Documents
 
 | Document | Path | Template |
 |----------|------|----------|
-| Resume | `2-Areas/Personal/resume.md` | `3-Resources/Templates/personal/resume-template.md` |
-| Work History | `2-Areas/Personal/work-history.md` | `3-Resources/Templates/personal/work-history-template.md` |
-| Education | `2-Areas/Personal/education.md` | `3-Resources/Templates/personal/education-template.md` |
-| Skills | `2-Areas/Personal/skills.md` | `3-Resources/Templates/personal/skills-template.md` |
+| Resume | `workspace/2-Areas/Personal/resume.md` | `workspace/3-Resources/Templates/personal/resume-template.md` |
+| Work History | `workspace/2-Areas/Personal/work-history.md` | `workspace/3-Resources/Templates/personal/work-history-template.md` |
+| Education | `workspace/2-Areas/Personal/education.md` | `workspace/3-Resources/Templates/personal/education-template.md` |
+| Skills | `workspace/2-Areas/Personal/skills.md` | `workspace/3-Resources/Templates/personal/skills-template.md` |
 
 ### Financial Documents
 
 | Document | Path | Template |
 |----------|------|----------|
-| Assets & Equity | `2-Areas/Personal/assets-and-equity.md` | `3-Resources/Templates/personal/assets-template.md` |
-| Legal Entities | `2-Areas/Personal/legal-entities.md` | `3-Resources/Templates/personal/legal-entities-template.md` |
+| Assets & Equity | `workspace/2-Areas/Personal/assets-and-equity.md` | `workspace/3-Resources/Templates/personal/assets-template.md` |
+| Legal Entities | `workspace/2-Areas/Personal/legal-entities.md` | `workspace/3-Resources/Templates/personal/legal-entities-template.md` |
 
 ### Health Documents
 
 | Document | Path | Template |
 |----------|------|----------|
-| Medical History | `2-Areas/Personal/medical-history.md` | `3-Resources/Templates/personal/medical-history-template.md` |
+| Medical History | `workspace/2-Areas/Personal/medical-history.md` | `workspace/3-Resources/Templates/personal/medical-history-template.md` |
 
 ### Emergency Documents
 
 | Document | Path | Template |
 |----------|------|----------|
-| Emergency Contacts | `2-Areas/Personal/emergency-contacts.md` | `3-Resources/Templates/personal/emergency-contacts-template.md` |
-| Insurance Summary | `2-Areas/Personal/insurance-summary.md` | `3-Resources/Templates/personal/insurance-template.md` |
+| Emergency Contacts | `workspace/2-Areas/Personal/emergency-contacts.md` | `workspace/3-Resources/Templates/personal/emergency-contacts-template.md` |
+| Insurance Summary | `workspace/2-Areas/Personal/insurance-summary.md` | `workspace/3-Resources/Templates/personal/insurance-template.md` |
 
 ## Behaviors
 
@@ -87,12 +87,12 @@ When conversation reveals information that belongs in a personal document:
 
 When a document doesn't exist and is needed:
 
-1. Read the appropriate template from `3-Resources/Templates/personal/`
+1. Read the appropriate template from `workspace/3-Resources/Templates/personal/`
 2. Pre-fill with known information from other sources:
    - `biography.md` for career/education history
    - `context.md` for healthcare/insurance info
    - Person files for emergency contacts
-3. Create the document in `2-Areas/Personal/`
+3. Create the document in `workspace/2-Areas/Personal/`
 4. Notify user: "Created {{document}}. Please review and complete the sections I couldn't fill."
 
 ### Auditing Documents
@@ -150,7 +150,7 @@ During annual planning (`/goals:review`, year file creation):
 **User**: "What's in my resume?"
 
 **Action**:
-1. Read `2-Areas/Personal/resume.md`
+1. Read `workspace/2-Areas/Personal/resume.md`
 2. Summarize contents
 3. Offer: "Would you like to update anything?"
 
@@ -202,4 +202,4 @@ During annual planning (`/goals:review`, year file creation):
 
 ## Full Guide
 
-See `0-System/guides/personal-documents.md` for complete documentation of the personal document system.
+See `workspace/0-System/guides/personal-documents.md` for complete documentation of the personal document system.

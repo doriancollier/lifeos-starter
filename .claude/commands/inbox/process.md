@@ -5,7 +5,7 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion, mcp__google
 
 # Inbox Process Command
 
-Process files dropped in the `0-Inbox/` directory. Identify what each file is, route it to the correct location, and extract useful information.
+Process files dropped in the `workspace/0-Inbox/` directory. Identify what each file is, route it to the correct location, and extract useful information.
 
 ## Context
 
@@ -31,11 +31,11 @@ Read each file and determine what it is:
 
 | Pattern | Type | Destination |
 |---------|------|-------------|
-| Contains "transcript", timestamps like `[00:00]`, speaker labels | Meeting Transcript | `5-Meetings/` |
-| Contains "Meeting Notes", attendee lists, action items | Meeting Notes | `5-Meetings/` |
-| Contains person information, contact details | Person Note | `6-People/` |
-| Contains project info, tasks, deadlines | Project | `1-Projects/` |
-| Contains "template", reusable structure | Template | `3-Resources/Templates/` |
+| Contains "transcript", timestamps like `[00:00]`, speaker labels | Meeting Transcript | `workspace/5-Meetings/` |
+| Contains "Meeting Notes", attendee lists, action items | Meeting Notes | `workspace/5-Meetings/` |
+| Contains person information, contact details | Person Note | `workspace/6-People/` |
+| Contains project info, tasks, deadlines | Project | `workspace/1-Projects/` |
+| Contains "template", reusable structure | Template | `workspace/3-Resources/Templates/` |
 | PDF, image, or binary file | Attachment | Depends on context |
 | Unknown | Ask user | — |
 
@@ -118,9 +118,9 @@ has_artifacts: true
 
 ### Step 5: For Non-Meeting Files
 
-**Person files**: Route to `6-People/Professional/[Company]/` or `6-People/Personal/`
+**Person files**: Route to `workspace/6-People/Professional/[Company]/` or `workspace/6-People/Personal/`
 
-**Project files**: Route to `1-Projects/Current/[Project]/` or ask which project
+**Project files**: Route to `workspace/1-Projects/Current/[Project]/` or ask which project
 
 **Unknown files**: Ask user:
 ```
@@ -129,7 +129,7 @@ Content preview: [first 200 chars]
 
 Where should this go?
 1. [Suggested location based on content]
-2. 8-Scratch/ (temporary)
+2. workspace/8-Scratch/ (temporary)
 3. Tell me where"
 ```
 
@@ -273,7 +273,7 @@ After routing each file:
 ### Routed
 | File | Destination | Action Taken |
 |------|-------------|--------------|
-| `transcript.md` | `5-Meetings/2025/12-December/2025-12-03-product-sync/` | Created meeting directory, extracted 3 action items |
+| `transcript.md` | `workspace/5-Meetings/2025/12-December/2025-12-03-product-sync/` | Created meeting directory, extracted 3 action items |
 
 ### Extracted
 - 3 action items added to today's daily note

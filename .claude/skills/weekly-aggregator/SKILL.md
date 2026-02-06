@@ -31,9 +31,9 @@ By the time reflection is needed, all data is already captured.
 
 ## File Locations
 
-- **Weekly documents**: `3-Resources/Planning/Weekly/YYYY-Www.md`
-- **Daily notes**: `4-Daily/YYYY-MM-DD.md`
-- **Template**: `3-Resources/Templates/weekly-rolling.md`
+- **Weekly documents**: `workspace/3-Resources/Planning/Weekly/YYYY-Www.md`
+- **Daily notes**: `workspace/4-Daily/YYYY-MM-DD.md`
+- **Template**: `workspace/3-Resources/Templates/weekly-rolling.md`
 
 ## Week Numbering
 
@@ -70,11 +70,11 @@ data_week=$(date -v-1d +%G-W%V)
 ### Step 2: Check/Create Weekly Document
 
 ```bash
-weekly_file="{{vault_path}}/3-Resources/Planning/Weekly/${data_week}.md"
+weekly_file="{{vault_path}}/workspace/3-Resources/Planning/Weekly/${data_week}.md"
 ```
 
 If file doesn't exist:
-1. Read template from `3-Resources/Templates/weekly-rolling.md`
+1. Read template from `workspace/3-Resources/Templates/weekly-rolling.md`
 2. Replace template variables:
    - `{{week_number}}` → week number (e.g., `01`)
    - `{{year}}` → year (e.g., `2026`)
@@ -85,7 +85,7 @@ If file doesn't exist:
 ### Step 3: Read Yesterday's Daily Note
 
 ```bash
-daily_note="{{vault_path}}/4-Daily/${yesterday}.md"
+daily_note="{{vault_path}}/workspace/4-Daily/${yesterday}.md"
 ```
 
 Extract:
@@ -235,7 +235,7 @@ Hook detects:
 After running, confirm:
 ```
 ✅ Weekly aggregation complete for [yesterday's date]
-   → Updated: 3-Resources/Planning/Weekly/2026-W01.md
+   → Updated: workspace/3-Resources/Planning/Weekly/2026-W01.md
    → Completed tasks: 12
    → Fears faced: 1
    → Habit compliance: 5/7

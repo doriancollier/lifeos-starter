@@ -19,9 +19,9 @@ This skill activates autonomously when:
 
 ## Key Locations
 
-- **Professional contacts**: `{{vault_path}}/6-People/Professional/[Company]/[name].md`
-- **Personal contacts**: `{{vault_path}}/6-People/Personal/[name].md`
-- **Person template**: `{{vault_path}}/3-Resources/Templates/person-template.md`
+- **Professional contacts**: `{{vault_path}}/workspace/6-People/Professional/[Company]/[name].md`
+- **Personal contacts**: `{{vault_path}}/workspace/6-People/Personal/[name].md`
+- **Person template**: `{{vault_path}}/workspace/3-Resources/Templates/person-template.md`
 
 ## Decision Criteria
 
@@ -129,7 +129,7 @@ From the text, identify the person being discussed:
 
 ```bash
 # Search for existing person file (case-insensitive)
-find "{{vault_path}}/6-People" -iname "*[person-name]*" -type f
+find "{{vault_path}}/workspace/6-People" -iname "*[person-name]*" -type f
 ```
 
 **Results:**
@@ -164,10 +164,10 @@ Options:
 
 **Then create file:**
 
-1. Read template: `{{vault_path}}/3-Resources/Templates/person-template.md`
+1. Read template: `{{vault_path}}/workspace/3-Resources/Templates/person-template.md`
 2. Create file path:
-   - Professional: `6-People/Professional/[Company]/[firstname-lastname].md`
-   - Personal: `6-People/Personal/[firstname-lastname].md`
+   - Professional: `workspace/6-People/Professional/[Company]/[firstname-lastname].md`
+   - Personal: `workspace/6-People/Personal/[firstname-lastname].md`
 3. Populate with known information:
    - Name in title and frontmatter
    - Company/relationship context
@@ -228,7 +228,7 @@ After creating or updating a person file:
 
 **Actions:**
 1. ✅ Detect: Health information (surgery) → AUTO-UPDATE
-2. ✅ Find person file: `6-People/Personal/jane-doe.md`
+2. ✅ Find person file: `workspace/6-People/Personal/jane-doe.md`
 3. ✅ Update file:
    ```markdown
    ## Personal Notes
@@ -244,7 +244,7 @@ After creating or updating a person file:
 
 **Actions:**
 1. ✅ Detect: Major life event (moving + job change) → AUTO-UPDATE
-2. ✅ Find person file: `6-People/Professional/{{company_1_name}}/john-smith.md`
+2. ✅ Find person file: `workspace/6-People/Professional/{{company_1_name}}/john-smith.md`
 3. ✅ Update file:
    ```markdown
    ## Personal Notes
@@ -280,7 +280,7 @@ After creating or updating a person file:
 
 **Actions:**
 1. ✅ Detect: Contact information → AUTO-UPDATE
-2. ✅ Find person file: `6-People/Professional/{{company_2_name}}/sarah-miller.md`
+2. ✅ Find person file: `workspace/6-People/Professional/{{company_2_name}}/sarah-miller.md`
 3. ✅ Update frontmatter or contact section:
    ```yaml
    ---
@@ -336,7 +336,7 @@ After creating or updating a person file:
    ```
 6. **User selects: "Other" and types "Austin Diabetes Center"**
 7. ✅ Read person template
-8. ✅ Create: `6-People/Professional/AustinDiabetesCenter/robert-chen.md`
+8. ✅ Create: `workspace/6-People/Professional/AustinDiabetesCenter/robert-chen.md`
 9. ✅ Populate with known info:
    ```markdown
    ---
@@ -390,7 +390,7 @@ If unsure whether information is significant:
 If template doesn't exist:
 1. Warn user: "Person template not found at expected location"
 2. Create minimal file structure manually
-3. Suggest: "You may want to create a person template at 3-Resources/Templates/person-template.md"
+3. Suggest: "You may want to create a person template at workspace/3-Resources/Templates/person-template.md"
 
 ### Conflicting Information
 
@@ -403,7 +403,7 @@ If new information conflicts with existing data:
 
 ### Learning Profile (For {{child_name}} Specifically)
 
-{{child_name}}'s person file (`6-People/Personal/{{child_name}}.md`) should maintain an extended Learning Profile section:
+{{child_name}}'s person file (`workspace/6-People/Personal/{{child_name}}.md`) should maintain an extended Learning Profile section:
 
 **Required tracking for {{child_name}}:**
 ```markdown

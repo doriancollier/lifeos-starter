@@ -19,7 +19,7 @@ Manually sync health data from Health Auto Export app and display current health
 
 - **Script**: `.claude/scripts/health_sync.py`
 - **Database**: `.claude/data/health.db`
-- **Config**: `0-System/config/health-config.md`
+- **Config**: `workspace/0-System/config/health-config.md`
 - **Skill**: `.claude/skills/health-awareness/SKILL.md`
 
 ## Arguments
@@ -32,7 +32,7 @@ Execute these steps in order:
 
 ### 0. Check Configuration (First Run Detection)
 
-Read `0-System/config/health-config.md` and check if `health_export_path` is empty:
+Read `workspace/0-System/config/health-config.md` and check if `health_export_path` is empty:
 
 ```yaml
 health_export_path: ""  # Empty = needs configuration
@@ -44,7 +44,7 @@ health_export_path: ""  # Empty = needs configuration
    - Provide options:
      - Default iCloud location: `~/Library/Mobile Documents/iCloud~com~ifunography~HealthExport/Documents/`
      - Custom path (let them specify)
-2. Update `0-System/config/health-config.md` with the provided path
+2. Update `workspace/0-System/config/health-config.md` with the provided path
 3. Continue with sync
 
 **If health_export_path is set:** Continue to Step 1.

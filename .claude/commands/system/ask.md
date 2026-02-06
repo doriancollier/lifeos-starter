@@ -183,10 +183,10 @@ Reference these when answering:
 | Question Pattern | Claude Code | Manual |
 |-----------------|-------------|--------|
 | "add a task" | `/daily:capture` or prompt | Edit daily note, add `- [ ]` line |
-| "create meeting note" | `/meeting:ab`, `/meeting:144`, `/meeting:emh` | Create in `5-Meetings/YYYY/MM-Month/` |
-| "look up a person" | `/create:person [name]` | Search `6-People/` |
-| "create a project" | `/create:project [name]` | Create in `1-Projects/Backlog/` |
-| "today's tasks" | `/daily:tasks` | Open today's note in `4-Daily/` |
+| "create meeting note" | `/meeting:ab`, `/meeting:144`, `/meeting:emh` | Create in `workspace/5-Meetings/YYYY/MM-Month/` |
+| "look up a person" | `/create:person [name]` | Search `workspace/6-People/` |
+| "create a project" | `/create:project [name]` | Create in `workspace/1-Projects/Backlog/` |
+| "today's tasks" | `/daily:tasks` | Open today's note in `workspace/4-Daily/` |
 | "prepare for meeting" | `/meeting:prep [topic]` | Use `meeting-prep` skill |
 | "switch context" | `/context:ab`, `/context:144`, etc. | Load relevant area |
 | "end of day review" | `/daily:eod` | Review daily note tasks |
@@ -239,8 +239,8 @@ When explaining processes, clarify the invocation model:
 
 | Guide | Topics Covered |
 |-------|----------------|
-| `0-System/guides/daily-workflow.md` | Daily planning, task management, EOD review |
-| `0-System/guides/task-management.md` | A/B/C priority system, blocked tasks, scheduling |
-| `0-System/guides/meeting-workflow.md` | Meeting prep, notes, follow-up |
-| `0-System/guides/board-advisors.md` | Personal Board of Advisors deliberation |
-| `0-System/guides/calendar-integration.md` | Timeboxing, context windows, calendar awareness |
+| `workspace/0-System/guides/daily-workflow.md` | Daily planning, task management, EOD review |
+| `workspace/0-System/guides/task-management.md` | A/B/C priority system, blocked tasks, scheduling |
+| `workspace/0-System/guides/meeting-workflow.md` | Meeting prep, notes, follow-up |
+| `workspace/0-System/guides/board-advisors.md` | Personal Board of Advisors deliberation |
+| `workspace/0-System/guides/calendar-integration.md` | Timeboxing, context windows, calendar awareness |

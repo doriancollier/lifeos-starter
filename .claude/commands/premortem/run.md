@@ -12,10 +12,10 @@ Run a structured pre-mortem exercise on the decision or project provided in `$AR
 
 ## Context
 
-- **Templates directory**: `3-Resources/Templates/Decisions/`
+- **Templates directory**: `workspace/3-Resources/Templates/Decisions/`
 - **Output location**: Depends on type (see below)
 - **Pre-mortem skill**: `.claude/skills/pre-mortem/SKILL.md`
-- **Decision frameworks**: `3-Resources/References/decision-frameworks.md`
+- **Decision frameworks**: `workspace/3-Resources/References/decision-frameworks.md`
 
 ## Process
 
@@ -33,18 +33,18 @@ Ask: "What type of decision is this?"
 1. **Individual Decision** - Personal career, financial, strategic choices
    - Template: `[[premortem-individual]]`
    - Time: 30-45 minutes
-   - Output: `3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
+   - Output: `workspace/3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
 
 2. **Team/Project Decision** - Collaborative projects, work initiatives
    - Template: `[[premortem-team]]`
    - Time: 60 minutes
-   - Output: `1-Projects/Current/[project-name]/premortem.md`
+   - Output: `workspace/1-Projects/Current/[project-name]/premortem.md`
 
 3. **Life Decision** - Major life transitions (relationship, family, relocation, major career change)
    - Template: `[[premortem-life-decision]]`
    - Time: 90 minutes
    - Uses **Double-Barreled Approach** (both failure AND regret scenarios)
-   - Output: `3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
+   - Output: `workspace/3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
 
 ### Step 3: Setup
 
@@ -277,8 +277,8 @@ confidence_after: Y
 
 ### Location
 
-- **Individual/Life decisions**: `3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
-- **Team/Project decisions**: `1-Projects/Current/[project-name]/premortem.md`
+- **Individual/Life decisions**: `workspace/3-Resources/Decisions/YYYY-MM-DD-[decision-slug].md`
+- **Team/Project decisions**: `workspace/1-Projects/Current/[project-name]/premortem.md`
 
 ## Interaction Guidelines
 

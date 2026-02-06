@@ -591,9 +591,9 @@ This generates `.claude/settings.json` with appropriate hooks based on enabled i
 
 ### 6.3 Create Initial Files
 
-1. **Create company context files** in `/2-Areas/` for each company
-2. **Create `/2-Areas/Personal/foundation.md`** with identity and values
-3. **Optionally create person files** in `/6-People/` for key contacts
+1. **Create company context files** in `workspace/2-Areas/` for each company
+2. **Create `workspace/2-Areas/Personal/foundation.md`** with identity and values
+3. **Optionally create person files** in `workspace/6-People/` for key contacts
 
 ### 6.4 Mark Onboarding Complete
 
@@ -631,7 +631,7 @@ After setup, tell them:
 ### Next Steps
 
 1. Run `/daily:plan` to start your first day
-2. Check `0-System/guides/getting-started.md` for help
+2. Check `workspace/0-System/guides/getting-started.md` for help
 3. Use `/system:ask [question]` if you need guidance
 
 ### Changing Settings Later

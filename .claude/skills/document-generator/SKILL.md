@@ -21,7 +21,7 @@ Create beautiful, print-ready HTML documents using the LifeOS Design System. Doc
 
 ## Design System Overview
 
-All documents use the LifeOS Design System (`3-Resources/Documents/Templates/design-system.css`):
+All documents use the LifeOS Design System (`workspace/3-Resources/Documents/Templates/design-system.css`):
 
 ### Typography
 
@@ -144,7 +144,7 @@ Ask yourself:
 
 ### Step 2: Use Appropriate Template
 
-Templates are located in: `3-Resources/Documents/Templates/`
+Templates are located in: `workspace/3-Resources/Documents/Templates/`
 
 **Template Selection**:
 | Need | Template | Scale |
@@ -157,7 +157,7 @@ Templates are located in: `3-Resources/Documents/Templates/`
 ### Step 3: Create the Document
 
 1. Copy the appropriate template
-2. Save to `3-Resources/Documents/Printables/[descriptive-name].html`
+2. Save to `workspace/3-Resources/Documents/Printables/[descriptive-name].html`
 3. Customize content while preserving structure
 4. Preview in browser
 5. Print or Save as PDF from Chrome
@@ -446,14 +446,14 @@ When creating documents intended to fit on one page, use **compact spacing**:
 
 ## File Storage
 
-**Templates**: `3-Resources/Documents/Templates/`
+**Templates**: `workspace/3-Resources/Documents/Templates/`
 - `design-system.css` - Core design system
 - `poster-wall.html` - Large format poster template
 - `checklist-routine.html` - Routine/checklist template
 - `schedule-grid.html` - Weekly schedule template
 - `reference-dense.html` - Dense reference template
 
-**Created Documents**: `3-Resources/Documents/Printables/`
+**Created Documents**: `workspace/3-Resources/Documents/Printables/`
 - Store finalized documents here
 - Use descriptive names: `{{child_name}}-Morning-Routine.html`, `Weekly-Chore-Chart.html`
 

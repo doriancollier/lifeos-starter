@@ -151,7 +151,7 @@ The following commits don't use conventional format and weren't added:
 - `abc1234`: Update README
 - `def5678`: Various fixes
 
-If these should be in the changelog, add them manually to `0-System/changelog.md`.
+If these should be in the changelog, add them manually to `workspace/0-System/changelog.md`.
 ```
 
 ## User-Friendly Transformation
@@ -163,7 +163,7 @@ The script transforms commit messages to be more user-friendly, but the transfor
 | `feat: Add obsidian_manager.py` | Add obsidian_manager.py | Open files in Obsidian without manual vault setup |
 | `fix: Use relative paths` | Use relative paths | Fix commands failing when run from different directories |
 
-Review entries in `0-System/changelog.md` before releasing and apply the "You can now..." test from the `changelog-writing` skill.
+Review entries in `workspace/0-System/changelog.md` before releasing and apply the "You can now..." test from the `changelog-writing` skill.
 
 ## Related Commands
 

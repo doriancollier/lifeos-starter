@@ -9,19 +9,19 @@ Gathers relevant context before meetings to ensure productive discussions.
 
 ## Vault Locations
 
-- **Meeting notes**: `{{vault_path}}/5-Meetings/YYYY/MM-Month/`
-- **People**: `{{vault_path}}/6-People/`
-- **Projects**: `{{vault_path}}/1-Projects/`
-- **Company areas**: `{{vault_path}}/2-Areas/`
+- **Meeting notes**: `{{vault_path}}/workspace/5-Meetings/YYYY/MM-Month/`
+- **People**: `{{vault_path}}/workspace/6-People/`
+- **Projects**: `{{vault_path}}/workspace/1-Projects/`
+- **Company areas**: `{{vault_path}}/workspace/2-Areas/`
 
 ## Meeting Templates by Company
 
 | Company | Template | Key Attendees |
 |---------|----------|---------------|
-| {{company_1_name}} | `3-Resources/Templates/art-blocks-meeting.md` | Load from contacts-config.json |
-| {{company_2_name}} | `3-Resources/Templates/144-meeting.md` | Load from contacts-config.json |
-| {{company_3_name}} | `3-Resources/Templates/emh-meeting.md` | {{partner_name}} |
-| Personal | `3-Resources/Templates/personal-meeting.md` | Varies |
+| {{company_1_name}} | `workspace/3-Resources/Templates/art-blocks-meeting.md` | Load from contacts-config.json |
+| {{company_2_name}} | `workspace/3-Resources/Templates/144-meeting.md` | Load from contacts-config.json |
+| {{company_3_name}} | `workspace/3-Resources/Templates/emh-meeting.md` | {{partner_name}} |
+| Personal | `workspace/3-Resources/Templates/personal-meeting.md` | Varies |
 
 ## Recurring Meeting Templates
 
@@ -29,7 +29,7 @@ For recurring meetings (weekly syncs, standups, etc.), search for matching templ
 
 ```bash
 # Search for recurring meeting templates
-find "{{vault_path}}/3-Resources/Templates" -name "recurring-meeting-*.md" -type f
+find "{{vault_path}}/workspace/3-Resources/Templates" -name "recurring-meeting-*.md" -type f
 ```
 
 **Template Matching Logic:**
@@ -51,16 +51,16 @@ When preparing for a recurring meeting:
 ## Preparation Workflow
 
 ### 1. Identify Attendees
-- Look up each person in `6-People/Professional/` or `6-People/Personal/`
+- Look up each person in `workspace/6-People/Professional/` or `workspace/6-People/Personal/`
 - Note their role, communication style, and recent interactions
 
 ### 2. Find Previous Meetings
 ```bash
 # Find meetings with a specific person
-grep -r "attendees:.*Person Name" "{{vault_path}}/5-Meetings/" --include="*.md"
+grep -r "attendees:.*Person Name" "{{vault_path}}/workspace/5-Meetings/" --include="*.md"
 
 # Find recent meetings for a company
-ls -la "{{vault_path}}/5-Meetings/2025/"
+ls -la "{{vault_path}}/workspace/5-Meetings/2025/"
 ```
 
 ### 3. Gather Project Context
@@ -71,7 +71,7 @@ ls -la "{{vault_path}}/5-Meetings/2025/"
 ### 4. Check for Open Action Items
 ```bash
 # Find action items assigned to an attendee
-grep -r "[Attendee Name].*Due:" "{{vault_path}}/5-Meetings/" --include="*.md"
+grep -r "[Attendee Name].*Due:" "{{vault_path}}/workspace/5-Meetings/" --include="*.md"
 ```
 
 ## Information to Gather
@@ -127,20 +127,20 @@ When preparing for a meeting, provide:
 
 ## {{company_1_name}} Specific Context
 
-Key people and their focus areas are loaded from `/0-System/config/contacts-config.json`.
+Key people and their focus areas are loaded from `workspace/0-System/config/contacts-config.json`.
 
 To view contacts for meeting prep, check:
 - Company contacts in `contacts-config.json` under `companies.company_1.contacts`
-- Person files in `6-People/Professional/`
+- Person files in `workspace/6-People/Professional/`
 
 Active projects to check:
-- Current initiatives in `1-Projects/Current/`
-- Company area documents in `2-Areas/{{company_1_name}}/`
+- Current initiatives in `workspace/1-Projects/Current/`
+- Company area documents in `workspace/2-Areas/{{company_1_name}}/`
 
 ## {{company_2_name}} Specific Context
 
 Key contacts loaded from `contacts-config.json` under `companies.company_2.contacts`.
-- Check `2-Areas/{{company_2_name}}/` for current status
+- Check `workspace/2-Areas/{{company_2_name}}/` for current status
 
 ## Integration with Other Skills
 

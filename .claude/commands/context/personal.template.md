@@ -12,7 +12,7 @@ Switch mental context to personal life and development.
 Load and summarize the current personal context:
 
 ### 1. Read Personal Context File
-- Read `2-Areas/Personal/context.md` for:
+- Read `workspace/2-Areas/Personal/context.md` for:
   - Family & relationships overview
   - Personal background
   - Healthcare providers & patient portals
@@ -27,8 +27,8 @@ Load and summarize the current personal context:
 - Personal development
 
 ### 3. Review Family Context
-- {{partner_name}} - `6-People/Personal/`
-- {{child_name}} - `6-People/Personal/`
+- {{partner_name}} - `workspace/6-People/Personal/`
+- {{child_name}} - `workspace/6-People/Personal/`
 - Family overview files
 
 ### 4. Check Recent Reflections

@@ -19,28 +19,28 @@ Check which personal profile documents exist and their completeness.
 Check for each document in the personal profile registry:
 
 **Identity Documents** (Core):
-- `2-Areas/Personal/foundation.md`
-- `2-Areas/Personal/biography.md`
-- `2-Areas/Personal/context.md`
-- `2-Areas/Personal/daily-practice.md`
-- `2-Areas/Personal/Roles/` (check for at least one file)
+- `workspace/2-Areas/Personal/foundation.md`
+- `workspace/2-Areas/Personal/biography.md`
+- `workspace/2-Areas/Personal/context.md`
+- `workspace/2-Areas/Personal/daily-practice.md`
+- `workspace/2-Areas/Personal/Roles/` (check for at least one file)
 
 **Professional Documents**:
-- `2-Areas/Personal/resume.md`
-- `2-Areas/Personal/work-history.md`
-- `2-Areas/Personal/education.md`
-- `2-Areas/Personal/skills.md`
+- `workspace/2-Areas/Personal/resume.md`
+- `workspace/2-Areas/Personal/work-history.md`
+- `workspace/2-Areas/Personal/education.md`
+- `workspace/2-Areas/Personal/skills.md`
 
 **Financial Documents**:
-- `2-Areas/Personal/assets-and-equity.md`
-- `2-Areas/Personal/legal-entities.md`
+- `workspace/2-Areas/Personal/assets-and-equity.md`
+- `workspace/2-Areas/Personal/legal-entities.md`
 
 **Health Documents**:
-- `2-Areas/Personal/medical-history.md`
+- `workspace/2-Areas/Personal/medical-history.md`
 
 **Emergency Documents**:
-- `2-Areas/Personal/emergency-contacts.md`
-- `2-Areas/Personal/insurance-summary.md`
+- `workspace/2-Areas/Personal/emergency-contacts.md`
+- `workspace/2-Areas/Personal/insurance-summary.md`
 
 ### Step 2: Check Document Quality
 
@@ -135,5 +135,5 @@ If a category argument is provided, only audit that category:
 
 ## Related
 
-- [Personal Documents Guide](0-System/guides/personal-documents.md)
+- [Personal Documents Guide](workspace/0-System/guides/personal-documents.md)
 - [Personal Profile Skill](/.claude/skills/personal-profile/SKILL.md)

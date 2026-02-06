@@ -137,7 +137,7 @@ Daily (A/B/C priorities)
 - [[foundation]] - Identity, mission, vision, principles
 
 ### Templates
-- `3-Resources/Templates/Planning/` - All planning templates
+- `workspace/3-Resources/Templates/Planning/` - All planning templates
 - [[annual-year]], [[annual-retro]]
 - [[quarterly-plan]], [[quarterly-review]], [[quarterly-retreat-agenda]]
 - [[monthly-plan]], [[monthly-review]]

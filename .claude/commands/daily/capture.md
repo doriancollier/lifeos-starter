@@ -15,7 +15,7 @@ Quickly add a note, idea, or task to today's daily note.
 ## Context
 
 - **Daily notes**: `{{vault_path}}/4-Daily/`
-- **Today's note**: `4-Daily/YYYY-MM-DD.md`
+- **Today's note**: `workspace/4-Daily/YYYY-MM-DD.md`
 
 ## Task
 

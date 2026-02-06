@@ -251,12 +251,12 @@ Fire these suggestions **alongside** coaching questions:
 ## Reference Files
 
 - `.user/coaching.yaml` — Coaching intensity and preferences
-- `2-Areas/Personal/foundation.md` — Identity, mission, vision, principles
-- `2-Areas/Personal/Roles/` — Individual role documents with growth edges
+- `workspace/2-Areas/Personal/foundation.md` — Identity, mission, vision, principles
+- `workspace/2-Areas/Personal/Roles/` — Individual role documents with growth edges
 
 ## Personal Documents
 
-The vault owner's personal profile is captured in structured documents in `2-Areas/Personal/`:
+The vault owner's personal profile is captured in structured documents in `workspace/2-Areas/Personal/`:
 
 | Category | Documents |
 |----------|-----------|
@@ -266,4 +266,4 @@ The vault owner's personal profile is captured in structured documents in `2-Are
 | Health | medical-history |
 | Emergency | emergency-contacts, insurance-summary |
 
-Use `/personal:audit` to check completeness. See `0-System/guides/personal-documents.md` for details.
+Use `/personal:audit` to check completeness. See `workspace/0-System/guides/personal-documents.md` for details.

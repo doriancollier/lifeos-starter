@@ -28,8 +28,8 @@ This command operates as an **orchestrator** that:
 | **Skills** | `.claude/skills/` | `**/SKILL.md` |
 | **Hooks** | `.claude/hooks/` | `*.py`, `*.sh` |
 | **Agents** | `.claude/agents/` | `*.md` |
-| **Templates** | `3-Resources/Templates/` | `*.md` |
-| **0-System** | `0-System/` | `**/*.md` |
+| **Templates** | `workspace/3-Resources/Templates/` | `*.md` |
+| **0-System** | `workspace/0-System/` | `**/*.md` |
 | **CLAUDE.md** | Root | `CLAUDE.md`, `.claude/rules/*.md` |
 
 ## Execution Modes
@@ -60,8 +60,8 @@ Commands:   Glob(".claude/commands/**/*.md")
 Skills:     Glob(".claude/skills/**/SKILL.md")
 Hooks:      Glob(".claude/hooks/*.py") + Glob(".claude/hooks/*.sh")
 Agents:     Glob(".claude/agents/*.md") (exclude .template.md)
-Templates:  Glob("3-Resources/Templates/*.md")
-0-System:   Glob("0-System/**/*.md")
+Templates:  Glob("workspace/3-Resources/Templates/*.md")
+0-System:   Glob("workspace/0-System/**/*.md")
 CLAUDE.md:  CLAUDE.md + .claude/rules/*.md
 ```
 

@@ -22,7 +22,7 @@ You will receive a meeting directory path. Your job is to:
 ## Input
 
 You will be given:
-- `MEETING_PATH`: Path to the meeting directory (e.g., `5-Meetings/2026/01-January/2026-01-07-11-15-ab-planning/`)
+- `MEETING_PATH`: Path to the meeting directory (e.g., `workspace/5-Meetings/2026/01-January/2026-01-07-11-15-ab-planning/`)
 
 ## Process
 

@@ -185,7 +185,7 @@ Skip this phase for retrospective mode.
 
 ### Phase 6: Logging & Verification
 
-- [ ] **6.0** Log the learning to `/0-System/config/learning-log.md`:
+- [ ] **6.0** Log the learning to `workspace/0-System/config/learning-log.md`:
   - Add a new entry under "## Recent Learnings" with:
     - Date (YYYY-MM-DD)
     - Topic learned

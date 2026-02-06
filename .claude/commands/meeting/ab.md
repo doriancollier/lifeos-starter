@@ -31,7 +31,7 @@ Create a new meeting note for {{company_1_name}} using the company template.
 
 ## Key {{company_1_name}} Attendees
 
-Common attendees loaded from `/0-System/config/contacts-config.json` under `companies.company_1.contacts`.
+Common attendees loaded from `workspace/0-System/config/contacts-config.json` under `companies.company_1.contacts`.
 
 Suggest relevant attendees based on meeting title and their roles.
 

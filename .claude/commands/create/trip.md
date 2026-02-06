@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 # Create Trip Command
 
-Creates a new trip planning project in `/1-Projects/Current/` using the trip planning template.
+Creates a new trip planning project in `workspace/1-Projects/Current/` using the trip planning template.
 
 ## Arguments
 
@@ -68,7 +68,7 @@ If the trip is within the next 30 days, add a task to today's daily note:
 
 ### Step 7: Update Life Events Timeline
 
-Read and update `/7-MOCs/Life-Events-Timeline.md`:
+Read and update `workspace/7-MOCs/Life-Events-Timeline.md`:
 
 1. Calculate days until trip departure
 2. Determine which timeframe section (This Week / Next 30 Days / Next 90 Days / Beyond 90 Days)
@@ -105,7 +105,7 @@ Read and update `/7-MOCs/Life-Events-Timeline.md`:
 ```markdown
 ## Trip Created: [Trip Name]
 
-**Location**: `/1-Projects/Current/[Trip-Name]/`
+**Location**: `workspace/1-Projects/Current/[Trip-Name]/`
 
 ### Trip Details
 - **Destination**: [destination]

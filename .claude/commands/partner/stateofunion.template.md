@@ -11,10 +11,10 @@ Guide the user through a **weekly relationship check-in with {{partner_name}}** 
 
 ## Context
 
-- **Template**: `[[partner-state-of-union]]` in `3-Resources/Templates/`
-- **Output location**: `5-Meetings/YYYY/MM-Month/SoU-YYYY-MM-DD.md` OR `2-Areas/Personal/Partner/State-of-Union/`
-- **Partner research**: `1-Projects/Current/Planning-System/extraction/19-partner-excellence-extraction.md`
-- **{{partner_name}}'s person file**: `6-People/Personal/{{partner_name}}.md`
+- **Template**: `[[partner-state-of-union]]` in `workspace/3-Resources/Templates/`
+- **Output location**: `workspace/5-Meetings/YYYY/MM-Month/SoU-YYYY-MM-DD.md` OR `workspace/2-Areas/Personal/Partner/State-of-Union/`
+- **Partner research**: `workspace/1-Projects/Current/Planning-System/extraction/19-partner-excellence-extraction.md`
+- **{{partner_name}}'s person file**: `workspace/6-People/Personal/{{partner_name}}.md`
 
 ## Process
 
@@ -245,8 +245,8 @@ participants: [{{user_first_name}}, {{partner_name}}]
 ```
 
 **Location Options**:
-- `5-Meetings/YYYY/MM-Month/SoU-YYYY-MM-DD.md` (if treating as meeting note)
-- `2-Areas/Personal/Partner/State-of-Union/YYYY-MM-DD.md` (if keeping separate)
+- `workspace/5-Meetings/YYYY/MM-Month/SoU-YYYY-MM-DD.md` (if treating as meeting note)
+- `workspace/2-Areas/Personal/Partner/State-of-Union/YYYY-MM-DD.md` (if keeping separate)
 
 ## Interaction Guidelines
 

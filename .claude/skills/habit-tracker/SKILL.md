@@ -217,7 +217,7 @@ Each tracker config should reference the schema:
 
 Generated trackers are saved to:
 ```
-3-Resources/Documents/Printables/Habit-Tracker-{Year}-{Month}-{TrackerName}.html
+workspace/3-Resources/Documents/Printables/Habit-Tracker-{Year}-{Month}-{TrackerName}.html
 ```
 
 Examples:
@@ -298,4 +298,4 @@ You can add multiple blank habits (`blank-1`, `blank-2`, etc.) for multiple hand
 | Shared Styles | `.claude/skills/habit-tracker/shared-styles.json` |
 | Tracker Configs | `.claude/skills/habit-tracker/trackers/*.json` |
 | Week allocation script | `.claude/skills/goal-bingo/scripts/week_allocation.py` |
-| Generated output | `3-Resources/Documents/Printables/Habit-Tracker-*.html` |
+| Generated output | `workspace/3-Resources/Documents/Printables/Habit-Tracker-*.html` |

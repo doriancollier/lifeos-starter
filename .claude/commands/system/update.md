@@ -24,10 +24,10 @@ Add new processes, update existing ones, or improve the Claude Code workflow bas
 | **Skills** | `/.claude/skills/[name]/SKILL.md` | Reusable knowledge/instructions |
 | **Agents** | `/.claude/agents/[name].md` | Complex multi-step workflows |
 | **Hooks** | `/.claude/hooks/[name].py` or `.sh` | Automated validation/actions |
-| **Templates** | `/3-Resources/Templates/[name].md` | New note types |
+| **Templates** | `workspace/3-Resources/Templates/[name].md` | New note types |
 | **Memory** | `/CLAUDE.md` | Core instructions, technical reference |
-| **Guides** | `/0-System/guides/[name].md` | User-facing workflow documentation |
-| **Components** | `/0-System/components/[name].md` | Documentation of system components |
+| **Guides** | `workspace/0-System/guides/[name].md` | User-facing workflow documentation |
+| **Components** | `workspace/0-System/components/[name].md` | Documentation of system components |
 
 ### Documentation Layers
 
@@ -57,12 +57,12 @@ Execute these steps sequentially. This is an **interactive, research-first** pro
 
 - [ ] **2.1** Read documentation sources:
 
-  **0-System/ (product documentation)**:
-  - `0-System/README.md` - System overview
-  - `0-System/architecture.md` - How components interact
-  - `0-System/patterns.md` - Naming conventions, standards
-  - `0-System/guides/*.md` - Workflow documentation
-  - `0-System/components/*.md` - Component documentation
+  **workspace/0-System/ (product documentation)**:
+  - `workspace/0-System/README.md` - System overview
+  - `workspace/0-System/architecture.md` - How components interact
+  - `workspace/0-System/patterns.md` - Naming conventions, standards
+  - `workspace/0-System/guides/*.md` - Workflow documentation
+  - `workspace/0-System/components/*.md` - Component documentation
 
   **CLAUDE.md (technical reference)**:
   - Current process architecture
@@ -72,7 +72,7 @@ Execute these steps sequentially. This is an **interactive, research-first** pro
 - [ ] **2.2** Search for related existing processes:
   ```bash
   # Find related documentation in 0-System
-  grep -r "[relevant keywords]" "/0-System" --include="*.md" -l
+  grep -r "[relevant keywords]" "workspace/0-System" --include="*.md" -l
 
   # Find related commands
   grep -r "[relevant keywords]" "/.claude/commands" --include="*.md" -l
@@ -84,7 +84,7 @@ Execute these steps sequentially. This is an **interactive, research-first** pro
   grep -r "[relevant keywords]" "/.claude/hooks" -l
 
   # Check templates
-  grep -r "[relevant keywords]" "/3-Resources/Templates" --include="*.md" -l
+  grep -r "[relevant keywords]" "workspace/3-Resources/Templates" --include="*.md" -l
   ```
 
 - [ ] **2.3** Read related files to understand:
@@ -259,10 +259,10 @@ model: [sonnet/haiku/opus - which model is appropriate for this task?]
   - Add to usage examples if helpful
   - Ensure accuracy
 
-  **0-System/** (update when significant):
-  - Update relevant guide if workflow changes (`0-System/guides/`)
-  - Update component doc if adding new command/skill/agent (`0-System/components/`)
-  - Update changelog (`0-System/changelog.md`) for notable changes
+  **workspace/0-System/** (update when significant):
+  - Update relevant guide if workflow changes (`workspace/0-System/guides/`)
+  - Update component doc if adding new command/skill/agent (`workspace/0-System/components/`)
+  - Update changelog (`workspace/0-System/changelog.md`) for notable changes
 
 ### Phase 5: Batch Confirmation
 

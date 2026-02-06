@@ -29,10 +29,11 @@ from hook_logger import setup_logger, log_hook_execution
 logger = setup_logger("reminders-session-sync")
 
 # Vault configuration - uses environment variable or auto-detects from script location
-VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or str(Path(__file__).resolve().parent.parent.parent)
+PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
+VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or os.path.join(PROJECT_ROOT, "workspace")
 DAILY_DIR = os.path.join(VAULT_ROOT, "4-Daily")
-STATE_FILE = os.path.join(VAULT_ROOT, ".claude", "reminders-state.json")
-REMINDERS_SCRIPT = os.path.join(VAULT_ROOT, ".claude", "scripts", "reminders_manager.py")
+STATE_FILE = os.path.join(PROJECT_ROOT, ".claude", "reminders-state.json")
+REMINDERS_SCRIPT = os.path.join(PROJECT_ROOT, ".claude", "scripts", "reminders_manager.py")
 
 
 def get_today_date():

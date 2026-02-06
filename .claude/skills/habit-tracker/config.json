@@ -46,7 +46,7 @@
   "paths": {
     "templateFile": ".claude/skills/habit-tracker/habit-tracker-template.html",
     "weekAllocationScript": ".claude/skills/goal-bingo/scripts/week_allocation.py",
-    "outputFolder": "3-Resources/Documents/Printables/"
+    "outputFolder": "workspace/3-Resources/Documents/Printables/"
   },
 
   "stats": {

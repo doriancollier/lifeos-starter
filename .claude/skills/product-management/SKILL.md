@@ -229,8 +229,8 @@ RICE Score = (Reach × Impact × Confidence) / Effort
 
 | Entity | Location | Lifecycle |
 |--------|----------|-----------|
-| Product | `2-Areas/[Company]/products/[product]/` | Ongoing |
-| Project | `1-Projects/Current/[project].md` | Time-bound |
+| Product | `workspace/2-Areas/[Company]/products/[product]/` | Ongoing |
+| Project | `workspace/1-Projects/Current/[project].md` | Time-bound |
 
 ### Product Structure
 
@@ -244,10 +244,10 @@ Each product has its own directory with:
 ```
 
 ### Where PM Artifacts Live
-- **Product Roadmaps**: `2-Areas/[Company]/products/[product]/roadmap.md`
-- **Project PRDs**: `1-Projects/Current/[Project]/prd-[feature].md`
+- **Product Roadmaps**: `workspace/2-Areas/[Company]/products/[product]/roadmap.md`
+- **Project PRDs**: `workspace/1-Projects/Current/[Project]/prd-[feature].md`
 - **User Stories**: In PRD or project file under "User Stories" section
-- **Competitive Analysis**: `1-Projects/Current/[Project]/competitive-analysis.md`
+- **Competitive Analysis**: `workspace/1-Projects/Current/[Project]/competitive-analysis.md`
 
 ### Linking Products to Projects
 

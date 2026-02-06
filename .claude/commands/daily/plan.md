@@ -7,14 +7,14 @@ allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, mcp__google
 
 Guide the user through an interactive morning planning session as their **Level 10 Coach**. This is a **conversational** process—ask questions, wait for responses, challenge when needed, and help them make decisions aligned with their mission.
 
-> **Coaching Reminder**: You are a Relentless Challenger. Ask hard questions. Don't accept surface-level answers. Connect tasks to purpose. Reference `2-Areas/Personal/foundation.md` for the user's identity, mission, and principles.
+> **Coaching Reminder**: You are a Relentless Challenger. Ask hard questions. Don't accept surface-level answers. Connect tasks to purpose. Reference `workspace/2-Areas/Personal/foundation.md` for the user's identity, mission, and principles.
 
 ## Context
 
 - **Today's date**: Use `date +%Y-%m-%d` and `date +%A` for day of week
-- **Daily notes directory**: `4-Daily/`
-- **Template**: `3-Resources/Templates/daily-enhanced.md`
-- **Projects directory**: `1-Projects/Current/`
+- **Daily notes directory**: `workspace/4-Daily/`
+- **Template**: `workspace/3-Resources/Templates/daily-enhanced.md`
+- **Projects directory**: `workspace/1-Projects/Current/`
 
 ## Planning Flow
 
@@ -61,7 +61,7 @@ Alternative prompts (use situationally):
 
 First, check for quarterly rocks:
 ```bash
-find "3-Resources/Planning" -name "*quarterly*" -o -name "*Q[1-4]*" 2>/dev/null | head -3
+find "workspace/3-Resources/Planning" -name "*quarterly*" -o -name "*Q[1-4]*" 2>/dev/null | head -3
 ```
 
 Ask: "**What quarterly goal does this week advance?**"
@@ -72,7 +72,7 @@ If no quarterly goals found: "Do you have quarterly rocks defined? Consider a qu
 
 Check for monthly planning:
 ```bash
-find "3-Resources/Planning" -name "*monthly*" -o -name "*$(date +%B)*" 2>/dev/null | head -2
+find "workspace/3-Resources/Planning" -name "*monthly*" -o -name "*$(date +%B)*" 2>/dev/null | head -2
 ```
 
 Ask: "**What monthly theme does today serve?**"
@@ -85,7 +85,7 @@ Surface the weekly rocks:
 
 1. Read the most recent weekly review/planning note (if exists):
    ```bash
-   find "4-Daily" -name "*.md" -type f -mtime -7 | xargs grep -l "Weekly Big 3\|Big Rocks" | head -1
+   find "workspace/4-Daily" -name "*.md" -type f -mtime -7 | xargs grep -l "Weekly Big 3\|Big Rocks" | head -1
    ```
 
 2. Or check for explicit weekly rocks in recent daily notes.
@@ -198,8 +198,8 @@ If the user mentioned calendar-related items in Step -1, surface them now:
    ```
 
 2. **Check/create weekly document**:
-   - Path: `3-Resources/Planning/Weekly/${data_week}.md`
-   - If missing, create from template `3-Resources/Templates/weekly-rolling.md`
+   - Path: `workspace/3-Resources/Planning/Weekly/${data_week}.md`
+   - If missing, create from template `workspace/3-Resources/Templates/weekly-rolling.md`
 
 3. **Read yesterday's daily note** and extract:
    - Completed tasks (total, A-priority breakdown)
@@ -364,14 +364,14 @@ Find incomplete tasks from yesterday (and any lingering from earlier days):
 ```bash
 # Yesterday's incomplete tasks
 yesterday=$(date -v-1d +%Y-%m-%d)
-grep -E "^- \[ \]" "4-Daily/${yesterday}.md" 2>/dev/null
+grep -E "^- \[ \]" "workspace/4-Daily/${yesterday}.md" 2>/dev/null
 ```
 
 ```bash
 # Tasks appearing multiple days (chronic carryovers)
 for i in {2..5}; do
   d=$(date -v-${i}d +%Y-%m-%d)
-  grep -E "^- \[ \]" "4-Daily/${d}.md" 2>/dev/null
+  grep -E "^- \[ \]" "workspace/4-Daily/${d}.md" 2>/dev/null
 done
 ```
 
@@ -386,7 +386,7 @@ Use AskUserQuestion if helpful to make selection easier.
 Find any blocked tasks from recent days:
 
 ```bash
-grep -rh "^- \[ \] 🔵" "4-Daily/" --include="*.md" | head -10
+grep -rh "^- \[ \] 🔵" "workspace/4-Daily/" --include="*.md" | head -10
 ```
 
 For each blocked task, ask: "Is [blocker] resolved? Should this become active today?"
@@ -415,10 +415,10 @@ Review meetings with multiple attendees from Step 1b:
 
 ### Step 9: Scan Projects & Deadlines
 
-**Scan all projects in `1-Projects/Current/`**:
+**Scan all projects in `workspace/1-Projects/Current/`**:
 
 ```bash
-find "1-Projects/Current" -name "*.md" -type f
+find "workspace/1-Projects/Current" -name "*.md" -type f
 ```
 
 For each project, read frontmatter and extract:

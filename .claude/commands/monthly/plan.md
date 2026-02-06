@@ -11,9 +11,9 @@ Guide the user through planning the upcoming month. This translates quarterly ro
 
 ## Context
 
-- **Foundation**: `2-Areas/Personal/foundation.md`
-- **Annual plan**: `2-Areas/Personal/Years/[YEAR].md`
-- **Quarterly plan**: `2-Areas/Personal/Years/Q[#]-[YEAR].md`
+- **Foundation**: `workspace/2-Areas/Personal/foundation.md`
+- **Annual plan**: `workspace/2-Areas/Personal/Years/[YEAR].md`
+- **Quarterly plan**: `workspace/2-Areas/Personal/Years/Q[#]-[YEAR].md`
 - **Monthly review**: Previous month's review if exists
 - **Template**: `[[monthly-plan]]` (3-Resources/Templates/Planning/monthly-plan.md)
 - **Time investment**: 60-90 minutes
@@ -213,7 +213,7 @@ Identify:
 Option 1: Section in quarterly file
 Option 2: Dedicated monthly file
 
-Write to `2-Areas/Personal/Years/[YEAR]-[Month].md` or update quarterly file:
+Write to `workspace/2-Areas/Personal/Years/[YEAR]-[Month].md` or update quarterly file:
 
 ```markdown
 ---
