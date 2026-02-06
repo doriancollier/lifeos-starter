@@ -203,6 +203,26 @@ User-created additions:
 - Custom commands
 - Custom channel adapters
 
+**Extension Loading**: Extensions are synced to `.claude/` via symlinks, making them discoverable by Claude Code while surviving system upgrades.
+
+See `extensions/README.md` for full documentation on creating and managing extensions.
+
+#### Extension Loading Mechanism
+
+```
+extensions/skills/my-skill/SKILL.md
+        ↓ (symlink via /extensions:sync)
+.claude/skills/ext--my-skill/ → extensions/skills/my-skill/
+        ↓
+Claude Code discovers the skill
+```
+
+Key points:
+- Extensions live in `extensions/` and are preserved during upgrades
+- Symlinks in `.claude/` (prefixed with `ext--`) point to extensions
+- `extensions/manifest.json` tracks registered extensions
+- Run `/extensions:sync` after adding new extensions or upgrading
+
 ## Inspiration
 
 This architecture draws from [OpenClaw](https://github.com/openclaw):

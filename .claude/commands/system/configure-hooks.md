@@ -110,8 +110,13 @@ Integration hooks:
 - After `/setup:onboard` Phase 4 (integration configuration)
 - When troubleshooting hook issues
 
+## Note on Extensions
+
+This command configures core hooks only. User extensions in `extensions/` are managed separately via `/extensions:sync`. The upgrade workflow calls both automatically.
+
 ## Related Commands
 
+- `/extensions:sync` - Sync user extension symlinks
 - `/system:inject` - Regenerate templated files
 - `/system:upgrade` - Full system upgrade workflow
 - `/setup:onboard` - Initial vault configuration

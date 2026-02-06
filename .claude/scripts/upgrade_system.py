@@ -459,8 +459,8 @@ def run_migrations(vault_root: Path, from_version: str, to_version: str) -> List
 
 
 def run_post_upgrade_scripts(vault_root: Path) -> dict:
-    """Run inject_placeholders.py and configure_hooks.py."""
-    results = {"inject": False, "hooks": False}
+    """Run inject_placeholders.py, configure_hooks.py, and sync-extensions.py."""
+    results = {"inject": False, "hooks": False, "extensions": False}
 
     scripts_dir = vault_root / ".claude" / "scripts"
     env = {**os.environ, "CLAUDE_PROJECT_DIR": str(vault_root)}
@@ -498,6 +498,26 @@ def run_post_upgrade_scripts(vault_root: Path) -> dict:
                 print(f"configure_hooks.py failed: {result.stderr}", file=sys.stderr)
         except Exception as e:
             print(f"Error running configure_hooks.py: {e}", file=sys.stderr)
+
+    # Run sync-extensions.py to restore extension symlinks
+    ext_script = vault_root / "scripts" / "sync-extensions.py"
+    if ext_script.exists():
+        try:
+            result = subprocess.run(
+                [sys.executable, str(ext_script), "sync", "-q"],
+                cwd=vault_root,
+                capture_output=True,
+                text=True,
+                env=env
+            )
+            results["extensions"] = result.returncode == 0
+            if result.returncode != 0:
+                print(f"sync-extensions.py failed: {result.stderr}", file=sys.stderr)
+        except Exception as e:
+            print(f"Error running sync-extensions.py: {e}", file=sys.stderr)
+    else:
+        # No extensions script means no extensions to sync - that's OK
+        results["extensions"] = True
 
     return results
 
@@ -700,6 +720,7 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
         print(f"Migrations run: {', '.join(migrations)}")
     print(f"Template injection: {'OK' if post_results['inject'] else 'FAILED'}")
     print(f"Hook configuration: {'OK' if post_results['hooks'] else 'FAILED'}")
+    print(f"Extensions sync: {'OK' if post_results['extensions'] else 'FAILED'}")
     print()
     print("Your .user/ configuration was preserved.")
     print()

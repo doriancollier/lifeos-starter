@@ -35,6 +35,7 @@ Commands live in `.claude/commands/[namespace]/[name].md`:
 ├── context/        # Load company context (load, ab, personal)
 ├── system/         # System management (ask, update, review, learn)
 ├── skill/          # Skill management (create, audit, list)
+├── extensions/     # Extension management (sync, list, enable, disable)
 ├── board/          # Board of Advisors (advise)
 ├── goals/          # Goals management (status, review, opportunity)
 ├── project/        # Project management (status)
@@ -124,6 +125,15 @@ Commands live in `.claude/commands/[namespace]/[name].md`:
 | `/skill:create [name]` | Create a new Claude Code skill |
 | `/skill:audit [name]` | Audit skill(s) for quality and best practices |
 | `/skill:list` | List all skills with descriptions and metrics |
+
+### Extensions (`/extensions:*`)
+
+| Command | Purpose |
+|---------|---------|
+| `/extensions:sync` | Sync extensions from `extensions/` to `.claude/` via symlinks |
+| `/extensions:list` | Show registered extensions and their status |
+| `/extensions:enable [name]` | Enable a disabled extension |
+| `/extensions:disable [name]` | Disable an extension without uninstalling |
 
 ### Board (`/board:*`)
 

@@ -196,6 +196,15 @@ Commands are user-invoked via `/namespace:command`.
 | `/skill:audit [name]` | Audit skill(s) for quality |
 | `/skill:list` | List all skills with descriptions |
 
+### Extensions
+
+| Command | Purpose |
+|---------|---------|
+| `/extensions:sync` | Sync extensions from `extensions/` to `.claude/` via symlinks |
+| `/extensions:list` | Show registered extensions and their status |
+| `/extensions:enable [name]` | Enable a disabled extension |
+| `/extensions:disable [name]` | Disable an extension without uninstalling |
+
 ### Planning
 
 | Command | Purpose |
