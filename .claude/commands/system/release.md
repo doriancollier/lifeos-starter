@@ -260,7 +260,60 @@ Task tool:
     - Bad: "fix: Use relative paths in theme commands"
     - Good: "Fix theme commands failing when run from different directories"
 
-    ### Step 5: Return Structured Result
+    ### Step 5: Generate Upgrade Notes (if needed)
+
+    First, read the template at `.claude/upgrade-notes/README.md` to understand the format.
+
+    Then determine if upgrade notes are needed based on these rules:
+    - **NEEDED** if: Breaking changes, Removed section has content, new major features, config changes, workflow changes, new commands/skills
+    - **NOT NEEDED** if: Only bug fixes, documentation-only, internal refactoring
+
+    If needed, generate a COMPLETE upgrade notes draft with ALL sections:
+
+    ```markdown
+    # Upgrade Notes: v{version}
+
+    ## Summary
+    [One sentence describing the main theme]
+
+    ## User Action Required
+    [CRITICAL: Generate a COMPREHENSIVE checklist of everything users must do manually]
+    - [ ] [Action item with specific instructions]
+    - [ ] [Another action item]
+    ...
+
+    ## Breaking Changes
+    [For EACH breaking change, document:]
+    - **Old behavior**: [What it was]
+    - **New behavior**: [What it is now]
+    - **Migration**: [Specific steps to adapt]
+
+    ## New Features to Explore
+    [For each significant new feature:]
+    - **Feature Name** - Brief description. Try: `/command`
+
+    ## Configuration Changes
+    [Any .user/ config changes needed, with examples]
+
+    ## Verification
+    [Numbered steps to confirm upgrade worked]
+    1. [Verification step]
+    2. [Verification step]
+
+    ## Notes for AI
+    [Internal guidance for Claude during /system:upgrade]
+    - [Context-specific reminder]
+    - [How to help if user encounters X]
+    ```
+
+    **User Action Required guidelines:**
+    - Include EVERY manual step the user must take
+    - Be specific: "Run `/daily:plan`" not "Test the system"
+    - Include config updates, Obsidian changes, path updates
+    - Order by importance/dependency
+    - Each item should be independently completable
+
+    ### Step 6: Return Structured Result
 
     Return your analysis in this EXACT format:
 
@@ -299,15 +352,19 @@ Task tool:
     [2-3 most significant changes with emoji and benefit explanation]
 
     UPGRADE_NOTES_NEEDED: [yes/no]
-    UPGRADE_NOTES_REASONING: [Why notes are/aren't needed]
+    UPGRADE_NOTES_REASONING: [Why notes are/aren't needed - reference specific changelog entries]
 
     UPGRADE_NOTES_DRAFT:
-    [If needed, a complete draft following the template format from .claude/upgrade-notes/README.md]
+    [If UPGRADE_NOTES_NEEDED is yes, include the COMPLETE upgrade notes following
+    the template from Step 5. Must include ALL sections with comprehensive content:
+    - Summary (1 sentence)
+    - User Action Required (complete checklist of manual steps)
+    - Breaking Changes (with old/new/migration for each)
+    - New Features to Explore (with commands to try)
+    - Configuration Changes (with examples)
+    - Verification (numbered steps)
+    - Notes for AI (internal guidance)]
     ```
-
-    **Detection rules for UPGRADE_NOTES_NEEDED:**
-    - **Yes** if: Breaking changes, Removed section has content, new major features, config changes, workflow changes
-    - **No** if: Only bug fixes, documentation-only, internal refactoring
 ```
 
 **Parse the agent's response** to extract:

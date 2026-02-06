@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Enhance release agent to generate comprehensive upgrade notes
 ---
 
 ## [0.10.0] - 2026-02-01
