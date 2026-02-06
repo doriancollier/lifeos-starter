@@ -374,6 +374,9 @@ Task tool:
 - Reasoning
 - Raw and improved changelog content
 - Release theme and highlights for GitHub release notes
+- `UPGRADE_NOTES_NEEDED`
+- `UPGRADE_NOTES_REASONING`
+- `UPGRADE_NOTES_DRAFT` (if needed)
 
 ---
 
@@ -492,7 +495,7 @@ Edit `workspace/0-System/changelog.md` using the Edit tool:
 
 ```bash
 # Stage changes
-git add VERSION 0-System/changelog.md
+git add VERSION workspace/0-System/changelog.md
 
 # Commit (use HEREDOC for message)
 git commit -m "$(cat <<'EOF'
