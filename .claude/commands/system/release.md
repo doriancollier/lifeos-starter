@@ -297,7 +297,17 @@ Task tool:
 
     RELEASE_HIGHLIGHTS:
     [2-3 most significant changes with emoji and benefit explanation]
+
+    UPGRADE_NOTES_NEEDED: [yes/no]
+    UPGRADE_NOTES_REASONING: [Why notes are/aren't needed]
+
+    UPGRADE_NOTES_DRAFT:
+    [If needed, a complete draft following the template format from .claude/upgrade-notes/README.md]
     ```
+
+    **Detection rules for UPGRADE_NOTES_NEEDED:**
+    - **Yes** if: Breaking changes, Removed section has content, new major features, config changes, workflow changes
+    - **No** if: Only bug fixes, documentation-only, internal refactoring
 ```
 
 **Parse the agent's response** to extract:
@@ -517,6 +527,54 @@ For the overall release:
 ```bash
 gh release create v0.6.0 --title "v0.6.0" --notes "[narrative release notes]"
 ```
+
+### 5.7: Finalize Upgrade Notes
+
+The analysis agent from Phase 3 may have generated upgrade notes. Handle them here.
+
+#### 5.7.1: Check if Notes Were Generated
+
+If `UPGRADE_NOTES_NEEDED: no` from Phase 3, skip to Phase 6.
+
+If `UPGRADE_NOTES_NEEDED: yes`:
+
+#### 5.7.2: Present Draft for Review
+
+Show the agent's draft to the user:
+
+```markdown
+## Upgrade Notes Preview
+
+The following upgrade notes will help AI guide users through this upgrade:
+
+[UPGRADE_NOTES_DRAFT from Phase 3]
+```
+
+Use AskUserQuestion:
+```
+header: "Upgrade Notes"
+question: "Include these upgrade notes with the release?"
+options:
+  - label: "Yes, save as-is (Recommended)"
+    description: "Use the auto-generated notes"
+  - label: "Yes, but let me edit first"
+    description: "I'll modify the notes before saving"
+  - label: "Skip upgrade notes"
+    description: "Don't include upgrade notes for this release"
+```
+
+#### 5.7.3: Save and Commit
+
+If approved (with or without edits):
+
+1. Write to `.claude/upgrade-notes/v{version}.md`
+2. Amend the release commit:
+```bash
+git add .claude/upgrade-notes/v{version}.md
+git commit --amend --no-edit
+```
+
+Note: This keeps upgrade notes in the same commit as the release.
 
 ---
 

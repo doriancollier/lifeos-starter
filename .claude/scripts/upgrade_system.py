@@ -52,7 +52,12 @@ SYSTEM_PATHS = [
     ".claude/hooks/",
     ".claude/scripts/",
     ".claude/rules/",
+    ".claude/upgrade-notes/",  # Upgrade guidance for AI
     "CLAUDE.template.md",
+    # Infrastructure directories
+    "integrations/",  # Core data connectors
+    "tasks/",  # Background tasks (heartbeat)
+    "scripts/",  # Build/install scripts
 ]
 
 # Paths that should NEVER be modified by upgrade
@@ -71,6 +76,10 @@ PROTECTED_PATHS = [
     "CLAUDE.md",  # Generated file
     ".claude/settings.json",  # Generated file
     ".claude/rules/coaching.md",  # Generated file
+    # User-owned directories
+    "extensions/",  # User plugins
+    "data/",  # Imported external data
+    # Note: state/ is ephemeral - not backed up, not protected
 ]
 
 
@@ -493,6 +502,35 @@ def run_post_upgrade_scripts(vault_root: Path) -> dict:
     return results
 
 
+def collect_upgrade_notes(vault_root: Path, from_version: str, to_version: str) -> List[dict]:
+    """Collect upgrade notes for versions between from and to."""
+    notes_dir = vault_root / ".claude" / "upgrade-notes"
+    if not notes_dir.exists():
+        return []
+
+    from_tuple = parse_version(from_version)
+    to_tuple = parse_version(to_version)
+
+    notes = []
+
+    for notes_file in sorted(notes_dir.glob("v*.md")):
+        version_str = notes_file.stem[1:]  # Remove 'v' prefix
+        version_tuple = parse_version(version_str)
+
+        if from_tuple < version_tuple <= to_tuple:
+            try:
+                content = notes_file.read_text()
+                notes.append({
+                    "version": version_str,
+                    "file": notes_file.name,
+                    "content": content
+                })
+            except Exception:
+                pass
+
+    return notes
+
+
 def cmd_check(vault_root: Path, config: dict) -> int:
     """Check for available updates without applying."""
     upstream = config.get("upstream", {})
@@ -649,7 +687,10 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
     print("Updating file hashes...")
     update_system_hashes(vault_root)
 
-    # Step 10: Report
+    # Step 10: Collect upgrade notes
+    upgrade_notes = collect_upgrade_notes(vault_root, local_version, remote_version)
+
+    # Step 11: Report
     print("\n" + "=" * 50)
     print("UPGRADE COMPLETE")
     print("=" * 50)
@@ -662,6 +703,17 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
     print()
     print("Your .user/ configuration was preserved.")
     print()
+
+    # Step 12: Output upgrade notes for AI
+    if upgrade_notes:
+        print("=" * 50)
+        print("UPGRADE NOTES FOR AI")
+        print("=" * 50)
+        print("The following notes provide guidance for helping the user:")
+        for note in upgrade_notes:
+            print(f"\n--- {note['file']} ---")
+            print(note['content'])
+        print("\n" + "=" * 50)
 
     return 0
 

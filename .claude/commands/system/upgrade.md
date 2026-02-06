@@ -163,6 +163,37 @@ Last checked: Just now
 Upstream: doriancollier/lifeos-starter@main
 ```
 
+### Step 5: Process Upgrade Notes
+
+The upgrade script outputs any applicable upgrade notes after completion.
+
+When upgrade notes are present in the output (look for "UPGRADE NOTES FOR AI" markers):
+
+1. **Parse the notes** between the markers
+2. **Summarize for user**:
+   ```markdown
+   ## Post-Upgrade Actions
+
+   Based on the upgrade notes, here's what you should know:
+
+   ### Action Items
+   - [List any manual actions needed]
+
+   ### New Features
+   - [Highlight new capabilities]
+
+   ### Verification
+   Run these to confirm the upgrade worked:
+   - [Verification steps]
+   ```
+
+3. **Offer to help** with any action items:
+   - "Would you like me to help you with [action item]?"
+   - For new features: "Want me to demonstrate [feature]?"
+
+4. **Track completion** (optional):
+   - If action items exist, offer to track them in today's daily note
+
 ## Upgrade Configuration
 
 Users can customize upgrade behavior in `.user/upgrade.yaml`:

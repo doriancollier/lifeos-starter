@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Add AI upgrade instructions to release/upgrade system
 - Add heartbeat system and restructure directory architecture
 
 ### Changed
