@@ -283,9 +283,6 @@ This ensures consistency and predictable AI navigation.
 │  │   └─ Queue task syncs for reconciliation             │
 │  └─ reminders-task-detector.py (Write/Edit)             │
 │      └─ Push new tasks to macOS Reminders               │
-├─────────────────────────────────────────────────────────┤
-│ Stop                                                     │
-│  └─ auto-git-backup.sh commits changes                  │
 └─────────────────────────────────────────────────────────┘
 ```
 

@@ -502,7 +502,6 @@ core_hooks:
   - task-format-validator.py
   - table-format-validator.py
   - task-sync-detector.py
-  - auto-git-backup.sh
 ```
 
 ---

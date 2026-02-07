@@ -111,7 +111,7 @@ This vault includes skills, commands, agents, and hooks that extend Claude Code 
 - **Skills** (`.claude/skills/`): Model-invoked knowledge modules (e.g., `task-system`, `meeting-prep`, `calendar-management`)
 - **Commands** (`.claude/commands/`): User-invoked via `/namespace:command` (e.g., `/daily:plan`, `/meeting:prep`)
 - **Agents** (`.claude/agents/`): Spawned via Task tool for complex tasks (e.g., `vault-explorer`, `email-processor`)
-- **Hooks** (`.claude/hooks/`): Automatic lifecycle events (e.g., `directory-guard`, `auto-git-backup`)
+- **Hooks** (`.claude/hooks/`): Automatic lifecycle events (e.g., `directory-guard`, `pre-commit-guard`)
 
 ## Key Workflows
 

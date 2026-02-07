@@ -303,7 +303,6 @@ def create_integrations_yaml(health_config: dict, user_dir: Path, dry_run: bool)
             "task-format-validator.py",
             "table-format-validator.py",
             "task-sync-detector.py",
-            "auto-git-backup.sh",
         ],
     }
 

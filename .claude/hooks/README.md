@@ -71,14 +71,6 @@ Add the following configuration to your Claude Code settings file at `~/.claude/
         ]
       }
     ],
-    "SessionEnd": [
-      {
-        "matcher": "",
-        "hooks": [
-          {"type": "command", "command": "{{vault_path}}/.claude/hooks/auto-git-backup.sh"}
-        ]
-      }
-    ]
   }
 }
 ```
@@ -104,7 +96,7 @@ Run `/system:configure-hooks` to regenerate settings.json based on your `.user/i
 | `table-format-validator.py` | PostToolUse (Write/Edit) | Validate table formatting | Warns on missing blank lines |
 | `task-sync-detector.py` | PostToolUse (Write/Edit) | Detect task changes | Queues syncs, suggests reconciliation |
 | `reminders-task-detector.py` | PostToolUse (Write/Edit) | Sync tasks to Reminders | Creates/updates macOS Reminders |
-| `auto-git-backup.sh` | SessionEnd | Auto-commit changes | Creates backup commits with change summary |
+| `pre-commit-guard.sh` | Git pre-commit | Guard personal data | **BLOCKS** staging of personal data files |
 | `git-task-sync-detector.sh` | Git post-commit (manual) | Detect external changes | Flags syncs for next session |
 | `changelog-populator.py` | Git post-commit | Auto-populate changelog | Adds entries from conventional commits |
 
@@ -328,31 +320,26 @@ System files tracked:
 
 See `workspace/0-System/guides/versioning.md` for conventional commit format details.
 
-### Auto Git Backup (`auto-git-backup.sh`)
+### Pre-Commit Guard (`pre-commit-guard.sh`)
 
-**Event**: SessionEnd
-**Behavior**: Commits if changes exist (once per session)
+**Event**: Git pre-commit
+**Behavior**: BLOCKS commits containing personal data
 
-Actions:
-- Checks for uncommitted changes
-- Stages all changes (`git add -A`)
-- Generates a summary of changes by directory (daily notes, meetings, projects, etc.)
-- Creates commit with message including timestamp and change summary
-- Does NOT push automatically (safety)
+Prevents accidental commits of files from personal data directories:
+- `workspace/1-Projects/`, `workspace/2-Areas/`, `workspace/4-Daily/`, `workspace/5-Meetings/`, `workspace/6-People/`
+- `.user/identity.yaml`, `.user/health.yaml`
+- `data/`, `state/`
 
-Commit message format:
-```
-vault backup: 2025-12-30 14:30:00 (1 daily, 2 system)
-
-Changed files:
-  - 4-Daily/2025-12-30.md
-  - .claude/hooks/auto-git-backup.sh
-  - .claude/hooks/README.md
-
-Auto-committed by Claude Code session hook
+**Installation**:
+```bash
+.claude/scripts/install-git-hooks.sh
 ```
 
-**Note**: Uses `SessionEnd` (not `Stop`) to commit only once when you exit the session, not after every Claude response.
+Or manually:
+```bash
+ln -sf ../../.claude/hooks/pre-commit-guard.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
 
 ## Customization
 

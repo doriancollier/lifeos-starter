@@ -313,7 +313,7 @@ Hooks run automatically at lifecycle events.
 | `reminders-task-detector.py` | PostToolUse | Push tasks to Reminders app |
 | `git-task-sync-detector.sh` | Git post-commit (manual) | Detect external task changes |
 | `changelog-populator.py` | Git post-commit | Auto-populate changelog from conventional commits |
-| `auto-git-backup.sh` | SessionEnd | Auto-commit changes with summary |
+| `pre-commit-guard.sh` | Git pre-commit | Prevents staging personal data |
 
 **Setup**: See `.claude/hooks/README.md`
 

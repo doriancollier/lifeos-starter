@@ -73,11 +73,11 @@ Claude starts with awareness
 | `directory-guard.py` | PreToolUse (Write) | Enforce directory structure |
 | `calendar-protection.py` | PreToolUse (Calendar) | Protect calendar events |
 
-### Cleanup
+### Git Hooks
 
 | Hook | Event | Purpose |
 |------|-------|---------|
-| `auto-git-backup.sh` | Stop | Auto-commit changes |
+| `pre-commit-guard.sh` | Git pre-commit | Prevents staging personal data |
 
 ## Hook Structure
 
@@ -97,7 +97,7 @@ Hooks live in `.claude/hooks/`:
 ├── task-sync-detector.py
 ├── reminders-task-detector.py     # Not currently in settings.json
 ├── git-task-sync-detector.sh      # Manual installation (git hook)
-├── auto-git-backup.sh
+├── pre-commit-guard.sh            # Git pre-commit hook
 ├── hook_logger.py                 # Utility module (not a hook)
 └── README.md
 ```

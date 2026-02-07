@@ -25,7 +25,6 @@ These provide essential vault functionality:
 - `task-format-validator.py` - Validate task formatting
 - `table-format-validator.py` - Validate table formatting
 - `task-sync-detector.py` - Queue task syncs
-- `auto-git-backup.sh` - Auto-commit changes
 
 ### Integration Hooks (Conditional)
 

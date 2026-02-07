@@ -3,6 +3,7 @@
 # install-git-hooks.sh - Install LifeOS git hooks
 #
 # This script installs git hooks that enhance the LifeOS workflow:
+#   - pre-commit: Guards against committing personal data
 #   - post-commit: Auto-populates changelog from conventional commits
 #
 # Usage:
@@ -29,6 +30,7 @@ NC='\033[0m' # No Color
 # Hook definitions: "source_file:git_hook_name"
 # Using simple array for bash 3.2 compatibility (macOS default)
 HOOK_DEFS=(
+    "pre-commit-guard.sh:pre-commit"
     "changelog-populator.py:post-commit"
 )
 
