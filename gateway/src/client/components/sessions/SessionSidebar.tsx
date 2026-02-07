@@ -1,15 +1,19 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
+import { useSessionId } from '../../hooks/use-session-id';
 import { useAppStore } from '../../stores/app-store';
+import { useIsMobile } from '../../hooks/use-is-mobile';
 import { SessionItem } from './SessionItem';
 import { groupSessionsByTime } from '@/lib/session-utils';
-import { Plus, Shield, ShieldOff } from 'lucide-react';
+import { Plus, Shield, ShieldOff, PanelLeftClose } from 'lucide-react';
 import type { Session } from '@shared/types';
 
 export function SessionSidebar() {
   const queryClient = useQueryClient();
-  const { activeSessionId, setActiveSession } = useAppStore();
+  const [activeSessionId, setActiveSession] = useSessionId();
+  const { setSidebarOpen } = useAppStore();
+  const isMobile = useIsMobile();
   const [permissionMode, setPermissionMode] = useState<'default' | 'dangerously-skip'>('default');
   const [justCreatedId, setJustCreatedId] = useState<string | null>(null);
 
@@ -25,23 +29,41 @@ export function SessionSidebar() {
       setActiveSession(session.id);
       setJustCreatedId(session.id);
       setTimeout(() => setJustCreatedId(null), 300);
+      if (isMobile) setTimeout(() => setSidebarOpen(false), 300);
     },
   });
+
+  const handleSessionClick = useCallback(
+    (sessionId: string) => {
+      setActiveSession(sessionId);
+      if (isMobile) setSidebarOpen(false);
+    },
+    [isMobile, setActiveSession, setSidebarOpen]
+  );
 
   const groupedSessions = useMemo(() => groupSessionsByTime(sessions), [sessions]);
 
   return (
     <div className="flex flex-col h-full p-3">
-      {/* New Chat + Permission Toggle */}
+      {/* Header: New Chat + Collapse */}
       <div className="mb-3 space-y-1.5">
-        <button
-          onClick={() => createMutation.mutate({ permissionMode })}
-          disabled={createMutation.isPending}
-          className="flex items-center justify-center gap-2 w-full rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all duration-100 disabled:opacity-50"
-        >
-          <Plus className="h-4 w-4" />
-          New chat
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => createMutation.mutate({ permissionMode })}
+            disabled={createMutation.isPending}
+            className="flex items-center justify-center gap-2 flex-1 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all duration-100 disabled:opacity-50"
+          >
+            <Plus className="h-4 w-4" />
+            New chat
+          </button>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="p-2 rounded-md hover:bg-accent transition-colors duration-150"
+            aria-label="Close sidebar"
+          >
+            <PanelLeftClose className="h-4 w-4 text-muted-foreground" />
+          </button>
+        </div>
         <button
           onClick={() =>
             setPermissionMode((p) => (p === 'default' ? 'dangerously-skip' : 'default'))
@@ -72,7 +94,7 @@ export function SessionSidebar() {
           <div className="space-y-5">
             {groupedSessions.map((group) => (
               <div key={group.label}>
-                <h3 className="px-3 mb-1.5 text-[11px] font-medium text-muted-foreground/70 uppercase tracking-wider">
+                <h3 className="px-3 mb-1.5 text-2xs font-medium text-muted-foreground/70 uppercase tracking-wider">
                   {group.label}
                 </h3>
                 <div className="space-y-0.5">
@@ -82,7 +104,7 @@ export function SessionSidebar() {
                       session={session}
                       isActive={session.id === activeSessionId}
                       isNew={session.id === justCreatedId}
-                      onClick={() => setActiveSession(session.id)}
+                      onClick={() => handleSessionClick(session.id)}
                     />
                   ))}
                 </div>

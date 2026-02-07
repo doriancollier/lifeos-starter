@@ -21,13 +21,21 @@ vi.mock('../../../lib/api', () => ({
   },
 }));
 
-// Mock app store
-const mockSetActiveSession = vi.fn();
+// Mock useSessionId (nuqs-backed)
+const mockSetSessionId = vi.fn();
+vi.mock('../../../hooks/use-session-id', () => ({
+  useSessionId: () => [null, mockSetSessionId] as const,
+}));
+
+// Mock app store (sidebar state)
+const mockSetSidebarOpen = vi.fn();
 vi.mock('../../../stores/app-store', () => ({
-  useAppStore: () => ({
-    activeSessionId: null,
-    setActiveSession: mockSetActiveSession,
-  }),
+  useAppStore: () => ({ setSidebarOpen: mockSetSidebarOpen }),
+}));
+
+// Mock useIsMobile
+vi.mock('../../../hooks/use-is-mobile', () => ({
+  useIsMobile: () => false,
 }));
 
 // Mock session-utils to avoid time-dependent behavior
@@ -69,6 +77,7 @@ describe('SessionSidebar', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(api.listSessions).mockResolvedValue([]);
+    mockSetSidebarOpen.mockClear();
   });
   afterEach(() => {
     cleanup();
@@ -124,6 +133,17 @@ describe('SessionSidebar', () => {
     await waitFor(() => {
       expect(vi.mocked(api.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'default' });
     });
+  });
+
+  it('renders close sidebar button', () => {
+    renderWithQuery(<SessionSidebar />);
+    expect(screen.getByLabelText('Close sidebar')).toBeDefined();
+  });
+
+  it('closes sidebar when close button clicked', () => {
+    renderWithQuery(<SessionSidebar />);
+    fireEvent.click(screen.getByLabelText('Close sidebar'));
+    expect(mockSetSidebarOpen).toHaveBeenCalledWith(false);
   });
 
   it('creates session with dangerously-skip when toggled', async () => {

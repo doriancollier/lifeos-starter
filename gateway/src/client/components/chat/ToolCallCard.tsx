@@ -19,13 +19,13 @@ export function ToolCallCard({ toolCall, defaultExpanded = false }: ToolCallCard
   }[toolCall.status];
 
   return (
-    <div className="my-1 rounded border bg-muted/50 text-sm transition-all duration-150 hover:border-border hover:shadow-sm">
+    <div className="mt-px first:mt-1 rounded border bg-muted/50 text-sm transition-all duration-150 hover:border-border hover:shadow-sm">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex w-full items-center gap-2 px-3 py-1.5"
+        className="flex w-full items-center gap-2 px-3 py-1"
       >
         {statusIcon}
-        <span className="font-mono">{toolCall.toolName}</span>
+        <span className="font-mono text-3xs">{toolCall.toolName}</span>
         <motion.div
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={{ type: 'spring', stiffness: 400, damping: 30 }}

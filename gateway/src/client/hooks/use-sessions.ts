@@ -1,11 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
-import { useAppStore } from '../stores/app-store';
+import { useSessionId } from './use-session-id';
 import type { CreateSessionRequest } from '@shared/types';
 
 export function useSessions() {
   const queryClient = useQueryClient();
-  const { activeSessionId, setActiveSession } = useAppStore();
+  const [activeSessionId, setActiveSession] = useSessionId();
 
   const sessionsQuery = useQuery({
     queryKey: ['sessions'],

@@ -85,34 +85,32 @@ describe('MessageItem', () => {
     expect(initial).toBe('false');
   });
 
-  it('renders terracotta avatar for assistant messages (first in group)', () => {
+  it('renders dot indicator for assistant messages (first in group)', () => {
     const msg = { id: '1', role: 'assistant' as const, content: 'Reply', timestamp: new Date().toISOString() };
-    const { container } = render(<MessageItem message={msg} grouping={firstGrouping} />);
-    const avatar = container.querySelector('.bg-\\[\\#C2724E\\]');
-    expect(avatar).not.toBeNull();
+    render(<MessageItem message={msg} grouping={firstGrouping} />);
+    expect(screen.getByText('●')).toBeDefined();
   });
 
-  it('hides avatar for middle messages in a group', () => {
+  it('hides indicator for middle messages in a group', () => {
     const msg = { id: '1', role: 'assistant' as const, content: 'Reply', timestamp: new Date().toISOString() };
-    const { container } = render(<MessageItem message={msg} grouping={middleGrouping} />);
-    const avatar = container.querySelector('.bg-\\[\\#C2724E\\]');
-    expect(avatar).toBeNull();
+    render(<MessageItem message={msg} grouping={middleGrouping} />);
+    expect(screen.queryByText('●')).toBeNull();
   });
 
-  it('hides avatar for last messages in a group', () => {
+  it('hides indicator for last messages in a group', () => {
     const msg = { id: '1', role: 'assistant' as const, content: 'Reply', timestamp: new Date().toISOString() };
-    const { container } = render(<MessageItem message={msg} grouping={lastGrouping} />);
-    const avatar = container.querySelector('.bg-\\[\\#C2724E\\]');
-    expect(avatar).toBeNull();
+    render(<MessageItem message={msg} grouping={lastGrouping} />);
+    expect(screen.queryByText('●')).toBeNull();
   });
 
-  it('shows avatar on first and only positions', () => {
+  it('shows chevron indicator for user on first and only positions', () => {
     const msg = { id: '1', role: 'user' as const, content: 'Test', timestamp: new Date().toISOString() };
     const { container: c1 } = render(<MessageItem message={msg} grouping={firstGrouping} />);
-    expect(c1.querySelector('.bg-primary')).not.toBeNull();
+    // ChevronRight renders as an SVG
+    expect(c1.querySelector('svg')).not.toBeNull();
     cleanup();
     const { container: c2 } = render(<MessageItem message={msg} grouping={onlyGrouping} />);
-    expect(c2.querySelector('.bg-primary')).not.toBeNull();
+    expect(c2.querySelector('svg')).not.toBeNull();
   });
 
   it('renders timestamp from message on hover', () => {
@@ -147,11 +145,12 @@ describe('MessageItem', () => {
     expect(divider).toBeNull();
   });
 
-  it('uses wider max-width for assistant messages', () => {
+  it('uses wider max-width and msg-assistant class for assistant messages', () => {
     const msg = { id: '1', role: 'assistant' as const, content: 'Reply', timestamp: new Date().toISOString() };
     const { container } = render(<MessageItem message={msg} grouping={onlyGrouping} />);
-    const wideEl = container.querySelector('.max-w-\\[80ch\\]');
-    expect(wideEl).not.toBeNull();
+    const el = container.querySelector('.msg-assistant');
+    expect(el).not.toBeNull();
+    expect(el?.className).toContain('max-w-[80ch]');
   });
 
   it('applies tight spacing for middle messages', () => {

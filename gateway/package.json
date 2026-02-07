@@ -24,6 +24,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "latest",
     "motion": "^12.33.0",
+    "nuqs": "^2.8.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "streamdown": "latest",

@@ -11,17 +11,14 @@ vi.mock('../../lib/api', () => ({
   },
 }));
 
-// Mock localStorage for app-store
-const localStorageMock = (() => {
-  let store: Record<string, string> = {};
-  return {
-    getItem: vi.fn((key: string) => store[key] ?? null),
-    setItem: vi.fn((key: string, value: string) => { store[key] = value; }),
-    removeItem: vi.fn((key: string) => { delete store[key]; }),
-    clear: vi.fn(() => { store = {}; }),
-  };
-})();
-Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock });
+// Mock useSessionId (nuqs-backed)
+let mockSessionId: string | null = null;
+const mockSetSessionId = vi.fn((id: string | null) => {
+  mockSessionId = id;
+});
+vi.mock('../use-session-id', () => ({
+  useSessionId: () => [mockSessionId, mockSetSessionId] as const,
+}));
 
 import { api } from '../../lib/api';
 
@@ -41,7 +38,7 @@ describe('useSessions', () => {
   beforeEach(async () => {
     vi.resetModules();
     vi.clearAllMocks();
-    localStorageMock.clear();
+    mockSessionId = null;
   });
 
   it('lists sessions via React Query', async () => {
@@ -66,7 +63,6 @@ describe('useSessions', () => {
     const { useSessions } = await import('../use-sessions');
     const { result } = renderHook(() => useSessions(), { wrapper: createWrapper() });
 
-    // Initially returns empty array
     expect(result.current.sessions).toEqual([]);
     expect(result.current.isLoading).toBe(true);
   });
@@ -86,11 +82,11 @@ describe('useSessions', () => {
     result.current.createSession.mutate({ permissionMode: 'default' });
 
     await waitFor(() => {
-      expect(result.current.activeSessionId).toBe('new-1');
+      expect(mockSetSessionId).toHaveBeenCalledWith('new-1');
     });
   });
 
-  it('exposes setActiveSession from app store', async () => {
+  it('exposes setActiveSession', async () => {
     vi.mocked(api.listSessions).mockResolvedValue([]);
 
     const { useSessions } = await import('../use-sessions');
@@ -100,8 +96,6 @@ describe('useSessions', () => {
       result.current.setActiveSession('test-id');
     });
 
-    await waitFor(() => {
-      expect(result.current.activeSessionId).toBe('test-id');
-    });
+    expect(mockSetSessionId).toHaveBeenCalledWith('test-id');
   });
 });
