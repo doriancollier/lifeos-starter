@@ -16,6 +16,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+### Changed
+
+### Fixed
+
+---
+
+## [0.12.0] - 2026-02-07
+
+### Added
+
+- **LifeOS Gateway** — Web-based chat UI and REST/SSE API for Claude Code
+  - React 19 + Vite 6 + Tailwind CSS 4 + shadcn/ui interface
+  - Real-time streaming chat with Claude Agent SDK integration
+  - Tool approval flow with visual tool call cards
+  - Slash command discovery from vault commands
+  - Session management with browsable history from SDK transcripts
+  - Rich markdown rendering via Streamdown with syntax highlighting
+  - Message grouping with smart avatars, hover timestamps, and entrance animations
+  - Virtual scrolling for large conversations
+  - Responsive sidebar with session list
+  - Dark mode support
 - Replace auto-git-backup with pre-commit guard, add CONTRIBUTING.md
 
 ### Changed
