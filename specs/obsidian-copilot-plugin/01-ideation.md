@@ -211,16 +211,16 @@ Obsidian Plugin (main.ts)
 
 ---
 
-## 6) Clarification
+## 6) Clarification (Resolved)
 
-1. **Gateway server lifecycle**: Should the plugin attempt to start/stop the gateway server, or assume it's already running? Starting it would require spawning a Node process from Electron.
+1. **Gateway server lifecycle**: Assume it's already running. Plugin connects to `localhost:6942`. Show "Gateway not running" status with instructions if connection fails. No process spawning.
 
-2. **Context injection into messages**: When sending a message with context files, should the file contents be prepended to the user's message (like Cursor does), or sent as a separate field in the API? This may require a server-side API change.
+2. **Context injection into messages**: Client-side prepend (Option A from section 11 of dev guide). Wrap file contents in `<context file="path">` tags before the user message. No server API changes needed. Migrate to structured API field later if needed.
 
-3. **Session persistence**: In standalone mode, sessions persist via URL params. In Obsidian, should sessions be per-vault, per-file, or manual (user creates/selects sessions)?
+3. **Session persistence**: Manual — user creates/selects sessions via the existing SessionSidebar. Session ID stored in Zustand (not URL params). Sessions are vault-agnostic since the gateway server manages them.
 
-4. **Tailwind CSS strategy**: Should we (a) prefix all Tailwind classes to avoid Obsidian conflicts, (b) use Obsidian's CSS variables instead of Tailwind for the plugin build, or (c) scope Tailwind under a container class?
+4. **Tailwind CSS strategy**: CSS variable bridge. Remap the client's existing CSS custom properties to Obsidian's variables inside `.copilot-view-content`. No Tailwind prefixing needed since components reference variables, not raw colors.
 
-5. **Active file context depth**: Should we send just the file path, the file path + frontmatter, or the full file content as context? Full content could be large for some files.
+5. **Active file context depth**: Path + frontmatter displayed in context chips at all times. Full file content read and prepended only when the user sends a message (avoids reading large files on every tab switch).
 
-6. **Build architecture**: Should the Obsidian plugin live in `gateway/obsidian-plugin/` as a sibling, or in a separate top-level directory like `obsidian-plugin/`?
+6. **Build architecture**: Plugin code lives in `gateway/src/plugin/` as a sibling to `client/` and `server/`. Shares `package.json` and `tsconfig`. Separate Vite config (`vite.config.obsidian.ts`) outputs to `dist-obsidian/`.
