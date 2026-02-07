@@ -217,9 +217,15 @@ Animation should feel like physics, not decoration. Things should move because t
 ### Sidebar
 
 - Fixed width 256px
-- Session items: truncated title + preview
-- Active session: `bg-secondary` background
-- "New Session" button: dashed border, icon + text
+- **Temporal grouping**: Sessions grouped by Today / Yesterday / Previous 7 Days / Previous 30 Days / Older
+- **Group headers**: `text-[11px]`, uppercase, `tracking-wider`, `text-muted-foreground/70`
+- **Session items**: Single-line layout: truncated title (left), relative time (right). No preview text.
+- **Relative time**: "Just now", "5m ago", "3h ago" (today), "Yesterday", "Mon" (this week), "Jan 5" (older)
+- **Active session**: `bg-secondary` background
+- **"New chat" button**: Solid `bg-primary`, full-width, centered icon + text
+- **Permission toggle**: Inline beneath button, shield icon, toggles between "Require approval" / "Skip permissions"
+- **Empty state**: Centered "No conversations yet" message
+- **Item spacing**: `space-y-0.5` within groups, `space-y-5` between groups
 
 ---
 

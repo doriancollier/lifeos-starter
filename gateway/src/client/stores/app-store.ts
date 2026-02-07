@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 interface AppState {
   activeSessionId: string | null;
@@ -9,7 +10,7 @@ interface AppState {
   setSidebarOpen: (open: boolean) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
+export const useAppStore = create<AppState>()(devtools((set) => ({
   activeSessionId: localStorage.getItem('activeSessionId'),
   sidebarOpen: true,
 
@@ -24,4 +25,4 @@ export const useAppStore = create<AppState>((set) => ({
 
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
-}));
+}), { name: 'app-store' }));
