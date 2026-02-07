@@ -22,6 +22,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.13.0] - 2026-02-07
+
+### Added
+
+- Overhaul client UI - remove header, responsive sidebar, typography and table improvements
+- Redesign session sidebar with temporal grouping and expandable details
+
+### Changed
+
+- Update Obsidian copilot plugin ideation
+
+---
+
 ## [0.12.0] - 2026-02-07
 
 ### Added
