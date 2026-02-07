@@ -19,6 +19,12 @@ export default defineConfig({
         '@codemirror/state', '@codemirror/view',
         '@lezer/common', '@lezer/highlight', '@lezer/lr',
       ],
+      output: {
+        // Obsidian requires a single main.js file - no code splitting
+        inlineDynamicImports: true,
+        // Ensure `export default` maps to `module.exports`
+        exports: 'default',
+      },
     },
     outDir: 'dist-obsidian',
     emptyOutDir: true,
