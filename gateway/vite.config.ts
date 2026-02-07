@@ -1,0 +1,43 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  test: {
+    environment: 'jsdom',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/**/__tests__/**', 'src/test-utils/**'],
+    },
+  },
+  root: '.',
+  publicDir: 'public',
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src/client'),
+      '@shared': path.resolve(__dirname, './src/shared'),
+    },
+  },
+  server: {
+    port: 3000,
+    watch: {
+      ignored: ['**/state/**'],
+    },
+    proxy: {
+      '/api': {
+        target: `http://localhost:${process.env.GATEWAY_PORT || 6942}`,
+        changeOrigin: true,
+      },
+    },
+  },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: 'index.html',
+    },
+  },
+});
