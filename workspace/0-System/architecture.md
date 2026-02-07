@@ -263,8 +263,8 @@ This ensures consistency and predictable AI navigation.
 │  │   └─ Today's tasks, meetings, energy, focus areas    │
 │  ├─ reminders-session-sync.py                           │
 │  │   └─ Pull Reminders completions to daily note        │
-│  └─ git-task-sync-detector.sh                           │
-│      └─ Detect external task changes                    │
+│  └─ health-session-sync.py                              │
+│      └─ Sync health data from Health Auto Export        │
 ├─────────────────────────────────────────────────────────┤
 │ UserPromptSubmit                                         │
 │  ├─ prompt-timestamp.py                                 │

@@ -75,7 +75,7 @@ This is a staging area for files that need triage before permanent placement.
 - Templates or boilerplate
 - Research or reference content
 
-**Routing:** `workspace/3-Resources/Documentation/` or `workspace/3-Resources/Templates/`
+**Routing:** `workspace/3-Resources/References/` or `workspace/3-Resources/Templates/`
 
 ## Meeting Matching
 
@@ -271,7 +271,7 @@ Identify main discussion threads by:
 | Person info | `workspace/6-People/[Professional or Personal]/[name].md` |
 | Project doc | `workspace/1-Projects/Current/[Project]/[doc].md` |
 | Template | `workspace/3-Resources/Templates/[name].md` |
-| Reference | `workspace/3-Resources/Documentation/[name].md` |
+| Reference | `workspace/3-Resources/References/[name].md` |
 | Unknown | Ask user or `workspace/8-Scratch/` temporarily |
 
 ## Integration

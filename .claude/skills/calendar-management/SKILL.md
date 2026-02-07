@@ -346,7 +346,7 @@ mcp__google-calendar__create-event with:
 
 **Step 1: Load configured calendars**
 ```
-Read: .claude/skills/calendar-management/.user/calendars.yaml
+Read: .user/calendars.yaml
 Extract all calendar IDs where check_availability: true
 ```
 

@@ -372,25 +372,25 @@ All Python hooks use a centralized logging system for debugging and error visibi
 ### Log Location
 
 ```
-.claude/hooks/logs/hooks.log
+.claude/hooks/logs/hooks-YYYY-MM-DD.log
 ```
 
-The log file rotates automatically at 1MB with 3 backup files retained.
+Log files are created daily and auto-cleaned after 7 days.
 
 ### Viewing Logs
 
 ```bash
-# View recent log entries
-tail -50 .claude/hooks/logs/hooks.log
+# View today's log entries
+tail -50 .claude/hooks/logs/hooks-$(date +%Y-%m-%d).log
 
 # Watch logs in real-time
-tail -f .claude/hooks/logs/hooks.log
+tail -f .claude/hooks/logs/hooks-$(date +%Y-%m-%d).log
 
 # Search for errors
-grep '"status": "error"' .claude/hooks/logs/hooks.log
+grep '"status": "error"' .claude/hooks/logs/hooks-*.log
 
 # Search for a specific hook
-grep 'directory-guard' .claude/hooks/logs/hooks.log
+grep 'directory-guard' .claude/hooks/logs/hooks-$(date +%Y-%m-%d).log
 ```
 
 ### Log Format

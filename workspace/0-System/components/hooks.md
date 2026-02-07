@@ -49,7 +49,7 @@ Claude starts with awareness
 |------|-------|---------|--------|
 | `session-context-loader.py` | SessionStart | Load today's tasks, deadlines, inbox, carryover; proactive command suggestions | Active |
 | `reminders-session-sync.py` | SessionStart | Pull Reminders completions to daily note | *Not configured* |
-| `health-session-sync.py` | SessionStart | Sync health data from Health Auto Export | Active |
+| `health-session-sync.py` | SessionStart | Sync health data from Health Auto Export | *Not configured* |
 | `prompt-timestamp.py` | UserPromptSubmit | Add current time to each prompt | Active |
 
 ### Validation

@@ -26,8 +26,8 @@ Thumbs.db
 # Note: companies.yaml, integrations.yaml, calendars.yaml, coaching.yaml are safe to commit
 
 # SuperNormal auth state and browser profile
-workspace/0-System/scripts/supernormal/auth-state.json
-workspace/0-System/scripts/supernormal/chrome-profile/
+integrations/supernormal/auth-state.json
+integrations/supernormal/chrome-profile/
 
 # Screenshot previews (may contain personal info)
 .playwright-mcp/

@@ -20,7 +20,7 @@ Import AI-generated meeting notes and transcripts from SuperNormal into the vaul
 ### 1. Run the Sync Script
 
 ```bash
-cd "{{vault_path}}/0-System/scripts/supernormal" && node sync-meetings.js $ARGUMENTS
+cd integrations/supernormal && node sync-meetings.js $ARGUMENTS
 ```
 
 ### 2. Handle First-Time Setup

@@ -373,7 +373,7 @@ The sync script automatically detects:
 ### Running the Sync
 
 ```bash
-cd 0-System/scripts/supernormal
+cd integrations/supernormal
 node sync-meetings.js              # Sync new meetings only
 node sync-meetings.js --all        # Re-sync all meetings
 node sync-meetings.js --dry-run    # Preview what would be synced
@@ -434,7 +434,7 @@ Add new contacts via `/setup:onboard` or by editing `contacts-config.json` direc
 ### Script Location
 
 ```
-0-System/scripts/supernormal/
+integrations/supernormal/
 ├── sync-meetings.js          # Main automation script
 ├── sync-state.json           # Tracks downloaded meetings
 ├── chrome-profile/           # Persistent browser session

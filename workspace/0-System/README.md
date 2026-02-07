@@ -170,7 +170,7 @@ See [guides/directory-structure.md](guides/directory-structure.md) for design ph
 
 ## Version
 
-Current version: **0.5.0**
+Current version: **0.11.0**
 
 See [Changelog](changelog.md) for version history and [Roadmap](roadmap.md) for planned features.
 

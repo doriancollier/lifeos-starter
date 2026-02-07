@@ -54,7 +54,7 @@ LifeOS should be a system that anyone can adopt to manage their life with AI ass
 - [x] session-context-loader, reminders-session-sync, prompt-timestamp
 - [x] directory-guard, calendar-protection
 - [x] frontmatter-validator, task-format-validator, task-sync-detector, reminders-task-detector
-- [x] git-task-sync-detector, auto-git-backup
+- [x] git-task-sync-detector, pre-commit-guard
 
 ### What's Missing
 
