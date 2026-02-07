@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { TextDelta, ToolCallEvent, ErrorEvent } from '@shared/types';
 import { api } from '../lib/api';
+import { getPlatform } from '../lib/platform';
 
 export interface ChatMessage {
   id: string;
@@ -28,7 +29,12 @@ export interface ToolCallState {
 
 type ChatStatus = 'idle' | 'streaming' | 'error';
 
-export function useChatSession(sessionId: string) {
+interface ChatSessionOptions {
+  /** Transform message content before sending to server (e.g., prepend context) */
+  transformContent?: (content: string) => string | Promise<string>;
+}
+
+export function useChatSession(sessionId: string, options: ChatSessionOptions = {}) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [status, setStatus] = useState<ChatStatus>('idle');
@@ -98,10 +104,14 @@ export function useChatSession(sessionId: string) {
     abortRef.current = abortController;
 
     try {
-      const response = await fetch(`/api/sessions/${sessionId}/messages`, {
+      const response = await fetch(`${getPlatform().apiBaseUrl}/sessions/${sessionId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: userMessage.content }),
+        body: JSON.stringify({
+          content: options.transformContent
+            ? await options.transformContent(userMessage.content)
+            : userMessage.content,
+        }),
         signal: abortController.signal,
       });
 

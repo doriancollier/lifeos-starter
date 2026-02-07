@@ -145,12 +145,15 @@ describe('MessageItem', () => {
     expect(divider).toBeNull();
   });
 
-  it('uses wider max-width and msg-assistant class for assistant messages', () => {
+  it('uses msg-assistant class and max-width on content container', () => {
     const msg = { id: '1', role: 'assistant' as const, content: 'Reply', timestamp: new Date().toISOString() };
     const { container } = render(<MessageItem message={msg} grouping={onlyGrouping} />);
     const el = container.querySelector('.msg-assistant');
     expect(el).not.toBeNull();
-    expect(el?.className).toContain('max-w-[80ch]');
+    // max-w-[80ch] is on the parent content container (applies to text + tool calls)
+    const contentContainer = container.querySelector('.max-w-\\[80ch\\]');
+    expect(contentContainer).not.toBeNull();
+    expect(contentContainer?.querySelector('.msg-assistant')).not.toBeNull();
   });
 
   it('applies tight spacing for middle messages', () => {

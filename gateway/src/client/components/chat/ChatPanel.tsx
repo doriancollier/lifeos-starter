@@ -9,11 +9,13 @@ import type { CommandEntry } from '@shared/types';
 
 interface ChatPanelProps {
   sessionId: string;
+  /** Optional transform applied to message content before sending to server */
+  transformContent?: (content: string) => string | Promise<string>;
 }
 
-export function ChatPanel({ sessionId }: ChatPanelProps) {
+export function ChatPanel({ sessionId, transformContent }: ChatPanelProps) {
   const { messages, input, setInput, handleSubmit, status, error, stop, isLoadingHistory } =
-    useChatSession(sessionId);
+    useChatSession(sessionId, { transformContent });
   const [showCommands, setShowCommands] = useState(false);
   const [commandQuery, setCommandQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);

@@ -5,10 +5,10 @@ import type {
   HistoryMessage,
 } from '@shared/types';
 
-const BASE_URL = '/api';
+import { getPlatform } from './platform';
 
 async function fetchJSON<T>(url: string, opts?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE_URL}${url}`, {
+  const res = await fetch(`${getPlatform().apiBaseUrl}${url}`, {
     headers: { 'Content-Type': 'application/json' },
     ...opts,
   });
@@ -36,7 +36,7 @@ export const api = {
     fetchJSON<{ messages: HistoryMessage[] }>(`/sessions/${sessionId}/messages`),
 
   getMessageStreamUrl: (sessionId: string) =>
-    `${BASE_URL}/sessions/${sessionId}/messages`,
+    `${getPlatform().apiBaseUrl}/sessions/${sessionId}/messages`,
 
   // Tool approval
   approveTool: (sessionId: string, toolCallId: string) =>

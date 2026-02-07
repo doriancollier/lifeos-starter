@@ -10,7 +10,9 @@
     "start": "NODE_ENV=production node dist-server/server/index.js",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "build:obsidian": "vite build --config vite.config.obsidian.ts",
+    "dev:obsidian": "vite build --config vite.config.obsidian.ts --watch"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "latest",
@@ -51,6 +53,7 @@
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
     "vite": "^6.0.0",
-    "vitest": "^2.1.0"
+    "vitest": "^2.1.0",
+    "obsidian": "latest"
   }
 }

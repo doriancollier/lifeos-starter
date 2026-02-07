@@ -8,7 +8,12 @@ import { PermissionBanner } from './components/layout/PermissionBanner';
 import { SessionSidebar } from './components/sessions/SessionSidebar';
 import { ChatPanel } from './components/chat/ChatPanel';
 
-export function App() {
+interface AppProps {
+  /** Optional transform applied to message content before sending to server */
+  transformContent?: (content: string) => string | Promise<string>;
+}
+
+export function App({ transformContent }: AppProps = {}) {
   const { sidebarOpen, setSidebarOpen, toggleSidebar } = useAppStore();
   const [activeSessionId] = useSessionId();
   const isMobile = useIsMobile();
@@ -86,7 +91,7 @@ export function App() {
 
           <main className="flex-1 overflow-hidden">
             {activeSessionId ? (
-              <ChatPanel key={activeSessionId} sessionId={activeSessionId} />
+              <ChatPanel key={activeSessionId} sessionId={activeSessionId} transformContent={transformContent} />
             ) : (
               <div className="flex-1 flex items-center justify-center h-full">
                 <div className="text-center">
