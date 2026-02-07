@@ -6,6 +6,8 @@ status: "active"
 
 # Commands
 
+> **AI context version**: `.claude/rules/components.md` (summary loaded into CLAUDE.md)
+
 Slash commands are explicit actions triggered by the user.
 
 ## How Commands Work

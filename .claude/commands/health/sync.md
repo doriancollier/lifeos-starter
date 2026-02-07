@@ -18,7 +18,7 @@ Manually sync health data from Health Auto Export app and display current health
 ## Context
 
 - **Script**: `.claude/scripts/health_sync.py`
-- **Database**: `.claude/data/health.db`
+- **Database**: `data/health/health.db`
 - **Config**: `workspace/0-System/config/health-config.md`
 - **Skill**: `.claude/skills/health-awareness/SKILL.md`
 

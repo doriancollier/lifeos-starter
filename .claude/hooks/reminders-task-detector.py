@@ -37,7 +37,7 @@ logger = setup_logger("reminders-task-detector")
 PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
 VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_ROOT") or os.path.join(PROJECT_ROOT, "workspace")
 DAILY_DIR = os.path.join(VAULT_ROOT, "4-Daily")
-STATE_FILE = os.path.join(PROJECT_ROOT, ".claude", "reminders-state.json")
+STATE_FILE = os.path.join(PROJECT_ROOT, "state", "reminders-state.json")
 REMINDERS_SCRIPT = os.path.join(PROJECT_ROOT, ".claude", "scripts", "reminders_manager.py")
 
 # Task patterns

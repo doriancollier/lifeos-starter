@@ -81,7 +81,6 @@ The integration *code* lives in `integrations/`, but the *data* lives in `data/`
 ```
 /
 ├── CLAUDE.md                    # AI instructions (entry point)
-├── package.json                 # Node.js project root
 │
 ├── workspace/                   # Obsidian vault (user content)
 │   ├── .obsidian/
@@ -143,11 +142,13 @@ The integration *code* lives in `integrations/`, but the *data* lives in `data/`
 │
 ├── state/                       # Runtime state (gitignored, ephemeral)
 │   ├── heartbeat/               # Heartbeat state and logs
+│   ├── reminders-state.json     # Reminders sync state
 │   ├── sessions/                # Chat sessions
 │   ├── cache/                   # Temporary caches
 │   └── logs/                    # Rotating logs
 │
-└── scripts/                     # Build, install, dev scripts
+└── specs/                       # Feature specifications
+    └── [feature-name]/          # Ideation, specs, tasks per feature
 ```
 
 ## What Goes Where?
@@ -222,6 +223,23 @@ Key points:
 - Symlinks in `.claude/` (prefixed with `ext--`) point to extensions
 - `extensions/manifest.json` tracks registered extensions
 - Run `/extensions:sync` after adding new extensions or upgrading
+
+## Naming Conventions
+
+| Scope | Convention | Examples |
+|-------|-----------|----------|
+| Root directories | lowercase, single word or hyphenated | `data/`, `state/`, `integrations/` |
+| Workspace directories | Number-prefix + PascalCase | `0-System/`, `4-Daily/` |
+| Configuration files | lowercase with dots or hyphens | `identity.yaml`, `health-config.md` |
+| Scripts | lowercase with hyphens or underscores | `health_sync.py`, `install-git-hooks.sh` |
+| Skills/commands | lowercase with hyphens | `daily-note/`, `calendar-management/` |
+| Markdown docs | lowercase with hyphens | `directory-structure.md`, `task-management.md` |
+
+**Key rules**:
+- No duplicate directory names at different levels (e.g., avoid both `.claude/data/` and `data/`)
+- Scripts live in `.claude/scripts/`, not a root `scripts/` directory
+- State files live in `state/`, not inside `.claude/`
+- Imported data lives in `data/`, not inside `.claude/` or `workspace/`
 
 ## Inspiration
 

@@ -151,7 +151,7 @@ Example session context output:
 Requires:
 - Health Auto Export app exporting to iCloud Drive
 - `.claude/scripts/health_sync.py` script
-- `.claude/data/health.db` database
+- `data/health/health.db` database
 
 ### Prompt Timestamp (`prompt-timestamp.py`)
 

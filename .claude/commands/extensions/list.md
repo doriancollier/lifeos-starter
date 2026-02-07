@@ -20,7 +20,7 @@ Reads `extensions/manifest.json` and displays:
 Run the list command:
 
 ```bash
-python3 scripts/sync-extensions.py list
+python3 .claude/scripts/sync-extensions.py list
 ```
 
 ## Output Example

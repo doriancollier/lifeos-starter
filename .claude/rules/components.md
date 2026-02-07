@@ -2,6 +2,8 @@
 
 Reference for all skills, commands, agents, and hooks available in this vault.
 
+> **Human-browsable versions**: `workspace/0-System/components/` has detailed docs for each component type (skills, commands, agents, hooks, templates). This file is the AI-context summary loaded into CLAUDE.md.
+
 ## Skills (`.claude/skills/`)
 
 Skills are model-invoked knowledge modules. Claude reads them automatically when context matches.

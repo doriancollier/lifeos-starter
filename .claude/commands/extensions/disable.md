@@ -22,12 +22,12 @@ The extension files remain in `extensions/` and can be re-enabled later.
 ## Execution
 
 ```bash
-python3 scripts/sync-extensions.py disable <name>
+python3 .claude/scripts/sync-extensions.py disable <name>
 ```
 
 Example:
 ```bash
-python3 scripts/sync-extensions.py disable my-custom-skill
+python3 .claude/scripts/sync-extensions.py disable my-custom-skill
 ```
 
 ## Output

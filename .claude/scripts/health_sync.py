@@ -22,7 +22,7 @@ Usage:
 Data Source:
     Health Auto Export app → iCloud Drive → JSON files → SQLite database
 
-Database: .claude/data/health.db
+Database: data/health/health.db
 Config: 0-System/config/health-config.md
 """
 
@@ -42,7 +42,7 @@ from typing import Optional
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 VAULT_ROOT = Path(os.environ.get("OBSIDIAN_VAULT_ROOT") or str(PROJECT_ROOT / "workspace"))
 CONFIG_PATH = VAULT_ROOT / "0-System" / "config" / "health-config.md"
-DB_PATH = PROJECT_ROOT / ".claude" / "data" / "health.db"
+DB_PATH = PROJECT_ROOT / "data" / "health" / "health.db"
 
 # Default export path (can be overridden by config)
 DEFAULT_EXPORT_PATH = Path.home() / "Library" / "Mobile Documents" / "iCloud~com~ifunography~HealthExport" / "Documents" / "Dc test automation"
@@ -698,7 +698,7 @@ def export_to_csv(output_path: Optional[str] = None):
         print("No data to export")
         return
 
-    output = output_path or str(VAULT_ROOT / ".claude" / "data" / "health_export.csv")
+    output = output_path or str(PROJECT_ROOT / "data" / "health" / "health_export.csv")
 
     with open(output, 'w', newline='') as f:
         writer = csv.writer(f)

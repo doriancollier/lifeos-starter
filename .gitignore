@@ -19,9 +19,6 @@ Thumbs.db
 # Analytics bridge session history (local state, not config)
 .claude/skills/ab-analytics-bridge/sessions.json
 
-# Personal data - never commit
-.claude/data/
-
 # User configuration - contains personal information
 # Include .user/ in repo but protect sensitive files
 .user/identity.yaml
@@ -36,8 +33,8 @@ workspace/0-System/scripts/supernormal/chrome-profile/
 .playwright-mcp/
 
 # Local state files (generated at runtime)
-.claude/reminders-state.json
-workspace/0-System/scripts/supernormal/sync-state.json
+state/reminders-state.json
+integrations/supernormal/sync-state.json
 
 # Upgrade system (local cache and backups)
 .claude/cache/

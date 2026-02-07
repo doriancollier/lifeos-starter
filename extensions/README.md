@@ -111,7 +111,7 @@ Integrations combine skills, hooks, and potentially commands:
 
 3. Register manually (integrations need explicit registration):
    ```bash
-   python3 scripts/sync-extensions.py register todoist integration integrations/todoist
+   python3 .claude/scripts/sync-extensions.py register todoist integration integrations/todoist
    ```
 
 4. Sync:
@@ -136,20 +136,20 @@ The sync script can also be used directly:
 
 ```bash
 # Sync all extensions
-python3 scripts/sync-extensions.py sync
+python3 .claude/scripts/sync-extensions.py sync
 
 # List extensions
-python3 scripts/sync-extensions.py list
+python3 .claude/scripts/sync-extensions.py list
 
 # Register an extension
-python3 scripts/sync-extensions.py register my-skill skill skills/my-skill
+python3 .claude/scripts/sync-extensions.py register my-skill skill skills/my-skill
 
 # Enable/disable
-python3 scripts/sync-extensions.py enable my-skill
-python3 scripts/sync-extensions.py disable my-skill
+python3 .claude/scripts/sync-extensions.py enable my-skill
+python3 .claude/scripts/sync-extensions.py disable my-skill
 
 # Unregister (remove from manifest)
-python3 scripts/sync-extensions.py unregister my-skill
+python3 .claude/scripts/sync-extensions.py unregister my-skill
 ```
 
 ## Manifest Format

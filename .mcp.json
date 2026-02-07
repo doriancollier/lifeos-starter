@@ -20,5 +20,5 @@
       "args": ["-c", "source ~/.zshrc && uvx elevenlabs-mcp"]
     }
   },
-  "_setup_note": "Update {{vault_path}} with your actual vault path during setup. Run scripts/gcal-auth.sh to set up Google Calendar."
+  "_setup_note": "Update {{vault_path}} with your actual vault path during setup. Run .claude/scripts/gcal-auth.sh to set up Google Calendar."
 }

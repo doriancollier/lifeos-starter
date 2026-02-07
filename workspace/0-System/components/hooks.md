@@ -6,6 +6,8 @@ status: "active"
 
 # Hooks
 
+> **AI context version**: `.claude/rules/components.md` (summary loaded into CLAUDE.md)
+
 Hooks are scripts that run automatically at specific lifecycle events.
 
 ## How Hooks Work

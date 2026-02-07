@@ -6,6 +6,8 @@ status: "active"
 
 # Skills
 
+> **AI context version**: `.claude/rules/components.md` (summary loaded into CLAUDE.md)
+
 Skills are specialized knowledge modules that Claude reads automatically when the context matches.
 
 ## How Skills Work

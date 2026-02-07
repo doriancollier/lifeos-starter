@@ -20,7 +20,7 @@ Sync extensions from `extensions/` to `.claude/` via symlinks.
 Run the sync script:
 
 ```bash
-python3 scripts/sync-extensions.py sync
+python3 .claude/scripts/sync-extensions.py sync
 ```
 
 ## Output

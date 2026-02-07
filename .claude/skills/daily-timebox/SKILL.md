@@ -78,7 +78,7 @@ extendedProperties: {
 - Allows feature-specific cleanup
 - Maintains historical record
 
-See [Calendar Tagging Convention](/workspace/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
+See [Calendar Tagging Convention](/workspace/0-System/guides/calendar-tagging-convention.md) for full specification.
 
 ## Context Windows
 

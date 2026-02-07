@@ -149,7 +149,7 @@ Performs bidirectional sync on demand:
 
 ### What Are Orphaned Reminders?
 
-When the state file (`.claude/reminders-state.json`) is reset or lost, existing reminders in the Reminders app become "orphaned" - they still exist but have no mapping to Obsidian tasks.
+When the state file (`state/reminders-state.json`) is reset or lost, existing reminders in the Reminders app become "orphaned" - they still exist but have no mapping to Obsidian tasks.
 
 ### How Recovery Works
 
@@ -168,7 +168,7 @@ The push hook automatically recovers orphaned reminders:
 
 ## State File
 
-Location: `.claude/reminders-state.json`
+Location: `state/reminders-state.json`
 
 ```json
 {
@@ -274,7 +274,7 @@ If AppleScript can't access Reminders:
 
 ### State File Issues
 
-If `.claude/reminders-state.json` is corrupted or needs reset:
+If `state/reminders-state.json` is corrupted or needs reset:
 1. Delete the file (this is safe - orphan recovery will reconnect existing reminders)
 2. Edit the daily note or run `/reminders:refresh`
 3. The hook will recover existing reminders by name matching
@@ -338,10 +338,10 @@ python3 .claude/scripts/reminders_manager.py list-reminders "{{company_1_name}}"
 python3 .claude/scripts/reminders_manager.py list-reminders "{{company_2_name}}"
 
 # Check state file for mappings
-cat .claude/reminders-state.json | python3 -m json.tool
+cat state/reminders-state.json | python3 -m json.tool
 
 # Check for recovered orphans (look for recovered_from_orphan: true)
-grep "recovered_from_orphan" .claude/reminders-state.json
+grep "recovered_from_orphan" state/reminders-state.json
 
 # Test the push hook manually
 echo '{"tool_name": "Write", "tool_input": {"file_path": "/path/to/daily/note.md"}}' | \
@@ -362,7 +362,7 @@ If things are very broken:
 
 2. Delete state file:
    ```bash
-   rm .claude/reminders-state.json
+   rm state/reminders-state.json
    ```
 
 3. Trigger fresh sync by editing daily note or running `/reminders:refresh`
@@ -372,7 +372,7 @@ If things are very broken:
 | Component | Path |
 |-----------|------|
 | Python Script | `.claude/scripts/reminders_manager.py` |
-| State File | `.claude/reminders-state.json` |
+| State File | `state/reminders-state.json` |
 | Push Hook (PostToolUse) | `.claude/hooks/reminders-task-detector.py` |
 | Pull Hook (SessionStart) | `.claude/hooks/reminders-session-sync.py` |
 | Refresh Command | `.claude/commands/reminders/refresh.md` |

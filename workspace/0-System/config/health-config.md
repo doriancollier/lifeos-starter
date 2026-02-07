@@ -15,7 +15,7 @@ Configuration for the Health Tracking Integration system.
 ```yaml
 health_export_path: ""  # Configure on first /health:sync - path to Health Auto Export folder
 file_pattern: "HealthAutoExport-*.json"
-database_path: ".claude/data/health.db"
+database_path: "data/health/health.db"
 ```
 
 ## Daily Goals

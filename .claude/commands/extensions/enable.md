@@ -20,12 +20,12 @@ Enable a disabled extension.
 ## Execution
 
 ```bash
-python3 scripts/sync-extensions.py enable <name>
+python3 .claude/scripts/sync-extensions.py enable <name>
 ```
 
 Example:
 ```bash
-python3 scripts/sync-extensions.py enable my-custom-skill
+python3 .claude/scripts/sync-extensions.py enable my-custom-skill
 ```
 
 ## Output

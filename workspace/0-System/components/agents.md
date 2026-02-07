@@ -6,6 +6,8 @@ status: "active"
 
 # Agents
 
+> **AI context version**: `.claude/rules/components.md` (summary loaded into CLAUDE.md)
+
 Agents are autonomous executors spawned for complex, multi-step tasks.
 
 ## How Agents Work

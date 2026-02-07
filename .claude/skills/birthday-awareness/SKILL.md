@@ -381,7 +381,7 @@ To find all system-created birthday events:
 privateExtendedProperty: ["source=claude-code", "feature=birthday"]
 ```
 
-See [Calendar Tagging Convention](/workspace/3-Resources/Documentation/calendar-tagging-convention.md) for full specification.
+See [Calendar Tagging Convention](/workspace/0-System/guides/calendar-tagging-convention.md) for full specification.
 
 ## Person File Birthday Format
 

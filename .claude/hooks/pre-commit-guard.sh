@@ -26,7 +26,6 @@ BLOCKED_PATTERNS=(
     "^\.user/health\.yaml$"
     "^data/"
     "^state/"
-    "^\.claude/data/"
 )
 
 # Exceptions: these files ARE safe to commit even inside blocked dirs
