@@ -245,14 +245,6 @@ The final batch agent updates `specs/<slug>/04-implementation.md` with:
 ═══════════════════════════════════════════════════
 ```
 
-### 4.3 Roadmap Integration
-
-If spec has `roadmapId` in frontmatter:
-```bash
-python3 roadmap/scripts/update_status.py $ROADMAP_ID completed
-python3 roadmap/scripts/link_spec.py $ROADMAP_ID $SLUG
-```
-
 ---
 
 ## ANALYSIS_AGENT_PROMPT
