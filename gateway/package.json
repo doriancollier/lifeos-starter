@@ -11,7 +11,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "build:obsidian": "vite build --config vite.config.obsidian.ts && cp manifest.json dist-obsidian/",
+    "build:obsidian": "vite build --config vite.config.obsidian.ts && cp manifest.json dist-obsidian/ && mv dist-obsidian/*.css dist-obsidian/styles.css",
     "dev:obsidian": "vite build --config vite.config.obsidian.ts --watch"
   },
   "dependencies": {
