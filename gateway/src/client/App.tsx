@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppStore } from './stores/app-store';
 import { useSessionId } from './hooks/use-session-id';
 import { useIsMobile } from './hooks/use-is-mobile';
@@ -11,26 +11,55 @@ import { ChatPanel } from './components/chat/ChatPanel';
 interface AppProps {
   /** Optional transform applied to message content before sending to server */
   transformContent?: (content: string) => string | Promise<string>;
+  /** When true, hides sidebar and uses container-relative sizing (for Obsidian) */
+  embedded?: boolean;
 }
 
-export function App({ transformContent }: AppProps = {}) {
+export function App({ transformContent, embedded }: AppProps = {}) {
   const { sidebarOpen, setSidebarOpen, toggleSidebar } = useAppStore();
   const [activeSessionId] = useSessionId();
   const isMobile = useIsMobile();
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Escape key closes mobile overlay
+  // Escape key closes mobile overlay — scoped to container when embedded
   useEffect(() => {
+    if (embedded) return; // embedded mode has no sidebar overlay
     if (!isMobile || !sidebarOpen) return;
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSidebarOpen(false);
     };
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [isMobile, sidebarOpen, setSidebarOpen]);
+  }, [embedded, isMobile, sidebarOpen, setSidebarOpen]);
+
+  // Embedded mode: no sidebar, just the chat panel
+  if (embedded) {
+    return (
+      <MotionConfig reducedMotion="user">
+        <div className="flex flex-col h-full bg-background text-foreground">
+          <PermissionBanner sessionId={activeSessionId} />
+          <main className="flex-1 overflow-hidden">
+            {activeSessionId ? (
+              <ChatPanel key={activeSessionId} sessionId={activeSessionId} transformContent={transformContent} />
+            ) : (
+              <div className="flex-1 flex items-center justify-center h-full">
+                <div className="text-center">
+                  <p className="text-muted-foreground text-base">New conversation</p>
+                  <p className="text-muted-foreground/60 text-sm mt-2">
+                    Select a session or start a new one
+                  </p>
+                </div>
+              </div>
+            )}
+          </main>
+        </div>
+      </MotionConfig>
+    );
+  }
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="flex flex-col h-screen bg-background text-foreground">
+      <div ref={containerRef} className="flex flex-col h-screen bg-background text-foreground">
         <PermissionBanner sessionId={activeSessionId} />
         <div className="relative flex flex-1 overflow-hidden">
           {/* Floating toggle — visible when sidebar is closed */}

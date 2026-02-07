@@ -9,6 +9,8 @@ interface AgentSession {
   sdkSessionId: string;
   lastActivity: number;
   permissionMode: 'default' | 'dangerously-skip';
+  /** True once the first SDK query has been sent (JSONL file exists) */
+  hasStarted: boolean;
   pendingApproval?: {
     toolCallId: string;
     resolve: (approved: boolean) => void;
@@ -32,6 +34,7 @@ class AgentManager {
         sdkSessionId: sessionId,
         lastActivity: Date.now(),
         permissionMode: opts.permissionMode,
+        hasStarted: false,
       });
     }
   }
@@ -57,8 +60,12 @@ class AgentManager {
       cwd: vaultRoot,
       includePartialMessages: true,
       settingSources: ['project', 'user'],
-      resume: sessionId,
     };
+
+    // Only resume if the session has been started (JSONL exists)
+    if (session.hasStarted) {
+      sdkOptions.resume = session.sdkSessionId;
+    }
 
     if (session.permissionMode === 'dangerously-skip') {
       sdkOptions.permissionMode = 'bypassPermissions';
@@ -121,6 +128,7 @@ class AgentManager {
     // Capture session ID from init (for new sessions where SDK assigns the ID)
     if (message.type === 'system' && 'subtype' in message && message.subtype === 'init') {
       session.sdkSessionId = message.session_id;
+      session.hasStarted = true;
       return;
     }
 

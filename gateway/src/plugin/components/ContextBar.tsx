@@ -31,7 +31,7 @@ export function ContextBar({ activeFile, contextFiles, onRemoveFile, onDrop, onF
 
   return (
     <div
-      className={`px-3 py-2 border-b transition-colors ${isDragOver ? 'bg-accent/50' : ''}`}
+      className={`flex-1 min-w-0 transition-colors ${isDragOver ? 'bg-accent/50' : ''}`}
       onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
     >
       <div className="flex flex-wrap gap-1.5">
