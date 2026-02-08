@@ -4,6 +4,13 @@ import { render, screen, cleanup } from '@testing-library/react';
 import { MessageList, computeGrouping } from '../MessageList';
 import type { ChatMessage } from '../../../hooks/use-chat-session';
 
+// jsdom does not implement IntersectionObserver
+globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
 afterEach(() => {
   cleanup();
 });
