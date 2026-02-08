@@ -92,11 +92,15 @@ export function SessionSidebar() {
       <div className="flex-1 overflow-y-auto -mx-1 px-1">
         {groupedSessions.length > 0 ? (
           <div className="space-y-5">
-            {groupedSessions.map((group) => (
+            {groupedSessions.map((group) => {
+              const hideHeader = groupedSessions.length === 1 && group.label === 'Today';
+              return (
               <div key={group.label}>
-                <h3 className="px-3 mb-1.5 text-2xs font-medium text-muted-foreground/70 uppercase tracking-wider">
-                  {group.label}
-                </h3>
+                {!hideHeader && (
+                  <h3 className="px-3 mb-1.5 text-2xs font-medium text-muted-foreground/70 uppercase tracking-wider">
+                    {group.label}
+                  </h3>
+                )}
                 <div className="space-y-0.5">
                   {group.sessions.map((session: Session) => (
                     <SessionItem
@@ -109,7 +113,8 @@ export function SessionSidebar() {
                   ))}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="flex items-center justify-center h-32">

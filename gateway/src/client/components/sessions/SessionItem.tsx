@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, Copy, Check } from 'lucide-react';
+import { ChevronDown, Copy, Check, ShieldOff } from 'lucide-react';
 import type { Session } from '@shared/types';
 import { cn } from '@/lib/utils';
+import { formatRelativeTime } from '@/lib/session-utils';
 
 interface SessionItemProps {
   session: Session;
@@ -56,6 +57,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 
 export function SessionItem({ session, isActive, onClick, isNew = false }: SessionItemProps) {
   const [expanded, setExpanded] = useState(false);
+  const isSkipMode = session.permissionMode === 'dangerously-skip';
 
   const Wrapper = isNew ? motion.div : 'div';
   const animationProps = isNew
@@ -77,39 +79,50 @@ export function SessionItem({ session, isActive, onClick, isNew = false }: Sessi
       className={cn(
         'group rounded-lg transition-colors duration-150',
         isActive
-          ? 'bg-secondary text-foreground'
-          : 'hover:bg-secondary/50'
+          ? 'bg-secondary text-foreground border-l-2 border-primary'
+          : 'hover:bg-secondary/50 border-l-2 border-transparent'
       )}
     >
       <div
         onClick={onClick}
-        className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer"
+        className="px-3 py-2 cursor-pointer"
       >
-        <span className="flex-1 min-w-0 truncate font-medium">
-          {session.title}
-        </span>
-        <span className="flex items-center gap-1 flex-shrink-0">
-          {session.permissionMode === 'dangerously-skip' && (
-            <span className="text-[10px] text-red-500 font-semibold">!</span>
-          )}
-          <button
-            onClick={handleExpandToggle}
-            className={cn(
-              'p-0.5 rounded transition-all duration-150',
-              expanded
-                ? 'opacity-100 text-muted-foreground'
-                : 'opacity-0 group-hover:opacity-100 text-muted-foreground/60 hover:text-muted-foreground'
+        {/* Line 1: relative time + permission icon + expand */}
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+          <span className="flex-1 min-w-0">
+            {formatRelativeTime(session.updatedAt)}
+          </span>
+          <span className="flex items-center gap-1 flex-shrink-0">
+            {isSkipMode && (
+              <ShieldOff
+                className="h-3 w-3 text-red-500"
+                title="Permissions skipped"
+              />
             )}
-            aria-label="Session details"
-          >
-            <motion.div
-              animate={{ rotate: expanded ? 180 : 0 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            <button
+              onClick={handleExpandToggle}
+              className={cn(
+                'p-0.5 rounded transition-all duration-150',
+                expanded
+                  ? 'opacity-100 text-muted-foreground'
+                  : 'opacity-0 group-hover:opacity-100 text-muted-foreground/60 hover:text-muted-foreground'
+              )}
+              aria-label="Session details"
             >
-              <ChevronDown className="h-3.5 w-3.5" />
-            </motion.div>
-          </button>
-        </span>
+              <motion.div
+                animate={{ rotate: expanded ? 180 : 0 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              >
+                <ChevronDown className="h-3.5 w-3.5" />
+              </motion.div>
+            </button>
+          </span>
+        </div>
+
+        {/* Line 2: title */}
+        <div className="text-xs text-muted-foreground/70 truncate mt-0.5">
+          {session.title}
+        </div>
       </div>
 
       <AnimatePresence initial={false}>
@@ -127,7 +140,7 @@ export function SessionItem({ session, isActive, onClick, isNew = false }: Sessi
               <DetailRow label="Updated" value={formatTimestamp(session.updatedAt)} />
               <DetailRow
                 label="Permissions"
-                value={session.permissionMode === 'dangerously-skip' ? 'Skip (unsafe)' : 'Default'}
+                value={isSkipMode ? 'Skip (unsafe)' : 'Default'}
               />
             </div>
           </motion.div>
