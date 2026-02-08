@@ -1,16 +1,23 @@
 // === Session Types ===
 
+export type PermissionMode = 'default' | 'plan' | 'acceptEdits' | 'bypassPermissions';
+
 export interface Session {
   id: string; // SDK session ID (UUID from JSONL filename)
   title: string;
   createdAt: string;
   updatedAt: string;
   lastMessagePreview?: string;
-  permissionMode: 'default' | 'dangerously-skip';
+  permissionMode: PermissionMode;
 }
 
 export interface CreateSessionRequest {
-  permissionMode?: 'default' | 'dangerously-skip';
+  permissionMode?: PermissionMode;
+}
+
+export interface UpdateSessionRequest {
+  permissionMode?: PermissionMode;
+  model?: string;
 }
 
 export interface SendMessageRequest {
@@ -27,11 +34,20 @@ export type StreamEventType =
   | 'tool_result'
   | 'approval_required'
   | 'error'
-  | 'done';
+  | 'done'
+  | 'session_status';
+
+export interface SessionStatusEvent {
+  sessionId: string;
+  model?: string;
+  costUsd?: number;
+  contextTokens?: number;
+  contextMaxTokens?: number;
+}
 
 export interface StreamEvent {
   type: StreamEventType;
-  data: TextDelta | ToolCallEvent | ApprovalEvent | ErrorEvent | DoneEvent;
+  data: TextDelta | ToolCallEvent | ApprovalEvent | ErrorEvent | DoneEvent | SessionStatusEvent;
 }
 
 export interface TextDelta {

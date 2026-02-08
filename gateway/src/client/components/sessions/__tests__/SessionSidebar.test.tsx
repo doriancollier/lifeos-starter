@@ -2,8 +2,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionSidebar } from '../SessionSidebar';
-import { api } from '../../../lib/api';
+import type { Transport } from '@shared/transport';
 import type { Session } from '@shared/types';
+import { TransportProvider } from '../../../contexts/TransportContext';
 
 // Mock motion/react
 vi.mock('motion/react', () => ({
@@ -11,14 +12,6 @@ vi.mock('motion/react', () => ({
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
   },
   AnimatePresence: ({ children }: any) => <>{children}</>,
-}));
-
-// Mock api
-vi.mock('../../../lib/api', () => ({
-  api: {
-    listSessions: vi.fn(),
-    createSession: vi.fn(),
-  },
 }));
 
 // Mock useSessionId (nuqs-backed)
@@ -42,7 +35,6 @@ vi.mock('../../../hooks/use-is-mobile', () => ({
 vi.mock('../../../lib/session-utils', () => ({
   groupSessionsByTime: (sessions: Session[]) => {
     if (sessions.length === 0) return [];
-    // Group all sessions under a single label for simplicity
     const today = sessions.filter(s => s.updatedAt >= '2026-02-07');
     const older = sessions.filter(s => s.updatedAt < '2026-02-07');
     const groups = [];
@@ -52,6 +44,21 @@ vi.mock('../../../lib/session-utils', () => ({
   },
   formatRelativeTime: (iso: string) => iso >= '2026-02-07' ? '1h ago' : 'Jan 1, 3pm',
 }));
+
+function createMockTransport(overrides: Partial<Transport> = {}): Transport {
+  return {
+    listSessions: vi.fn().mockResolvedValue([]),
+    createSession: vi.fn(),
+    getSession: vi.fn(),
+    getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    sendMessage: vi.fn(),
+    approveTool: vi.fn(),
+    denyTool: vi.fn(),
+    getCommands: vi.fn(),
+    health: vi.fn(),
+    ...overrides,
+  };
+}
 
 function makeSession(overrides: Partial<Session> = {}): Session {
   return {
@@ -64,19 +71,23 @@ function makeSession(overrides: Partial<Session> = {}): Session {
   };
 }
 
+let mockTransport: Transport;
+
 function renderWithQuery(ui: React.ReactElement) {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
   return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <TransportProvider transport={mockTransport}>{ui}</TransportProvider>
+    </QueryClientProvider>
   );
 }
 
 describe('SessionSidebar', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(api.listSessions).mockResolvedValue([]);
+    mockTransport = createMockTransport();
     mockSetSidebarOpen.mockClear();
   });
   afterEach(() => {
@@ -107,10 +118,12 @@ describe('SessionSidebar', () => {
   });
 
   it('renders sessions grouped by time', async () => {
-    vi.mocked(api.listSessions).mockResolvedValue([
-      makeSession({ id: 's1', title: 'Today session', updatedAt: '2026-02-07T12:00:00Z' }),
-      makeSession({ id: 's2', title: 'Old session', updatedAt: '2025-06-01T10:00:00Z' }),
-    ]);
+    mockTransport = createMockTransport({
+      listSessions: vi.fn().mockResolvedValue([
+        makeSession({ id: 's1', title: 'Today session', updatedAt: '2026-02-07T12:00:00Z' }),
+        makeSession({ id: 's2', title: 'Old session', updatedAt: '2025-06-01T10:00:00Z' }),
+      ]),
+    });
 
     renderWithQuery(<SessionSidebar />);
 
@@ -125,13 +138,15 @@ describe('SessionSidebar', () => {
 
   it('creates session on "New chat" click', async () => {
     const newSession = makeSession({ id: 'new-1', title: 'New session' });
-    vi.mocked(api.createSession).mockResolvedValue(newSession);
+    mockTransport = createMockTransport({
+      createSession: vi.fn().mockResolvedValue(newSession),
+    });
 
     renderWithQuery(<SessionSidebar />);
     fireEvent.click(screen.getByText('New chat'));
 
     await waitFor(() => {
-      expect(vi.mocked(api.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'default' });
+      expect(vi.mocked(mockTransport.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'default' });
     });
   });
 
@@ -147,9 +162,11 @@ describe('SessionSidebar', () => {
   });
 
   it('hides "Today" header when it is the only group', async () => {
-    vi.mocked(api.listSessions).mockResolvedValue([
-      makeSession({ id: 's1', title: 'Only today', updatedAt: '2026-02-07T12:00:00Z' }),
-    ]);
+    mockTransport = createMockTransport({
+      listSessions: vi.fn().mockResolvedValue([
+        makeSession({ id: 's1', title: 'Only today', updatedAt: '2026-02-07T12:00:00Z' }),
+      ]),
+    });
 
     renderWithQuery(<SessionSidebar />);
 
@@ -162,7 +179,9 @@ describe('SessionSidebar', () => {
 
   it('creates session with dangerously-skip when toggled', async () => {
     const newSession = makeSession({ id: 'new-1', permissionMode: 'dangerously-skip' });
-    vi.mocked(api.createSession).mockResolvedValue(newSession);
+    mockTransport = createMockTransport({
+      createSession: vi.fn().mockResolvedValue(newSession),
+    });
 
     renderWithQuery(<SessionSidebar />);
 
@@ -172,7 +191,7 @@ describe('SessionSidebar', () => {
     fireEvent.click(screen.getByText('New chat'));
 
     await waitFor(() => {
-      expect(vi.mocked(api.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'dangerously-skip' });
+      expect(vi.mocked(mockTransport.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'dangerously-skip' });
     });
   });
 });

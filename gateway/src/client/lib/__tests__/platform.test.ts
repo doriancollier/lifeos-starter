@@ -5,9 +5,8 @@ describe('platform adapter', () => {
     vi.resetModules();
   });
 
-  it('defaults to web adapter with /api base URL', async () => {
+  it('defaults to web adapter', async () => {
     const { getPlatform } = await import('../platform');
-    expect(getPlatform().apiBaseUrl).toBe('/api');
     expect(getPlatform().isEmbedded).toBe(false);
   });
 
@@ -15,7 +14,6 @@ describe('platform adapter', () => {
     const { getPlatform, setPlatformAdapter } = await import('../platform');
 
     const custom = {
-      apiBaseUrl: 'http://localhost:6942/api',
       isEmbedded: true,
       getSessionId: () => 'test-session',
       setSessionId: vi.fn(),
@@ -23,7 +21,6 @@ describe('platform adapter', () => {
     };
 
     setPlatformAdapter(custom);
-    expect(getPlatform().apiBaseUrl).toBe('http://localhost:6942/api');
     expect(getPlatform().isEmbedded).toBe(true);
     expect(getPlatform().getSessionId()).toBe('test-session');
   });

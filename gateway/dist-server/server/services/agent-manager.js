@@ -2,9 +2,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { query } from '@anthropic-ai/claude-agent-sdk';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-class AgentManager {
+export class AgentManager {
     sessions = new Map();
     SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+    cwd;
+    constructor(cwd) {
+        this.cwd = cwd ?? path.resolve(__dirname, '../../../../');
+    }
     /**
      * Start or resume an agent session.
      * For new sessions, sdkSessionId is assigned after the first query() init message.
@@ -29,9 +33,8 @@ class AgentManager {
         }
         const session = this.sessions.get(sessionId);
         session.lastActivity = Date.now();
-        const vaultRoot = path.resolve(__dirname, '../../../../');
         const sdkOptions = {
-            cwd: vaultRoot,
+            cwd: this.cwd,
             includePartialMessages: true,
             settingSources: ['project', 'user'],
         };

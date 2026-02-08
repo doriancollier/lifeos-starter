@@ -1,9 +1,29 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execFileSync } from 'child_process';
+import { existsSync } from 'fs';
 import { query, type Options, type SDKMessage } from '@anthropic-ai/claude-agent-sdk';
 import type { StreamEvent } from '../../shared/types';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/** Resolve the Claude Code CLI path for the SDK to spawn. */
+function resolveClaudeCliPath(): string | undefined {
+  // 1. Try the SDK's bundled cli.js (works when running from source / node_modules)
+  try {
+    const sdkCli = require.resolve('@anthropic-ai/claude-agent-sdk/cli.js');
+    if (existsSync(sdkCli)) return sdkCli;
+  } catch { /* not resolvable in bundled context */ }
+
+  // 2. Find the globally installed `claude` binary via PATH
+  try {
+    const bin = execFileSync('which', ['claude'], { encoding: 'utf-8' }).trim();
+    if (bin && existsSync(bin)) return bin;
+  } catch { /* not found on PATH */ }
+
+  // 3. Let SDK use its default resolution (may fail in Electron)
+  return undefined;
+}
 
 interface AgentSession {
   sdkSessionId: string;
@@ -20,6 +40,13 @@ interface AgentSession {
 export class AgentManager {
   private sessions = new Map<string, AgentSession>();
   private readonly SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+  private readonly cwd: string;
+  private readonly claudeCliPath: string | undefined;
+
+  constructor(cwd?: string) {
+    this.cwd = cwd ?? path.resolve(__dirname, '../../../../');
+    this.claudeCliPath = resolveClaudeCliPath();
+  }
 
   /**
    * Start or resume an agent session.
@@ -54,12 +81,11 @@ export class AgentManager {
     const session = this.sessions.get(sessionId)!;
     session.lastActivity = Date.now();
 
-    const vaultRoot = path.resolve(__dirname, '../../../../');
-
     const sdkOptions: Options = {
-      cwd: vaultRoot,
+      cwd: this.cwd,
       includePartialMessages: true,
       settingSources: ['project', 'user'],
+      ...(this.claudeCliPath ? { pathToClaudeCodeExecutable: this.claudeCliPath } : {}),
     };
 
     // Only resume if the session has been started (JSONL exists)

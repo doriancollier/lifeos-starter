@@ -1,18 +1,29 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { TFile } from 'obsidian';
 import { App } from '../../client/App';
 import { useAppStore } from '../../client/stores/app-store';
+import { useTransport } from '../../client/contexts/TransportContext';
 import { useObsidian } from '../contexts/ObsidianContext';
 import { useActiveFile } from '../hooks/use-active-file';
 import { useFileOpener } from '../hooks/use-file-opener';
 import { ContextBar } from './ContextBar';
-import { ConnectionStatus } from './ConnectionStatus';
 
 export function ObsidianApp() {
   const { app } = useObsidian();
+  const transport = useTransport();
   const activeFile = useActiveFile();
-  const { contextFiles, addContextFile, removeContextFile } = useAppStore();
+  const { contextFiles, addContextFile, removeContextFile, setSessionId } = useAppStore();
   const { openFile } = useFileOpener();
+  const autoCreatedRef = useRef(false);
+
+  // Auto-create session on mount
+  useEffect(() => {
+    if (autoCreatedRef.current) return;
+    autoCreatedRef.current = true;
+    transport.createSession({ permissionMode: 'default' }).then((session) => {
+      setSessionId(session.id);
+    });
+  }, [transport, setSessionId]);
 
   const transformContent = useCallback(async (content: string): Promise<string> => {
     const parts: string[] = [];
@@ -42,7 +53,6 @@ export function ObsidianApp() {
 
   return (
     <div className="flex flex-col h-full">
-      <ConnectionStatus />
       <div className="flex items-center px-3 py-1.5 border-b">
         <ContextBar
           activeFile={activeFile}

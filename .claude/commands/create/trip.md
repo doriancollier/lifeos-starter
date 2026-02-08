@@ -1,6 +1,6 @@
 ---
 description: Create a new trip planning project
-argument-hint: trip-name (e.g., "January Wedding Trip")
+argument-hint: 'trip-name (e.g., "January Wedding Trip")'
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

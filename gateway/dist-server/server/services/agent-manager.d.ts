@@ -1,7 +1,9 @@
 import type { StreamEvent } from '../../shared/types';
-declare class AgentManager {
+export declare class AgentManager {
     private sessions;
     private readonly SESSION_TIMEOUT_MS;
+    private readonly cwd;
+    constructor(cwd?: string);
     /**
      * Start or resume an agent session.
      * For new sessions, sdkSessionId is assigned after the first query() init message.
@@ -23,5 +25,4 @@ declare class AgentManager {
     getSdkSessionId(sessionId: string): string | undefined;
 }
 export declare const agentManager: AgentManager;
-export {};
 //# sourceMappingURL=agent-manager.d.ts.map

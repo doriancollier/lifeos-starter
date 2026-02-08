@@ -18,11 +18,14 @@ npm run test           # Vitest in watch mode
 npm run test:run       # Vitest single run
 npm run build          # Build client (Vite) + compile server (tsc)
 npm start              # Production server (serves built React app)
+npx vite build --config vite.config.obsidian.ts  # Build Obsidian plugin to dist-obsidian/
 ```
 
 Run a single test file: `npx vitest run src/server/services/__tests__/transcript-reader.test.ts`
 
 ## Architecture
+
+The gateway uses a **hexagonal architecture** with a `Transport` interface (`src/shared/transport.ts`) that decouples the React client from its backend. Two adapters exist: `HttpTransport` (standalone web, HTTP/SSE to Express) and `DirectTransport` (Obsidian plugin, in-process services). Transport is injected via React Context (`TransportContext`). See `guides/architecture.md` for full details.
 
 ### Server (`src/server/`)
 
@@ -34,7 +37,7 @@ Express server on port `GATEWAY_PORT` (default 6942). Three route groups:
 
 Three services:
 
-- **`services/agent-manager.ts`** - Manages Claude Agent SDK sessions. Calls `query()` with streaming, maps SDK events (`stream_event`, `tool_use_summary`, `result`) to gateway `StreamEvent` types. Tracks active sessions in-memory with 30-minute timeout. All sessions use `resume: sessionId` for SDK continuity.
+- **`services/agent-manager.ts`** - Manages Claude Agent SDK sessions. Calls `query()` with streaming, maps SDK events (`stream_event`, `tool_use_summary`, `result`) to gateway `StreamEvent` types. Tracks active sessions in-memory with 30-minute timeout. All sessions use `resume: sessionId` for SDK continuity. Accepts optional `cwd` constructor param (used by Obsidian plugin). Resolves the Claude Code CLI path dynamically via `resolveClaudeCliPath()` for Electron compatibility.
 - **`services/transcript-reader.ts`** - Single source of truth for session data. Reads SDK JSONL transcript files from `~/.claude/projects/{slug}/`. Provides `listSessions()` (scans directory, extracts metadata), `getSession()` (single session metadata), and `readTranscript()` (full message history). Extracts titles from first user message, permission mode from init message, timestamps from file stats.
 - **`services/stream-adapter.ts`** - SSE helpers (`initSSEStream`, `sendSSEEvent`, `endSSEStream`) that format `StreamEvent` objects as SSE wire protocol.
 
@@ -52,7 +55,7 @@ Sessions are derived entirely from SDK JSONL files on disk (`~/.claude/projects/
 React 19 + Vite 6 + Tailwind CSS 4 + shadcn/ui (new-york style, pure neutral gray palette).
 
 - **State**: Zustand for UI state (`app-store.ts`), TanStack Query for server state (`use-sessions.ts`, `use-commands.ts`)
-- **Chat**: `useChatSession` hook loads message history on mount via `api.getMessages()`, then handles SSE streaming via `fetch` + `ReadableStream`. Tracks text deltas and tool call lifecycle in refs for performance. Exposes `isLoadingHistory` for UI feedback.
+- **Chat**: `useChatSession` hook loads message history via `useTransport().getMessages()`, then streams via `transport.sendMessage()` with callback pattern. Tracks text deltas and tool call lifecycle in refs for performance. Exposes `isLoadingHistory` for UI feedback.
 - **Components**: `ChatPanel` > `MessageList` > `MessageItem` + `ToolCallCard`; `SessionSidebar`; `CommandPalette`; `PermissionBanner` + `ToolApproval` for tool approval flow
 - **Markdown Rendering**: Assistant messages are rendered as rich markdown via the `streamdown` library (Vercel). `StreamingText` wraps the `<Streamdown>` component with `github-light`/`github-dark` Shiki themes and shows a blinking cursor during active streaming. User messages remain plain text. The `@source` directive in `index.css` ensures Streamdown's Tailwind classes are included in the CSS output.
 - **Animations**: `motion` (motion.dev) for UI animations. `App.tsx` wraps the app in `<MotionConfig reducedMotion="user">` to respect `prefers-reduced-motion`. Used for: message entrance animations (new messages only, not history), tool card expand/collapse, command palette enter/exit, sidebar width toggle, button micro-interactions. Tests mock `motion/react` to render plain elements.
@@ -81,10 +84,28 @@ When a session is opened, the client fetches message history via GET `/api/sessi
 
 ### Vault Root Resolution
 
-The server resolves the parent LifeOS vault root as `path.resolve(__dirname, '../../../../')` from service files. The `CommandRegistryService` uses this to find `.claude/commands/`. The `AgentManager` and `TranscriptReader` use it for SDK operations.
+**Standalone server:** Resolves repo root as `path.resolve(__dirname, '../../../../')` from service files.
+
+**Obsidian plugin:** `CopilotView` computes `repoRoot = path.resolve(vaultPath, '..')` (vault is `workspace/`, repo root is its parent). This is passed to `AgentManager(repoRoot)` and `CommandRegistryService(repoRoot)`.
+
+Both paths are used by `CommandRegistryService` to find `.claude/commands/` and by `AgentManager` as the SDK's working directory.
+
+### Obsidian Plugin Build
+
+The plugin build (`vite.config.obsidian.ts`) includes four Vite plugins that post-process `main.js` for Electron compatibility: `copyManifest`, `safeRequires`, `fixDirnamePolyfill`, `patchElectronCompat`. See `guides/architecture.md` > "Electron Compatibility Layer" for details.
+
+## Guides
+
+Detailed documentation lives in `guides/`:
+
+| Guide | Contents |
+|-------|----------|
+| [`guides/architecture.md`](guides/architecture.md) | Hexagonal architecture, Transport interface, dependency injection, Electron compatibility layer, build plugins, data flow diagrams, module layout, testing patterns |
+| [`guides/design-system.md`](guides/design-system.md) | Color palette, typography, spacing (8pt grid), motion specs, component conventions |
+| [`guides/obsidian-plugin-development.md`](guides/obsidian-plugin-development.md) | Plugin lifecycle, ItemView pattern, React mounting, active file tracking, drag-and-drop, Vite build config, Electron quirks, debugging, common issues |
 
 ## Testing
 
-Tests use Vitest with `vi.mock()` for Node modules and `vi.resetModules()` pattern to get fresh singleton instances per test. Server tests mock `fs/promises` for transcript reading. Client tests use React Testing Library with jsdom and mock `api` module for history loading.
+Tests use Vitest with `vi.mock()` for Node modules. Server tests mock `fs/promises` for transcript reading. Client tests use React Testing Library with jsdom and inject mock `Transport` objects via `TransportProvider` wrappers (see `guides/architecture.md` for the pattern).
 
 Tests live alongside source in `__tests__/` directories (e.g., `src/server/services/__tests__/transcript-reader.test.ts`).

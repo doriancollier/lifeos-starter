@@ -1,6 +1,6 @@
 ---
 description: Load work context for any company
-argument-hint: [company-id]
+argument-hint: '[company-id]'
 allowed-tools: Read, Grep, Glob, Bash
 ---
 

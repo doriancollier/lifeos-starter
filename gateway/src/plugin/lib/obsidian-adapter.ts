@@ -4,7 +4,6 @@ import { useAppStore } from '../../client/stores/app-store';
 
 export function createObsidianAdapter(app: App): PlatformAdapter {
   return {
-    apiBaseUrl: 'http://localhost:6942/api',
     isEmbedded: true,
     getSessionId: () => useAppStore.getState().sessionId,
     setSessionId: (id) => useAppStore.getState().setSessionId(id),

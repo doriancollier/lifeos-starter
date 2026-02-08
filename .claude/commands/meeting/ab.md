@@ -1,6 +1,6 @@
 ---
 description: Create a new {{company_1_name}} meeting note
-argument-hint: [meeting-title]
+argument-hint: '[meeting-title]'
 allowed-tools: Read, Write, Bash, Glob
 ---
 

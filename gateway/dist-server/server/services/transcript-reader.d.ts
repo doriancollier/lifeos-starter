@@ -11,7 +11,7 @@ export interface HistoryToolCall {
     toolName: string;
     status: 'complete';
 }
-declare class TranscriptReader {
+export declare class TranscriptReader {
     private projectSlug;
     private metaCache;
     getProjectSlug(vaultRoot: string): string;
@@ -42,5 +42,4 @@ declare class TranscriptReader {
     private stripSystemTags;
 }
 export declare const transcriptReader: TranscriptReader;
-export {};
 //# sourceMappingURL=transcript-reader.d.ts.map

@@ -1,6 +1,6 @@
 ---
 description: Audit existing Claude Code skills for quality and completeness
-argument-hint: [skill-name or "all"]
+argument-hint: '[skill-name or "all"]'
 allowed-tools: Read, Glob, Grep
 ---
 

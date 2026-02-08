@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
-class TranscriptReader {
+export class TranscriptReader {
     projectSlug = null;
     metaCache = new Map();
     getProjectSlug(vaultRoot) {

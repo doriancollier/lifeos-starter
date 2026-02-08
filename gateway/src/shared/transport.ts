@@ -1,6 +1,7 @@
 import type {
   Session,
   CreateSessionRequest,
+  UpdateSessionRequest,
   CommandRegistry,
   HistoryMessage,
   StreamEvent,
@@ -10,6 +11,7 @@ export interface Transport {
   createSession(opts: CreateSessionRequest): Promise<Session>;
   listSessions(): Promise<Session[]>;
   getSession(id: string): Promise<Session>;
+  updateSession(id: string, opts: UpdateSessionRequest): Promise<Session>;
   getMessages(sessionId: string): Promise<{ messages: HistoryMessage[] }>;
   sendMessage(
     sessionId: string,

@@ -1,6 +1,6 @@
 ---
 description: Ask how to do something in this vault/repository
-argument-hint: [question]
+argument-hint: '[question]'
 allowed-tools: Read, Grep, Glob, Bash, Skill, SlashCommand, AskUserQuestion
 ---
 

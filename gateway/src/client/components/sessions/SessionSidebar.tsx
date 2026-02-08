@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../../lib/api';
+import { useTransport } from '../../contexts/TransportContext';
 import { useSessionId } from '../../hooks/use-session-id';
 import { useAppStore } from '../../stores/app-store';
 import { useIsMobile } from '../../hooks/use-is-mobile';
@@ -10,6 +10,7 @@ import { Plus, Shield, ShieldOff, PanelLeftClose } from 'lucide-react';
 import type { Session } from '@shared/types';
 
 export function SessionSidebar() {
+  const transport = useTransport();
   const queryClient = useQueryClient();
   const [activeSessionId, setActiveSession] = useSessionId();
   const { setSidebarOpen } = useAppStore();
@@ -19,11 +20,11 @@ export function SessionSidebar() {
 
   const { data: sessions = [] } = useQuery({
     queryKey: ['sessions'],
-    queryFn: api.listSessions,
+    queryFn: () => transport.listSessions(),
   });
 
   const createMutation = useMutation({
-    mutationFn: api.createSession,
+    mutationFn: (opts: { permissionMode: 'default' | 'dangerously-skip' }) => transport.createSession(opts),
     onSuccess: (session) => {
       queryClient.invalidateQueries({ queryKey: ['sessions'] });
       setActiveSession(session.id);

@@ -1,6 +1,6 @@
 ---
 description: Create a new project in the backlog
-argument-hint: [project-name]
+argument-hint: '[project-name]'
 allowed-tools: Read, Write, Bash, Glob, AskUserQuestion
 ---
 

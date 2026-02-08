@@ -5,7 +5,7 @@ import { createApp } from './app';
 import { agentManager } from './services/agent-manager';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '../../.env') });
-const PORT = parseInt(process.env.GATEWAY_PORT || '69420', 10);
+const PORT = parseInt(process.env.GATEWAY_PORT || '6942', 10);
 async function start() {
     const app = createApp();
     app.listen(PORT, 'localhost', () => {

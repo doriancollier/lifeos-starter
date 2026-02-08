@@ -1,6 +1,4 @@
 export interface PlatformAdapter {
-  /** Base URL for API calls */
-  apiBaseUrl: string;
   /** Whether running inside Obsidian */
   isEmbedded: boolean;
   /** Get current session ID */
@@ -13,7 +11,6 @@ export interface PlatformAdapter {
 
 // Default: standalone web adapter
 const webAdapter: PlatformAdapter = {
-  apiBaseUrl: '/api',
   isEmbedded: false,
   getSessionId: () => new URLSearchParams(location.search).get('session'),
   setSessionId: (id) => {

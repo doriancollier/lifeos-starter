@@ -1,6 +1,6 @@
 ---
 description: Create a new Claude Code skill
-argument-hint: [skill-name or description]
+argument-hint: '[skill-name or description]'
 allowed-tools: Read, Write, Bash, Glob, AskUserQuestion
 ---
 

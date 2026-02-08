@@ -1,6 +1,6 @@
 ---
 description: Populate [Unreleased] changelog section from commits since last tag
-argument-hint: [--since TAG]
+argument-hint: '[--since TAG]'
 allowed-tools: Bash, Read, Edit, AskUserQuestion
 ---
 

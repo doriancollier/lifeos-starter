@@ -178,4 +178,7 @@
   color: var(--text-normal);
   background-color: var(--background-secondary);
   font-family: var(--font-interface);
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: auto;
 }
