@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../../lib/api';
+import { useTransport } from '../../contexts/TransportContext';
 
 export function PermissionBanner({ sessionId }: { sessionId: string | null }) {
+  const transport = useTransport();
   const { data: session } = useQuery({
     queryKey: ['session', sessionId],
-    queryFn: () => api.getSession(sessionId!),
+    queryFn: () => transport.getSession(sessionId!),
     enabled: !!sessionId,
   });
 

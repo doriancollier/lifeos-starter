@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Check, X, Shield } from 'lucide-react';
-import { api } from '../../lib/api';
+import { useTransport } from '../../contexts/TransportContext';
 
 interface ToolApprovalProps {
   sessionId: string;
@@ -10,13 +10,14 @@ interface ToolApprovalProps {
 }
 
 export function ToolApproval({ sessionId, toolCallId, toolName, input }: ToolApprovalProps) {
+  const transport = useTransport();
   const [responding, setResponding] = useState(false);
   const [decided, setDecided] = useState<'approved' | 'denied' | null>(null);
 
   async function handleApprove() {
     setResponding(true);
     try {
-      await api.approveTool(sessionId, toolCallId);
+      await transport.approveTool(sessionId, toolCallId);
       setDecided('approved');
     } catch (err) {
       console.error('Approval failed:', err);
@@ -28,7 +29,7 @@ export function ToolApproval({ sessionId, toolCallId, toolName, input }: ToolApp
   async function handleDeny() {
     setResponding(true);
     try {
-      await api.denyTool(sessionId, toolCallId);
+      await transport.denyTool(sessionId, toolCallId);
       setDecided('denied');
     } catch (err) {
       console.error('Deny failed:', err);

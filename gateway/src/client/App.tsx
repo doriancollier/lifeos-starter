@@ -56,11 +56,11 @@ export function App({ transformContent, embedded }: AppProps = {}) {
                     aria-label="Close sidebar"
                   />
                   <motion.div
-                    initial={{ x: -256 }}
+                    initial={{ x: -320 }}
                     animate={{ x: 0 }}
-                    exit={{ x: -256 }}
+                    exit={{ x: -320 }}
                     transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
-                    className="absolute top-0 left-0 z-50 h-full w-64 border-r bg-background overflow-y-auto"
+                    className="absolute top-0 left-0 z-50 h-full w-80 border-r bg-background overflow-y-auto"
                   >
                     <SessionSidebar />
                   </motion.div>
@@ -142,11 +142,11 @@ export function App({ transformContent, embedded }: AppProps = {}) {
                     aria-label="Close sidebar"
                   />
                   <motion.div
-                    initial={{ x: -256 }}
+                    initial={{ x: -320 }}
                     animate={{ x: 0 }}
-                    exit={{ x: -256 }}
+                    exit={{ x: -320 }}
                     transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
-                    className="fixed top-0 left-0 z-50 h-full w-64 border-r bg-background overflow-y-auto"
+                    className="fixed top-0 left-0 z-50 h-full w-80 border-r bg-background overflow-y-auto"
                   >
                     <SessionSidebar />
                   </motion.div>
@@ -156,11 +156,11 @@ export function App({ transformContent, embedded }: AppProps = {}) {
           ) : (
             /* Desktop: push sidebar */
             <motion.div
-              animate={{ width: sidebarOpen ? 256 : 0 }}
+              animate={{ width: sidebarOpen ? 320 : 0 }}
               transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
               className="overflow-hidden flex-shrink-0 border-r"
             >
-              <div className="w-64 h-full overflow-y-auto">
+              <div className="w-80 h-full overflow-y-auto">
                 <SessionSidebar />
               </div>
             </motion.div>

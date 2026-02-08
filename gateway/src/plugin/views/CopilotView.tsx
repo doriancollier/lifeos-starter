@@ -8,7 +8,7 @@ import { ObsidianProvider } from '../contexts/ObsidianContext';
 import { ObsidianApp } from '../components/ObsidianApp';
 import type CopilotPlugin from '../main';
 // Vite extracts this to styles.css which Obsidian auto-loads
-import '../../client/index.css';
+import '../styles/plugin.css';
 
 export const VIEW_TYPE_COPILOT = 'lifeos-copilot-view';
 

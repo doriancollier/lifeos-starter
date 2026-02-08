@@ -1,20 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../lib/api';
+import { useTransport } from '../contexts/TransportContext';
 import type { CommandRegistry } from '@shared/types';
 
 export function useCommands() {
+  const transport = useTransport();
   return useQuery<CommandRegistry>({
     queryKey: ['commands'],
-    queryFn: () => api.getCommands(),
+    queryFn: () => transport.getCommands(),
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 }
 
 export function useRefreshCommands() {
+  const transport = useTransport();
   return useQuery<CommandRegistry>({
     queryKey: ['commands', 'refresh'],
-    queryFn: () => api.getCommands(true),
+    queryFn: () => transport.getCommands(true),
     enabled: false,
   });
 }

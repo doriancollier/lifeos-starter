@@ -131,9 +131,10 @@ When a theme is applied:
 ### Common Mistakes to Avoid
 
 1. **Theming document content** - Don't modify editor text, cursor, or syntax colors
-2. **Insufficient contrast** - Ensure text remains readable
-3. **Too many bright colors** - UI chrome should be subtle, not distracting
-4. **Forgetting primaryInactive** - Should be noticeably darker than primary
+2. **Overriding global Obsidian CSS variables** - NEVER set `--background-secondary` or `--background-secondary-alt` in `.theme-dark`. Obsidian uses these to derive editor text colors, and overriding them makes document text unreadable. Use explicit selectors for sidebar backgrounds instead.
+3. **Insufficient contrast** - Ensure text remains readable
+4. **Too many bright colors** - UI chrome should be subtle, not distracting
+5. **Forgetting primaryInactive** - Should be noticeably darker than primary
 
 ## Integration Points
 

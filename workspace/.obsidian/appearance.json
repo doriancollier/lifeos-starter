@@ -6,7 +6,9 @@
   "cssTheme": "",
   "theme": "obsidian",
   "enabledCssSnippets": [
-    "themed-chrome",
-    "hide-system-files"
-  ]
+    "hide-system-files",
+    "themed-chrome"
+  ],
+  "accentColor": "",
+  "nativeMenus": true
 }

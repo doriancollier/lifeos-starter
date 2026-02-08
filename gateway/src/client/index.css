@@ -189,9 +189,9 @@ body {
  * Tailwind color-* tokens directly instead of the HSL variable layer.
  */
 .copilot-view-content {
-  --color-background: var(--background-primary);
+  --color-background: var(--background-secondary);
   --color-foreground: var(--text-normal);
-  --color-card: var(--background-secondary);
+  --color-card: var(--background-secondary-alt);
   --color-card-foreground: var(--text-normal);
   --color-popover: var(--background-primary);
   --color-popover-foreground: var(--text-normal);
@@ -199,7 +199,7 @@ body {
   --color-primary-foreground: var(--text-on-accent);
   --color-secondary: var(--background-secondary-alt);
   --color-secondary-foreground: var(--text-normal);
-  --color-muted: var(--background-secondary);
+  --color-muted: var(--background-secondary-alt);
   --color-muted-foreground: var(--text-muted);
   --color-accent: var(--interactive-accent);
   --color-accent-foreground: var(--text-on-accent);
@@ -211,6 +211,6 @@ body {
   --color-user-msg: var(--background-secondary-alt);
 
   color: var(--text-normal);
-  background-color: var(--background-primary);
+  background-color: var(--background-secondary);
   font-family: var(--font-interface);
 }

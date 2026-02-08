@@ -17,7 +17,7 @@ interface AgentSession {
   };
 }
 
-class AgentManager {
+export class AgentManager {
   private sessions = new Map<string, AgentSession>();
   private readonly SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
 

@@ -1,8 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { TextDelta, ToolCallEvent, ErrorEvent } from '@shared/types';
-import { api } from '../lib/api';
-import { getPlatform } from '../lib/platform';
+import { useTransport } from '../contexts/TransportContext';
 
 export interface ChatMessage {
   id: string;
@@ -35,6 +34,7 @@ interface ChatSessionOptions {
 }
 
 export function useChatSession(sessionId: string, options: ChatSessionOptions = {}) {
+  const transport = useTransport();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [status, setStatus] = useState<ChatStatus>('idle');
@@ -47,7 +47,7 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
   // Load message history from SDK transcript via TanStack Query
   const historyQuery = useQuery({
     queryKey: ['messages', sessionId],
-    queryFn: () => api.getMessages(sessionId),
+    queryFn: () => transport.getMessages(sessionId),
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
@@ -104,44 +104,16 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
     abortRef.current = abortController;
 
     try {
-      const response = await fetch(`${getPlatform().apiBaseUrl}/sessions/${sessionId}/messages`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: options.transformContent
-            ? await options.transformContent(userMessage.content)
-            : userMessage.content,
-        }),
-        signal: abortController.signal,
-      });
+      const finalContent = options.transformContent
+        ? await options.transformContent(userMessage.content)
+        : userMessage.content;
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const reader = response.body!.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
-
-        let eventType = '';
-        for (const line of lines) {
-          if (line.startsWith('event: ')) {
-            eventType = line.slice(7).trim();
-          } else if (line.startsWith('data: ') && eventType) {
-            const data = JSON.parse(line.slice(6));
-            handleStreamEvent(eventType, data, assistantId);
-            eventType = '';
-          }
-        }
-      }
+      await transport.sendMessage(
+        sessionId,
+        finalContent,
+        (event) => handleStreamEvent(event.type, event.data, assistantId),
+        abortController.signal,
+      );
 
       setStatus('idle');
     } catch (err) {

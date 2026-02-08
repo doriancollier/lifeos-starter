@@ -38,7 +38,7 @@ interface ContentBlock {
   input?: Record<string, unknown>;
 }
 
-class TranscriptReader {
+export class TranscriptReader {
   private projectSlug: string | null = null;
   private metaCache = new Map<string, { session: Session; mtimeMs: number }>();
 
