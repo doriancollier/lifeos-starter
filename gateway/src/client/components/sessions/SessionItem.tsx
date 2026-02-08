@@ -134,7 +134,7 @@ export function SessionItem({ session, isActive, onClick, isNew = false }: Sessi
             transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
             className="overflow-hidden"
           >
-            <div className="px-3 pb-2 pt-0.5 space-y-1.5 text-[11px] text-muted-foreground border-t border-border/30 mx-2">
+            <div className="px-3 pb-2 pt-2 space-y-1.5 text-[11px] text-muted-foreground border-t border-border/30 mx-2">
               <DetailRow label="Session ID" value={session.id} copyable />
               <DetailRow label="Created" value={formatTimestamp(session.createdAt)} />
               <DetailRow label="Updated" value={formatTimestamp(session.updatedAt)} />

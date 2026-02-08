@@ -50,7 +50,7 @@ vi.mock('../../../lib/session-utils', () => ({
     if (older.length > 0) groups.push({ label: 'Older', sessions: older });
     return groups;
   },
-  formatRelativeTime: (iso: string) => iso >= '2026-02-07' ? '1h ago' : 'Jan 1',
+  formatRelativeTime: (iso: string) => iso >= '2026-02-07' ? '1h ago' : 'Jan 1, 3pm',
 }));
 
 function makeSession(overrides: Partial<Session> = {}): Session {
@@ -144,6 +144,20 @@ describe('SessionSidebar', () => {
     renderWithQuery(<SessionSidebar />);
     fireEvent.click(screen.getByLabelText('Close sidebar'));
     expect(mockSetSidebarOpen).toHaveBeenCalledWith(false);
+  });
+
+  it('hides "Today" header when it is the only group', async () => {
+    vi.mocked(api.listSessions).mockResolvedValue([
+      makeSession({ id: 's1', title: 'Only today', updatedAt: '2026-02-07T12:00:00Z' }),
+    ]);
+
+    renderWithQuery(<SessionSidebar />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Only today')).toBeDefined();
+    });
+
+    expect(screen.queryByText('Today')).toBeNull();
   });
 
   it('creates session with dangerously-skip when toggled', async () => {

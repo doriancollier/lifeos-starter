@@ -72,11 +72,15 @@ export function formatRelativeTime(isoString: string): string {
     return `${diffHours}h ago`;
   }
 
-  if (date >= yesterdayStart) return 'Yesterday';
+  const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true }).toLowerCase();
+
+  if (date >= yesterdayStart) return `Yesterday, ${timeStr}`;
 
   if (date >= sevenDaysAgo) {
-    return date.toLocaleDateString('en-US', { weekday: 'short' });
+    const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+    return `${day}, ${timeStr}`;
   }
 
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return `${dateStr}, ${timeStr}`;
 }

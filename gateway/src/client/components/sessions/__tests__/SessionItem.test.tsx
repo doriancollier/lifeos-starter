@@ -41,6 +41,22 @@ describe('SessionItem', () => {
     expect(screen.getByText('Test conversation')).toBeDefined();
   });
 
+  it('renders relative time from updatedAt', () => {
+    render(
+      <SessionItem session={makeSession()} isActive={false} onClick={() => {}} />
+    );
+    // updatedAt is 1 hour before NOW
+    expect(screen.getByText('1h ago')).toBeDefined();
+  });
+
+  it('shows active session with left border', () => {
+    const { container } = render(
+      <SessionItem session={makeSession()} isActive={true} onClick={() => {}} />
+    );
+    const item = container.firstChild as HTMLElement;
+    expect(item.className).toContain('border-primary');
+  });
+
   it('calls onClick when clicked', () => {
     const onClick = vi.fn();
     render(

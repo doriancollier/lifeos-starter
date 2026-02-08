@@ -114,22 +114,23 @@ describe('formatRelativeTime', () => {
     expect(formatRelativeTime('2026-02-07T12:00:00Z')).toBe('3h ago');
   });
 
-  it('returns "Yesterday" for yesterday', () => {
-    expect(formatRelativeTime('2026-02-06T20:00:00Z')).toBe('Yesterday');
+  it('returns "Yesterday" with time for yesterday', () => {
+    const result = formatRelativeTime('2026-02-06T20:00:00Z');
+    expect(result).toMatch(/^Yesterday, \d{1,2}\s?(am|pm)$/i);
   });
 
-  it('returns day name for this week', () => {
+  it('returns day name with time for this week', () => {
     const result = formatRelativeTime('2026-02-03T10:00:00Z');
-    expect(result).toBe('Tue');
+    expect(result).toMatch(/^Tue, \d{1,2}\s?(am|pm)$/i);
   });
 
-  it('returns month + day for older dates', () => {
+  it('returns month + day with time for older dates', () => {
     const result = formatRelativeTime('2026-01-15T10:00:00Z');
-    expect(result).toBe('Jan 15');
+    expect(result).toMatch(/^Jan 15, \d{1,2}\s?(am|pm)$/i);
   });
 
-  it('returns month + day for previous year', () => {
+  it('returns month + day with time for previous year', () => {
     const result = formatRelativeTime('2025-12-25T10:00:00Z');
-    expect(result).toBe('Dec 25');
+    expect(result).toMatch(/^Dec 25, \d{1,2}\s?(am|pm)$/i);
   });
 });
