@@ -33,9 +33,10 @@ router.post('/', async (req, res) => {
 });
 
 // GET /api/sessions - List all sessions from SDK transcripts
-router.get('/', async (_req, res) => {
+router.get('/', async (req, res) => {
+  const limit = Math.min(Number(req.query.limit) || 200, 500);
   const sessions = await transcriptReader.listSessions(vaultRoot);
-  res.json(sessions);
+  res.json(sessions.slice(0, limit));
 });
 
 // GET /api/sessions/:id - Get session details

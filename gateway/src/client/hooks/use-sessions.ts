@@ -10,7 +10,7 @@ export function useSessions() {
   const sessionsQuery = useQuery({
     queryKey: ['sessions'],
     queryFn: api.listSessions,
-    refetchInterval: 30_000,
+    refetchInterval: 60_000,
   });
 
   const createSession = useMutation({

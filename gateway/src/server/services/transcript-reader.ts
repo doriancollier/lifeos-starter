@@ -40,6 +40,7 @@ interface ContentBlock {
 
 class TranscriptReader {
   private projectSlug: string | null = null;
+  private metaCache = new Map<string, { session: Session; mtimeMs: number }>();
 
   getProjectSlug(vaultRoot: string): string {
     if (this.projectSlug) return this.projectSlug;
@@ -73,7 +74,14 @@ class TranscriptReader {
       const filePath = path.join(transcriptsDir, file);
 
       try {
-        const meta = await this.extractSessionMeta(filePath, sessionId);
+        const fileStat = await fs.stat(filePath);
+        const cached = this.metaCache.get(sessionId);
+        if (cached && cached.mtimeMs === fileStat.mtimeMs) {
+          sessions.push(cached.session);
+          continue;
+        }
+        const meta = await this.extractSessionMeta(filePath, sessionId, fileStat);
+        this.metaCache.set(sessionId, { session: meta, mtimeMs: fileStat.mtimeMs });
         sessions.push(meta);
       } catch {
         // Skip unreadable files
@@ -99,15 +107,29 @@ class TranscriptReader {
 
   /**
    * Extract session metadata from a JSONL file.
-   * Reads first ~20 lines for title/permissionMode, and uses file stat for timestamps.
+   * Reads only the first ~8KB for title/permissionMode, and uses file stat for timestamps.
    */
-  private async extractSessionMeta(filePath: string, sessionId: string): Promise<Session> {
-    const stat = await fs.stat(filePath);
-    const content = await fs.readFile(filePath, 'utf-8');
-    const lines = content.split('\n').filter(l => l.trim());
+  private async extractSessionMeta(
+    filePath: string,
+    sessionId: string,
+    fileStat?: Awaited<ReturnType<typeof fs.stat>>
+  ): Promise<Session> {
+    const stat = fileStat ?? await fs.stat(filePath);
+
+    // Read only the head of the file (8KB) — metadata is always in the first few lines
+    const fileHandle = await fs.open(filePath, 'r');
+    let chunk: string;
+    try {
+      const buffer = Buffer.alloc(8192);
+      const { bytesRead } = await fileHandle.read(buffer, 0, 8192, 0);
+      chunk = buffer.toString('utf-8', 0, bytesRead);
+    } finally {
+      await fileHandle.close();
+    }
+
+    const lines = chunk.split('\n').filter(l => l.trim());
 
     let firstUserMessage = '';
-    let lastUserMessage = '';
     let permissionMode: 'default' | 'dangerously-skip' = 'default';
     let firstTimestamp = '';
 
@@ -131,8 +153,8 @@ class TranscriptReader {
         firstTimestamp = parsed.timestamp;
       }
 
-      // Extract user messages for title and preview
-      if (parsed.type === 'user' && parsed.message) {
+      // Extract first user message for title
+      if (!firstUserMessage && parsed.type === 'user' && parsed.message) {
         const text = this.extractTextContent(parsed.message.content);
         if (text.startsWith('<local-command') || text.startsWith('<command-name>')) {
           continue;
@@ -140,27 +162,23 @@ class TranscriptReader {
         const cleanText = this.stripSystemTags(text);
         if (!cleanText.trim()) continue;
 
-        if (!firstUserMessage) {
-          firstUserMessage = cleanText.trim();
-        }
-        lastUserMessage = cleanText.trim();
+        firstUserMessage = cleanText.trim();
       }
+
+      // Once we have all metadata, stop early
+      if (firstUserMessage && firstTimestamp) break;
     }
 
     const title = firstUserMessage
       ? firstUserMessage.slice(0, 80) + (firstUserMessage.length > 80 ? '...' : '')
       : `Session ${sessionId.slice(0, 8)}`;
 
-    const preview = lastUserMessage
-      ? lastUserMessage.slice(0, 100) + (lastUserMessage.length > 100 ? '...' : '')
-      : undefined;
-
     return {
       id: sessionId,
       title,
       createdAt: firstTimestamp || stat.birthtime.toISOString(),
       updatedAt: stat.mtime.toISOString(),
-      lastMessagePreview: preview,
+      lastMessagePreview: undefined,
       permissionMode,
     };
   }
