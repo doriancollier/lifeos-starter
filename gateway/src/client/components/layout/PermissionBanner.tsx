@@ -9,7 +9,7 @@ export function PermissionBanner({ sessionId }: { sessionId: string | null }) {
     enabled: !!sessionId,
   });
 
-  if (!session || session.permissionMode !== 'dangerously-skip') return null;
+  if (!session || session.permissionMode !== 'bypassPermissions') return null;
 
   return (
     <div className="bg-red-600 text-white text-center text-sm py-1 px-4">

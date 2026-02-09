@@ -1,9 +1,11 @@
 import type {
   Session,
   CreateSessionRequest,
+  UpdateSessionRequest,
   CommandRegistry,
   HistoryMessage,
   StreamEvent,
+  TaskItem,
 } from '@shared/types';
 import type { Transport } from '@shared/transport';
 
@@ -35,6 +37,13 @@ export class HttpTransport implements Transport {
 
   getSession(id: string): Promise<Session> {
     return fetchJSON<Session>(this.baseUrl, `/sessions/${id}`);
+  }
+
+  updateSession(id: string, opts: UpdateSessionRequest): Promise<Session> {
+    return fetchJSON<Session>(this.baseUrl, `/sessions/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(opts),
+    });
   }
 
   getMessages(sessionId: string): Promise<{ messages: HistoryMessage[] }> {
@@ -95,6 +104,21 @@ export class HttpTransport implements Transport {
       method: 'POST',
       body: JSON.stringify({ toolCallId }),
     });
+  }
+
+  submitAnswers(sessionId: string, toolCallId: string, answers: Record<string, string>): Promise<{ ok: boolean }> {
+    return fetchJSON<{ ok: boolean }>(this.baseUrl, `/sessions/${sessionId}/submit-answers`, {
+      method: 'POST',
+      body: JSON.stringify({ toolCallId, answers }),
+    });
+  }
+
+  async getTasks(sessionId: string): Promise<{ tasks: TaskItem[] }> {
+    try {
+      return await fetchJSON<{ tasks: TaskItem[] }>(this.baseUrl, `/sessions/${sessionId}/tasks`);
+    } catch {
+      return { tasks: [] };
+    }
   }
 
   getCommands(refresh = false): Promise<CommandRegistry> {

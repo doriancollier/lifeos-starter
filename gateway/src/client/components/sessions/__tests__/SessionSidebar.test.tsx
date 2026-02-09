@@ -51,11 +51,14 @@ function createMockTransport(overrides: Partial<Transport> = {}): Transport {
     createSession: vi.fn(),
     getSession: vi.fn(),
     getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    getTasks: vi.fn().mockResolvedValue({ tasks: [] }),
     sendMessage: vi.fn(),
     approveTool: vi.fn(),
     denyTool: vi.fn(),
+    submitAnswers: vi.fn().mockResolvedValue({ ok: true }),
     getCommands: vi.fn(),
     health: vi.fn(),
+    updateSession: vi.fn(),
     ...overrides,
   };
 }
@@ -177,8 +180,8 @@ describe('SessionSidebar', () => {
     expect(screen.queryByText('Today')).toBeNull();
   });
 
-  it('creates session with dangerously-skip when toggled', async () => {
-    const newSession = makeSession({ id: 'new-1', permissionMode: 'dangerously-skip' });
+  it('creates session with bypassPermissions when toggled', async () => {
+    const newSession = makeSession({ id: 'new-1', permissionMode: 'bypassPermissions' });
     mockTransport = createMockTransport({
       createSession: vi.fn().mockResolvedValue(newSession),
     });
@@ -191,7 +194,7 @@ describe('SessionSidebar', () => {
     fireEvent.click(screen.getByText('New chat'));
 
     await waitFor(() => {
-      expect(vi.mocked(mockTransport.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'dangerously-skip' });
+      expect(vi.mocked(mockTransport.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'bypassPermissions' });
     });
   });
 });

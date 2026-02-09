@@ -16,11 +16,14 @@ function createMockTransport(): Transport {
     createSession: vi.fn(),
     getSession: vi.fn(),
     getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    getTasks: vi.fn().mockResolvedValue({ tasks: [] }),
     sendMessage: vi.fn(),
     approveTool: vi.fn(),
     denyTool: vi.fn(),
+    submitAnswers: vi.fn().mockResolvedValue({ ok: true }),
     getCommands: vi.fn(),
     health: vi.fn(),
+    updateSession: vi.fn(),
   };
 }
 
@@ -71,10 +74,10 @@ describe('PermissionBanner', () => {
     expect(container.textContent).toBe('');
   });
 
-  it('shows banner for dangerously-skip mode', () => {
+  it('shows banner for bypassPermissions mode', () => {
     const session = {
       id: 's2',
-      permissionMode: 'dangerously-skip',
+      permissionMode: 'bypassPermissions',
       title: 'Test',
       createdAt: '',
       updatedAt: '',
@@ -89,7 +92,7 @@ describe('PermissionBanner', () => {
   it('banner contains auto-approved text', () => {
     const session = {
       id: 's3',
-      permissionMode: 'dangerously-skip',
+      permissionMode: 'bypassPermissions',
       title: 'Test Session',
       createdAt: '',
       updatedAt: '',

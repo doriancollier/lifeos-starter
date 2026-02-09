@@ -65,21 +65,19 @@ describe('ChatInput', () => {
     expect(screen.getByLabelText('Stop generating')).toBeDefined();
   });
 
-  it('shows send button when not loading', () => {
-    render(<ChatInput {...defaultProps} />);
+  it('shows send button when not loading and has text', () => {
+    render(<ChatInput {...defaultProps} value="hello" />);
     expect(screen.getByLabelText('Send message')).toBeDefined();
   });
 
-  it('send button disabled when value is empty', () => {
+  it('hides send button when value is empty', () => {
     render(<ChatInput {...defaultProps} value="" />);
-    const btn = screen.getByLabelText('Send message');
-    expect(btn).toHaveProperty('disabled', true);
+    expect(screen.queryByLabelText('Send message')).toBeNull();
   });
 
-  it('send button enabled when value is non-empty', () => {
+  it('shows send button when value is non-empty', () => {
     render(<ChatInput {...defaultProps} value="hello" />);
-    const btn = screen.getByLabelText('Send message');
-    expect(btn).toHaveProperty('disabled', false);
+    expect(screen.getByLabelText('Send message')).toBeDefined();
   });
 
   it('calls onStop when stop button is clicked', () => {

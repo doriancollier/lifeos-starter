@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { TextDelta, ToolCallEvent, ErrorEvent } from '@shared/types';
+import type { TextDelta, ToolCallEvent, ApprovalEvent, QuestionPromptEvent, ErrorEvent, SessionStatusEvent, QuestionItem, TaskUpdateEvent, MessagePart } from '@shared/types';
 import { useTransport } from '../contexts/TransportContext';
 
 export interface ChatMessage {
@@ -8,6 +8,7 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   toolCalls?: ToolCallState[];
+  parts: MessagePart[];
   timestamp: string;
 }
 
@@ -24,6 +25,12 @@ export interface ToolCallState {
   input: string;
   result?: string;
   status: 'pending' | 'running' | 'complete' | 'error';
+  /** Set when this tool call requires interactive UI (approval or question) */
+  interactiveType?: 'approval' | 'question';
+  /** Question data when interactiveType is 'question' */
+  questions?: QuestionItem[];
+  /** Submitted answers (present when restored from history) */
+  answers?: Record<string, string>;
 }
 
 type ChatStatus = 'idle' | 'streaming' | 'error';
@@ -31,6 +38,31 @@ type ChatStatus = 'idle' | 'streaming' | 'error';
 interface ChatSessionOptions {
   /** Transform message content before sending to server (e.g., prepend context) */
   transformContent?: (content: string) => string | Promise<string>;
+  /** Called when a task_update event is received during streaming */
+  onTaskEvent?: (event: TaskUpdateEvent) => void;
+}
+
+/** Derive flat content and toolCalls from parts for backward compat */
+function deriveFromParts(parts: MessagePart[]): { content: string; toolCalls: ToolCallState[] } {
+  const textSegments: string[] = [];
+  const toolCalls: ToolCallState[] = [];
+  for (const part of parts) {
+    if (part.type === 'text') {
+      textSegments.push(part.text);
+    } else {
+      toolCalls.push({
+        toolCallId: part.toolCallId,
+        toolName: part.toolName,
+        input: part.input || '',
+        result: part.result,
+        status: part.status,
+        interactiveType: part.interactiveType,
+        questions: part.questions,
+        answers: part.answers,
+      });
+    }
+  }
+  return { content: textSegments.join('\n'), toolCalls };
 }
 
 export function useChatSession(sessionId: string, options: ChatSessionOptions = {}) {
@@ -39,9 +71,10 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
   const [input, setInput] = useState('');
   const [status, setStatus] = useState<ChatStatus>('idle');
   const [error, setError] = useState<string | null>(null);
+  const sessionStatusRef = useRef<SessionStatusEvent | null>(null);
+  const [sessionStatus, setSessionStatus] = useState<SessionStatusEvent | null>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const currentAssistantRef = useRef<string>('');
-  const currentToolCallsRef = useRef<ToolCallState[]>([]);
+  const currentPartsRef = useRef<MessagePart[]>([]);
   const historySeededRef = useRef(false);
 
   // Load message history from SDK transcript via TanStack Query
@@ -58,18 +91,43 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
       historySeededRef.current = true;
       const history = historyQuery.data.messages;
       if (history.length > 0) {
-        setMessages(history.map(m => ({
-          id: m.id,
-          role: m.role,
-          content: m.content,
-          toolCalls: m.toolCalls?.map(tc => ({
-            toolCallId: tc.toolCallId,
-            toolName: tc.toolName,
-            input: '',
-            status: 'complete' as const,
-          })),
-          timestamp: m.timestamp || '',
-        })));
+        setMessages(history.map(m => {
+          // Build parts from history: use server-provided parts if available, else synthesize
+          const parts: MessagePart[] = m.parts ? [...m.parts] : [];
+          if (parts.length === 0) {
+            // Synthesize parts from flat content + toolCalls (backward compat)
+            if (m.content) {
+              parts.push({ type: 'text', text: m.content });
+            }
+            if (m.toolCalls) {
+              for (const tc of m.toolCalls) {
+                parts.push({
+                  type: 'tool_call',
+                  toolCallId: tc.toolCallId,
+                  toolName: tc.toolName,
+                  input: tc.input,
+                  result: tc.result,
+                  status: tc.status,
+                  ...(tc.questions ? {
+                    interactiveType: 'question' as const,
+                    questions: tc.questions,
+                    answers: tc.answers,
+                  } : {}),
+                });
+              }
+            }
+          }
+
+          const derived = deriveFromParts(parts);
+          return {
+            id: m.id,
+            role: m.role,
+            content: derived.content,
+            toolCalls: derived.toolCalls.length > 0 ? derived.toolCalls : undefined,
+            parts,
+            timestamp: m.timestamp || '',
+          };
+        }));
       }
     }
   }, [historyQuery.data]);
@@ -77,10 +135,12 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
   const handleSubmit = useCallback(async () => {
     if (!input.trim() || status === 'streaming') return;
 
+    const userContent = input.trim();
     const userMessage: ChatMessage = {
       id: crypto.randomUUID(),
       role: 'user',
-      content: input.trim(),
+      content: userContent,
+      parts: [{ type: 'text', text: userContent }],
       timestamp: new Date().toISOString(),
     };
 
@@ -88,8 +148,7 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
     setInput('');
     setStatus('streaming');
     setError(null);
-    currentAssistantRef.current = '';
-    currentToolCallsRef.current = [];
+    currentPartsRef.current = [];
 
     const assistantId = crypto.randomUUID();
     setMessages(prev => [...prev, {
@@ -97,6 +156,7 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
       role: 'assistant',
       content: '',
       toolCalls: [],
+      parts: [],
       timestamp: new Date().toISOString(),
     }]);
 
@@ -128,13 +188,20 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
     switch (type) {
       case 'text_delta': {
         const { text } = data as TextDelta;
-        currentAssistantRef.current += text;
+        const parts = currentPartsRef.current;
+        const lastPart = parts[parts.length - 1];
+        if (lastPart && lastPart.type === 'text') {
+          lastPart.text += text;
+        } else {
+          parts.push({ type: 'text', text });
+        }
         updateAssistantMessage(assistantId);
         break;
       }
       case 'tool_call_start': {
         const tc = data as ToolCallEvent;
-        currentToolCallsRef.current.push({
+        currentPartsRef.current.push({
+          type: 'tool_call',
           toolCallId: tc.toolCallId,
           toolName: tc.toolName,
           input: '',
@@ -145,16 +212,16 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
       }
       case 'tool_call_delta': {
         const tc = data as ToolCallEvent;
-        const existing = currentToolCallsRef.current.find(t => t.toolCallId === tc.toolCallId);
+        const existing = findToolCallPart(tc.toolCallId);
         if (existing && tc.input) {
-          existing.input += tc.input;
+          existing.input = (existing.input || '') + tc.input;
         }
         updateAssistantMessage(assistantId);
         break;
       }
       case 'tool_call_end': {
         const tc = data as ToolCallEvent;
-        const existing = currentToolCallsRef.current.find(t => t.toolCallId === tc.toolCallId);
+        const existing = findToolCallPart(tc.toolCallId);
         if (existing) {
           existing.status = 'complete';
         }
@@ -163,11 +230,38 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
       }
       case 'tool_result': {
         const tc = data as ToolCallEvent;
-        const existing = currentToolCallsRef.current.find(t => t.toolCallId === tc.toolCallId);
+        const existing = findToolCallPart(tc.toolCallId);
         if (existing) {
           existing.result = tc.result;
           existing.status = 'complete';
         }
+        updateAssistantMessage(assistantId);
+        break;
+      }
+      case 'approval_required': {
+        const approval = data as ApprovalEvent;
+        currentPartsRef.current.push({
+          type: 'tool_call',
+          toolCallId: approval.toolCallId,
+          toolName: approval.toolName,
+          input: approval.input,
+          status: 'pending',
+          interactiveType: 'approval',
+        });
+        updateAssistantMessage(assistantId);
+        break;
+      }
+      case 'question_prompt': {
+        const question = data as QuestionPromptEvent;
+        currentPartsRef.current.push({
+          type: 'tool_call',
+          toolCallId: question.toolCallId,
+          toolName: 'AskUserQuestion',
+          input: '',
+          status: 'pending',
+          interactiveType: 'question',
+          questions: question.questions,
+        });
         updateAssistantMessage(assistantId);
         break;
       }
@@ -177,6 +271,27 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
         setStatus('error');
         break;
       }
+      case 'session_status': {
+        const incoming = data as SessionStatusEvent;
+        // Merge into accumulated status so values persist across events
+        const merged: SessionStatusEvent = {
+          ...sessionStatusRef.current,
+          ...incoming,
+          // Only overwrite fields that are actually present in the incoming event
+          model: incoming.model ?? sessionStatusRef.current?.model,
+          costUsd: incoming.costUsd ?? sessionStatusRef.current?.costUsd,
+          contextTokens: incoming.contextTokens ?? sessionStatusRef.current?.contextTokens,
+          contextMaxTokens: incoming.contextMaxTokens ?? sessionStatusRef.current?.contextMaxTokens,
+        };
+        sessionStatusRef.current = merged;
+        setSessionStatus(merged);
+        break;
+      }
+      case 'task_update': {
+        const taskEvent = data as TaskUpdateEvent;
+        options.onTaskEvent?.(taskEvent);
+        break;
+      }
       case 'done': {
         setStatus('idle');
         break;
@@ -184,14 +299,27 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
     }
   }
 
+  function findToolCallPart(toolCallId: string) {
+    for (let i = currentPartsRef.current.length - 1; i >= 0; i--) {
+      const part = currentPartsRef.current[i];
+      if (part.type === 'tool_call' && part.toolCallId === toolCallId) {
+        return part;
+      }
+    }
+    return undefined;
+  }
+
   function updateAssistantMessage(assistantId: string) {
+    const parts = currentPartsRef.current.map(p => ({ ...p }));
+    const derived = deriveFromParts(parts);
     setMessages(prev =>
       prev.map(m =>
         m.id === assistantId
           ? {
               ...m,
-              content: currentAssistantRef.current,
-              toolCalls: [...currentToolCallsRef.current],
+              content: derived.content,
+              toolCalls: derived.toolCalls.length > 0 ? derived.toolCalls : [],
+              parts,
             }
           : m
       )
@@ -205,5 +333,5 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
 
   const isLoadingHistory = historyQuery.isLoading;
 
-  return { messages, input, setInput, handleSubmit, status, error, stop, isLoadingHistory };
+  return { messages, input, setInput, handleSubmit, status, error, stop, isLoadingHistory, sessionStatus };
 }

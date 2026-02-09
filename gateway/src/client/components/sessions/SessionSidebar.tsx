@@ -7,7 +7,7 @@ import { useIsMobile } from '../../hooks/use-is-mobile';
 import { SessionItem } from './SessionItem';
 import { groupSessionsByTime } from '@/lib/session-utils';
 import { Plus, Shield, ShieldOff, PanelLeftClose } from 'lucide-react';
-import type { Session } from '@shared/types';
+import type { Session, PermissionMode } from '@shared/types';
 
 export function SessionSidebar() {
   const transport = useTransport();
@@ -15,7 +15,7 @@ export function SessionSidebar() {
   const [activeSessionId, setActiveSession] = useSessionId();
   const { setSidebarOpen } = useAppStore();
   const isMobile = useIsMobile();
-  const [permissionMode, setPermissionMode] = useState<'default' | 'dangerously-skip'>('default');
+  const [permissionMode, setPermissionMode] = useState<PermissionMode>('default');
   const [justCreatedId, setJustCreatedId] = useState<string | null>(null);
 
   const { data: sessions = [] } = useQuery({
@@ -24,7 +24,7 @@ export function SessionSidebar() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (opts: { permissionMode: 'default' | 'dangerously-skip' }) => transport.createSession(opts),
+    mutationFn: (opts: { permissionMode: PermissionMode }) => transport.createSession(opts),
     onSuccess: (session) => {
       queryClient.invalidateQueries({ queryKey: ['sessions'] });
       setActiveSession(session.id);
@@ -67,15 +67,15 @@ export function SessionSidebar() {
         </div>
         <button
           onClick={() =>
-            setPermissionMode((p) => (p === 'default' ? 'dangerously-skip' : 'default'))
+            setPermissionMode((p) => (p === 'default' ? 'bypassPermissions' : 'default'))
           }
           className={`flex items-center gap-1.5 w-full rounded px-2 py-1 text-xs transition-colors duration-150 ${
-            permissionMode === 'dangerously-skip'
+            permissionMode === 'bypassPermissions'
               ? 'bg-red-500/10 text-red-500 hover:bg-red-500/15'
               : 'text-muted-foreground hover:bg-secondary/50'
           }`}
         >
-          {permissionMode === 'dangerously-skip' ? (
+          {permissionMode === 'bypassPermissions' ? (
             <>
               <ShieldOff className="h-3 w-3" />
               Skip permissions

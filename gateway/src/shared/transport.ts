@@ -5,6 +5,7 @@ import type {
   CommandRegistry,
   HistoryMessage,
   StreamEvent,
+  TaskItem,
 } from './types';
 
 export interface Transport {
@@ -27,6 +28,12 @@ export interface Transport {
     sessionId: string,
     toolCallId: string,
   ): Promise<{ ok: boolean }>;
+  submitAnswers(
+    sessionId: string,
+    toolCallId: string,
+    answers: Record<string, string>,
+  ): Promise<{ ok: boolean }>;
+  getTasks(sessionId: string): Promise<{ tasks: TaskItem[] }>;
   getCommands(refresh?: boolean): Promise<CommandRegistry>;
   health(): Promise<{ status: string; version: string; uptime: number }>;
 }

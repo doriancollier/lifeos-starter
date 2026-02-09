@@ -21,11 +21,14 @@ function createMockTransport(overrides: Partial<Transport> = {}): Transport {
     createSession: vi.fn(),
     getSession: vi.fn(),
     getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    getTasks: vi.fn().mockResolvedValue({ tasks: [] }),
     sendMessage: vi.fn(),
     approveTool: vi.fn(),
     denyTool: vi.fn(),
+    submitAnswers: vi.fn().mockResolvedValue({ ok: true }),
     getCommands: vi.fn(),
     health: vi.fn(),
+    updateSession: vi.fn(),
     ...overrides,
   };
 }

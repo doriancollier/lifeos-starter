@@ -82,10 +82,10 @@ describe('SessionItem', () => {
     expect(item.className).toContain('hover:bg-secondary/50');
   });
 
-  it('shows permission warning for dangerously-skip mode', () => {
+  it('shows permission warning for bypassPermissions mode', () => {
     const { container } = render(
       <SessionItem
-        session={makeSession({ permissionMode: 'dangerously-skip' })}
+        session={makeSession({ permissionMode: 'bypassPermissions' })}
         isActive={false}
         onClick={() => {}}
       />
@@ -143,7 +143,7 @@ describe('SessionItem', () => {
   it('shows permission mode in details panel', () => {
     render(
       <SessionItem
-        session={makeSession({ permissionMode: 'dangerously-skip' })}
+        session={makeSession({ permissionMode: 'bypassPermissions' })}
         isActive={false}
         onClick={() => {}}
       />

@@ -57,7 +57,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 
 export function SessionItem({ session, isActive, onClick, isNew = false }: SessionItemProps) {
   const [expanded, setExpanded] = useState(false);
-  const isSkipMode = session.permissionMode === 'dangerously-skip';
+  const isSkipMode = session.permissionMode === 'bypassPermissions';
 
   const Wrapper = isNew ? motion.div : 'div';
   const animationProps = isNew
@@ -96,7 +96,7 @@ export function SessionItem({ session, isActive, onClick, isNew = false }: Sessi
             {isSkipMode && (
               <ShieldOff
                 className="h-3 w-3 text-red-500"
-                title="Permissions skipped"
+                aria-label="Permissions skipped"
               />
             )}
             <button
