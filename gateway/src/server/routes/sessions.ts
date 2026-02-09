@@ -4,6 +4,14 @@ import { Router } from 'express';
 import { agentManager } from '../services/agent-manager';
 import { transcriptReader } from '../services/transcript-reader';
 import { initSSEStream, sendSSEEvent, endSSEStream } from '../services/stream-adapter';
+import {
+  CreateSessionRequestSchema,
+  UpdateSessionRequestSchema,
+  SendMessageRequestSchema,
+  ApprovalRequestSchema,
+  SubmitAnswersRequestSchema,
+  ListSessionsQuerySchema,
+} from '@shared/schemas';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const vaultRoot = path.resolve(__dirname, '../../../../');
@@ -14,7 +22,11 @@ const router = Router();
 // Sends an initial message to the SDK to generate the session JSONL file,
 // then returns the session metadata.
 router.post('/', async (req, res) => {
-  const { permissionMode = 'default' } = req.body;
+  const parsed = CreateSessionRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid request', details: parsed.error.format() });
+  }
+  const { permissionMode = 'default' } = parsed.data;
 
   // Use SDK's query() with a no-op prompt to establish the session.
   // The SDK will create the JSONL file and assign a session ID.
@@ -34,7 +46,11 @@ router.post('/', async (req, res) => {
 
 // GET /api/sessions - List all sessions from SDK transcripts
 router.get('/', async (req, res) => {
-  const limit = Math.min(Number(req.query.limit) || 200, 500);
+  const parsed = ListSessionsQuerySchema.safeParse(req.query);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid query', details: parsed.error.format() });
+  }
+  const { limit } = parsed.data;
   const sessions = await transcriptReader.listSessions(vaultRoot);
   res.json(sessions.slice(0, limit));
 });
@@ -46,16 +62,46 @@ router.get('/:id', async (req, res) => {
   res.json(session);
 });
 
+// GET /api/sessions/:id/tasks - Get task state from SDK transcript
+router.get('/:id/tasks', async (req, res) => {
+  try {
+    const tasks = await transcriptReader.readTasks(vaultRoot, req.params.id);
+    res.json({ tasks });
+  } catch {
+    res.status(404).json({ error: 'Session not found' });
+  }
+});
+
 // GET /api/sessions/:id/messages - Get message history from SDK transcript
 router.get('/:id/messages', async (req, res) => {
   const messages = await transcriptReader.readTranscript(vaultRoot, req.params.id);
   res.json({ messages });
 });
 
+// PATCH /api/sessions/:id - Update session settings
+router.patch('/:id', async (req, res) => {
+  const parsed = UpdateSessionRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid request', details: parsed.error.format() });
+  }
+  const { permissionMode, model } = parsed.data;
+  const updated = agentManager.updateSession(req.params.id, { permissionMode, model });
+  if (!updated) return res.status(404).json({ error: 'Session not found' });
+
+  const session = await transcriptReader.getSession(vaultRoot, req.params.id);
+  if (session) {
+    session.permissionMode = permissionMode ?? session.permissionMode;
+  }
+  res.json(session ?? { id: req.params.id, permissionMode, model });
+});
+
 // POST /api/sessions/:id/messages - Send message (SSE stream response)
 router.post('/:id/messages', async (req, res) => {
-  const { content } = req.body;
-  if (!content) return res.status(400).json({ error: 'content is required' });
+  const parsed = SendMessageRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid request', details: parsed.error.format() });
+  }
+  const { content } = parsed.data;
 
   const sessionId = req.params.id;
 
@@ -89,7 +135,11 @@ router.post('/:id/messages', async (req, res) => {
 
 // POST /api/sessions/:id/approve - Approve pending tool call
 router.post('/:id/approve', async (req, res) => {
-  const { toolCallId } = req.body;
+  const parsed = ApprovalRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid request', details: parsed.error.format() });
+  }
+  const { toolCallId } = parsed.data;
   const approved = agentManager.approveTool(req.params.id, toolCallId, true);
   if (!approved) return res.status(404).json({ error: 'No pending approval' });
   res.json({ ok: true });
@@ -97,9 +147,25 @@ router.post('/:id/approve', async (req, res) => {
 
 // POST /api/sessions/:id/deny - Deny pending tool call
 router.post('/:id/deny', async (req, res) => {
-  const { toolCallId } = req.body;
+  const parsed = ApprovalRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid request', details: parsed.error.format() });
+  }
+  const { toolCallId } = parsed.data;
   const denied = agentManager.approveTool(req.params.id, toolCallId, false);
   if (!denied) return res.status(404).json({ error: 'No pending approval' });
+  res.json({ ok: true });
+});
+
+// POST /api/sessions/:id/submit-answers - Submit answers for AskUserQuestion
+router.post('/:id/submit-answers', async (req, res) => {
+  const parsed = SubmitAnswersRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid request', details: parsed.error.format() });
+  }
+  const { toolCallId, answers } = parsed.data;
+  const ok = agentManager.submitAnswers(req.params.id, toolCallId, answers);
+  if (!ok) return res.status(404).json({ error: 'No pending question' });
   res.json({ ok: true });
 });
 

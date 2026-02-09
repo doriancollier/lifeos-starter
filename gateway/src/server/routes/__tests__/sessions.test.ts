@@ -16,6 +16,7 @@ vi.mock('../../services/agent-manager', () => ({
     ensureSession: vi.fn(),
     sendMessage: vi.fn(),
     approveTool: vi.fn(),
+    updateSession: vi.fn(),
     hasSession: vi.fn(),
     checkSessionHealth: vi.fn(),
     getSdkSessionId: vi.fn(),
@@ -57,16 +58,16 @@ describe('Sessions Routes', () => {
       );
     });
 
-    it('creates a session with dangerously-skip permissionMode', async () => {
+    it('creates a session with bypassPermissions permissionMode', async () => {
       const res = await request(app)
         .post('/api/sessions')
-        .send({ permissionMode: 'dangerously-skip' });
+        .send({ permissionMode: 'bypassPermissions' });
 
       expect(res.status).toBe(200);
-      expect(res.body.permissionMode).toBe('dangerously-skip');
+      expect(res.body.permissionMode).toBe('bypassPermissions');
       expect(agentManager.ensureSession).toHaveBeenCalledWith(
         res.body.id,
-        { permissionMode: 'dangerously-skip' }
+        { permissionMode: 'bypassPermissions' }
       );
     });
 
@@ -98,7 +99,7 @@ describe('Sessions Routes', () => {
         },
         {
           id: 's2', title: 'Second question', createdAt: '2024-01-01',
-          updatedAt: '2024-01-01', permissionMode: 'dangerously-skip' as const,
+          updatedAt: '2024-01-01', permissionMode: 'bypassPermissions' as const,
         },
       ];
       vi.mocked(transcriptReader.listSessions).mockResolvedValue(sessions);
@@ -140,7 +141,7 @@ describe('Sessions Routes', () => {
         .send({});
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe('content is required');
+      expect(res.body.error).toBe('Invalid request');
     });
 
     it('streams events from agentManager via SSE', async () => {

@@ -63,7 +63,11 @@ React 19 + Vite 6 + Tailwind CSS 4 + shadcn/ui (new-york style, pure neutral gra
 
 ### Shared (`src/shared/`)
 
-`types.ts` defines all shared interfaces: `Session`, `StreamEvent` (with discriminated `type` field), `HistoryMessage`, `CommandEntry`, etc. Imported via `@shared/*` path alias.
+`schemas.ts` defines Zod schemas for all types with OpenAPI metadata. Each schema exports an inferred TypeScript type (e.g., `export type Session = z.infer<typeof SessionSchema>`). `types.ts` re-exports all types from `schemas.ts`, so existing `import { Session } from '@shared/types'` imports work unchanged.
+
+**API docs** are available at `/api/docs` (Scalar UI) and `/api/openapi.json` (raw spec). The OpenAPI spec is auto-generated from the Zod schemas in `src/server/services/openapi-registry.ts`.
+
+**Request validation** uses `schema.safeParse(req.body)` in route handlers. Invalid requests return 400 with `{ error, details }` where details is Zod's formatted error output.
 
 ### Path Aliases
 
@@ -103,6 +107,8 @@ Detailed documentation lives in `guides/`:
 | [`guides/architecture.md`](guides/architecture.md) | Hexagonal architecture, Transport interface, dependency injection, Electron compatibility layer, build plugins, data flow diagrams, module layout, testing patterns |
 | [`guides/design-system.md`](guides/design-system.md) | Color palette, typography, spacing (8pt grid), motion specs, component conventions |
 | [`guides/obsidian-plugin-development.md`](guides/obsidian-plugin-development.md) | Plugin lifecycle, ItemView pattern, React mounting, active file tracking, drag-and-drop, Vite build config, Electron quirks, debugging, common issues |
+| [`guides/api-reference.md`](guides/api-reference.md) | OpenAPI spec, Scalar docs UI, Zod schema patterns, adding endpoints, SSE streaming, validation errors |
+| [`guides/interactive-tools.md`](guides/interactive-tools.md) | Tool approval, AskUserQuestion, TaskList interactive flows |
 
 ## Testing
 

@@ -1,111 +1,30 @@
-// === Session Types ===
-
-export type PermissionMode = 'default' | 'plan' | 'acceptEdits' | 'bypassPermissions';
-
-export interface Session {
-  id: string; // SDK session ID (UUID from JSONL filename)
-  title: string;
-  createdAt: string;
-  updatedAt: string;
-  lastMessagePreview?: string;
-  permissionMode: PermissionMode;
-}
-
-export interface CreateSessionRequest {
-  permissionMode?: PermissionMode;
-}
-
-export interface UpdateSessionRequest {
-  permissionMode?: PermissionMode;
-  model?: string;
-}
-
-export interface SendMessageRequest {
-  content: string;
-}
-
-// === Message Types (SSE stream events) ===
-
-export type StreamEventType =
-  | 'text_delta'
-  | 'tool_call_start'
-  | 'tool_call_delta'
-  | 'tool_call_end'
-  | 'tool_result'
-  | 'approval_required'
-  | 'error'
-  | 'done'
-  | 'session_status';
-
-export interface SessionStatusEvent {
-  sessionId: string;
-  model?: string;
-  costUsd?: number;
-  contextTokens?: number;
-  contextMaxTokens?: number;
-}
-
-export interface StreamEvent {
-  type: StreamEventType;
-  data: TextDelta | ToolCallEvent | ApprovalEvent | ErrorEvent | DoneEvent | SessionStatusEvent;
-}
-
-export interface TextDelta {
-  text: string;
-}
-
-export interface ToolCallEvent {
-  toolCallId: string;
-  toolName: string;
-  input?: string;
-  result?: string;
-  status: 'pending' | 'running' | 'complete' | 'error';
-}
-
-export interface ApprovalEvent {
-  toolCallId: string;
-  toolName: string;
-  input: string;
-}
-
-export interface ErrorEvent {
-  message: string;
-  code?: string;
-}
-
-export interface DoneEvent {
-  sessionId: string;
-}
-
-// === Chat History Types ===
-
-export interface HistoryMessage {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  toolCalls?: HistoryToolCall[];
-  timestamp?: string;
-}
-
-export interface HistoryToolCall {
-  toolCallId: string;
-  toolName: string;
-  status: 'complete';
-}
-
-// === Command Types ===
-
-export interface CommandEntry {
-  namespace: string;
-  command: string;
-  fullCommand: string;
-  description: string;
-  argumentHint?: string;
-  allowedTools?: string[];
-  filePath: string;
-}
-
-export interface CommandRegistry {
-  commands: CommandEntry[];
-  lastScanned: string;
-}
+// All types are now derived from Zod schemas (single source of truth).
+// See schemas.ts for schema definitions with OpenAPI metadata.
+export type {
+  PermissionMode,
+  Session,
+  CreateSessionRequest,
+  UpdateSessionRequest,
+  SendMessageRequest,
+  StreamEventType,
+  StreamEvent,
+  TextDelta,
+  ToolCallEvent,
+  ApprovalEvent,
+  QuestionOption,
+  QuestionItem,
+  QuestionPromptEvent,
+  ErrorEvent,
+  DoneEvent,
+  SessionStatusEvent,
+  TextPart,
+  ToolCallPart,
+  MessagePart,
+  HistoryMessage,
+  HistoryToolCall,
+  TaskStatus,
+  TaskItem,
+  TaskUpdateEvent,
+  CommandEntry,
+  CommandRegistry,
+} from './schemas';

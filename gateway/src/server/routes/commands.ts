@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { CommandRegistryService } from '../services/command-registry';
+import { CommandsQuerySchema } from '@shared/schemas';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -10,7 +11,11 @@ const router = Router();
 
 // GET /api/commands - List all commands (with optional refresh)
 router.get('/', async (req, res) => {
-  const refresh = req.query.refresh === 'true';
+  const parsed = CommandsQuerySchema.safeParse(req.query);
+  if (!parsed.success) {
+    return res.status(400).json({ error: 'Invalid query', details: parsed.error.format() });
+  }
+  const refresh = parsed.data.refresh === 'true';
   const commands = await registry.getCommands(refresh);
   res.json(commands);
 });

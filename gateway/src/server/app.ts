@@ -2,9 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { apiReference } from '@scalar/express-api-reference';
 import sessionRoutes from './routes/sessions';
 import commandRoutes from './routes/commands';
 import healthRoutes from './routes/health';
+import { generateOpenAPISpec } from './services/openapi-registry';
 import { errorHandler } from './middleware/error-handler';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,6 +21,11 @@ export function createApp() {
   app.use('/api/sessions', sessionRoutes);
   app.use('/api/commands', commandRoutes);
   app.use('/api/health', healthRoutes);
+
+  // OpenAPI spec + interactive docs
+  const spec = generateOpenAPISpec();
+  app.get('/api/openapi.json', (_req, res) => res.json(spec));
+  app.use('/api/docs', apiReference({ content: spec }));
 
   // Error handler (must be after routes)
   app.use(errorHandler);
