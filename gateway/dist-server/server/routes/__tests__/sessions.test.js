@@ -13,6 +13,7 @@ vi.mock('../../services/agent-manager', () => ({
         ensureSession: vi.fn(),
         sendMessage: vi.fn(),
         approveTool: vi.fn(),
+        updateSession: vi.fn(),
         hasSession: vi.fn(),
         checkSessionHealth: vi.fn(),
         getSdkSessionId: vi.fn(),
@@ -44,13 +45,13 @@ describe('Sessions Routes', () => {
             expect(res.body.permissionMode).toBe('default');
             expect(agentManager.ensureSession).toHaveBeenCalledWith(res.body.id, { permissionMode: 'default' });
         });
-        it('creates a session with dangerously-skip permissionMode', async () => {
+        it('creates a session with bypassPermissions permissionMode', async () => {
             const res = await request(app)
                 .post('/api/sessions')
-                .send({ permissionMode: 'dangerously-skip' });
+                .send({ permissionMode: 'bypassPermissions' });
             expect(res.status).toBe(200);
-            expect(res.body.permissionMode).toBe('dangerously-skip');
-            expect(agentManager.ensureSession).toHaveBeenCalledWith(res.body.id, { permissionMode: 'dangerously-skip' });
+            expect(res.body.permissionMode).toBe('bypassPermissions');
+            expect(agentManager.ensureSession).toHaveBeenCalledWith(res.body.id, { permissionMode: 'bypassPermissions' });
         });
         it('returns timestamps on created session', async () => {
             const res = await request(app)
@@ -76,7 +77,7 @@ describe('Sessions Routes', () => {
                 },
                 {
                     id: 's2', title: 'Second question', createdAt: '2024-01-01',
-                    updatedAt: '2024-01-01', permissionMode: 'dangerously-skip',
+                    updatedAt: '2024-01-01', permissionMode: 'bypassPermissions',
                 },
             ];
             vi.mocked(transcriptReader.listSessions).mockResolvedValue(sessions);
@@ -110,7 +111,7 @@ describe('Sessions Routes', () => {
                 .post('/api/sessions/s1/messages')
                 .send({});
             expect(res.status).toBe(400);
-            expect(res.body.error).toBe('content is required');
+            expect(res.body.error).toBe('Invalid request');
         });
         it('streams events from agentManager via SSE', async () => {
             const events = [

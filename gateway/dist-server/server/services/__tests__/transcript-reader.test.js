@@ -35,11 +35,12 @@ describe('TranscriptReader', () => {
                 role: 'user',
                 content: 'Hello',
             });
-            expect(messages[1]).toEqual({
+            expect(messages[1]).toMatchObject({
                 id: 'a1',
                 role: 'assistant',
                 content: 'Hi there!',
                 toolCalls: undefined,
+                parts: [{ type: 'text', text: 'Hi there!' }],
             });
         });
         it('extracts tool calls from assistant messages', async () => {
@@ -60,8 +61,70 @@ describe('TranscriptReader', () => {
             const messages = await transcriptReader.readTranscript('/vault', 'session-456');
             expect(messages).toHaveLength(1);
             expect(messages[0].toolCalls).toEqual([
-                { toolCallId: 'tc-1', toolName: 'Read', status: 'complete' },
+                { toolCallId: 'tc-1', toolName: 'Read', input: '{"file":"test.ts"}', status: 'complete' },
             ]);
+            expect(messages[0].parts).toEqual([
+                { type: 'text', text: 'Let me read that file.' },
+                { type: 'tool_call', toolCallId: 'tc-1', toolName: 'Read', input: '{"file":"test.ts"}', status: 'complete' },
+            ]);
+        });
+        it('populates tool results into both toolCalls and parts', async () => {
+            const lines = [
+                JSON.stringify({
+                    type: 'assistant',
+                    uuid: 'a1',
+                    message: {
+                        role: 'assistant',
+                        content: [
+                            { type: 'text', text: 'Let me check.' },
+                            { type: 'tool_use', id: 'tc-1', name: 'Read', input: { file: 'test.ts' } },
+                        ],
+                    },
+                }),
+                JSON.stringify({
+                    type: 'user',
+                    uuid: 'u1',
+                    message: {
+                        role: 'user',
+                        content: [
+                            { type: 'tool_result', tool_use_id: 'tc-1', content: 'file contents here' },
+                        ],
+                    },
+                }),
+            ].join('\n');
+            fs.readFile.mockResolvedValue(lines);
+            const messages = await transcriptReader.readTranscript('/vault', 'session-result');
+            expect(messages).toHaveLength(1); // tool_result user message is skipped
+            expect(messages[0].toolCalls[0].result).toBe('file contents here');
+            // The parts-level tool call should also have the result
+            const toolPart = messages[0].parts.find(p => p.type === 'tool_call');
+            expect(toolPart).toBeDefined();
+            expect(toolPart.result).toBe('file contents here');
+        });
+        it('preserves interleaved order in parts (text -> tool -> text)', async () => {
+            const lines = [
+                JSON.stringify({
+                    type: 'assistant',
+                    uuid: 'a1',
+                    message: {
+                        role: 'assistant',
+                        content: [
+                            { type: 'text', text: 'Before the tool.' },
+                            { type: 'tool_use', id: 'tc-1', name: 'Read', input: { path: '/foo' } },
+                            { type: 'text', text: 'After the tool.' },
+                        ],
+                    },
+                }),
+            ].join('\n');
+            fs.readFile.mockResolvedValue(lines);
+            const messages = await transcriptReader.readTranscript('/vault', 'session-interleaved');
+            expect(messages).toHaveLength(1);
+            expect(messages[0].parts).toHaveLength(3);
+            expect(messages[0].parts[0]).toEqual({ type: 'text', text: 'Before the tool.' });
+            expect(messages[0].parts[1]).toMatchObject({ type: 'tool_call', toolCallId: 'tc-1', toolName: 'Read' });
+            expect(messages[0].parts[2]).toEqual({ type: 'text', text: 'After the tool.' });
+            // Content should join all text parts
+            expect(messages[0].content).toBe('Before the tool.\nAfter the tool.');
         });
         it('skips system/command user messages', async () => {
             const lines = [
@@ -214,7 +277,7 @@ describe('TranscriptReader', () => {
             const s2 = sessions.find(s => s.id === 'def-456');
             expect(s2).toBeDefined();
             expect(s2.title).toBe('Session def-456');
-            expect(s2.permissionMode).toBe('dangerously-skip');
+            expect(s2.permissionMode).toBe('bypassPermissions');
         });
         it('uses mtime cache on second call', async () => {
             fs.readdir.mockResolvedValue(['cached.jsonl']);

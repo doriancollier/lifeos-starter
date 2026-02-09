@@ -1,16 +1,5 @@
-import type { Session } from '../../shared/types';
-export interface HistoryMessage {
-    id: string;
-    role: 'user' | 'assistant';
-    content: string;
-    toolCalls?: HistoryToolCall[];
-    timestamp?: string;
-}
-export interface HistoryToolCall {
-    toolCallId: string;
-    toolName: string;
-    status: 'complete';
-}
+import type { Session, HistoryMessage, HistoryToolCall, TaskItem } from '../../shared/types';
+export type { HistoryMessage, HistoryToolCall };
 export declare class TranscriptReader {
     private projectSlug;
     private metaCache;
@@ -23,8 +12,14 @@ export declare class TranscriptReader {
     listSessions(vaultRoot: string): Promise<Session[]>;
     /**
      * Get metadata for a single session.
+     * Reads both head (for title/timestamps) and tail (for latest model/context).
      */
     getSession(vaultRoot: string, sessionId: string): Promise<Session | null>;
+    /**
+     * Read the tail of a JSONL file to get the most recent model, permissionMode, and context tokens.
+     * Reads the last ~16KB which typically contains the final assistant messages.
+     */
+    private readTailStatus;
     /**
      * Extract session metadata from a JSONL file.
      * Reads only the first ~8KB for title/permissionMode, and uses file stat for timestamps.
@@ -38,6 +33,12 @@ export declare class TranscriptReader {
      * List available SDK session transcript IDs.
      */
     listTranscripts(vaultRoot: string): Promise<string[]>;
+    /**
+     * Read task state from an SDK session transcript.
+     * Parses TaskCreate/TaskUpdate tool_use blocks and reconstructs final state.
+     */
+    readTasks(vaultRoot: string, sessionId: string): Promise<TaskItem[]>;
+    private extractToolResultContent;
     private extractTextContent;
     private stripSystemTags;
 }

@@ -1,6 +1,27 @@
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
+/**
+ * Fallback frontmatter parser for when gray-matter's YAML parser fails
+ * (e.g. unquoted values with brackets, colons, pipes).
+ * Extracts simple key: value pairs from the frontmatter block.
+ */
+function parseFrontmatterFallback(content) {
+    const match = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!match)
+        return {};
+    const result = {};
+    for (const line of match[1].split('\n')) {
+        const colonIdx = line.indexOf(':');
+        if (colonIdx === -1)
+            continue;
+        const key = line.slice(0, colonIdx).trim();
+        const val = line.slice(colonIdx + 1).trim();
+        if (key && val)
+            result[key] = val;
+    }
+    return result;
+}
 class CommandRegistryService {
     cache = null;
     commandsDir;
@@ -26,17 +47,25 @@ class CommandRegistryService {
                     const filePath = path.join(nsPath, file);
                     try {
                         const content = await fs.readFile(filePath, 'utf-8');
-                        const { data: frontmatter } = matter(content);
+                        let frontmatter;
+                        try {
+                            frontmatter = matter(content).data;
+                        }
+                        catch {
+                            // YAML parse failed (e.g. unquoted brackets/colons) — use simple fallback
+                            frontmatter = parseFrontmatterFallback(content);
+                        }
                         const commandName = file.replace('.md', '');
+                        const allowedToolsRaw = frontmatter['allowed-tools'];
                         commands.push({
                             namespace: entry.name,
                             command: commandName,
                             fullCommand: `/${entry.name}:${commandName}`,
                             description: frontmatter.description || '',
                             argumentHint: frontmatter['argument-hint'],
-                            allowedTools: frontmatter['allowed-tools']
-                                ?.split(',')
-                                .map((t) => t.trim()),
+                            allowedTools: typeof allowedToolsRaw === 'string'
+                                ? allowedToolsRaw.split(',').map((t) => t.trim())
+                                : allowedToolsRaw,
                             filePath: path.relative(process.cwd(), filePath),
                         });
                     }
