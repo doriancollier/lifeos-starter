@@ -209,17 +209,17 @@ In the Obsidian plugin (Electron), we could additionally offer a "Use System Pic
 
 ---
 
-## 6) Clarification
+## 6) Decisions (Resolved)
 
-1. **Restrict browsable paths**: Should we restrict directory browsing to the home directory tree, or allow browsing anywhere on the filesystem? (Security vs. flexibility trade-off)
+1. **Restrict browsable paths**: Home directory only (`~/`). Prevents accidental access to system directories.
 
-2. **Recent directories**: Should we track recently-used directories for quick selection? If so, where to persist this (localStorage, server-side)?
+2. **Recent directories**: Yes, persisted in localStorage. Client-side only, no server changes needed.
 
-3. **Show hidden folders**: Should the picker show hidden folders (dotfiles) by default, or have a toggle? Default to hidden seems right for most users.
+3. **Show hidden folders**: Hidden by default, with a toggle in the picker UI for power users.
 
-4. **Picker placement**: Should the directory picker be triggered from the CwdItem in the status bar, from a dedicated button in the sidebar header, or both?
+4. **Picker placement**: Button in sidebar header (dedicated folder icon next to "New Chat").
 
-5. **TranscriptReader caching**: The current `TranscriptReader` caches a single `projectSlug`. When switching directories, should we invalidate the slug cache, or support multiple cached slugs? (Multiple is more efficient if users switch back and forth.)
+5. **TranscriptReader caching**: Make `getProjectSlug()` stateless -- remove the single-slug cache, derive slug from the `cwd` parameter on every call. Slug derivation is trivial (string replace, no I/O).
 
 ---
 
