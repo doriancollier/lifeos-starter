@@ -85,7 +85,7 @@ describe('MessageItem', () => {
       timestamp: new Date().toISOString(),
     };
     render(<MessageItem message={msg} sessionId="test-session" grouping={onlyGrouping} />);
-    expect(screen.getByText('Read')).toBeDefined();
+    expect(screen.getByText('Read ...')).toBeDefined();
   });
 
   it('renders parts in correct interleaved order (text -> tool -> text)', () => {
