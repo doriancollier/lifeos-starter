@@ -24,6 +24,8 @@ function createMockTransport(): Transport {
     getCommands: vi.fn(),
     health: vi.fn(),
     updateSession: vi.fn(),
+    browseDirectory: vi.fn().mockResolvedValue({ path: '/test', entries: [], parent: null }),
+    getDefaultCwd: vi.fn().mockResolvedValue({ path: '/test/cwd' }),
   };
 }
 

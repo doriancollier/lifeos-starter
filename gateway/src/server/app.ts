@@ -6,6 +6,7 @@ import { apiReference } from '@scalar/express-api-reference';
 import sessionRoutes from './routes/sessions';
 import commandRoutes from './routes/commands';
 import healthRoutes from './routes/health';
+import directoryRoutes from './routes/directory';
 import { generateOpenAPISpec } from './services/openapi-registry';
 import { errorHandler } from './middleware/error-handler';
 
@@ -21,6 +22,7 @@ export function createApp() {
   app.use('/api/sessions', sessionRoutes);
   app.use('/api/commands', commandRoutes);
   app.use('/api/health', healthRoutes);
+  app.use('/api/directory', directoryRoutes);
 
   // OpenAPI spec + interactive docs
   const spec = generateOpenAPISpec();

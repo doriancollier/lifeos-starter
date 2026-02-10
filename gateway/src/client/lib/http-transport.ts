@@ -2,6 +2,7 @@ import type {
   Session,
   CreateSessionRequest,
   UpdateSessionRequest,
+  BrowseDirectoryResponse,
   CommandRegistry,
   HistoryMessage,
   StreamEvent,
@@ -31,12 +32,18 @@ export class HttpTransport implements Transport {
     });
   }
 
-  listSessions(): Promise<Session[]> {
-    return fetchJSON<Session[]>(this.baseUrl, '/sessions');
+  listSessions(cwd?: string): Promise<Session[]> {
+    const params = new URLSearchParams();
+    if (cwd) params.set('cwd', cwd);
+    const qs = params.toString();
+    return fetchJSON<Session[]>(this.baseUrl, `/sessions${qs ? `?${qs}` : ''}`);
   }
 
-  getSession(id: string): Promise<Session> {
-    return fetchJSON<Session>(this.baseUrl, `/sessions/${id}`);
+  getSession(id: string, cwd?: string): Promise<Session> {
+    const params = new URLSearchParams();
+    if (cwd) params.set('cwd', cwd);
+    const qs = params.toString();
+    return fetchJSON<Session>(this.baseUrl, `/sessions/${id}${qs ? `?${qs}` : ''}`);
   }
 
   updateSession(id: string, opts: UpdateSessionRequest): Promise<Session> {
@@ -46,8 +53,11 @@ export class HttpTransport implements Transport {
     });
   }
 
-  getMessages(sessionId: string): Promise<{ messages: HistoryMessage[] }> {
-    return fetchJSON<{ messages: HistoryMessage[] }>(this.baseUrl, `/sessions/${sessionId}/messages`);
+  getMessages(sessionId: string, cwd?: string): Promise<{ messages: HistoryMessage[] }> {
+    const params = new URLSearchParams();
+    if (cwd) params.set('cwd', cwd);
+    const qs = params.toString();
+    return fetchJSON<{ messages: HistoryMessage[] }>(this.baseUrl, `/sessions/${sessionId}/messages${qs ? `?${qs}` : ''}`);
   }
 
   async sendMessage(
@@ -113,12 +123,27 @@ export class HttpTransport implements Transport {
     });
   }
 
-  async getTasks(sessionId: string): Promise<{ tasks: TaskItem[] }> {
+  async getTasks(sessionId: string, cwd?: string): Promise<{ tasks: TaskItem[] }> {
     try {
-      return await fetchJSON<{ tasks: TaskItem[] }>(this.baseUrl, `/sessions/${sessionId}/tasks`);
+      const params = new URLSearchParams();
+      if (cwd) params.set('cwd', cwd);
+      const qs = params.toString();
+      return await fetchJSON<{ tasks: TaskItem[] }>(this.baseUrl, `/sessions/${sessionId}/tasks${qs ? `?${qs}` : ''}`);
     } catch {
       return { tasks: [] };
     }
+  }
+
+  browseDirectory(dirPath?: string, showHidden?: boolean): Promise<BrowseDirectoryResponse> {
+    const params = new URLSearchParams();
+    if (dirPath) params.set('path', dirPath);
+    if (showHidden) params.set('showHidden', 'true');
+    const qs = params.toString();
+    return fetchJSON<BrowseDirectoryResponse>(this.baseUrl, `/directory${qs ? `?${qs}` : ''}`);
+  }
+
+  getDefaultCwd(): Promise<{ path: string }> {
+    return fetchJSON<{ path: string }>(this.baseUrl, '/directory/default');
   }
 
   getCommands(refresh = false): Promise<CommandRegistry> {

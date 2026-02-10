@@ -15,6 +15,11 @@ vi.mock('../use-session-id', () => ({
   useSessionId: () => [mockSessionId, mockSetSessionId] as const,
 }));
 
+// Mock app store (selectedCwd)
+vi.mock('../../stores/app-store', () => ({
+  useAppStore: () => ({ selectedCwd: '/test/cwd' }),
+}));
+
 function createMockTransport(overrides: Partial<Transport> = {}): Transport {
   return {
     listSessions: vi.fn().mockResolvedValue([]),
@@ -29,6 +34,8 @@ function createMockTransport(overrides: Partial<Transport> = {}): Transport {
     getCommands: vi.fn(),
     health: vi.fn(),
     updateSession: vi.fn(),
+    browseDirectory: vi.fn().mockResolvedValue({ path: '/test', entries: [], parent: null }),
+    getDefaultCwd: vi.fn().mockResolvedValue({ path: '/test/cwd' }),
     ...overrides,
   };
 }

@@ -7,6 +7,14 @@ import type { Transport } from '@shared/transport';
 import type { StreamEvent } from '@shared/types';
 import { TransportProvider } from '../../contexts/TransportContext';
 
+// Mock app store (selectedCwd)
+vi.mock('../../stores/app-store', () => ({
+  useAppStore: (selector?: (s: Record<string, unknown>) => unknown) => {
+    const state = { selectedCwd: '/test/cwd' };
+    return selector ? selector(state) : state;
+  },
+}));
+
 function createMockTransport(overrides: Partial<Transport> = {}): Transport {
   return {
     listSessions: vi.fn().mockResolvedValue([]),
@@ -21,6 +29,8 @@ function createMockTransport(overrides: Partial<Transport> = {}): Transport {
     getCommands: vi.fn(),
     health: vi.fn(),
     updateSession: vi.fn(),
+    browseDirectory: vi.fn().mockResolvedValue({ path: '/test', entries: [], parent: null }),
+    getDefaultCwd: vi.fn().mockResolvedValue({ path: '/test/cwd' }),
     ...overrides,
   };
 }

@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { TextDelta, ToolCallEvent, ApprovalEvent, QuestionPromptEvent, ErrorEvent, SessionStatusEvent, QuestionItem, TaskUpdateEvent, MessagePart } from '@shared/types';
 import { useTransport } from '../contexts/TransportContext';
+import { useAppStore } from '../stores/app-store';
 
 export interface ChatMessage {
   id: string;
@@ -67,6 +68,7 @@ function deriveFromParts(parts: MessagePart[]): { content: string; toolCalls: To
 
 export function useChatSession(sessionId: string, options: ChatSessionOptions = {}) {
   const transport = useTransport();
+  const selectedCwd = useAppStore((s) => s.selectedCwd);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [status, setStatus] = useState<ChatStatus>('idle');
@@ -80,7 +82,7 @@ export function useChatSession(sessionId: string, options: ChatSessionOptions = 
   // Load message history from SDK transcript via TanStack Query
   const historyQuery = useQuery({
     queryKey: ['messages', sessionId],
-    queryFn: () => transport.getMessages(sessionId),
+    queryFn: () => transport.getMessages(sessionId, selectedCwd ?? undefined),
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });

@@ -25,6 +25,8 @@ export type {
   TaskStatus,
   TaskItem,
   TaskUpdateEvent,
+  BrowseDirectoryResponse,
+  DirectoryEntry,
   CommandEntry,
   CommandRegistry,
 } from './schemas';

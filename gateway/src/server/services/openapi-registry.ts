@@ -10,6 +10,8 @@ import {
   ApprovalRequestSchema,
   SubmitAnswersRequestSchema,
   ListSessionsQuerySchema,
+  BrowseDirectoryQuerySchema,
+  BrowseDirectoryResponseSchema,
   CommandsQuerySchema,
   CommandRegistrySchema,
   HealthResponseSchema,
@@ -288,6 +290,55 @@ registry.registerPath({
     404: {
       description: 'No pending question',
       content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+  },
+});
+
+// --- Directory ---
+
+registry.registerPath({
+  method: 'get',
+  path: '/api/directory',
+  tags: ['Directory'],
+  summary: 'Browse directories',
+  description: 'Browse directories on the server filesystem. Restricted to the home directory for security.',
+  request: {
+    query: BrowseDirectoryQuerySchema,
+  },
+  responses: {
+    200: {
+      description: 'Directory listing',
+      content: { 'application/json': { schema: BrowseDirectoryResponseSchema } },
+    },
+    400: {
+      description: 'Invalid path',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    403: {
+      description: 'Access denied (path outside home directory)',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+    404: {
+      description: 'Directory not found',
+      content: { 'application/json': { schema: ErrorResponseSchema } },
+    },
+  },
+});
+
+registry.registerPath({
+  method: 'get',
+  path: '/api/directory/default',
+  tags: ['Directory'],
+  summary: 'Get default working directory',
+  description: 'Returns the server\'s default working directory (process.cwd()).',
+  responses: {
+    200: {
+      description: 'Default directory path',
+      content: {
+        'application/json': {
+          schema: z.object({ path: z.string() }),
+        },
+      },
     },
   },
 });

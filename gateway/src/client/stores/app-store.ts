@@ -7,6 +7,11 @@ export interface ContextFile {
   basename: string;
 }
 
+export interface RecentCwd {
+  path: string;
+  accessedAt: string;
+}
+
 interface AppState {
   sidebarOpen: boolean;
   toggleSidebar: () => void;
@@ -14,6 +19,11 @@ interface AppState {
 
   sessionId: string | null;
   setSessionId: (id: string | null) => void;
+
+  selectedCwd: string | null;
+  setSelectedCwd: (cwd: string) => void;
+
+  recentCwds: RecentCwd[];
 
   contextFiles: ContextFile[];
   addContextFile: (file: Omit<ContextFile, 'id'>) => void;
@@ -28,6 +38,26 @@ export const useAppStore = create<AppState>()(devtools((set) => ({
 
   sessionId: null,
   setSessionId: (id) => set({ sessionId: id }),
+
+  selectedCwd: null,
+  setSelectedCwd: (cwd) =>
+    set((s) => {
+      const entry: RecentCwd = { path: cwd, accessedAt: new Date().toISOString() };
+      const recents = [entry, ...s.recentCwds.filter((r) => r.path !== cwd)].slice(0, 10);
+      try { localStorage.setItem('gateway-recent-cwds', JSON.stringify(recents)); } catch {}
+      return { selectedCwd: cwd, recentCwds: recents };
+    }),
+
+  recentCwds: (() => {
+    try {
+      const raw: unknown[] = JSON.parse(localStorage.getItem('gateway-recent-cwds') || '[]');
+      return raw.map((item) =>
+        typeof item === 'string'
+          ? { path: item, accessedAt: new Date().toISOString() }
+          : item as RecentCwd,
+      );
+    } catch { return []; }
+  })(),
 
   contextFiles: [],
   addContextFile: (file) =>

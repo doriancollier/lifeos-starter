@@ -38,13 +38,10 @@ interface ContentBlock {
 }
 
 export class TranscriptReader {
-  private projectSlug: string | null = null;
   private metaCache = new Map<string, { session: Session; mtimeMs: number }>();
 
-  getProjectSlug(vaultRoot: string): string {
-    if (this.projectSlug) return this.projectSlug;
-    this.projectSlug = vaultRoot.replace(/\//g, '-');
-    return this.projectSlug;
+  getProjectSlug(cwd: string): string {
+    return cwd.replace(/\//g, '-');
   }
 
   getTranscriptsDir(vaultRoot: string): string {

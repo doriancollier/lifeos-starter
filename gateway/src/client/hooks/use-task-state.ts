@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useTransport } from '../contexts/TransportContext';
+import { useAppStore } from '../stores/app-store';
 import type { TaskItem, TaskUpdateEvent, TaskStatus } from '@shared/types';
 
 const STATUS_ORDER: Record<TaskStatus, number> = {
@@ -38,6 +39,7 @@ const MAX_VISIBLE = 10;
 
 export function useTaskState(sessionId: string): TaskState {
   const transport = useTransport();
+  const selectedCwd = useAppStore((s) => s.selectedCwd);
   const [taskMap, setTaskMap] = useState<Map<string, TaskItem>>(new Map());
   const [isCollapsed, setIsCollapsed] = useState(false);
   const nextIdRef = useRef(1);
@@ -46,7 +48,7 @@ export function useTaskState(sessionId: string): TaskState {
   useEffect(() => {
     setTaskMap(new Map());
     nextIdRef.current = 1;
-    transport.getTasks(sessionId).then(({ tasks }) => {
+    transport.getTasks(sessionId, selectedCwd ?? undefined).then(({ tasks }) => {
       if (tasks.length > 0) {
         const map = new Map<string, TaskItem>();
         for (const task of tasks) {
@@ -56,7 +58,7 @@ export function useTaskState(sessionId: string): TaskState {
         nextIdRef.current = tasks.length + 1;
       }
     }).catch(() => {});
-  }, [sessionId, transport]);
+  }, [sessionId, transport, selectedCwd]);
 
   const handleTaskEvent = useCallback((event: TaskUpdateEvent) => {
     setTaskMap(prev => {

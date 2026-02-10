@@ -78,6 +78,7 @@ export type Session = z.infer<typeof SessionSchema>;
 export const CreateSessionRequestSchema = z
   .object({
     permissionMode: PermissionModeSchema.optional(),
+    cwd: z.string().optional(),
   })
   .openapi('CreateSessionRequest');
 
@@ -120,6 +121,7 @@ export type SubmitAnswersRequest = z.infer<typeof SubmitAnswersRequestSchema>;
 export const ListSessionsQuerySchema = z
   .object({
     limit: z.coerce.number().int().min(1).max(500).optional().default(200),
+    cwd: z.string().optional(),
   })
   .openapi('ListSessionsQuery');
 
@@ -334,6 +336,37 @@ export const CommandRegistrySchema = z
   .openapi('CommandRegistry');
 
 export type CommandRegistry = z.infer<typeof CommandRegistrySchema>;
+
+// === Directory Browsing Types ===
+
+export const BrowseDirectoryQuerySchema = z
+  .object({
+    path: z.string().min(1).optional(),
+    showHidden: z.coerce.boolean().optional().default(false),
+  })
+  .openapi('BrowseDirectoryQuery');
+
+export type BrowseDirectoryQuery = z.infer<typeof BrowseDirectoryQuerySchema>;
+
+export const DirectoryEntrySchema = z
+  .object({
+    name: z.string(),
+    path: z.string(),
+    isDirectory: z.boolean(),
+  })
+  .openapi('DirectoryEntry');
+
+export type DirectoryEntry = z.infer<typeof DirectoryEntrySchema>;
+
+export const BrowseDirectoryResponseSchema = z
+  .object({
+    path: z.string(),
+    entries: z.array(DirectoryEntrySchema),
+    parent: z.string().nullable(),
+  })
+  .openapi('BrowseDirectoryResponse');
+
+export type BrowseDirectoryResponse = z.infer<typeof BrowseDirectoryResponseSchema>;
 
 // === Health Response ===
 

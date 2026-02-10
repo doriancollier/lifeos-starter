@@ -4,6 +4,7 @@ import type {
   Session,
   CreateSessionRequest,
   UpdateSessionRequest,
+  BrowseDirectoryResponse,
   PermissionMode,
   HistoryMessage,
   CommandRegistry,
@@ -14,7 +15,7 @@ export interface DirectTransportServices {
   agentManager: {
     ensureSession(
       id: string,
-      opts: { permissionMode: PermissionMode },
+      opts: { permissionMode: PermissionMode; cwd?: string },
     ): void;
     sendMessage(
       id: string,
@@ -54,7 +55,7 @@ export class DirectTransport implements Transport {
   async createSession(opts: CreateSessionRequest): Promise<Session> {
     const id = crypto.randomUUID();
     const permissionMode = opts.permissionMode ?? 'default';
-    this.services.agentManager.ensureSession(id, { permissionMode });
+    this.services.agentManager.ensureSession(id, { permissionMode, cwd: opts.cwd });
     const now = new Date().toISOString();
     return {
       id,
@@ -62,18 +63,19 @@ export class DirectTransport implements Transport {
       createdAt: now,
       updatedAt: now,
       permissionMode,
+      cwd: opts.cwd,
     };
   }
 
-  async listSessions(): Promise<Session[]> {
+  async listSessions(cwd?: string): Promise<Session[]> {
     return this.services.transcriptReader.listSessions(
-      this.services.vaultRoot,
+      cwd || this.services.vaultRoot,
     );
   }
 
-  async getSession(id: string): Promise<Session> {
+  async getSession(id: string, cwd?: string): Promise<Session> {
     const session = await this.services.transcriptReader.getSession(
-      this.services.vaultRoot,
+      cwd || this.services.vaultRoot,
       id,
     );
     if (!session) {
@@ -90,9 +92,10 @@ export class DirectTransport implements Transport {
 
   async getMessages(
     sessionId: string,
+    cwd?: string,
   ): Promise<{ messages: HistoryMessage[] }> {
     const messages = await this.services.transcriptReader.readTranscript(
-      this.services.vaultRoot,
+      cwd || this.services.vaultRoot,
       sessionId,
     );
     return { messages };
@@ -151,12 +154,53 @@ export class DirectTransport implements Transport {
     return { ok };
   }
 
-  async getTasks(sessionId: string): Promise<{ tasks: TaskItem[] }> {
+  async getTasks(sessionId: string, cwd?: string): Promise<{ tasks: TaskItem[] }> {
     const tasks = await this.services.transcriptReader.readTasks(
-      this.services.vaultRoot,
+      cwd || this.services.vaultRoot,
       sessionId,
     );
     return { tasks };
+  }
+
+  async browseDirectory(dirPath?: string, showHidden?: boolean): Promise<BrowseDirectoryResponse> {
+    // In Obsidian/Electron, use direct filesystem access
+    // This is a simplified implementation — the full security checks
+    // are in the server route. For DirectTransport, we trust the local env.
+    const fs = await import('fs/promises');
+    const pathMod = await import('path');
+    const os = await import('os');
+
+    const HOME = os.default.homedir();
+    const targetPath = dirPath || HOME;
+    const resolved = await fs.default.realpath(targetPath);
+
+    if (!resolved.startsWith(HOME)) {
+      throw new Error('Access denied: path outside home directory');
+    }
+
+    const dirents = await fs.default.readdir(resolved, { withFileTypes: true });
+    const entries = dirents
+      .filter(d => d.isDirectory())
+      .filter(d => showHidden || !d.name.startsWith('.'))
+      .map(d => ({
+        name: d.name,
+        path: pathMod.default.join(resolved, d.name),
+        isDirectory: true,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    const parent = pathMod.default.dirname(resolved);
+    const hasParent = parent !== resolved && parent.startsWith(HOME);
+
+    return {
+      path: resolved,
+      entries,
+      parent: hasParent ? parent : null,
+    };
+  }
+
+  async getDefaultCwd(): Promise<{ path: string }> {
+    return { path: this.services.vaultRoot };
   }
 
   async getCommands(refresh?: boolean): Promise<CommandRegistry> {

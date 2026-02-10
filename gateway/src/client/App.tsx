@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useAppStore } from './stores/app-store';
 import { useSessionId } from './hooks/use-session-id';
 import { useIsMobile } from './hooks/use-is-mobile';
+import { useDefaultCwd } from './hooks/use-default-cwd';
 import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 import { PanelLeft } from 'lucide-react';
 import { PermissionBanner } from './components/layout/PermissionBanner';
@@ -20,6 +21,7 @@ export function App({ transformContent, embedded }: AppProps = {}) {
   const [activeSessionId] = useSessionId();
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
+  useDefaultCwd();
 
   // Escape key closes overlay sidebar
   // Embedded: scoped to container element; Standalone: scoped to document

@@ -40,6 +40,7 @@ interface AgentSession {
   lastActivity: number;
   permissionMode: PermissionMode;
   model?: string;
+  cwd?: string;
   /** True once the first SDK query has been sent (JSONL file exists) */
   hasStarted: boolean;
   pendingInteractions: Map<string, PendingInteraction>;
@@ -185,12 +186,14 @@ export class AgentManager {
    */
   ensureSession(sessionId: string, opts: {
     permissionMode: PermissionMode;
+    cwd?: string;
   }): void {
     if (!this.sessions.has(sessionId)) {
       this.sessions.set(sessionId, {
         sdkSessionId: sessionId,
         lastActivity: Date.now(),
         permissionMode: opts.permissionMode,
+        cwd: opts.cwd,
         hasStarted: false,
         pendingInteractions: new Map(),
         eventQueue: [],
@@ -215,7 +218,7 @@ export class AgentManager {
     session.eventQueue = [];
 
     const sdkOptions: Options = {
-      cwd: this.cwd,
+      cwd: session.cwd ?? this.cwd,
       includePartialMessages: true,
       settingSources: ['project', 'user'],
       ...(this.claudeCliPath ? { pathToClaudeCodeExecutable: this.claudeCliPath } : {}),
