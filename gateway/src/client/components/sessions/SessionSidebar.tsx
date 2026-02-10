@@ -5,9 +5,14 @@ import { useSessionId } from '../../hooks/use-session-id';
 import { useAppStore } from '../../stores/app-store';
 import { useIsMobile } from '../../hooks/use-is-mobile';
 import { SessionItem } from './SessionItem';
+import { DirectoryPicker } from './DirectoryPicker';
 import { groupSessionsByTime } from '@/lib/session-utils';
-import { Plus, Shield, ShieldOff, PanelLeftClose } from 'lucide-react';
-import type { Session, PermissionMode } from '@shared/types';
+import { PathBreadcrumb } from '../ui/path-breadcrumb';
+import { Plus, PanelLeftClose, FolderOpen, Sun, Moon, Monitor, Route, HeartPulse } from 'lucide-react';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card';
+import { useTheme } from '../../hooks/use-theme';
+import type { Theme } from '../../hooks/use-theme';
+import type { Session } from '@shared/types';
 
 export function SessionSidebar() {
   const transport = useTransport();
@@ -15,18 +20,29 @@ export function SessionSidebar() {
   const [activeSessionId, setActiveSession] = useSessionId();
   const { setSidebarOpen } = useAppStore();
   const isMobile = useIsMobile();
-  const [permissionMode, setPermissionMode] = useState<PermissionMode>('default');
   const [justCreatedId, setJustCreatedId] = useState<string | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const selectedCwd = useAppStore((s) => s.selectedCwd);
+  const { theme, setTheme } = useTheme();
+
+  const themeOrder: Theme[] = ['light', 'dark', 'system'];
+  const ThemeIcon = { light: Sun, dark: Moon, system: Monitor }[theme];
+  const cycleTheme = useCallback(() => {
+    const idx = themeOrder.indexOf(theme);
+    setTheme(themeOrder[(idx + 1) % themeOrder.length]);
+  }, [theme, setTheme]);
 
   const { data: sessions = [] } = useQuery({
-    queryKey: ['sessions'],
-    queryFn: () => transport.listSessions(),
+    queryKey: ['sessions', selectedCwd],
+    queryFn: () => transport.listSessions(selectedCwd ?? undefined),
+    enabled: selectedCwd !== null,
   });
 
   const createMutation = useMutation({
-    mutationFn: (opts: { permissionMode: PermissionMode }) => transport.createSession(opts),
+    mutationFn: () =>
+      transport.createSession({ permissionMode: 'default', cwd: selectedCwd ?? undefined }),
     onSuccess: (session) => {
-      queryClient.invalidateQueries({ queryKey: ['sessions'] });
+      queryClient.invalidateQueries({ queryKey: ['sessions', selectedCwd] });
       setActiveSession(session.id);
       setJustCreatedId(session.id);
       setTimeout(() => setJustCreatedId(null), 300);
@@ -48,15 +64,19 @@ export function SessionSidebar() {
     <div className="flex flex-col h-full p-3">
       {/* Header: New Chat + Collapse */}
       <div className="mb-3 space-y-1.5">
+        {/* Working directory breadcrumb */}
         <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => createMutation.mutate({ permissionMode })}
-            disabled={createMutation.isPending}
-            className="flex items-center justify-center gap-2 flex-1 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all duration-100 disabled:opacity-50"
-          >
-            <Plus className="h-4 w-4" />
-            New chat
-          </button>
+          {selectedCwd && (
+            <button
+              onClick={() => setPickerOpen(true)}
+              className="flex items-center gap-1 flex-1 rounded-md px-2 py-1.5 hover:bg-accent transition-colors duration-150 min-w-0"
+              aria-label="Change working directory"
+              title={selectedCwd}
+            >
+              <FolderOpen className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+              <PathBreadcrumb path={selectedCwd} maxSegments={3} size="sm" />
+            </button>
+          )}
           <button
             onClick={() => setSidebarOpen(false)}
             className="p-2 rounded-md hover:bg-accent transition-colors duration-150"
@@ -66,26 +86,12 @@ export function SessionSidebar() {
           </button>
         </div>
         <button
-          onClick={() =>
-            setPermissionMode((p) => (p === 'default' ? 'bypassPermissions' : 'default'))
-          }
-          className={`flex items-center gap-1.5 w-full rounded px-2 py-1 text-xs transition-colors duration-150 ${
-            permissionMode === 'bypassPermissions'
-              ? 'bg-red-500/10 text-red-500 hover:bg-red-500/15'
-              : 'text-muted-foreground hover:bg-secondary/50'
-          }`}
+          onClick={() => createMutation.mutate()}
+          disabled={createMutation.isPending}
+          className="flex items-center justify-center gap-1.5 w-full rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-foreground active:scale-[0.98] transition-all duration-100 disabled:opacity-50"
         >
-          {permissionMode === 'bypassPermissions' ? (
-            <>
-              <ShieldOff className="h-3 w-3" />
-              Skip permissions
-            </>
-          ) : (
-            <>
-              <Shield className="h-3 w-3" />
-              Require approval
-            </>
-          )}
+          <Plus className="h-3.5 w-3.5" />
+          New chat
         </button>
       </div>
 
@@ -123,6 +129,54 @@ export function SessionSidebar() {
           </div>
         )}
       </div>
+      {/* Footer */}
+      <div className="flex items-center pt-2 mt-2 border-t border-border">
+        <a
+          href="https://dorkian.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-2xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-150"
+        >
+          CC WebUI by Dorkian
+        </a>
+        <div className="ml-auto flex items-center gap-0.5">
+          <HoverCard openDelay={200} closeDelay={100}>
+            <HoverCardTrigger asChild>
+              <button
+                className="p-1 rounded-md text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-150"
+                aria-label="Relay status"
+              >
+                <Route className="h-3.5 w-3.5" />
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent side="top" align="center" className="w-auto px-3 py-1.5 text-xs">
+              Relay not connected
+            </HoverCardContent>
+          </HoverCard>
+          <HoverCard openDelay={200} closeDelay={100}>
+            <HoverCardTrigger asChild>
+              <button
+                className="p-1 rounded-md text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-150"
+                aria-label="Heartbeat status"
+              >
+                <HeartPulse className="h-3.5 w-3.5" />
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent side="top" align="center" className="w-auto px-3 py-1.5 text-xs">
+              Pulse not detected
+            </HoverCardContent>
+          </HoverCard>
+        <button
+          onClick={cycleTheme}
+          className="p-1 rounded-md text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-150"
+          title={`Theme: ${theme}`}
+          aria-label={`Theme: ${theme}. Click to cycle.`}
+        >
+          <ThemeIcon className="h-3.5 w-3.5" />
+        </button>
+        </div>
+      </div>
+      <DirectoryPicker open={pickerOpen} onOpenChange={setPickerOpen} />
     </div>
   );
 }

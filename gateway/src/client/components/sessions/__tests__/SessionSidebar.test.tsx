@@ -20,10 +20,17 @@ vi.mock('../../../hooks/use-session-id', () => ({
   useSessionId: () => [null, mockSetSessionId] as const,
 }));
 
-// Mock app store (sidebar state)
+// Mock app store (sidebar state + selectedCwd)
 const mockSetSidebarOpen = vi.fn();
 vi.mock('../../../stores/app-store', () => ({
-  useAppStore: () => ({ setSidebarOpen: mockSetSidebarOpen }),
+  useAppStore: (selector?: (s: Record<string, unknown>) => unknown) => {
+    const state = {
+      setSidebarOpen: mockSetSidebarOpen,
+      selectedCwd: '/test/cwd',
+      recentCwds: [],
+    };
+    return selector ? selector(state) : state;
+  },
 }));
 
 // Mock useIsMobile
@@ -59,6 +66,8 @@ function createMockTransport(overrides: Partial<Transport> = {}): Transport {
     getCommands: vi.fn(),
     health: vi.fn(),
     updateSession: vi.fn(),
+    browseDirectory: vi.fn().mockResolvedValue({ path: '/test', entries: [], parent: null }),
+    getDefaultCwd: vi.fn().mockResolvedValue({ path: '/test/cwd' }),
     ...overrides,
   };
 }
@@ -102,17 +111,6 @@ describe('SessionSidebar', () => {
     expect(screen.getByText('New chat')).toBeDefined();
   });
 
-  it('renders permission toggle defaulting to "Require approval"', () => {
-    renderWithQuery(<SessionSidebar />);
-    expect(screen.getByText('Require approval')).toBeDefined();
-  });
-
-  it('toggles permission mode on click', () => {
-    renderWithQuery(<SessionSidebar />);
-    fireEvent.click(screen.getByText('Require approval'));
-    expect(screen.getByText('Skip permissions')).toBeDefined();
-  });
-
   it('shows empty state when no sessions', async () => {
     renderWithQuery(<SessionSidebar />);
     await waitFor(() => {
@@ -149,7 +147,7 @@ describe('SessionSidebar', () => {
     fireEvent.click(screen.getByText('New chat'));
 
     await waitFor(() => {
-      expect(vi.mocked(mockTransport.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'default' });
+      expect(vi.mocked(mockTransport.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'default', cwd: '/test/cwd' });
     });
   });
 
@@ -180,21 +178,4 @@ describe('SessionSidebar', () => {
     expect(screen.queryByText('Today')).toBeNull();
   });
 
-  it('creates session with bypassPermissions when toggled', async () => {
-    const newSession = makeSession({ id: 'new-1', permissionMode: 'bypassPermissions' });
-    mockTransport = createMockTransport({
-      createSession: vi.fn().mockResolvedValue(newSession),
-    });
-
-    renderWithQuery(<SessionSidebar />);
-
-    fireEvent.click(screen.getByText('Require approval'));
-    expect(screen.getByText('Skip permissions')).toBeDefined();
-
-    fireEvent.click(screen.getByText('New chat'));
-
-    await waitFor(() => {
-      expect(vi.mocked(mockTransport.createSession).mock.calls[0][0]).toEqual({ permissionMode: 'bypassPermissions' });
-    });
-  });
 });
