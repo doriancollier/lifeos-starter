@@ -65,6 +65,7 @@ export declare const CreateSessionRequestSchema: z.ZodObject<{
         acceptEdits: "acceptEdits";
         bypassPermissions: "bypassPermissions";
     }>>;
+    cwd: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export type CreateSessionRequest = z.infer<typeof CreateSessionRequestSchema>;
 export declare const UpdateSessionRequestSchema: z.ZodObject<{
@@ -92,6 +93,7 @@ export declare const SubmitAnswersRequestSchema: z.ZodObject<{
 export type SubmitAnswersRequest = z.infer<typeof SubmitAnswersRequestSchema>;
 export declare const ListSessionsQuerySchema: z.ZodObject<{
     limit: z.ZodDefault<z.ZodOptional<z.ZodCoercedNumber<unknown>>>;
+    cwd: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export type ListSessionsQuery = z.infer<typeof ListSessionsQuerySchema>;
 export declare const CommandsQuerySchema: z.ZodObject<{
@@ -429,6 +431,27 @@ export declare const CommandRegistrySchema: z.ZodObject<{
     lastScanned: z.ZodString;
 }, z.core.$strip>;
 export type CommandRegistry = z.infer<typeof CommandRegistrySchema>;
+export declare const BrowseDirectoryQuerySchema: z.ZodObject<{
+    path: z.ZodOptional<z.ZodString>;
+    showHidden: z.ZodDefault<z.ZodOptional<z.ZodCoercedBoolean<unknown>>>;
+}, z.core.$strip>;
+export type BrowseDirectoryQuery = z.infer<typeof BrowseDirectoryQuerySchema>;
+export declare const DirectoryEntrySchema: z.ZodObject<{
+    name: z.ZodString;
+    path: z.ZodString;
+    isDirectory: z.ZodBoolean;
+}, z.core.$strip>;
+export type DirectoryEntry = z.infer<typeof DirectoryEntrySchema>;
+export declare const BrowseDirectoryResponseSchema: z.ZodObject<{
+    path: z.ZodString;
+    entries: z.ZodArray<z.ZodObject<{
+        name: z.ZodString;
+        path: z.ZodString;
+        isDirectory: z.ZodBoolean;
+    }, z.core.$strip>>;
+    parent: z.ZodNullable<z.ZodString>;
+}, z.core.$strip>;
+export type BrowseDirectoryResponse = z.infer<typeof BrowseDirectoryResponseSchema>;
 export declare const HealthResponseSchema: z.ZodObject<{
     status: z.ZodString;
     version: z.ZodString;

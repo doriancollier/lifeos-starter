@@ -6,7 +6,7 @@ describe('CommandRegistryService', () => {
     beforeEach(async () => {
         vi.resetModules();
         vi.clearAllMocks();
-        const mod = await import('../../services/command-registry');
+        const mod = await import('../../services/command-registry.js');
         CommandRegistryService = mod.CommandRegistryService;
     });
     function makeDirent(name, isDir) {

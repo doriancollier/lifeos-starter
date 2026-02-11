@@ -11,7 +11,7 @@ describe('AgentManager', () => {
         vi.mock('@anthropic-ai/claude-agent-sdk', () => ({
             query: vi.fn(),
         }));
-        const mod = await import('../../services/agent-manager');
+        const mod = await import('../../services/agent-manager.js');
         agentManager = mod.agentManager;
     });
     describe('ensureSession()', () => {

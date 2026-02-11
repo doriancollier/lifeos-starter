@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { initSSEStream, sendSSEEvent, endSSEStream } from '../../services/stream-adapter';
+import { initSSEStream, sendSSEEvent, endSSEStream } from '../../services/stream-adapter.js';
 function createMockResponse() {
     return {
         writeHead: vi.fn(),

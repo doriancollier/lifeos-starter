@@ -1,10 +1,10 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Router } from 'express';
-import { agentManager } from '../services/agent-manager';
-import { transcriptReader } from '../services/transcript-reader';
-import { initSSEStream, sendSSEEvent, endSSEStream } from '../services/stream-adapter';
-import { CreateSessionRequestSchema, UpdateSessionRequestSchema, SendMessageRequestSchema, ApprovalRequestSchema, SubmitAnswersRequestSchema, ListSessionsQuerySchema, } from '@shared/schemas';
+import { agentManager } from '../services/agent-manager.js';
+import { transcriptReader } from '../services/transcript-reader.js';
+import { initSSEStream, sendSSEEvent, endSSEStream } from '../services/stream-adapter.js';
+import { CreateSessionRequestSchema, UpdateSessionRequestSchema, SendMessageRequestSchema, ApprovalRequestSchema, SubmitAnswersRequestSchema, ListSessionsQuerySchema, } from '../../shared/schemas.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const vaultRoot = path.resolve(__dirname, '../../../../');
 const router = Router();
@@ -16,19 +16,20 @@ router.post('/', async (req, res) => {
     if (!parsed.success) {
         return res.status(400).json({ error: 'Invalid request', details: parsed.error.format() });
     }
-    const { permissionMode = 'default' } = parsed.data;
+    const { permissionMode = 'default', cwd } = parsed.data;
     // Use SDK's query() with a no-op prompt to establish the session.
     // The SDK will create the JSONL file and assign a session ID.
     // We need to send a real first message, so we'll just create an in-memory
     // session entry and let the first POST /messages call create the JSONL.
     const sessionId = crypto.randomUUID();
-    agentManager.ensureSession(sessionId, { permissionMode });
+    agentManager.ensureSession(sessionId, { permissionMode, cwd });
     res.json({
         id: sessionId,
         title: `New Session`,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         permissionMode,
+        cwd,
     });
 });
 // GET /api/sessions - List all sessions from SDK transcripts
@@ -37,21 +38,24 @@ router.get('/', async (req, res) => {
     if (!parsed.success) {
         return res.status(400).json({ error: 'Invalid query', details: parsed.error.format() });
     }
-    const { limit } = parsed.data;
-    const sessions = await transcriptReader.listSessions(vaultRoot);
+    const { limit, cwd } = parsed.data;
+    const projectDir = cwd || vaultRoot;
+    const sessions = await transcriptReader.listSessions(projectDir);
     res.json(sessions.slice(0, limit));
 });
 // GET /api/sessions/:id - Get session details
 router.get('/:id', async (req, res) => {
-    const session = await transcriptReader.getSession(vaultRoot, req.params.id);
+    const cwd = req.query.cwd || vaultRoot;
+    const session = await transcriptReader.getSession(cwd, req.params.id);
     if (!session)
         return res.status(404).json({ error: 'Session not found' });
     res.json(session);
 });
 // GET /api/sessions/:id/tasks - Get task state from SDK transcript
 router.get('/:id/tasks', async (req, res) => {
+    const cwd = req.query.cwd || vaultRoot;
     try {
-        const tasks = await transcriptReader.readTasks(vaultRoot, req.params.id);
+        const tasks = await transcriptReader.readTasks(cwd, req.params.id);
         res.json({ tasks });
     }
     catch {
@@ -60,7 +64,8 @@ router.get('/:id/tasks', async (req, res) => {
 });
 // GET /api/sessions/:id/messages - Get message history from SDK transcript
 router.get('/:id/messages', async (req, res) => {
-    const messages = await transcriptReader.readTranscript(vaultRoot, req.params.id);
+    const cwd = req.query.cwd || vaultRoot;
+    const messages = await transcriptReader.readTranscript(cwd, req.params.id);
     res.json({ messages });
 });
 // PATCH /api/sessions/:id - Update session settings
@@ -73,7 +78,8 @@ router.patch('/:id', async (req, res) => {
     const updated = agentManager.updateSession(req.params.id, { permissionMode, model });
     if (!updated)
         return res.status(404).json({ error: 'Session not found' });
-    const session = await transcriptReader.getSession(vaultRoot, req.params.id);
+    const cwd = req.query.cwd || vaultRoot;
+    const session = await transcriptReader.getSession(cwd, req.params.id);
     if (session) {
         session.permissionMode = permissionMode ?? session.permissionMode;
     }

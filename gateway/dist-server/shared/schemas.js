@@ -55,6 +55,7 @@ export const SessionSchema = z
 export const CreateSessionRequestSchema = z
     .object({
     permissionMode: PermissionModeSchema.optional(),
+    cwd: z.string().optional(),
 })
     .openapi('CreateSessionRequest');
 export const UpdateSessionRequestSchema = z
@@ -82,6 +83,7 @@ export const SubmitAnswersRequestSchema = z
 export const ListSessionsQuerySchema = z
     .object({
     limit: z.coerce.number().int().min(1).max(500).optional().default(200),
+    cwd: z.string().optional(),
 })
     .openapi('ListSessionsQuery');
 export const CommandsQuerySchema = z
@@ -235,6 +237,27 @@ export const CommandRegistrySchema = z
     lastScanned: z.string(),
 })
     .openapi('CommandRegistry');
+// === Directory Browsing Types ===
+export const BrowseDirectoryQuerySchema = z
+    .object({
+    path: z.string().min(1).optional(),
+    showHidden: z.coerce.boolean().optional().default(false),
+})
+    .openapi('BrowseDirectoryQuery');
+export const DirectoryEntrySchema = z
+    .object({
+    name: z.string(),
+    path: z.string(),
+    isDirectory: z.boolean(),
+})
+    .openapi('DirectoryEntry');
+export const BrowseDirectoryResponseSchema = z
+    .object({
+    path: z.string(),
+    entries: z.array(DirectoryEntrySchema),
+    parent: z.string().nullable(),
+})
+    .openapi('BrowseDirectoryResponse');
 // === Health Response ===
 export const HealthResponseSchema = z
     .object({

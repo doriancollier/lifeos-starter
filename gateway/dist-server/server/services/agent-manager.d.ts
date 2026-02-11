@@ -1,4 +1,4 @@
-import type { StreamEvent, PermissionMode, TaskUpdateEvent } from '../../shared/types';
+import type { StreamEvent, PermissionMode, TaskUpdateEvent } from '../../shared/types.js';
 export declare function buildTaskEvent(toolName: string, input: Record<string, unknown>): TaskUpdateEvent | null;
 export declare class AgentManager {
     private sessions;
@@ -13,6 +13,7 @@ export declare class AgentManager {
      */
     ensureSession(sessionId: string, opts: {
         permissionMode: PermissionMode;
+        cwd?: string;
     }): void;
     sendMessage(sessionId: string, content: string, opts?: {
         permissionMode?: PermissionMode;

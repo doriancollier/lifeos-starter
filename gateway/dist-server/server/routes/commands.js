@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { CommandRegistryService } from '../services/command-registry';
-import { CommandsQuerySchema } from '@shared/schemas';
+import { CommandRegistryService } from '../services/command-registry.js';
+import { CommandsQuerySchema } from '../../shared/schemas.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

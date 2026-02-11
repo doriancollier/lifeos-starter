@@ -18,7 +18,7 @@ vi.mock('fs', async (importOriginal) => {
         existsSync: vi.fn(() => false),
     };
 });
-import { AgentManager } from '../agent-manager';
+import { AgentManager } from '../agent-manager.js';
 import { query } from '@anthropic-ai/claude-agent-sdk';
 const mockedQuery = vi.mocked(query);
 describe('AgentManager interactive tools', () => {

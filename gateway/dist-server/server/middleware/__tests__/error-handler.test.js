@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { errorHandler } from '../error-handler';
+import { errorHandler } from '../error-handler.js';
 describe('errorHandler', () => {
     const mockReq = {};
     const mockNext = vi.fn();

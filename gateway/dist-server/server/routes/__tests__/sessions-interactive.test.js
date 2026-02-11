@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 // Mock dependencies that createApp imports
-vi.mock('../../services/transcript-reader', () => ({
+vi.mock('../../services/transcript-reader.js', () => ({
     transcriptReader: {
         listSessions: vi.fn(),
         getSession: vi.fn(),
@@ -8,7 +8,7 @@ vi.mock('../../services/transcript-reader', () => ({
         listTranscripts: vi.fn(),
     },
 }));
-vi.mock('../../services/agent-manager', () => ({
+vi.mock('../../services/agent-manager.js', () => ({
     agentManager: {
         ensureSession: vi.fn(),
         sendMessage: vi.fn(),
@@ -21,8 +21,8 @@ vi.mock('../../services/agent-manager', () => ({
     },
 }));
 import request from 'supertest';
-import { createApp } from '../../app';
-import { agentManager } from '../../services/agent-manager';
+import { createApp } from '../../app.js';
+import { agentManager } from '../../services/agent-manager.js';
 const app = createApp();
 beforeEach(() => {
     vi.clearAllMocks();

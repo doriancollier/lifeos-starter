@@ -6,7 +6,7 @@ describe('TranscriptReader', () => {
     beforeEach(async () => {
         vi.resetModules();
         vi.mock('fs/promises');
-        const mod = await import('../../services/transcript-reader');
+        const mod = await import('../../services/transcript-reader.js');
         transcriptReader = mod.transcriptReader;
     });
     describe('readTranscript()', () => {

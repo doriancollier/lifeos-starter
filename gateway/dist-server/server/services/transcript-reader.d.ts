@@ -1,9 +1,8 @@
-import type { Session, HistoryMessage, HistoryToolCall, TaskItem } from '../../shared/types';
+import type { Session, HistoryMessage, HistoryToolCall, TaskItem } from '../../shared/types.js';
 export type { HistoryMessage, HistoryToolCall };
 export declare class TranscriptReader {
-    private projectSlug;
     private metaCache;
-    getProjectSlug(vaultRoot: string): string;
+    getProjectSlug(cwd: string): string;
     getTranscriptsDir(vaultRoot: string): string;
     /**
      * List all sessions by scanning SDK JSONL transcript files.

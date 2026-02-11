@@ -150,6 +150,7 @@ export class AgentManager {
                 sdkSessionId: sessionId,
                 lastActivity: Date.now(),
                 permissionMode: opts.permissionMode,
+                cwd: opts.cwd,
                 hasStarted: false,
                 pendingInteractions: new Map(),
                 eventQueue: [],
@@ -167,7 +168,7 @@ export class AgentManager {
         session.lastActivity = Date.now();
         session.eventQueue = [];
         const sdkOptions = {
-            cwd: this.cwd,
+            cwd: session.cwd ?? this.cwd,
             includePartialMessages: true,
             settingSources: ['project', 'user'],
             ...(this.claudeCliPath ? { pathToClaudeCodeExecutable: this.claudeCliPath } : {}),

@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createApp } from './app';
-import { agentManager } from './services/agent-manager';
+import { createApp } from './app.js';
+import { agentManager } from './services/agent-manager.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 const PORT = parseInt(process.env.GATEWAY_PORT || '6942', 10);

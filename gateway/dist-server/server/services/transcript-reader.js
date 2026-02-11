@@ -2,13 +2,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
 export class TranscriptReader {
-    projectSlug = null;
     metaCache = new Map();
-    getProjectSlug(vaultRoot) {
-        if (this.projectSlug)
-            return this.projectSlug;
-        this.projectSlug = vaultRoot.replace(/\//g, '-');
-        return this.projectSlug;
+    getProjectSlug(cwd) {
+        return cwd.replace(/\//g, '-');
     }
     getTranscriptsDir(vaultRoot) {
         const slug = this.getProjectSlug(vaultRoot);
