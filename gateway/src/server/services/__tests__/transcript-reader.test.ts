@@ -5,12 +5,12 @@ vi.mock('fs/promises');
 import fs from 'fs/promises';
 
 describe('TranscriptReader', () => {
-  let transcriptReader: typeof import('../../services/transcript-reader').transcriptReader;
+  let transcriptReader: typeof import('../../services/transcript-reader.js').transcriptReader;
 
   beforeEach(async () => {
     vi.resetModules();
     vi.mock('fs/promises');
-    const mod = await import('../../services/transcript-reader');
+    const mod = await import('../../services/transcript-reader.js');
     transcriptReader = mod.transcriptReader;
   });
 

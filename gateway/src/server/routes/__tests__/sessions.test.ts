@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import type { StreamEvent } from '../../../shared/types';
+import type { StreamEvent } from '../../../shared/types.js';
 
 // Mock services before importing app
-vi.mock('../../services/transcript-reader', () => ({
+vi.mock('../../services/transcript-reader.js', () => ({
   transcriptReader: {
     listSessions: vi.fn(),
     getSession: vi.fn(),
@@ -11,7 +11,7 @@ vi.mock('../../services/transcript-reader', () => ({
   },
 }));
 
-vi.mock('../../services/agent-manager', () => ({
+vi.mock('../../services/agent-manager.js', () => ({
   agentManager: {
     ensureSession: vi.fn(),
     sendMessage: vi.fn(),
@@ -25,10 +25,10 @@ vi.mock('../../services/agent-manager', () => ({
 
 // Dynamically import after mocks are set up
 import request from 'supertest';
-import { createApp } from '../../app';
-import { transcriptReader } from '../../services/transcript-reader';
-import { agentManager } from '../../services/agent-manager';
-import { parseSSEResponse } from '../../../test-utils/sse-helpers';
+import { createApp } from '../../app.js';
+import { transcriptReader } from '../../services/transcript-reader.js';
+import { agentManager } from '../../services/agent-manager.js';
+import { parseSSEResponse } from '../../../test-utils/sse-helpers.js';
 
 const app = createApp();
 

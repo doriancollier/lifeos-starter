@@ -8,7 +8,7 @@ vi.mock('@anthropic-ai/claude-agent-sdk', () => ({
 import { query } from '@anthropic-ai/claude-agent-sdk';
 
 describe('AgentManager', () => {
-  let agentManager: typeof import('../../services/agent-manager').agentManager;
+  let agentManager: typeof import('../../services/agent-manager.js').agentManager;
 
   beforeEach(async () => {
     vi.resetModules();
@@ -16,7 +16,7 @@ describe('AgentManager', () => {
     vi.mock('@anthropic-ai/claude-agent-sdk', () => ({
       query: vi.fn(),
     }));
-    const mod = await import('../../services/agent-manager');
+    const mod = await import('../../services/agent-manager.js');
     agentManager = mod.agentManager;
   });
 

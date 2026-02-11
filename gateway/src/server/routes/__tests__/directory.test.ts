@@ -14,7 +14,7 @@ vi.mock('fs/promises', () => ({
 }));
 
 // Mock transcript-reader and agent-manager (required by createApp)
-vi.mock('../../services/transcript-reader', () => ({
+vi.mock('../../services/transcript-reader.js', () => ({
   transcriptReader: {
     listSessions: vi.fn().mockResolvedValue([]),
     getSession: vi.fn(),
@@ -24,7 +24,7 @@ vi.mock('../../services/transcript-reader', () => ({
   },
 }));
 
-vi.mock('../../services/agent-manager', () => ({
+vi.mock('../../services/agent-manager.js', () => ({
   agentManager: {
     ensureSession: vi.fn(),
     sendMessage: vi.fn(),
@@ -38,7 +38,7 @@ vi.mock('../../services/agent-manager', () => ({
 }));
 
 import request from 'supertest';
-import { createApp } from '../../app';
+import { createApp } from '../../app.js';
 
 const app = createApp();
 const HOME = os.homedir();

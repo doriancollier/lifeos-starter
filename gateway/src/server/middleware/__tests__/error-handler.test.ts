@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { errorHandler } from '../error-handler';
+import { errorHandler } from '../error-handler.js';
 import type { Request, Response, NextFunction } from 'express';
 
 describe('errorHandler', () => {

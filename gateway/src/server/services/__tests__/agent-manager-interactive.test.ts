@@ -21,9 +21,9 @@ vi.mock('fs', async (importOriginal) => {
   };
 });
 
-import { AgentManager } from '../agent-manager';
+import { AgentManager } from '../agent-manager.js';
 import { query } from '@anthropic-ai/claude-agent-sdk';
-import type { StreamEvent } from '../../../shared/types';
+import type { StreamEvent } from '../../../shared/types.js';
 
 const mockedQuery = vi.mocked(query);
 
