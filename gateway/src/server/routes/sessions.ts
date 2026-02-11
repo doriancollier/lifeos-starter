@@ -1,9 +1,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Router } from 'express';
-import { agentManager } from '../services/agent-manager';
-import { transcriptReader } from '../services/transcript-reader';
-import { initSSEStream, sendSSEEvent, endSSEStream } from '../services/stream-adapter';
+import { agentManager } from '../services/agent-manager.js';
+import { transcriptReader } from '../services/transcript-reader.js';
+import { initSSEStream, sendSSEEvent, endSSEStream } from '../services/stream-adapter.js';
 import {
   CreateSessionRequestSchema,
   UpdateSessionRequestSchema,
@@ -11,7 +11,7 @@ import {
   ApprovalRequestSchema,
   SubmitAnswersRequestSchema,
   ListSessionsQuerySchema,
-} from '@shared/schemas';
+} from '../../shared/schemas.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const vaultRoot = path.resolve(__dirname, '../../../../');

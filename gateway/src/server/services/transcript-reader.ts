@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
-import type { Session, PermissionMode, HistoryMessage, HistoryToolCall, QuestionItem, TaskItem, TaskStatus, MessagePart, ToolCallPart } from '../../shared/types';
+import type { Session, PermissionMode, HistoryMessage, HistoryToolCall, QuestionItem, TaskItem, TaskStatus, MessagePart, ToolCallPart } from '../../shared/types.js';
 
 export type { HistoryMessage, HistoryToolCall };
 

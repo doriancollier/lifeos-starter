@@ -3,12 +3,12 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { apiReference } from '@scalar/express-api-reference';
-import sessionRoutes from './routes/sessions';
-import commandRoutes from './routes/commands';
-import healthRoutes from './routes/health';
-import directoryRoutes from './routes/directory';
-import { generateOpenAPISpec } from './services/openapi-registry';
-import { errorHandler } from './middleware/error-handler';
+import sessionRoutes from './routes/sessions.js';
+import commandRoutes from './routes/commands.js';
+import healthRoutes from './routes/health.js';
+import directoryRoutes from './routes/directory.js';
+import { generateOpenAPISpec } from './services/openapi-registry.js';
+import { errorHandler } from './middleware/error-handler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

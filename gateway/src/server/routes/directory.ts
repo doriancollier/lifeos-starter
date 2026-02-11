@@ -2,7 +2,7 @@ import { Router } from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
-import { BrowseDirectoryQuerySchema } from '@shared/schemas';
+import { BrowseDirectoryQuerySchema } from '../../shared/schemas.js';
 
 const router = Router();
 const HOME = os.homedir();
@@ -38,9 +38,9 @@ router.get('/', async (req, res) => {
   }
 
   // Read directory entries (directories only)
-  let dirents: Awaited<ReturnType<typeof fs.readdir>>;
+  let dirents: import('fs').Dirent[];
   try {
-    dirents = await fs.readdir(resolved, { withFileTypes: true });
+    dirents = await fs.readdir(resolved, { withFileTypes: true }) as import('fs').Dirent[];
   } catch (err: unknown) {
     const code = (err as NodeJS.ErrnoException).code;
     if (code === 'EACCES') return res.status(403).json({ error: 'Permission denied' });

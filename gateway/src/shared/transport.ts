@@ -7,7 +7,7 @@ import type {
   HistoryMessage,
   StreamEvent,
   TaskItem,
-} from './types';
+} from './types.js';
 
 export interface Transport {
   createSession(opts: CreateSessionRequest): Promise<Session>;

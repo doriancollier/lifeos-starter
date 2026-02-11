@@ -29,4 +29,4 @@ export type {
   DirectoryEntry,
   CommandEntry,
   CommandRegistry,
-} from './schemas';
+} from './schemas.js';

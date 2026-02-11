@@ -18,7 +18,7 @@ import {
   ErrorResponseSchema,
   HistoryMessageSchema,
   TaskItemSchema,
-} from '@shared/schemas';
+} from '../../shared/schemas.js';
 import { z } from 'zod';
 
 const registry = new OpenAPIRegistry();

@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import type { StreamEvent } from '../../shared/types';
+import type { StreamEvent } from '../../shared/types.js';
 
 export function initSSEStream(res: Response): void {
   res.writeHead(200, {
