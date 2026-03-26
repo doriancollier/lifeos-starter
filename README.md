@@ -47,7 +47,7 @@ Please don't include personal data in PRs.
 ## Directory Structure
 
 ```
-workspace/
+
 ├── 0-Inbox/          # Drop files here for processing
 ├── 0-System/         # System documentation and config
 ├── 1-Projects/       # Active work (Current/, Backlog/, Completed/)
@@ -75,10 +75,10 @@ workspace/
 
 ## Documentation
 
-- [Getting Started](workspace/0-System/guides/getting-started.md) — First steps after onboarding
-- [Daily Workflow](workspace/0-System/guides/daily-workflow.md) — Daily planning and review
-- [Task Management](workspace/0-System/guides/task-management.md) — Priority system details
-- [Full Architecture](workspace/0-System/README.md) — Complete system reference
+- [Getting Started](0-System/guides/getting-started.md) — First steps after onboarding
+- [Daily Workflow](0-System/guides/daily-workflow.md) — Daily planning and review
+- [Task Management](0-System/guides/task-management.md) — Priority system details
+- [Full Architecture](0-System/README.md) — Complete system reference
 
 ## Requirements
 

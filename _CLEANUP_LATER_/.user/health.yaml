@@ -1,0 +1,62 @@
+# Health Integration Configuration
+# Settings for Apple Health data sync via Health Auto Export app.
+
+health:
+  # Whether health integration is enabled
+  enabled: false
+
+  # Path to Health Auto Export data (iCloud Drive location)
+  # Example: "/Users/username/Library/Mobile Documents/com~apple~CloudDocs/Health Auto Export"
+  export_path: ""
+
+  # Days of data to sync (default: 7)
+  sync_days: 7
+
+# Health targets for coaching
+targets:
+  # Daily step goal
+  steps: 10000
+
+  # Sleep target in hours
+  sleep_hours: 7.5
+
+  # Active calories target
+  active_calories: 500
+
+  # Exercise minutes target
+  exercise_minutes: 30
+
+  # Stand hours target (Apple Watch)
+  stand_hours: 12
+
+# Metrics to track (from Health Auto Export)
+metrics:
+  activity:
+    - steps
+    - active_energy_burned
+    - exercise_time
+    - stand_time
+
+  vitals:
+    - heart_rate
+    - resting_heart_rate
+    - heart_rate_variability
+
+  body:
+    - weight
+    - body_fat_percentage
+
+  sleep:
+    - sleep_analysis
+    - time_in_bed
+
+# Display preferences
+display:
+  # Show health summary during daily planning
+  show_in_daily_plan: true
+
+  # Show health status in session context
+  show_in_session: true
+
+  # Alert when targets missed
+  alert_on_missed_targets: true

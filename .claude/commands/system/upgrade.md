@@ -237,11 +237,11 @@ For each task:
 ```
 Let me help you with the first action item: Re-opening Obsidian with the new vault path.
 
-The vault content has moved from the repository root to `workspace/`. You'll need to:
+The vault content has moved from the repository root to ``. You'll need to:
 1. Close Obsidian if it's open
 2. Open Obsidian
 3. Choose "Open folder as vault"
-4. Select the `workspace/` folder inside your repository
+4. Select the `` folder inside your repository
 
 Once you've done that, let me know and I'll verify it's working correctly.
 ```
@@ -254,7 +254,7 @@ After all action items are complete, run the verification steps from the upgrade
 ### Verification Complete
 
 ✓ Hook errors: None detected
-✓ Daily note path: workspace/4-Daily/ (correct)
+✓ Daily note path: 4-Daily/ (correct)
 ✓ New directories: integrations/, tasks/, data/, state/, extensions/ exist
 ✓ Config files: CLAUDE.md regenerated successfully
 

@@ -1,0 +1,56 @@
+# User Identity Configuration
+# This file contains personal information used to personalize the LifeOS experience.
+# Filled in during /setup:onboard or manually.
+
+user:
+  # Full name (e.g., "Dorian Collier")
+  name: ""
+
+  # First name only, for casual references (e.g., "Dorian")
+  first_name: ""
+
+  # Birthdate in ISO format (YYYY-MM-DD)
+  birthdate: ""
+
+  # Location (city, state/country)
+  location: ""
+
+  # Timezone (e.g., "America/Chicago" or "CST")
+  timezone: ""
+
+  # Primary email address
+  email: ""
+
+  # Work email (if different from primary)
+  work_email: ""
+
+  # Personality type (e.g., "INTJ", "ENFP", or leave blank)
+  personality_type: ""
+
+  # Favorite color for theme generation (hex, e.g., "#4a9eff")
+  favorite_color: ""
+
+# Family members for coaching context
+family:
+  # Partner name (for relationship coaching)
+  partner_name: ""
+
+  # Children names (for parenting coaching)
+  children:
+    - name: ""
+      # Add more children as needed
+
+# Communication style preferences
+communication:
+  # Options: direct, warm, balanced
+  style: "balanced"
+
+  # Writing voice preferences (referenced by writing-voice skill)
+  writing_voice:
+    avoid_em_dashes: true
+    formality: "professional-casual"
+
+# Onboarding status
+onboarding:
+  complete: false
+  completed_at: ""

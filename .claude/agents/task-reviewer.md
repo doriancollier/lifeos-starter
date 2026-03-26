@@ -61,41 +61,41 @@ Due dates use `📅 YYYY-MM-DD` format and can be added to any priority task.
 
 ### All open tasks
 ```bash
-grep -rh "^- \[ \]" "workspace/4-Daily/" --include="*.md"
+grep -rh "^- \[ \]" "4-Daily/" --include="*.md"
 ```
 
 ### Open A-priority tasks
 ```bash
-grep -rh "^- \[ \] 🔴" "workspace/4-Daily/" --include="*.md"
+grep -rh "^- \[ \] 🔴" "4-Daily/" --include="*.md"
 ```
 
 ### Blocked tasks
 ```bash
-grep -rh "^- \[ \] 🔵" "workspace/4-Daily/" --include="*.md"
+grep -rh "^- \[ \] 🔵" "4-Daily/" --include="*.md"
 ```
 
 ### Tasks with due dates
 ```bash
-grep -rh "📅 [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" "workspace/4-Daily/" --include="*.md" | grep "^- \[ \]"
+grep -rh "📅 [0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" "4-Daily/" --include="*.md" | grep "^- \[ \]"
 ```
 
 ### Completed tasks (recent)
 ```bash
 for i in {0..6}; do
   d=$(date -v-${i}d +%Y-%m-%d)
-  grep -h "^- \[x\]" "workspace/4-Daily/${d}.md" 2>/dev/null
+  grep -h "^- \[x\]" "4-Daily/${d}.md" 2>/dev/null
 done
 ```
 
 ### Tasks by company
 ```bash
-grep -rh "Company: {{company_1_name}}" "workspace/4-Daily/" --include="*.md" | grep "^- \[ \]"
+grep -rh "Company: {{company_1_name}}" "4-Daily/" --include="*.md" | grep "^- \[ \]"
 ```
 
 ### Find carried-over tasks
 ```bash
 # Tasks appearing in multiple days
-grep -rh "^- \[ \]" "workspace/4-Daily/" --include="*.md" | sort | uniq -c | sort -rn | head -20
+grep -rh "^- \[ \]" "4-Daily/" --include="*.md" | sort | uniq -c | sort -rn | head -20
 ```
 
 ## Analysis Templates

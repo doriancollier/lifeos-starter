@@ -60,3 +60,6 @@ dist-obsidian/
 
 # Generated launchd plist files
 /tasks/heartbeat/plist/*.generated.plist
+
+# opensrc - source code for packages
+opensrc/

@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code when working with this repository.
 
-> **Full Documentation**: See `workspace/0-System/README.md` for comprehensive guides, patterns, and architecture.
+> **Full Documentation**: See `0-System/README.md` for comprehensive guides, patterns, and architecture.
 
 ## First-Run Detection
 
@@ -21,8 +21,8 @@ This is an Obsidian vault powered by **LifeOS** — a Life Operating System comb
 - **Name**: {{user_name}} (born {{user_birthdate}})
 - **Location**: {{user_location}} ({{timezone}})
 - **Working style**: Values directness, healthy debate, and partnership approach
-- **Personal Profile**: See `workspace/2-Areas/Personal/context.md` → "About Me" for decision-making patterns
-- **Foundation**: See `workspace/2-Areas/Personal/foundation.md` for identity, mission, vision, principles
+- **Personal Profile**: See `2-Areas/Personal/context.md` → "About Me" for decision-making patterns
+- **Foundation**: See `2-Areas/Personal/foundation.md` for identity, mission, vision, principles
 - **Configuration**: See `.user/` for user configuration files
 
 ### Companies
@@ -56,7 +56,7 @@ You are a **Level {{coaching_intensity}} Relentless Challenger** coach, helping 
 ├── CLAUDE.md                 # AI instructions (stays at root)
 ├── .claude/                  # Skills, commands, agents, hooks (stays at root)
 ├── .user/                    # User configuration (stays at root)
-└── workspace/                # Obsidian vault
+└──                 # Obsidian vault
     ├── .obsidian/
     ├── 0-Inbox/              # Files needing processing → /inbox:process
     ├── 0-System/             # LifeOS documentation (architecture, guides)
@@ -70,7 +70,7 @@ You are a **Level {{coaching_intensity}} Relentless Challenger** coach, helping 
     └── 8-Scratch/            # Temporary workspace
 ```
 
-**Content placement**: See `workspace/0-System/patterns.md` for the full decision tree.
+**Content placement**: See `0-System/patterns.md` for the full decision tree.
 
 ## Task System (Quick Reference)
 
@@ -83,12 +83,12 @@ You are a **Level {{coaching_intensity}} Relentless Challenger** coach, helping 
 
 **Due Dates**: Any task can have a due date: `📅 YYYY-MM-DD` (ISO format)
 - Example: `- [ ] 🟡 Call insurance 📅 2025-12-10`
-- Query with: `grep -rn "📅 2025-12-10" workspace/4-Daily/*.md`
+- Query with: `grep -rn "📅 2025-12-10" 4-Daily/*.md`
 - Use `/vault-tasks:due` to see overdue and upcoming tasks
 
 Tasks live under their parent project in the Work section of daily notes.
 
-**Full guide**: See `workspace/0-System/guides/task-management.md`
+**Full guide**: See `0-System/guides/task-management.md`
 
 ## Calendar Integration
 
@@ -99,7 +99,7 @@ Tasks live under their parent project in the Work section of daily notes.
 - Protect events with attendees (warn before changes)
 - System events tagged with `source=claude-code` extended property
 
-**Full guide**: See `workspace/0-System/guides/calendar-integration.md`
+**Full guide**: See `0-System/guides/calendar-integration.md`
 
 ## Components Overview
 
@@ -119,29 +119,29 @@ This vault includes skills, commands, agents, and hooks that extend Claude Code 
 ```
 /setup:onboard → personalize vault → /daily:plan
 ```
-See `workspace/0-System/guides/getting-started.md`
+See `0-System/guides/getting-started.md`
 
 ### Daily Workflow
 ```
 /daily:plan → work → /update [progress] → /daily:eod
 ```
-See `workspace/0-System/guides/daily-workflow.md`
+See `0-System/guides/daily-workflow.md`
 
 ### Meeting Workflow
 ```
 /meeting:prep [name] → /meeting:ab [title] → [meeting] → action items
 ```
-See `workspace/0-System/guides/meeting-workflow.md`
+See `0-System/guides/meeting-workflow.md`
 
 ### Personal Board of Advisors
 ```
 /board:advise [question] → multi-round deliberation → synthesis
 ```
-See `workspace/0-System/guides/board-advisors.md`
+See `0-System/guides/board-advisors.md`
 
 ### Task Sync
 Changes to tasks in daily notes or projects are detected and queued. Use `task-sync` skill to reconcile.
-See `workspace/0-System/guides/task-sync.md`
+See `0-System/guides/task-sync.md`
 
 ## Important Guidelines
 

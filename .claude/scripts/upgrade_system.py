@@ -37,6 +37,7 @@ from typing import List, Optional
 
 try:
     import yaml
+
     YAML_AVAILABLE = True
 except ImportError:
     YAML_AVAILABLE = False
@@ -45,7 +46,7 @@ except ImportError:
 # System directories/files that get updated during upgrade
 SYSTEM_PATHS = [
     "VERSION",
-    "workspace/0-System/",
+    "0-System/",
     ".claude/skills/",
     ".claude/commands/",
     ".claude/agents/",
@@ -63,16 +64,16 @@ SYSTEM_PATHS = [
 # Paths that should NEVER be modified by upgrade
 PROTECTED_PATHS = [
     ".user/",
-    "workspace/1-Projects/",
-    "workspace/2-Areas/",
-    "workspace/3-Resources/",
-    "workspace/4-Daily/",
-    "workspace/5-Meetings/",
-    "workspace/6-People/",
-    "workspace/7-MOCs/",
-    "workspace/8-Scratch/",
-    "workspace/0-Inbox/",
-    "workspace/.obsidian/",
+    "1-Projects/",
+    "2-Areas/",
+    "3-Resources/",
+    "4-Daily/",
+    "5-Meetings/",
+    "6-People/",
+    "7-MOCs/",
+    "8-Scratch/",
+    "0-Inbox/",
+    ".obsidian/",
     "CLAUDE.md",  # Generated file
     ".claude/settings.json",  # Generated file
     ".claude/rules/coaching.md",  # Generated file
@@ -117,12 +118,9 @@ def load_upgrade_config(vault_root: Path) -> dict:
         "upstream": {
             "owner": "doriancollier",
             "repo": "lifeos-starter",
-            "branch": "main"
+            "branch": "main",
         },
-        "preferences": {
-            "check_frequency_hours": 24,
-            "auto_backup": True
-        }
+        "preferences": {"check_frequency_hours": 24, "auto_backup": True},
     }
 
     if not config_path.exists() or not YAML_AVAILABLE:
@@ -164,7 +162,7 @@ def fetch_latest_tag(owner: str, repo: str, timeout: float = 10.0) -> Optional[s
             ["git", "ls-remote", "--tags", "--refs", url],
             capture_output=True,
             text=True,
-            timeout=timeout
+            timeout=timeout,
         )
 
         if result.returncode != 0:
@@ -300,7 +298,11 @@ def create_backup(vault_root: Path) -> Optional[Path]:
             shutil.copy2(file_path, dest_path)
 
         # Also backup generated files
-        for gen_file in ["CLAUDE.md", ".claude/rules/coaching.md", ".claude/settings.json"]:
+        for gen_file in [
+            "CLAUDE.md",
+            ".claude/rules/coaching.md",
+            ".claude/settings.json",
+        ]:
             gen_path = vault_root / gen_file
             if gen_path.exists():
                 dest_path = backup_dir / gen_file
@@ -311,7 +313,7 @@ def create_backup(vault_root: Path) -> Optional[Path]:
         metadata = {
             "created_at": datetime.now().isoformat(),
             "local_version": get_local_version(vault_root),
-            "file_count": len(system_files)
+            "file_count": len(system_files),
         }
         with open(backup_dir / "backup-metadata.json", "w") as f:
             json.dump(metadata, f, indent=2)
@@ -328,8 +330,10 @@ def get_latest_backup(vault_root: Path) -> Optional[Path]:
     if not backups_dir.exists():
         return None
 
-    backups = sorted([d for d in backups_dir.iterdir() if d.is_dir() and d.name != ".gitkeep"],
-                     reverse=True)
+    backups = sorted(
+        [d for d in backups_dir.iterdir() if d.is_dir() and d.name != ".gitkeep"],
+        reverse=True,
+    )
     return backups[0] if backups else None
 
 
@@ -337,7 +341,10 @@ def restore_backup(vault_root: Path, backup_dir: Path) -> bool:
     """Restore files from a backup."""
     try:
         for file_path in backup_dir.rglob("*"):
-            if file_path.is_file() and file_path.name not in ["backup-metadata.json", ".gitkeep"]:
+            if file_path.is_file() and file_path.name not in [
+                "backup-metadata.json",
+                ".gitkeep",
+            ]:
                 rel_path = file_path.relative_to(backup_dir)
                 dest_path = vault_root / rel_path
                 dest_path.parent.mkdir(parents=True, exist_ok=True)
@@ -358,7 +365,7 @@ def ensure_upstream_remote(vault_root: Path, owner: str, repo: str) -> bool:
             ["git", "remote", "get-url", "lifeos-upstream"],
             cwd=vault_root,
             capture_output=True,
-            text=True
+            text=True,
         )
         if result.returncode == 0:
             # Remote exists, update URL if needed
@@ -367,7 +374,7 @@ def ensure_upstream_remote(vault_root: Path, owner: str, repo: str) -> bool:
                 subprocess.run(
                     ["git", "remote", "set-url", "lifeos-upstream", remote_url],
                     cwd=vault_root,
-                    check=True
+                    check=True,
                 )
             return True
 
@@ -375,7 +382,7 @@ def ensure_upstream_remote(vault_root: Path, owner: str, repo: str) -> bool:
         subprocess.run(
             ["git", "remote", "add", "lifeos-upstream", remote_url],
             cwd=vault_root,
-            check=True
+            check=True,
         )
         return True
     except subprocess.CalledProcessError as e:
@@ -391,7 +398,7 @@ def fetch_upstream_tag(vault_root: Path, tag: str) -> bool:
             ["git", "fetch", "lifeos-upstream", f"refs/tags/{tag}:refs/tags/{tag}"],
             cwd=vault_root,
             check=True,
-            capture_output=True
+            capture_output=True,
         )
         return True
     except subprocess.CalledProcessError as e:
@@ -409,7 +416,7 @@ def checkout_system_files(vault_root: Path, tag: str) -> List[str]:
                 ["git", "checkout", tag, "--", path_str],
                 cwd=vault_root,
                 capture_output=True,
-                text=True
+                text=True,
             )
             if result.returncode == 0:
                 updated_files.append(path_str)
@@ -446,7 +453,7 @@ def run_migrations(vault_root: Path, from_version: str, to_version: str) -> List
                     cwd=vault_root,
                     capture_output=True,
                     text=True,
-                    env={**os.environ, "CLAUDE_PROJECT_DIR": str(vault_root)}
+                    env={**os.environ, "CLAUDE_PROJECT_DIR": str(vault_root)},
                 )
                 if result.returncode == 0:
                     ran_migrations.append(migration_file.name)
@@ -474,11 +481,13 @@ def run_post_upgrade_scripts(vault_root: Path) -> dict:
                 cwd=vault_root,
                 capture_output=True,
                 text=True,
-                env=env
+                env=env,
             )
             results["inject"] = result.returncode == 0
             if result.returncode != 0:
-                print(f"inject_placeholders.py failed: {result.stderr}", file=sys.stderr)
+                print(
+                    f"inject_placeholders.py failed: {result.stderr}", file=sys.stderr
+                )
         except Exception as e:
             print(f"Error running inject_placeholders.py: {e}", file=sys.stderr)
 
@@ -491,7 +500,7 @@ def run_post_upgrade_scripts(vault_root: Path) -> dict:
                 cwd=vault_root,
                 capture_output=True,
                 text=True,
-                env=env
+                env=env,
             )
             results["hooks"] = result.returncode == 0
             if result.returncode != 0:
@@ -508,7 +517,7 @@ def run_post_upgrade_scripts(vault_root: Path) -> dict:
                 cwd=vault_root,
                 capture_output=True,
                 text=True,
-                env=env
+                env=env,
             )
             results["extensions"] = result.returncode == 0
             if result.returncode != 0:
@@ -522,7 +531,9 @@ def run_post_upgrade_scripts(vault_root: Path) -> dict:
     return results
 
 
-def collect_upgrade_notes(vault_root: Path, from_version: str, to_version: str) -> List[dict]:
+def collect_upgrade_notes(
+    vault_root: Path, from_version: str, to_version: str
+) -> List[dict]:
     """Collect upgrade notes for versions between from and to."""
     notes_dir = vault_root / ".claude" / "upgrade-notes"
     if not notes_dir.exists():
@@ -540,11 +551,13 @@ def collect_upgrade_notes(vault_root: Path, from_version: str, to_version: str) 
         if from_tuple < version_tuple <= to_tuple:
             try:
                 content = notes_file.read_text()
-                notes.append({
-                    "version": version_str,
-                    "file": notes_file.name,
-                    "content": content
-                })
+                notes.append(
+                    {
+                        "version": version_str,
+                        "file": notes_file.name,
+                        "content": content,
+                    }
+                )
             except Exception:
                 pass
 
@@ -574,7 +587,9 @@ def cmd_check(vault_root: Path, config: dict) -> int:
     remote_tuple = parse_version(remote_version)
 
     if remote_tuple > local_tuple:
-        print(f"\nUpdate available: {format_version(local_version)} -> {format_version(remote_version)}")
+        print(
+            f"\nUpdate available: {format_version(local_version)} -> {format_version(remote_version)}"
+        )
         print("Run `/system:upgrade` to apply the update.")
     elif remote_tuple == local_tuple:
         print("\nYou are running the latest version.")
@@ -651,13 +666,17 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
         print(f"Already up to date ({format_version(local_version)}).")
         return 0
 
-    print(f"Upgrading: {format_version(local_version)} -> {format_version(remote_version)}")
+    print(
+        f"Upgrading: {format_version(local_version)} -> {format_version(remote_version)}"
+    )
 
     # Step 2: Check for modifications
     if not force:
         modifications = detect_modifications(vault_root)
         if modifications:
-            print(f"\nWarning: {len(modifications)} locally modified system files detected:")
+            print(
+                f"\nWarning: {len(modifications)} locally modified system files detected:"
+            )
             for mod in modifications[:5]:
                 print(f"  - {mod}")
             if len(modifications) > 5:
@@ -714,7 +733,9 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
     print("\n" + "=" * 50)
     print("UPGRADE COMPLETE")
     print("=" * 50)
-    print(f"Version: {format_version(local_version)} -> {format_version(remote_version)}")
+    print(
+        f"Version: {format_version(local_version)} -> {format_version(remote_version)}"
+    )
     print(f"System paths updated: {len(updated)}")
     if migrations:
         print(f"Migrations run: {', '.join(migrations)}")
@@ -733,7 +754,7 @@ def cmd_upgrade(vault_root: Path, config: dict, force: bool = False) -> int:
         print("The following notes provide guidance for helping the user:")
         for note in upgrade_notes:
             print(f"\n--- {note['file']} ---")
-            print(note['content'])
+            print(note["content"])
         print("\n" + "=" * 50)
 
     return 0
@@ -744,19 +765,13 @@ def main():
         description="Upgrade LifeOS system files from upstream"
     )
     parser.add_argument(
-        "--check",
-        action="store_true",
-        help="Show what would change without applying"
+        "--check", action="store_true", help="Show what would change without applying"
     )
     parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Skip modification detection warnings"
+        "--force", action="store_true", help="Skip modification detection warnings"
     )
     parser.add_argument(
-        "--rollback",
-        action="store_true",
-        help="Restore from most recent backup"
+        "--rollback", action="store_true", help="Restore from most recent backup"
     )
 
     args = parser.parse_args()

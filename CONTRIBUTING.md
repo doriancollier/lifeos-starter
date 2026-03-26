@@ -17,8 +17,8 @@ These are the files you develop, improve, and commit:
 .claude/hooks/           # Lifecycle hooks
 .claude/scripts/         # Utility scripts
 .claude/rules/           # Coaching, components, questioning
-workspace/0-System/      # Documentation, guides, patterns
-workspace/.obsidian/     # Obsidian plugin config
+0-System/      # Documentation, guides, patterns
+.obsidian/     # Obsidian plugin config
 CLAUDE.template.md       # Template (generates CLAUDE.md)
 VERSION                  # Current version
 integrations/            # Data connectors
@@ -31,14 +31,14 @@ scripts/                 # Build/install scripts
 These directories exist locally but `.gitignore` excludes them:
 
 ```
-workspace/1-Projects/    # Active projects
-workspace/2-Areas/       # Ongoing responsibilities
-workspace/3-Resources/   # Personal resources
-workspace/4-Daily/       # Daily notes
-workspace/5-Meetings/    # Meeting notes
-workspace/6-People/      # Person files
-workspace/7-MOCs/        # Maps of content
-workspace/8-Scratch/     # Scratch space
+1-Projects/    # Active projects
+2-Areas/       # Ongoing responsibilities
+3-Resources/   # Personal resources
+4-Daily/       # Daily notes
+5-Meetings/    # Meeting notes
+6-People/      # Person files
+7-MOCs/        # Maps of content
+8-Scratch/     # Scratch space
 .user/identity.yaml      # Personal identity
 .user/health.yaml        # Health targets
 data/                    # Imported external data

@@ -191,13 +191,13 @@ Enforces directory placement rules:
 
 | File Pattern | Required Directory |
 |--------------|-------------------|
-| `YYYY-MM-DD.md` | `workspace/4-Daily/` |
-| `*meeting*.md`, `*sync*.md` | `workspace/5-Meetings/` |
-| `type: daily-note` | `workspace/4-Daily/` |
-| `type: meeting` | `workspace/5-Meetings/` |
-| `type: person` | `workspace/6-People/` |
-| `type: project` | `workspace/1-Projects/` |
-| `type: moc` | `workspace/7-MOCs/` |
+| `YYYY-MM-DD.md` | `4-Daily/` |
+| `*meeting*.md`, `*sync*.md` | `5-Meetings/` |
+| `type: daily-note` | `4-Daily/` |
+| `type: meeting` | `5-Meetings/` |
+| `type: person` | `6-People/` |
+| `type: project` | `1-Projects/` |
+| `type: moc` | `7-MOCs/` |
 
 **Note**: Only blocks NEW file creation. Existing files can be edited anywhere.
 
@@ -256,7 +256,7 @@ Table Format Warnings:
 **Behavior**: Queues syncs, suggests action
 
 Detects task changes in daily notes and project files:
-- Triggers on Write/Edit to `workspace/1-Projects/` or `workspace/4-Daily/`
+- Triggers on Write/Edit to `1-Projects/` or `4-Daily/`
 - Parses content for task patterns (checkboxes, priority emojis)
 - Determines project context from section headers
 - Writes sync requirements to `.claude/sync-queue.json`
@@ -285,7 +285,7 @@ chmod +x {{vault_path}}/.git/hooks/post-commit
 **Event**: Git post-commit
 **Behavior**: Auto-updates changelog (does not block)
 
-Automatically populates `workspace/0-System/changelog.md` from conventional commit messages:
+Automatically populates `0-System/changelog.md` from conventional commit messages:
 - Parses commit message prefix (feat:, fix:, docs:, etc.)
 - Only processes commits that modify system files
 - Ignores user content directories
@@ -310,7 +310,7 @@ Skipped commit types:
 System files tracked:
 - `.claude/skills/`, `.claude/commands/`, `.claude/agents/`, `.claude/hooks/`
 - `.claude/scripts/`, `.claude/rules/`
-- `workspace/0-System/`
+- `0-System/`
 - `CLAUDE.template.md`, `VERSION`
 
 **Installation**:
@@ -318,7 +318,7 @@ System files tracked:
 .claude/scripts/install-git-hooks.sh
 ```
 
-See `workspace/0-System/guides/versioning.md` for conventional commit format details.
+See `0-System/guides/versioning.md` for conventional commit format details.
 
 ### Pre-Commit Guard (`pre-commit-guard.sh`)
 
@@ -326,7 +326,7 @@ See `workspace/0-System/guides/versioning.md` for conventional commit format det
 **Behavior**: BLOCKS commits containing personal data
 
 Prevents accidental commits of files from personal data directories:
-- `workspace/1-Projects/`, `workspace/2-Areas/`, `workspace/4-Daily/`, `workspace/5-Meetings/`, `workspace/6-People/`
+- `1-Projects/`, `2-Areas/`, `4-Daily/`, `5-Meetings/`, `6-People/`
 - `.user/identity.yaml`, `.user/health.yaml`
 - `data/`, `state/`
 
@@ -448,7 +448,7 @@ In-session: Press `Ctrl+O` to toggle verbose mode.
 
 ### Session Context Not Loading
 
-1. Verify today's daily note exists in `workspace/4-Daily/YYYY-MM-DD.md`
+1. Verify today's daily note exists in `4-Daily/YYYY-MM-DD.md`
 2. Check daily note has valid YAML frontmatter
 3. Run manually to see output: `echo '{}' | ./session-context-loader.py`
 

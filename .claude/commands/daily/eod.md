@@ -17,19 +17,19 @@ Guide through these reflection steps:
 
 ```bash
 today=$(date +%Y-%m-%d)
-cat "workspace/4-Daily/${today}.md"
+cat "4-Daily/${today}.md"
 ```
 
 ### 2. Task Analysis
 
 **Find completed tasks:**
 ```bash
-grep -E "^- \[x\]" "workspace/4-Daily/$(date +%Y-%m-%d).md"
+grep -E "^- \[x\]" "4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 **Find incomplete tasks:**
 ```bash
-grep -E "^- \[ \]" "workspace/4-Daily/$(date +%Y-%m-%d).md"
+grep -E "^- \[ \]" "4-Daily/$(date +%Y-%m-%d).md"
 ```
 
 Present summary:

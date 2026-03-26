@@ -44,7 +44,7 @@ fi
 # Filter for relevant files (daily notes and project files)
 RELEVANT_FILES=""
 while IFS= read -r file; do
-    if [[ "$file" == workspace/1-Projects/Current/*.md ]] || [[ "$file" == workspace/4-Daily/*.md ]]; then
+    if [[ "$file" == 1-Projects/Current/*.md ]] || [[ "$file" == 4-Daily/*.md ]]; then
         RELEVANT_FILES="$RELEVANT_FILES$file"$'\n'
     fi
 done <<< "$CHANGED_FILES"
@@ -74,7 +74,7 @@ while IFS= read -r file; do
     # Check if diff contains task patterns
     if echo "$DIFF" | grep -qE '^\+.*- \[([ x])\]|^-.*- \[([ x])\]'; then
         # Determine source type
-        if [[ "$file" == workspace/4-Daily/*.md ]]; then
+        if [[ "$file" == 4-Daily/*.md ]]; then
             SOURCE_TYPE="daily"
             # Extract date from filename
             FILENAME=$(basename "$file" .md)

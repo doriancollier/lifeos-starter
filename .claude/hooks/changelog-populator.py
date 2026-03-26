@@ -39,14 +39,14 @@ SYSTEM_PATHS = [
     ".claude/hooks/",
     ".claude/scripts/",
     ".claude/rules/",
-    "workspace/0-System/",
+    "0-System/",
     "CLAUDE.template.md",
     "VERSION",
 ]
 
 # Paths explicitly excluded (even if they match system paths)
 EXCLUDED_PATHS = [
-    "workspace/0-System/changelog.md",  # Don't create entries for changelog edits
+    "0-System/changelog.md",  # Don't create entries for changelog edits
 ]
 
 # Commit prefixes to skip (maintenance, not notable)
@@ -79,7 +79,7 @@ def get_vault_root() -> Path:
             ["git", "rev-parse", "--show-toplevel"],
             capture_output=True,
             text=True,
-            check=True
+            check=True,
         )
         return Path(result.stdout.strip())
     except subprocess.CalledProcessError:
@@ -90,9 +90,7 @@ def get_vault_root() -> Path:
 def get_last_commit_message() -> str:
     """Get the message of the last commit."""
     result = subprocess.run(
-        ["git", "log", "-1", "--pretty=%B"],
-        capture_output=True,
-        text=True
+        ["git", "log", "-1", "--pretty=%B"], capture_output=True, text=True
     )
     return result.stdout.strip()
 
@@ -102,7 +100,7 @@ def get_last_commit_files() -> list[str]:
     result = subprocess.run(
         ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"],
         capture_output=True,
-        text=True
+        text=True,
     )
     return [f for f in result.stdout.strip().split("\n") if f]
 
@@ -146,11 +144,15 @@ def parse_commit_message(message: str) -> Optional[Tuple[str, str, bool]]:
     first_line = message.split("\n")[0].strip()
 
     # Check for breaking change markers
-    is_breaking = "BREAKING" in message or "!" in first_line.split(":")[0] if ":" in first_line else False
+    is_breaking = (
+        "BREAKING" in message or "!" in first_line.split(":")[0]
+        if ":" in first_line
+        else False
+    )
 
     # Try to parse conventional commit format: type(scope): description
     # or type: description
-    match = re.match(r'^(\w+)(?:\([^)]+\))?(!)?:\s*(.+)$', first_line)
+    match = re.match(r"^(\w+)(?:\([^)]+\))?(!)?:\s*(.+)$", first_line)
 
     if not match:
         return None
@@ -218,7 +220,11 @@ def insert_changelog_entry(content: str, section: str, entry: str) -> str:
             continue
 
         # Track when we leave [Unreleased] (hit next version section)
-        if in_unreleased and line.startswith("## [") and not line.startswith("## [Unreleased]"):
+        if (
+            in_unreleased
+            and line.startswith("## [")
+            and not line.startswith("## [Unreleased]")
+        ):
             in_unreleased = False
 
         # Look for our target section within [Unreleased]
@@ -259,10 +265,21 @@ def insert_changelog_entry(content: str, section: str, entry: str) -> str:
                     insert_idx += 1
 
                 # Check if we need to add the section
-                if insert_idx < len(result) and not result[insert_idx].startswith(f"### {section}"):
+                if insert_idx < len(result) and not result[insert_idx].startswith(
+                    f"### {section}"
+                ):
                     # Find the right position to insert (maintain section order)
-                    section_order = ["Added", "Changed", "Fixed", "Deprecated", "Removed", "Security"]
-                    target_order = section_order.index(section) if section in section_order else 99
+                    section_order = [
+                        "Added",
+                        "Changed",
+                        "Fixed",
+                        "Deprecated",
+                        "Removed",
+                        "Security",
+                    ]
+                    target_order = (
+                        section_order.index(section) if section in section_order else 99
+                    )
 
                     # For now, just add at the beginning
                     new_result.append("")
@@ -332,16 +349,13 @@ def main() -> int:
             write_changelog(changelog_path, new_content)
 
             # Stage the changelog change
-            subprocess.run(
-                ["git", "add", str(changelog_path)],
-                capture_output=True
-            )
+            subprocess.run(["git", "add", str(changelog_path)], capture_output=True)
 
             # Amend the commit to include the changelog update
             # Note: We do this silently; the original commit message is preserved
             subprocess.run(
                 ["git", "commit", "--amend", "--no-edit", "--no-verify"],
-                capture_output=True
+                capture_output=True,
             )
 
             print(f"Changelog updated: {entry}")
