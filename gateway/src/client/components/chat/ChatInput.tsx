@@ -1,6 +1,6 @@
 import { useRef, useCallback, useState } from 'react';
-import { motion } from 'motion/react';
-import { Send, Square } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { CornerDownLeft, Square } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 interface ChatInputProps {
@@ -98,56 +98,67 @@ export function ChatInput({
     [onChange]
   );
 
+  const hasText = value.trim().length > 0;
+
   return (
-    <div className="flex items-end gap-2">
-      <div
-        className={cn(
-          'flex-1 rounded-lg border transition-colors duration-150',
-          isFocused ? 'border-ring' : 'border-border'
-        )}
-      >
-        <textarea
-          ref={textareaRef}
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          role="combobox"
-          aria-autocomplete="list"
-          aria-controls="command-palette-listbox"
-          aria-expanded={isPaletteOpen ?? false}
-          aria-activedescendant={isPaletteOpen ? activeDescendantId : undefined}
-          placeholder="Message Claude..."
-          className="w-full resize-none bg-transparent px-3 py-2 text-sm focus:outline-none min-h-[40px] max-h-[200px]"
-          rows={1}
-          disabled={isLoading}
-        />
-      </div>
-      {isLoading ? (
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          onClick={onStop}
-          className="rounded-lg bg-destructive p-2 text-destructive-foreground hover:bg-destructive/90"
-          aria-label="Stop generating"
-        >
-          <Square className="h-4 w-4" />
-        </motion.button>
-      ) : (
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          onClick={onSubmit}
-          disabled={!value.trim()}
-          className="rounded-lg bg-primary p-2 text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-          aria-label="Send message"
-        >
-          <Send className="h-4 w-4" />
-        </motion.button>
+    <div
+      className={cn(
+        'relative rounded-lg border transition-colors duration-150',
+        isFocused ? 'border-ring' : 'border-border'
       )}
+    >
+      <textarea
+        ref={textareaRef}
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        role="combobox"
+        aria-autocomplete="list"
+        aria-controls="command-palette-listbox"
+        aria-expanded={isPaletteOpen ?? false}
+        aria-activedescendant={isPaletteOpen ? activeDescendantId : undefined}
+        placeholder="Message Claude..."
+        className="w-full resize-none bg-transparent px-3 py-2 pr-10 text-sm focus:outline-none min-h-[40px] max-h-[200px]"
+        rows={1}
+        disabled={isLoading}
+      />
+      <div className="absolute right-2 bottom-1.5">
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.button
+              key="stop"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={onStop}
+              className="rounded-md bg-destructive p-1.5 text-destructive-foreground hover:bg-destructive/90"
+              aria-label="Stop generating"
+            >
+              <Square className="h-3.5 w-3.5" />
+            </motion.button>
+          ) : hasText ? (
+            <motion.button
+              key="send"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={onSubmit}
+              className="rounded-md bg-primary p-1.5 text-primary-foreground hover:bg-primary/90"
+              aria-label="Send message"
+            >
+              <CornerDownLeft className="h-3.5 w-3.5" />
+            </motion.button>
+          ) : null}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

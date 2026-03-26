@@ -8,7 +8,7 @@ vi.mock('@anthropic-ai/claude-agent-sdk', () => ({
 import { query } from '@anthropic-ai/claude-agent-sdk';
 
 describe('AgentManager', () => {
-  let agentManager: typeof import('../../services/agent-manager').agentManager;
+  let agentManager: typeof import('../../services/agent-manager.js').agentManager;
 
   beforeEach(async () => {
     vi.resetModules();
@@ -16,7 +16,7 @@ describe('AgentManager', () => {
     vi.mock('@anthropic-ai/claude-agent-sdk', () => ({
       query: vi.fn(),
     }));
-    const mod = await import('../../services/agent-manager');
+    const mod = await import('../../services/agent-manager.js');
     agentManager = mod.agentManager;
   });
 
@@ -26,14 +26,14 @@ describe('AgentManager', () => {
       expect(agentManager.hasSession('s1')).toBe(true);
     });
 
-    it('stores session with dangerously-skip mode', () => {
-      agentManager.ensureSession('s2', { permissionMode: 'dangerously-skip' });
+    it('stores session with bypassPermissions mode', () => {
+      agentManager.ensureSession('s2', { permissionMode: 'bypassPermissions' });
       expect(agentManager.hasSession('s2')).toBe(true);
     });
 
     it('does not overwrite existing session', () => {
       agentManager.ensureSession('s1', { permissionMode: 'default' });
-      agentManager.ensureSession('s1', { permissionMode: 'dangerously-skip' });
+      agentManager.ensureSession('s1', { permissionMode: 'bypassPermissions' });
       // Should still be 'default' since the first call created it
       expect(agentManager.hasSession('s1')).toBe(true);
     });

@@ -1,6 +1,6 @@
 ---
 description: Regenerate personalized files from templates using .user/ configuration
-argument-hint: [--dry-run] [--verbose]
+argument-hint: '[--dry-run] [--verbose]'
 allowed-tools: Bash, Read
 ---
 

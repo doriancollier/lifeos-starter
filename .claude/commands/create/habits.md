@@ -1,6 +1,6 @@
 ---
 description: Generate printable monthly habit tracker sheets
-argument-hint: [month] [year] [tracker] (e.g., "January 2026 user")
+argument-hint: '[month] [year] [tracker] (e.g., "January 2026 user")'
 allowed-tools: Read, Write, Edit, Glob, Bash, AskUserQuestion
 ---
 

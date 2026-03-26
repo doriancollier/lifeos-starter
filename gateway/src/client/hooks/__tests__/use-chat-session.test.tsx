@@ -1,27 +1,50 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useChatSession } from '../use-chat-session';
-import { createMockReadableStream, formatSSE } from '../../../test-utils/react-helpers';
+import type { Transport } from '@shared/transport';
+import type { StreamEvent } from '@shared/types';
+import { TransportProvider } from '../../contexts/TransportContext';
 
-// Mock the api module so getMessages doesn't hit real fetch on mount
-vi.mock('../../lib/api', () => ({
-  api: {
-    getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+// Mock app store (selectedCwd)
+vi.mock('../../stores/app-store', () => ({
+  useAppStore: (selector?: (s: Record<string, unknown>) => unknown) => {
+    const state = { selectedCwd: '/test/cwd' };
+    return selector ? selector(state) : state;
   },
 }));
 
-import { api } from '../../lib/api';
+function createMockTransport(overrides: Partial<Transport> = {}): Transport {
+  return {
+    listSessions: vi.fn().mockResolvedValue([]),
+    createSession: vi.fn(),
+    getSession: vi.fn(),
+    getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    getTasks: vi.fn().mockResolvedValue({ tasks: [] }),
+    sendMessage: vi.fn().mockResolvedValue(undefined),
+    approveTool: vi.fn(),
+    denyTool: vi.fn(),
+    submitAnswers: vi.fn().mockResolvedValue({ ok: true }),
+    getCommands: vi.fn(),
+    health: vi.fn(),
+    updateSession: vi.fn(),
+    browseDirectory: vi.fn().mockResolvedValue({ path: '/test', entries: [], parent: null }),
+    getDefaultCwd: vi.fn().mockResolvedValue({ path: '/test/cwd' }),
+    ...overrides,
+  };
+}
 
-function createWrapper() {
+function createWrapper(transport: Transport) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { retry: false, gcTime: 0 },
     },
   });
   return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <TransportProvider transport={transport}>{children}</TransportProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -34,24 +57,30 @@ Object.defineProperty(globalThis.crypto, 'randomUUID', {
   writable: true,
 });
 
-describe('useChatSession', () => {
-  const fetchSpy = vi.spyOn(globalThis, 'fetch');
+/** Helper: create a sendMessage mock that fires events via the onEvent callback */
+function createSendMessageMock(events: StreamEvent[]) {
+  return vi.fn(async (
+    _sessionId: string,
+    _content: string,
+    onEvent: (event: StreamEvent) => void,
+    _signal?: AbortSignal,
+  ) => {
+    for (const event of events) {
+      onEvent(event);
+    }
+  });
+}
 
+describe('useChatSession', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     uuidCounter = 0;
-    // Default: return empty history
-    (api.getMessages as ReturnType<typeof vi.fn>).mockResolvedValue({ messages: [] });
-  });
-
-  afterEach(() => {
-    fetchSpy.mockReset();
   });
 
   it('initializes with empty messages and transitions to idle', async () => {
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const transport = createMockTransport();
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
-    // Wait for history loading to complete
     await waitFor(() => {
       expect(result.current.status).toBe('idle');
     });
@@ -62,16 +91,18 @@ describe('useChatSession', () => {
   });
 
   it('loads history messages on mount', async () => {
-    (api.getMessages as ReturnType<typeof vi.fn>).mockResolvedValue({
-      messages: [
-        { id: 'h1', role: 'user', content: 'Previous question' },
-        { id: 'h2', role: 'assistant', content: 'Previous answer', toolCalls: [
-          { toolCallId: 'tc1', toolName: 'Read', status: 'complete' },
-        ]},
-      ],
+    const transport = createMockTransport({
+      getMessages: vi.fn().mockResolvedValue({
+        messages: [
+          { id: 'h1', role: 'user', content: 'Previous question' },
+          { id: 'h2', role: 'assistant', content: 'Previous answer', toolCalls: [
+            { toolCallId: 'tc1', toolName: 'Read', status: 'complete' },
+          ]},
+        ],
+      }),
     });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => {
       expect(result.current.messages).toHaveLength(2);
@@ -85,7 +116,8 @@ describe('useChatSession', () => {
   });
 
   it('ignores empty input on submit', async () => {
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const transport = createMockTransport();
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -95,15 +127,16 @@ describe('useChatSession', () => {
     });
 
     expect(result.current.messages).toEqual([]);
-    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(transport.sendMessage).not.toHaveBeenCalled();
   });
 
   it('adds user message on submit and clears input', async () => {
-    const sseText = formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
+    const sendMessage = createSendMessageMock([
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -116,21 +149,20 @@ describe('useChatSession', () => {
     });
 
     expect(result.current.input).toBe('');
-    // Should have user message + assistant placeholder
     expect(result.current.messages).toHaveLength(2);
     expect(result.current.messages[0].role).toBe('user');
     expect(result.current.messages[0].content).toBe('Hello');
   });
 
   it('parses text_delta events into assistant message content', async () => {
-    const sseText =
-      formatSSE('text_delta', { text: 'Hello ' }) +
-      formatSSE('text_delta', { text: 'World' }) +
-      formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
+    const sendMessage = createSendMessageMock([
+      { type: 'text_delta', data: { text: 'Hello ' } } as StreamEvent,
+      { type: 'text_delta', data: { text: 'World' } } as StreamEvent,
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -146,15 +178,15 @@ describe('useChatSession', () => {
   });
 
   it('handles tool_call_start -> tool_call_delta -> tool_call_end lifecycle', async () => {
-    const sseText =
-      formatSSE('tool_call_start', { toolCallId: 'tc1', toolName: 'Read', status: 'running' }) +
-      formatSSE('tool_call_delta', { toolCallId: 'tc1', toolName: 'Read', input: '{"path": "/foo"}', status: 'running' }) +
-      formatSSE('tool_call_end', { toolCallId: 'tc1', toolName: 'Read', status: 'complete' }) +
-      formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
+    const sendMessage = createSendMessageMock([
+      { type: 'tool_call_start', data: { toolCallId: 'tc1', toolName: 'Read', status: 'running' } } as StreamEvent,
+      { type: 'tool_call_delta', data: { toolCallId: 'tc1', toolName: 'Read', input: '{"path": "/foo"}', status: 'running' } } as StreamEvent,
+      { type: 'tool_call_end', data: { toolCallId: 'tc1', toolName: 'Read', status: 'complete' } } as StreamEvent,
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -173,14 +205,14 @@ describe('useChatSession', () => {
   });
 
   it('handles tool_result events', async () => {
-    const sseText =
-      formatSSE('tool_call_start', { toolCallId: 'tc1', toolName: 'Read', status: 'running' }) +
-      formatSSE('tool_result', { toolCallId: 'tc1', toolName: 'Read', result: 'file contents', status: 'complete' }) +
-      formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
+    const sendMessage = createSendMessageMock([
+      { type: 'tool_call_start', data: { toolCallId: 'tc1', toolName: 'Read', status: 'running' } } as StreamEvent,
+      { type: 'tool_result', data: { toolCallId: 'tc1', toolName: 'Read', result: 'file contents', status: 'complete' } } as StreamEvent,
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -197,13 +229,13 @@ describe('useChatSession', () => {
   });
 
   it('sets error message on error events', async () => {
-    const sseText =
-      formatSSE('error', { message: 'Something went wrong' }) +
-      formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
+    const sendMessage = createSendMessageMock([
+      { type: 'error', data: { message: 'Something went wrong' } } as StreamEvent,
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -218,11 +250,12 @@ describe('useChatSession', () => {
   });
 
   it('returns to idle on done events', async () => {
-    const sseText = formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
+    const sendMessage = createSendMessageMock([
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -236,39 +269,23 @@ describe('useChatSession', () => {
     expect(result.current.status).toBe('idle');
   });
 
-  it('handles multiple SSE events across separate chunks', async () => {
-    const chunk1 = formatSSE('text_delta', { text: 'chunk1' });
-    const chunk2 = formatSSE('text_delta', { text: 'chunk2' });
-    const chunk3 = formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([chunk1, chunk2, chunk3]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
-
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
-
-    await waitFor(() => expect(result.current.status).toBe('idle'));
-
-    await act(async () => {
-      result.current.setInput('test');
+  it('stop() aborts the stream', async () => {
+    // Create a sendMessage that hangs until aborted
+    const sendMessage = vi.fn(async (
+      _sessionId: string,
+      _content: string,
+      _onEvent: (event: StreamEvent) => void,
+      signal?: AbortSignal,
+    ) => {
+      return new Promise<void>((resolve, reject) => {
+        signal?.addEventListener('abort', () => {
+          reject(new DOMException('The operation was aborted.', 'AbortError'));
+        });
+      });
     });
-    await act(async () => {
-      await result.current.handleSubmit();
-    });
+    const transport = createMockTransport({ sendMessage });
 
-    const assistantMsg = result.current.messages.find(m => m.role === 'assistant');
-    expect(assistantMsg?.content).toBe('chunk1chunk2');
-  });
-
-  it('stop() aborts the fetch controller', async () => {
-    // Create a stream that never ends
-    let controllerRef: ReadableStreamDefaultController<Uint8Array> | null = null;
-    const neverEndingStream = new ReadableStream<Uint8Array>({
-      start(controller) {
-        controllerRef = controller;
-      },
-    });
-    fetchSpy.mockResolvedValueOnce(new Response(neverEndingStream, { status: 200 }));
-
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -277,9 +294,8 @@ describe('useChatSession', () => {
     });
 
     // Start streaming (don't await - it will hang)
-    let submitPromise: Promise<void>;
     act(() => {
-      submitPromise = result.current.handleSubmit();
+      result.current.handleSubmit();
     });
 
     // Stop immediately
@@ -288,15 +304,13 @@ describe('useChatSession', () => {
     });
 
     expect(result.current.status).toBe('idle');
-
-    // Clean up
-    controllerRef?.close();
   });
 
-  it('handles HTTP error responses', async () => {
-    fetchSpy.mockResolvedValueOnce(new Response('Not Found', { status: 404 }));
+  it('handles sendMessage errors', async () => {
+    const sendMessage = vi.fn().mockRejectedValue(new Error('HTTP 404'));
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -311,12 +325,13 @@ describe('useChatSession', () => {
     expect(result.current.error).toBe('HTTP 404');
   });
 
-  it('sends correct fetch request', async () => {
-    const sseText = formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
+  it('calls transport.sendMessage with correct arguments', async () => {
+    const sendMessage = createSendMessageMock([
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({ sendMessage });
 
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => expect(result.current.status).toBe('idle'));
 
@@ -327,31 +342,30 @@ describe('useChatSession', () => {
       await result.current.handleSubmit();
     });
 
-    expect(fetchSpy).toHaveBeenCalledWith(
-      '/api/sessions/s1/messages',
-      expect.objectContaining({
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: 'Hello' }),
-      })
+    expect(sendMessage).toHaveBeenCalledWith(
+      's1',
+      'Hello',
+      expect.any(Function),
+      expect.any(AbortSignal),
     );
   });
 
   it('appends new messages after history', async () => {
-    (api.getMessages as ReturnType<typeof vi.fn>).mockResolvedValue({
-      messages: [
-        { id: 'h1', role: 'user', content: 'Old message' },
-        { id: 'h2', role: 'assistant', content: 'Old reply' },
-      ],
+    const sendMessage = createSendMessageMock([
+      { type: 'text_delta', data: { text: 'New reply' } } as StreamEvent,
+      { type: 'done', data: { sessionId: 's1' } } as StreamEvent,
+    ]);
+    const transport = createMockTransport({
+      getMessages: vi.fn().mockResolvedValue({
+        messages: [
+          { id: 'h1', role: 'user', content: 'Old message' },
+          { id: 'h2', role: 'assistant', content: 'Old reply' },
+        ],
+      }),
+      sendMessage,
     });
 
-    const sseText =
-      formatSSE('text_delta', { text: 'New reply' }) +
-      formatSSE('done', { sessionId: 's1' });
-    const stream = createMockReadableStream([sseText]);
-    fetchSpy.mockResolvedValueOnce(new Response(stream, { status: 200 }));
-
-    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useChatSession('s1'), { wrapper: createWrapper(transport) });
 
     await waitFor(() => {
       expect(result.current.messages).toHaveLength(2);

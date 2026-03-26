@@ -1,6 +1,6 @@
 ---
 description: Create a new meeting note for any company
-argument-hint: [company-id] [meeting-title]
+argument-hint: '[company-id] [meeting-title]'
 allowed-tools: Read, Write, Bash, Glob
 ---
 

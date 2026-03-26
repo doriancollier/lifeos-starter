@@ -1,6 +1,6 @@
 ---
 description: Generate printable Goal Bingo cards
-argument-hint: year [month|all] (e.g., "2025", "2025 January", "2025 all")
+argument-hint: 'year [month|all] (e.g., "2025", "2025 January", "2025 all")'
 allowed-tools: Read, Write, Edit, Glob
 ---
 

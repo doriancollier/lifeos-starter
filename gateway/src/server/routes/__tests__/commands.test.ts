@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('../../services/command-registry', () => {
+vi.mock('../../services/command-registry.js', () => {
   const mockGetCommands = vi.fn();
   const mockInvalidateCache = vi.fn();
   return {
@@ -13,7 +13,7 @@ vi.mock('../../services/command-registry', () => {
 });
 
 // Must also mock transcript-reader and agent-manager since createApp imports session routes
-vi.mock('../../services/transcript-reader', () => ({
+vi.mock('../../services/transcript-reader.js', () => ({
   transcriptReader: {
     listSessions: vi.fn(),
     getSession: vi.fn(),
@@ -22,7 +22,7 @@ vi.mock('../../services/transcript-reader', () => ({
   },
 }));
 
-vi.mock('../../services/agent-manager', () => ({
+vi.mock('../../services/agent-manager.js', () => ({
   agentManager: {
     ensureSession: vi.fn(),
     sendMessage: vi.fn(),
@@ -34,10 +34,10 @@ vi.mock('../../services/agent-manager', () => ({
 }));
 
 import request from 'supertest';
-import { createApp } from '../../app';
+import { createApp } from '../../app.js';
 
 // Get a reference to the mock function
-const { __mockGetCommands: mockGetCommands } = await import('../../services/command-registry') as any;
+const { __mockGetCommands: mockGetCommands } = await import('../../services/command-registry.js') as any;
 
 const app = createApp();
 

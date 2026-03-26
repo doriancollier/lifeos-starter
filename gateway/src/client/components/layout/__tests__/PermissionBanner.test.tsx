@@ -3,10 +3,31 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PermissionBanner } from '../PermissionBanner';
+import type { Transport } from '@shared/transport';
+import { TransportProvider } from '../../../contexts/TransportContext';
 
 afterEach(() => {
   cleanup();
 });
+
+function createMockTransport(): Transport {
+  return {
+    listSessions: vi.fn().mockResolvedValue([]),
+    createSession: vi.fn(),
+    getSession: vi.fn(),
+    getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    getTasks: vi.fn().mockResolvedValue({ tasks: [] }),
+    sendMessage: vi.fn(),
+    approveTool: vi.fn(),
+    denyTool: vi.fn(),
+    submitAnswers: vi.fn().mockResolvedValue({ ok: true }),
+    getCommands: vi.fn(),
+    health: vi.fn(),
+    updateSession: vi.fn(),
+    browseDirectory: vi.fn().mockResolvedValue({ path: '/test', entries: [], parent: null }),
+    getDefaultCwd: vi.fn().mockResolvedValue({ path: '/test/cwd' }),
+  };
+}
 
 function createWrapper(sessionData?: Record<string, unknown>) {
   const queryClient = new QueryClient({
@@ -15,8 +36,11 @@ function createWrapper(sessionData?: Record<string, unknown>) {
   if (sessionData) {
     queryClient.setQueryData(['session', sessionData.id], sessionData);
   }
+  const transport = createMockTransport();
   return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <TransportProvider transport={transport}>{children}</TransportProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -52,10 +76,10 @@ describe('PermissionBanner', () => {
     expect(container.textContent).toBe('');
   });
 
-  it('shows banner for dangerously-skip mode', () => {
+  it('shows banner for bypassPermissions mode', () => {
     const session = {
       id: 's2',
-      permissionMode: 'dangerously-skip',
+      permissionMode: 'bypassPermissions',
       title: 'Test',
       createdAt: '',
       updatedAt: '',
@@ -70,7 +94,7 @@ describe('PermissionBanner', () => {
   it('banner contains auto-approved text', () => {
     const session = {
       id: 's3',
-      permissionMode: 'dangerously-skip',
+      permissionMode: 'bypassPermissions',
       title: 'Test Session',
       createdAt: '',
       updatedAt: '',

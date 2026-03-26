@@ -4,6 +4,13 @@ import { render, screen, cleanup } from '@testing-library/react';
 import { MessageList, computeGrouping } from '../MessageList';
 import type { ChatMessage } from '../../../hooks/use-chat-session';
 
+// jsdom does not implement IntersectionObserver
+globalThis.IntersectionObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
 afterEach(() => {
   cleanup();
 });
@@ -28,6 +35,16 @@ vi.mock('motion/react', () => ({
 // Mock Streamdown to avoid complex rendering in unit tests
 vi.mock('streamdown', () => ({
   Streamdown: ({ children }: { children: string }) => <div data-testid="streamdown">{children}</div>,
+}));
+
+// Mock ToolApproval to avoid needing TransportProvider in unit tests
+vi.mock('../ToolApproval', () => ({
+  ToolApproval: ({ toolName }: { toolName: string }) => <div data-testid="tool-approval">{toolName}</div>,
+}));
+
+// Mock QuestionPrompt to avoid needing TransportProvider in unit tests
+vi.mock('../QuestionPrompt', () => ({
+  QuestionPrompt: () => <div data-testid="question-prompt">Question prompt</div>,
 }));
 
 vi.mock('@tanstack/react-virtual', () => ({
@@ -117,7 +134,7 @@ describe('computeGrouping', () => {
 
 describe('MessageList', () => {
   it('renders empty list without error', () => {
-    const { container } = render(<MessageList messages={[]} />);
+    const { container } = render(<MessageList sessionId="test-session" messages={[]} />);
     expect(container).toBeDefined();
   });
 
@@ -125,24 +142,24 @@ describe('MessageList', () => {
     const messages: ChatMessage[] = [
       { id: '1', role: 'user', content: 'Hello world', timestamp: new Date().toISOString() },
     ];
-    render(<MessageList messages={messages} />);
+    render(<MessageList sessionId="test-session" messages={messages} />);
     expect(screen.getByText('Hello world')).toBeDefined();
   });
 
   it('renders assistant message content', () => {
     const messages: ChatMessage[] = [
-      { id: '1', role: 'assistant', content: 'Hi there, how can I help?', timestamp: new Date().toISOString() },
+      { id: '1', role: 'assistant', content: 'Hi there, how can I help?', parts: [{ type: 'text', text: 'Hi there, how can I help?' }], timestamp: new Date().toISOString() },
     ];
-    render(<MessageList messages={messages} />);
+    render(<MessageList sessionId="test-session" messages={messages} />);
     expect(screen.getByText('Hi there, how can I help?')).toBeDefined();
   });
 
   it('renders multiple messages', () => {
     const messages: ChatMessage[] = [
-      { id: '1', role: 'user', content: 'Hello', timestamp: new Date().toISOString() },
-      { id: '2', role: 'assistant', content: 'Hi there', timestamp: new Date().toISOString() },
+      { id: '1', role: 'user', content: 'Hello', parts: [{ type: 'text', text: 'Hello' }], timestamp: new Date().toISOString() },
+      { id: '2', role: 'assistant', content: 'Hi there', parts: [{ type: 'text', text: 'Hi there' }], timestamp: new Date().toISOString() },
     ];
-    render(<MessageList messages={messages} />);
+    render(<MessageList sessionId="test-session" messages={messages} />);
     expect(screen.getByText('Hello')).toBeDefined();
     expect(screen.getByText('Hi there')).toBeDefined();
   });
@@ -156,18 +173,22 @@ describe('MessageList', () => {
         toolCalls: [
           { toolCallId: 'tc-1', toolName: 'Read', input: '{}', status: 'complete' },
         ],
+        parts: [
+          { type: 'text', text: 'Let me read that file.' },
+          { type: 'tool_call', toolCallId: 'tc-1', toolName: 'Read', input: '{}', status: 'complete' },
+        ],
         timestamp: new Date().toISOString(),
       },
     ];
-    render(<MessageList messages={messages} />);
-    expect(screen.getByText('Read')).toBeDefined();
+    render(<MessageList sessionId="test-session" messages={messages} />);
+    expect(screen.getByText('Read ...')).toBeDefined();
   });
 
   it('has scroll container with overflow', () => {
     const messages: ChatMessage[] = [
       { id: '1', role: 'user', content: 'Test', timestamp: new Date().toISOString() },
     ];
-    const { container } = render(<MessageList messages={messages} />);
+    const { container } = render(<MessageList sessionId="test-session" messages={messages} />);
     const scrollContainer = container.querySelector('.overflow-y-auto');
     expect(scrollContainer).not.toBeNull();
   });

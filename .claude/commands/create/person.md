@@ -1,6 +1,6 @@
 ---
 description: Look up or create a person note
-argument-hint: [person-name]
+argument-hint: '[person-name]'
 allowed-tools: Read, Write, Grep, Glob, Bash
 ---
 

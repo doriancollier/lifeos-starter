@@ -27,10 +27,11 @@ export function computeGrouping(messages: ChatMessage[]): MessageGrouping[] {
 
 interface MessageListProps {
   messages: ChatMessage[];
+  sessionId: string;
   status?: 'idle' | 'streaming' | 'error';
 }
 
-export function MessageList({ messages, status }: MessageListProps) {
+export function MessageList({ messages, sessionId, status }: MessageListProps) {
   const parentRef = useRef<HTMLDivElement>(null);
   const [historyCount, setHistoryCount] = useState<number | null>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -67,12 +68,42 @@ export function MessageList({ messages, status }: MessageListProps) {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Auto-scroll to bottom on new messages (only if near bottom)
+  // When the scroll container becomes visible again (e.g. switching Obsidian
+  // sidebar tabs), the virtualizer loses its scroll position. Detect
+  // visibility changes and scroll to bottom when re-shown.
+  useEffect(() => {
+    const container = parentRef.current;
+    if (!container || messages.length === 0) return;
+    let wasHidden = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          wasHidden = true;
+        } else if (wasHidden) {
+          wasHidden = false;
+          // Small delay so the virtualizer can re-measure after layout
+          requestAnimationFrame(() => {
+            virtualizer.scrollToIndex(messages.length - 1, { align: 'end' });
+          });
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [virtualizer, messages.length]);
+
+  // Compute a scroll trigger that changes when messages are added or
+  // when the last message's tool calls change (e.g. interactive prompts).
+  const lastMsg = messages[messages.length - 1];
+  const scrollTrigger = `${messages.length}:${lastMsg?.toolCalls?.length ?? 0}`;
+
+  // Auto-scroll to bottom on new messages or tool call additions
   useEffect(() => {
     if (messages.length > 0 && !showScrollButton) {
       virtualizer.scrollToIndex(messages.length - 1, { align: 'end' });
     }
-  }, [messages.length, virtualizer, showScrollButton]);
+  }, [scrollTrigger, virtualizer, showScrollButton]);
 
   const scrollToBottom = useCallback(() => {
     virtualizer.scrollToIndex(messages.length - 1, { align: 'end' });
@@ -111,6 +142,7 @@ export function MessageList({ messages, status }: MessageListProps) {
               <MessageItem
                 message={msg}
                 grouping={groupings[virtualRow.index]}
+                sessionId={sessionId}
                 isNew={isNew}
                 isStreaming={isStreaming}
               />

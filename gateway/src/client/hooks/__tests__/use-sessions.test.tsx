@@ -2,14 +2,9 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, waitFor, act } from '@testing-library/react';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// Mock the api module
-vi.mock('../../lib/api', () => ({
-  api: {
-    listSessions: vi.fn(),
-    createSession: vi.fn(),
-  },
-}));
+import type { Transport } from '@shared/transport';
+import { TransportProvider } from '../../contexts/TransportContext';
+import { useSessions } from '../use-sessions';
 
 // Mock useSessionId (nuqs-backed)
 let mockSessionId: string | null = null;
@@ -20,9 +15,32 @@ vi.mock('../use-session-id', () => ({
   useSessionId: () => [mockSessionId, mockSetSessionId] as const,
 }));
 
-import { api } from '../../lib/api';
+// Mock app store (selectedCwd)
+vi.mock('../../stores/app-store', () => ({
+  useAppStore: () => ({ selectedCwd: '/test/cwd' }),
+}));
 
-function createWrapper() {
+function createMockTransport(overrides: Partial<Transport> = {}): Transport {
+  return {
+    listSessions: vi.fn().mockResolvedValue([]),
+    createSession: vi.fn(),
+    getSession: vi.fn(),
+    getMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    getTasks: vi.fn().mockResolvedValue({ tasks: [] }),
+    sendMessage: vi.fn(),
+    approveTool: vi.fn(),
+    denyTool: vi.fn(),
+    submitAnswers: vi.fn().mockResolvedValue({ ok: true }),
+    getCommands: vi.fn(),
+    health: vi.fn(),
+    updateSession: vi.fn(),
+    browseDirectory: vi.fn().mockResolvedValue({ path: '/test', entries: [], parent: null }),
+    getDefaultCwd: vi.fn().mockResolvedValue({ path: '/test/cwd' }),
+    ...overrides,
+  };
+}
+
+function createWrapper(transport: Transport) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { retry: false, gcTime: 0 },
@@ -30,25 +48,25 @@ function createWrapper() {
     },
   });
   return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <TransportProvider transport={transport}>{children}</TransportProvider>
+    </QueryClientProvider>
   );
 }
 
 describe('useSessions', () => {
-  beforeEach(async () => {
-    vi.resetModules();
+  beforeEach(() => {
     vi.clearAllMocks();
     mockSessionId = null;
   });
 
   it('lists sessions via React Query', async () => {
     const sessions = [
-      { id: 's1', title: 'Session 1', createdAt: '2024-01-01', updatedAt: '2024-01-01', permissionMode: 'default' },
+      { id: 's1', title: 'Session 1', createdAt: '2024-01-01', updatedAt: '2024-01-01', permissionMode: 'default' as const },
     ];
-    vi.mocked(api.listSessions).mockResolvedValue(sessions);
+    const transport = createMockTransport({ listSessions: vi.fn().mockResolvedValue(sessions) });
 
-    const { useSessions } = await import('../use-sessions');
-    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper(transport) });
 
     await waitFor(() => {
       expect(result.current.sessions).toHaveLength(1);
@@ -58,10 +76,9 @@ describe('useSessions', () => {
   });
 
   it('returns empty array while loading', async () => {
-    vi.mocked(api.listSessions).mockResolvedValue([]);
+    const transport = createMockTransport();
 
-    const { useSessions } = await import('../use-sessions');
-    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper(transport) });
 
     expect(result.current.sessions).toEqual([]);
     expect(result.current.isLoading).toBe(true);
@@ -69,11 +86,12 @@ describe('useSessions', () => {
 
   it('createSession mutation sets active session on success', async () => {
     const newSession = { id: 'new-1', title: 'New Session', createdAt: '2024-01-01', updatedAt: '2024-01-01', permissionMode: 'default' as const };
-    vi.mocked(api.createSession).mockResolvedValue(newSession);
-    vi.mocked(api.listSessions).mockResolvedValue([newSession]);
+    const transport = createMockTransport({
+      createSession: vi.fn().mockResolvedValue(newSession),
+      listSessions: vi.fn().mockResolvedValue([newSession]),
+    });
 
-    const { useSessions } = await import('../use-sessions');
-    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper(transport) });
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -87,10 +105,9 @@ describe('useSessions', () => {
   });
 
   it('exposes setActiveSession', async () => {
-    vi.mocked(api.listSessions).mockResolvedValue([]);
+    const transport = createMockTransport();
 
-    const { useSessions } = await import('../use-sessions');
-    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useSessions(), { wrapper: createWrapper(transport) });
 
     act(() => {
       result.current.setActiveSession('test-id');

@@ -8,13 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "d29f24f7497517e4",
+            "id": "ef8be657ba27f62b",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "4-Daily/2026-02-08.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "2026-02-08"
             }
           }
         ]
@@ -90,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "8-Scratch/test-file.md",
+                "file": "8-Scratch/2026-02-07-scratch.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for test-file"
+              "title": "Backlinks for 2026-02-07-scratch"
             }
           },
           {
@@ -109,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "8-Scratch/test-file.md",
+                "file": "8-Scratch/2026-02-07-scratch.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from test-file"
+              "title": "Outgoing links from 2026-02-07-scratch"
             }
           },
           {
@@ -138,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "8-Scratch/test-file.md",
+                "file": "8-Scratch/2026-02-07-scratch.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of test-file"
+              "title": "Outline of 2026-02-07-scratch"
             }
           },
           {
@@ -156,13 +160,23 @@
               "icon": "calendar-with-checkmark",
               "title": "Calendar"
             }
+          },
+          {
+            "id": "0a5328a6b7547725",
+            "type": "leaf",
+            "state": {
+              "type": "lifeos-copilot-view",
+              "state": {},
+              "icon": "bot",
+              "title": "Copilot"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 727.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -175,12 +189,18 @@
       "bases:Create new base": false,
       "quickadd:QuickAdd": false,
       "obsidian-excalidraw-plugin:New drawing": false,
-      "terminal:Open terminal": false
+      "terminal:Open terminal": false,
+      "lifeos-copilot:Open Copilot": false
     }
   },
-  "active": "d29f24f7497517e4",
+  "active": "ef8be657ba27f62b",
   "lastOpenFiles": [
+    "4-Daily/2026-02-08.md",
+    "8-Scratch/test.md",
+    "4-Daily/2026-02-07.md",
+    "8-Scratch/2026-02-07-scratch.md",
     "8-Scratch/test-file.md",
+    "8-Scratch/vault-restructure-plan.md",
     "8-Scratch/changelog-improvement-plan.md",
     "README.md"
   ]

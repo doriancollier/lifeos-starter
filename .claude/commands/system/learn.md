@@ -1,6 +1,6 @@
 ---
 description: Learn new capabilities through experimentation, then codify into the system
-argument-hint: [topic to learn or behavior to codify]
+argument-hint: '[topic to learn or behavior to codify]'
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, WebSearch, WebFetch, AskUserQuestion, TodoWrite, SlashCommand
 ---
 

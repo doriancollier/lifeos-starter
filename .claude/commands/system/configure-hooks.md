@@ -1,6 +1,6 @@
 ---
 description: Regenerate settings.json from integration configuration
-argument-hint: [--dry-run] [--verbose] [--list-hooks]
+argument-hint: '[--dry-run] [--verbose] [--list-hooks]'
 allowed-tools: Bash, Read
 ---
 

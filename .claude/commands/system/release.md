@@ -1,6 +1,6 @@
 ---
 description: Create a new LifeOS release with version bump, changelog update, git tag, and optional GitHub Release
-argument-hint: [patch|minor|major|X.Y.Z] [--dry-run]
+argument-hint: '[patch|minor|major|X.Y.Z] [--dry-run]'
 allowed-tools: Bash, Read, Write, Edit, Glob, AskUserQuestion, Task
 ---
 

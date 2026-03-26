@@ -2,10 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import sessionRoutes from './routes/sessions';
-import commandRoutes from './routes/commands';
-import healthRoutes from './routes/health';
-import { errorHandler } from './middleware/error-handler';
+import { apiReference } from '@scalar/express-api-reference';
+import sessionRoutes from './routes/sessions.js';
+import commandRoutes from './routes/commands.js';
+import healthRoutes from './routes/health.js';
+import directoryRoutes from './routes/directory.js';
+import { generateOpenAPISpec } from './services/openapi-registry.js';
+import { errorHandler } from './middleware/error-handler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -19,6 +22,12 @@ export function createApp() {
   app.use('/api/sessions', sessionRoutes);
   app.use('/api/commands', commandRoutes);
   app.use('/api/health', healthRoutes);
+  app.use('/api/directory', directoryRoutes);
+
+  // OpenAPI spec + interactive docs
+  const spec = generateOpenAPISpec();
+  app.get('/api/openapi.json', (_req, res) => res.json(spec));
+  app.use('/api/docs', apiReference({ content: spec }));
 
   // Error handler (must be after routes)
   app.use(errorHandler);

@@ -30,7 +30,7 @@ const baseToolCall: ToolCallState = {
 describe('ToolCallCard', () => {
   it('renders tool name', () => {
     render(<ToolCallCard toolCall={baseToolCall} />);
-    expect(screen.getByText('Read')).toBeDefined();
+    expect(screen.getByText('Read test.ts')).toBeDefined();
   });
 
   it('does not show input details initially (collapsed)', () => {
@@ -40,20 +40,20 @@ describe('ToolCallCard', () => {
 
   it('expands on click to show pretty-printed input', () => {
     render(<ToolCallCard toolCall={baseToolCall} />);
-    fireEvent.click(screen.getByText('Read'));
+    fireEvent.click(screen.getByText('Read test.ts'));
     // After expanding, should show the pretty-printed JSON key
     expect(screen.getByText(/file_path/)).toBeDefined();
   });
 
   it('shows result when available and expanded', () => {
     render(<ToolCallCard toolCall={{ ...baseToolCall, result: 'file contents here' }} />);
-    fireEvent.click(screen.getByText('Read'));
+    fireEvent.click(screen.getByText('Read test.ts'));
     expect(screen.getByText('file contents here')).toBeDefined();
   });
 
   it('collapses on second click', () => {
     render(<ToolCallCard toolCall={baseToolCall} />);
-    const button = screen.getByText('Read');
+    const button = screen.getByText('Read test.ts');
     fireEvent.click(button);
     expect(screen.getByText(/file_path/)).toBeDefined();
     fireEvent.click(button);
@@ -62,12 +62,12 @@ describe('ToolCallCard', () => {
 
   it('renders pending status', () => {
     render(<ToolCallCard toolCall={{ ...baseToolCall, status: 'pending' }} />);
-    expect(screen.getByText('Read')).toBeDefined();
+    expect(screen.getByText('Read test.ts')).toBeDefined();
   });
 
   it('renders error status', () => {
     render(<ToolCallCard toolCall={{ ...baseToolCall, status: 'error' }} />);
-    expect(screen.getByText('Read')).toBeDefined();
+    expect(screen.getByText('Read test.ts')).toBeDefined();
   });
 
   it('handles non-JSON input gracefully', () => {

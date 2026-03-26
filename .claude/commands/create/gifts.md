@@ -1,6 +1,6 @@
 ---
 description: Create a gift planning project for an occasion
-argument-hint: occasion-name (e.g., "Christmas 2025")
+argument-hint: 'occasion-name (e.g., "Christmas 2025")'
 allowed-tools: Read, Write, Edit, Bash, Glob, AskUserQuestion
 ---
 

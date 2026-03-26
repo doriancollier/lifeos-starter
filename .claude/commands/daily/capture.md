@@ -1,6 +1,6 @@
 ---
 description: Quick capture to today's daily note
-argument-hint: [text to capture]
+argument-hint: '[text to capture]'
 allowed-tools: Read, Write, Edit, Bash
 ---
 

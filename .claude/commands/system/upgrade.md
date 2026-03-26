@@ -1,6 +1,6 @@
 ---
 description: Upgrade LifeOS system files from upstream while preserving user configuration
-argument-hint: [--check] [--force] [--rollback]
+argument-hint: '[--check] [--force] [--rollback]'
 allowed-tools: Bash, Read, Write, Edit, Glob, AskUserQuestion, Task
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Smart capture - parses updates into tasks, calendar events, mood notes, narrative memories, and cross-references. Auto-detects birthdays, suggests calendar attendees, and manages person files.
-argument-hint: [[date]] [freeform update text]
+argument-hint: '[[date]] [freeform update text]'
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__google-calendar__list-events, mcp__google-calendar__create-event, mcp__google-calendar__get-freebusy, mcp__google-calendar__search-events
 ---
 

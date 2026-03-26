@@ -23,13 +23,10 @@
 .theme-dark {
   /*
    * UI CHROME ONLY - Document content uses default Obsidian dark theme
-   * NO global accent overrides - those affect in-document elements like cursor
-   * Only structural/layout variables for sidebars and chrome
+   * NO global variable overrides (--background-secondary, --background-secondary-alt)
+   * as those cascade into editor text color derivations and break readability.
+   * Sidebar/chrome backgrounds are set via explicit selectors below instead.
    */
-
-  /* UI Chrome backgrounds (sidebars, not editor) */
-  --background-secondary: #0f0f1a;
-  --background-secondary-alt: #16213e;
 
   /* Tab colors */
   --tab-text-color: #999999;

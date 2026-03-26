@@ -1,6 +1,6 @@
 ---
 description: Prepare context for a meeting or person interaction
-argument-hint: [meeting-title or person-name]
+argument-hint: '[meeting-title or person-name]'
 allowed-tools: Read, Grep, Glob, Bash
 ---
 

@@ -16,10 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Enhance theme management documentation and CSS variables
+
 ### Changed
 
 ### Fixed
 
+- Standardize argument hints in command documentation
 ---
 
 ## [0.13.0] - 2026-02-07

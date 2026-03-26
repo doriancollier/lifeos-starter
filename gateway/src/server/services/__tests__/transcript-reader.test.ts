@@ -5,12 +5,12 @@ vi.mock('fs/promises');
 import fs from 'fs/promises';
 
 describe('TranscriptReader', () => {
-  let transcriptReader: typeof import('../../services/transcript-reader').transcriptReader;
+  let transcriptReader: typeof import('../../services/transcript-reader.js').transcriptReader;
 
   beforeEach(async () => {
     vi.resetModules();
     vi.mock('fs/promises');
-    const mod = await import('../../services/transcript-reader');
+    const mod = await import('../../services/transcript-reader.js');
     transcriptReader = mod.transcriptReader;
   });
 
@@ -43,11 +43,12 @@ describe('TranscriptReader', () => {
         role: 'user',
         content: 'Hello',
       });
-      expect(messages[1]).toEqual({
+      expect(messages[1]).toMatchObject({
         id: 'a1',
         role: 'assistant',
         content: 'Hi there!',
         toolCalls: undefined,
+        parts: [{ type: 'text', text: 'Hi there!' }],
       });
     });
 
@@ -72,8 +73,78 @@ describe('TranscriptReader', () => {
 
       expect(messages).toHaveLength(1);
       expect(messages[0].toolCalls).toEqual([
-        { toolCallId: 'tc-1', toolName: 'Read', status: 'complete' },
+        { toolCallId: 'tc-1', toolName: 'Read', input: '{"file":"test.ts"}', status: 'complete' },
       ]);
+      expect(messages[0].parts).toEqual([
+        { type: 'text', text: 'Let me read that file.' },
+        { type: 'tool_call', toolCallId: 'tc-1', toolName: 'Read', input: '{"file":"test.ts"}', status: 'complete' },
+      ]);
+    });
+
+    it('populates tool results into both toolCalls and parts', async () => {
+      const lines = [
+        JSON.stringify({
+          type: 'assistant',
+          uuid: 'a1',
+          message: {
+            role: 'assistant',
+            content: [
+              { type: 'text', text: 'Let me check.' },
+              { type: 'tool_use', id: 'tc-1', name: 'Read', input: { file: 'test.ts' } },
+            ],
+          },
+        }),
+        JSON.stringify({
+          type: 'user',
+          uuid: 'u1',
+          message: {
+            role: 'user',
+            content: [
+              { type: 'tool_result', tool_use_id: 'tc-1', content: 'file contents here' },
+            ],
+          },
+        }),
+      ].join('\n');
+
+      (fs.readFile as ReturnType<typeof vi.fn>).mockResolvedValue(lines);
+
+      const messages = await transcriptReader.readTranscript('/vault', 'session-result');
+
+      expect(messages).toHaveLength(1); // tool_result user message is skipped
+      expect(messages[0].toolCalls![0].result).toBe('file contents here');
+      // The parts-level tool call should also have the result
+      const toolPart = messages[0].parts!.find(p => p.type === 'tool_call');
+      expect(toolPart).toBeDefined();
+      expect((toolPart as any).result).toBe('file contents here');
+    });
+
+    it('preserves interleaved order in parts (text -> tool -> text)', async () => {
+      const lines = [
+        JSON.stringify({
+          type: 'assistant',
+          uuid: 'a1',
+          message: {
+            role: 'assistant',
+            content: [
+              { type: 'text', text: 'Before the tool.' },
+              { type: 'tool_use', id: 'tc-1', name: 'Read', input: { path: '/foo' } },
+              { type: 'text', text: 'After the tool.' },
+            ],
+          },
+        }),
+      ].join('\n');
+
+      (fs.readFile as ReturnType<typeof vi.fn>).mockResolvedValue(lines);
+
+      const messages = await transcriptReader.readTranscript('/vault', 'session-interleaved');
+
+      expect(messages).toHaveLength(1);
+      expect(messages[0].parts).toHaveLength(3);
+      expect(messages[0].parts![0]).toEqual({ type: 'text', text: 'Before the tool.' });
+      expect(messages[0].parts![1]).toMatchObject({ type: 'tool_call', toolCallId: 'tc-1', toolName: 'Read' });
+      expect(messages[0].parts![2]).toEqual({ type: 'text', text: 'After the tool.' });
+      // Content should join all text parts
+      expect(messages[0].content).toBe('Before the tool.\nAfter the tool.');
     });
 
     it('skips system/command user messages', async () => {
@@ -196,6 +267,19 @@ describe('TranscriptReader', () => {
   });
 
   describe('listSessions()', () => {
+    /** Helper: create a mock file handle that returns content as a buffer read */
+    function mockFileHandle(content: string) {
+      return {
+        read: vi.fn().mockImplementation((buffer: Buffer, offset: number, length: number) => {
+          const bytes = Buffer.from(content, 'utf-8');
+          const toCopy = Math.min(bytes.length, length);
+          bytes.copy(buffer, offset, 0, toCopy);
+          return Promise.resolve({ bytesRead: toCopy, buffer });
+        }),
+        close: vi.fn().mockResolvedValue(undefined),
+      };
+    }
+
     it('returns session metadata from JSONL files', async () => {
       (fs.readdir as ReturnType<typeof vi.fn>).mockResolvedValue([
         'abc-123.jsonl',
@@ -205,51 +289,77 @@ describe('TranscriptReader', () => {
       const statResult = {
         birthtime: new Date('2024-01-01'),
         mtime: new Date('2024-01-02'),
+        mtimeMs: 1704153600000,
       };
       (fs.stat as ReturnType<typeof vi.fn>).mockResolvedValue(statResult);
 
-      // First file: has user message
-      (fs.readFile as ReturnType<typeof vi.fn>)
-        .mockResolvedValueOnce(
-          [
-            JSON.stringify({
-              type: 'system',
-              subtype: 'init',
-              permissionMode: 'default',
-              timestamp: '2024-01-01T00:00:00Z',
-            }),
-            JSON.stringify({
-              type: 'user',
-              uuid: 'u1',
-              message: { role: 'user', content: 'What is the meaning of life?' },
-              timestamp: '2024-01-01T00:00:01Z',
-            }),
-          ].join('\n')
-        )
-        // Second file: no user message
-        .mockResolvedValueOnce(
-          JSON.stringify({
-            type: 'system',
-            subtype: 'init',
-            permissionMode: 'bypassPermissions',
-            timestamp: '2024-01-01T10:00:00Z',
-          })
-        );
+      const file1Content = [
+        JSON.stringify({
+          type: 'system',
+          subtype: 'init',
+          permissionMode: 'default',
+          timestamp: '2024-01-01T00:00:00Z',
+        }),
+        JSON.stringify({
+          type: 'user',
+          uuid: 'u1',
+          message: { role: 'user', content: 'What is the meaning of life?' },
+          timestamp: '2024-01-01T00:00:01Z',
+        }),
+      ].join('\n');
+
+      const file2Content = JSON.stringify({
+        type: 'system',
+        subtype: 'init',
+        permissionMode: 'bypassPermissions',
+        timestamp: '2024-01-01T10:00:00Z',
+      });
+
+      (fs.open as ReturnType<typeof vi.fn>)
+        .mockResolvedValueOnce(mockFileHandle(file1Content))
+        .mockResolvedValueOnce(mockFileHandle(file2Content));
 
       const sessions = await transcriptReader.listSessions('/vault');
 
       expect(sessions).toHaveLength(2);
-      // Both have same mtime so order is stable
       const s1 = sessions.find(s => s.id === 'abc-123');
       expect(s1).toBeDefined();
       expect(s1!.title).toBe('What is the meaning of life?');
       expect(s1!.permissionMode).toBe('default');
-      expect(s1!.lastMessagePreview).toBe('What is the meaning of life?');
+      expect(s1!.lastMessagePreview).toBeUndefined();
 
       const s2 = sessions.find(s => s.id === 'def-456');
       expect(s2).toBeDefined();
       expect(s2!.title).toBe('Session def-456');
-      expect(s2!.permissionMode).toBe('dangerously-skip');
+      expect(s2!.permissionMode).toBe('bypassPermissions');
+    });
+
+    it('uses mtime cache on second call', async () => {
+      (fs.readdir as ReturnType<typeof vi.fn>).mockResolvedValue(['cached.jsonl']);
+
+      const statResult = {
+        birthtime: new Date('2024-01-01'),
+        mtime: new Date('2024-01-02'),
+        mtimeMs: 1704153600000,
+      };
+      (fs.stat as ReturnType<typeof vi.fn>).mockResolvedValue(statResult);
+
+      const content = JSON.stringify({
+        type: 'user',
+        uuid: 'u1',
+        message: { role: 'user', content: 'Hello' },
+        timestamp: '2024-01-01T00:00:00Z',
+      });
+      (fs.open as ReturnType<typeof vi.fn>).mockResolvedValue(mockFileHandle(content));
+
+      // First call — reads file
+      await transcriptReader.listSessions('/vault');
+      expect(fs.open).toHaveBeenCalled();
+
+      // Reset call counts, then call again with same mtime
+      (fs.open as ReturnType<typeof vi.fn>).mockClear();
+      await transcriptReader.listSessions('/vault');
+      expect(fs.open).not.toHaveBeenCalled(); // cache hit, no file read
     });
 
     it('returns empty array when directory does not exist', async () => {
@@ -272,15 +382,16 @@ describe('TranscriptReader', () => {
       const statResult = {
         birthtime: new Date('2024-01-01'),
         mtime: new Date('2024-01-02'),
+        mtimeMs: 1704153600000,
       };
       (fs.stat as ReturnType<typeof vi.fn>).mockResolvedValue(statResult);
-      (fs.readFile as ReturnType<typeof vi.fn>).mockResolvedValue(
-        JSON.stringify({
-          type: 'system',
-          subtype: 'init',
-          timestamp: '2024-01-01T00:00:00Z',
-        })
-      );
+
+      const content = JSON.stringify({
+        type: 'system',
+        subtype: 'init',
+        timestamp: '2024-01-01T00:00:00Z',
+      });
+      (fs.open as ReturnType<typeof vi.fn>).mockResolvedValue(mockFileHandle(content));
 
       const sessions = await transcriptReader.listSessions('/vault');
 
@@ -297,20 +408,20 @@ describe('TranscriptReader', () => {
       const statResult = {
         birthtime: new Date('2024-01-01'),
         mtime: new Date('2024-01-02'),
+        mtimeMs: 1704153600000,
       };
 
-      // good.jsonl: stat and read succeed
+      // good.jsonl: stat succeeds; bad.jsonl: stat fails
       (fs.stat as ReturnType<typeof vi.fn>)
         .mockResolvedValueOnce(statResult)
         .mockRejectedValueOnce(new Error('EACCES'));
 
-      (fs.readFile as ReturnType<typeof vi.fn>).mockResolvedValueOnce(
-        JSON.stringify({
-          type: 'user',
-          uuid: 'u1',
-          message: { role: 'user', content: 'Hello' },
-        })
-      );
+      const content = JSON.stringify({
+        type: 'user',
+        uuid: 'u1',
+        message: { role: 'user', content: 'Hello' },
+      });
+      (fs.open as ReturnType<typeof vi.fn>).mockResolvedValue(mockFileHandle(content));
 
       const sessions = await transcriptReader.listSessions('/vault');
 
@@ -324,17 +435,17 @@ describe('TranscriptReader', () => {
       const statResult = {
         birthtime: new Date('2024-01-01'),
         mtime: new Date('2024-01-02'),
+        mtimeMs: 1704153600000,
       };
       (fs.stat as ReturnType<typeof vi.fn>).mockResolvedValue(statResult);
 
       const longMessage = 'A'.repeat(100);
-      (fs.readFile as ReturnType<typeof vi.fn>).mockResolvedValue(
-        JSON.stringify({
-          type: 'user',
-          uuid: 'u1',
-          message: { role: 'user', content: longMessage },
-        })
-      );
+      const content = JSON.stringify({
+        type: 'user',
+        uuid: 'u1',
+        message: { role: 'user', content: longMessage },
+      });
+      (fs.open as ReturnType<typeof vi.fn>).mockResolvedValue(mockFileHandle(content));
 
       const sessions = await transcriptReader.listSessions('/vault');
 
@@ -344,20 +455,33 @@ describe('TranscriptReader', () => {
   });
 
   describe('getSession()', () => {
+    function mockFileHandle(content: string) {
+      return {
+        read: vi.fn().mockImplementation((buffer: Buffer, offset: number, length: number) => {
+          const bytes = Buffer.from(content, 'utf-8');
+          const toCopy = Math.min(bytes.length, length);
+          bytes.copy(buffer, offset, 0, toCopy);
+          return Promise.resolve({ bytesRead: toCopy, buffer });
+        }),
+        close: vi.fn().mockResolvedValue(undefined),
+      };
+    }
+
     it('returns session metadata when file exists', async () => {
       const statResult = {
         birthtime: new Date('2024-01-01'),
         mtime: new Date('2024-01-02'),
+        mtimeMs: 1704153600000,
       };
       (fs.stat as ReturnType<typeof vi.fn>).mockResolvedValue(statResult);
-      (fs.readFile as ReturnType<typeof vi.fn>).mockResolvedValue(
-        JSON.stringify({
-          type: 'user',
-          uuid: 'u1',
-          message: { role: 'user', content: 'Hello world' },
-          timestamp: '2024-01-01T00:00:00Z',
-        })
-      );
+
+      const content = JSON.stringify({
+        type: 'user',
+        uuid: 'u1',
+        message: { role: 'user', content: 'Hello world' },
+        timestamp: '2024-01-01T00:00:00Z',
+      });
+      (fs.open as ReturnType<typeof vi.fn>).mockResolvedValue(mockFileHandle(content));
 
       const session = await transcriptReader.getSession('/vault', 'abc-123');
 

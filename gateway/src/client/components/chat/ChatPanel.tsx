@@ -2,18 +2,24 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { useChatSession } from '../../hooks/use-chat-session';
 import { useCommands } from '../../hooks/use-commands';
+import { useTaskState } from '../../hooks/use-task-state';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
+import { TaskListPanel } from './TaskListPanel';
 import { CommandPalette } from '../commands/CommandPalette';
+import { StatusLine } from '../status/StatusLine';
 import type { CommandEntry } from '@shared/types';
 
 interface ChatPanelProps {
   sessionId: string;
+  /** Optional transform applied to message content before sending to server */
+  transformContent?: (content: string) => string | Promise<string>;
 }
 
-export function ChatPanel({ sessionId }: ChatPanelProps) {
-  const { messages, input, setInput, handleSubmit, status, error, stop, isLoadingHistory } =
-    useChatSession(sessionId);
+export function ChatPanel({ sessionId, transformContent }: ChatPanelProps) {
+  const taskState = useTaskState(sessionId);
+  const { messages, input, setInput, handleSubmit, status, error, stop, isLoadingHistory, sessionStatus } =
+    useChatSession(sessionId, { transformContent, onTaskEvent: taskState.handleTaskEvent });
   const [showCommands, setShowCommands] = useState(false);
   const [commandQuery, setCommandQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -107,8 +113,15 @@ export function ChatPanel({ sessionId }: ChatPanelProps) {
           </div>
         </div>
       ) : (
-        <MessageList messages={messages} status={status} />
+        <MessageList messages={messages} sessionId={sessionId} status={status} />
       )}
+
+      <TaskListPanel
+        tasks={taskState.tasks}
+        activeForm={taskState.activeForm}
+        isCollapsed={taskState.isCollapsed}
+        onToggleCollapse={taskState.toggleCollapse}
+      />
 
       {error && (
         <div className="mx-4 mb-2 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 px-3 py-2 text-sm">
@@ -140,6 +153,12 @@ export function ChatPanel({ sessionId }: ChatPanelProps) {
           onArrowDown={handleArrowDown}
           onCommandSelect={handleKeyboardCommandSelect}
           activeDescendantId={activeDescendantId}
+        />
+
+        <StatusLine
+          sessionId={sessionId}
+          sessionStatus={sessionStatus}
+          isStreaming={status === 'streaming'}
         />
       </div>
     </div>

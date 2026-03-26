@@ -41,6 +41,22 @@ describe('SessionItem', () => {
     expect(screen.getByText('Test conversation')).toBeDefined();
   });
 
+  it('renders relative time from updatedAt', () => {
+    render(
+      <SessionItem session={makeSession()} isActive={false} onClick={() => {}} />
+    );
+    // updatedAt is 1 hour before NOW
+    expect(screen.getByText('1h ago')).toBeDefined();
+  });
+
+  it('shows active session with left border', () => {
+    const { container } = render(
+      <SessionItem session={makeSession()} isActive={true} onClick={() => {}} />
+    );
+    const item = container.firstChild as HTMLElement;
+    expect(item.className).toContain('border-primary');
+  });
+
   it('calls onClick when clicked', () => {
     const onClick = vi.fn();
     render(
@@ -66,10 +82,10 @@ describe('SessionItem', () => {
     expect(item.className).toContain('hover:bg-secondary/50');
   });
 
-  it('shows permission warning for dangerously-skip mode', () => {
+  it('shows permission warning for bypassPermissions mode', () => {
     const { container } = render(
       <SessionItem
-        session={makeSession({ permissionMode: 'dangerously-skip' })}
+        session={makeSession({ permissionMode: 'bypassPermissions' })}
         isActive={false}
         onClick={() => {}}
       />
@@ -127,7 +143,7 @@ describe('SessionItem', () => {
   it('shows permission mode in details panel', () => {
     render(
       <SessionItem
-        session={makeSession({ permissionMode: 'dangerously-skip' })}
+        session={makeSession({ permissionMode: 'bypassPermissions' })}
         isActive={false}
         onClick={() => {}}
       />

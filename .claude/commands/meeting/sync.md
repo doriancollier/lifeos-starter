@@ -1,6 +1,6 @@
 ---
 description: Import meetings from SuperNormal
-argument-hint: [--all | --dry-run]
+argument-hint: '[--all | --dry-run]'
 allowed-tools: Bash, Read
 ---
 

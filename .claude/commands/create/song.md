@@ -1,6 +1,6 @@
 ---
 description: Create a new song project with structure for lyrics and AI generation
-argument-hint: [song-name]
+argument-hint: '[song-name]'
 allowed-tools: Read, Write, Bash, Glob, AskUserQuestion
 ---
 

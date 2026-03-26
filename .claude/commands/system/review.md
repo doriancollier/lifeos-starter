@@ -1,6 +1,6 @@
 ---
 description: Review processes for clarity, consistency, and improvements
-argument-hint: [area to review (optional)]
+argument-hint: '[area to review (optional)]'
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, Task, TaskCreate, TaskList, TaskUpdate, TaskOutput
 ---
 

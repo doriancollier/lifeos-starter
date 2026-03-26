@@ -1,4 +1,4 @@
-import type { StreamEvent } from '../shared/types';
+import type { StreamEvent } from '../shared/types.js';
 
 /**
  * Creates an AsyncGenerator that yields StreamEvent objects.

@@ -1,6 +1,6 @@
 ---
 description: Process meeting notes with AI context, extract insights and tasks interactively
-argument-hint: [meeting-path | --next | --list]
+argument-hint: '[meeting-path | --next | --list]'
 allowed-tools: Read, Write, Edit, Task, Bash, Glob, Grep, AskUserQuestion
 ---
 

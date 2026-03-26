@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Loader2, Check, X, ChevronDown } from 'lucide-react';
 import type { ToolCallState } from '../../hooks/use-chat-session';
+import { getToolLabel } from '../../lib/tool-labels';
 
 interface ToolCallCardProps {
   toolCall: ToolCallState;
@@ -25,7 +26,7 @@ export function ToolCallCard({ toolCall, defaultExpanded = false }: ToolCallCard
         className="flex w-full items-center gap-2 px-3 py-1"
       >
         {statusIcon}
-        <span className="font-mono text-3xs">{toolCall.toolName}</span>
+        <span className="font-mono text-3xs">{getToolLabel(toolCall.toolName, toolCall.input)}</span>
         <motion.div
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={{ type: 'spring', stiffness: 400, damping: 30 }}

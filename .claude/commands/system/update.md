@@ -1,6 +1,6 @@
 ---
 description: Add, update, or improve processes based on user input
-argument-hint: [description of what to add/change]
+argument-hint: '[description of what to add/change]'
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, TodoWrite, SlashCommand
 ---
 
@@ -159,7 +159,7 @@ Execute these steps sequentially. This is an **interactive, research-first** pro
 ```markdown
 ---
 description: [clear description]
-argument-hint: [argument format]
+argument-hint: '[argument format]'
 allowed-tools: [appropriate tools]
 ---
 

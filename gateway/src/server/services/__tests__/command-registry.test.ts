@@ -5,12 +5,12 @@ import type { Dirent } from 'fs';
 vi.mock('fs/promises');
 
 describe('CommandRegistryService', () => {
-  let CommandRegistryService: typeof import('../../services/command-registry').CommandRegistryService;
+  let CommandRegistryService: typeof import('../../services/command-registry.js').CommandRegistryService;
 
   beforeEach(async () => {
     vi.resetModules();
     vi.clearAllMocks();
-    const mod = await import('../../services/command-registry');
+    const mod = await import('../../services/command-registry.js');
     CommandRegistryService = mod.CommandRegistryService;
   });
 

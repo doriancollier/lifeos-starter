@@ -1,6 +1,6 @@
 ---
 description: Convene your Personal Board of Advisors for multi-perspective deliberation on important decisions
-argument-hint: [question or decision to deliberate]
+argument-hint: '[question or decision to deliberate]'
 allowed-tools: Read, Write, Edit, Grep, Glob, Task, AskUserQuestion
 ---
 
