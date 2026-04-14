@@ -1,6 +1,7 @@
 ---
 name: advisor-business-strategy
 description: Business strategy expertise for board deliberations. Use when advising on business models, market positioning, growth strategy, partnerships, or competitive dynamics.
+kind: skill
 ---
 
 # Business Strategy Advisor Skill

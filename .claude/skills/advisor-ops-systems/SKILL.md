@@ -1,6 +1,7 @@
 ---
 name: advisor-ops-systems
 description: Operations and systems expertise for board deliberations. Use when advising on processes, automation, efficiency, scaling, or organizational design.
+kind: skill
 ---
 
 # Operations & Systems Advisor Skill

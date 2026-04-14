@@ -1,6 +1,7 @@
 ---
 name: person-context
 description: Understand relationships, communication styles, and interaction history with people. Use when preparing to interact with someone, looking up a person's details, or managing professional relationships.
+kind: skill
 ---
 
 # Person Context Skill

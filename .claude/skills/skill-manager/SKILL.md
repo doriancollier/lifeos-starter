@@ -2,6 +2,7 @@
 name: skill-manager
 description: Create, review, and maintain Claude Code skills. Use when creating new skills, auditing existing skills, understanding skill vs command vs agent patterns, or when the user mentions skill development, SKILL.md files, or skill best practices.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
+kind: skill
 ---
 
 # Skill Manager

@@ -2,6 +2,7 @@
 name: calendar-management
 description: Manage calendar events with smart defaults for travel time, attendees, and calendar selection. Use when creating, modifying, or removing calendar events.
 allowed-tools: Read, Grep, Glob, AskUserQuestion, Bash, mcp__google-calendar__list-events, mcp__google-calendar__search-events, mcp__google-calendar__create-event, mcp__google-calendar__update-event, mcp__google-calendar__delete-event, mcp__google-calendar__get-freebusy, mcp__google-calendar__list-calendars, mcp__google-calendar__get-event, mcp__google-calendar__get-current-time
+kind: skill
 ---
 
 # Calendar Management Skill

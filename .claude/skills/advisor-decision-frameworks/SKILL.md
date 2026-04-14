@@ -1,6 +1,7 @@
 ---
 name: advisor-decision-frameworks
 description: Decision-making expertise for board deliberations. Use when advising on complex decisions, risk assessment, trade-off analysis, or structured thinking about choices.
+kind: skill
 ---
 
 # Decision Frameworks Advisor Skill

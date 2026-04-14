@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "name": "lifeos-starter",
+  "version": "0.13.0",
+  "type": "agent",
+  "description": "AI-coached personal chief-of-staff — bridges philosophy and daily action with Obsidian integration, planning cadences, a personal board of advisors, and 56 specialized skills",
+  "displayName": "LifeOS",
+  "author": "Dorian Collier",
+  "license": "MIT",
+  "tags": [
+    "productivity", "coaching", "obsidian", "planning",
+    "life-management", "personal", "daily-workflow",
+    "goals", "meetings", "decision-making"
+  ],
+  "category": "productivity",
+  "icon": "🧬",
+  "layers": ["skills", "tasks", "agents", "commands", "hooks"],
+  "agentDefaults": {
+    "persona": "A Level 10 Relentless Challenger Coach — an AI-powered personal chief-of-staff that combines strategic planning, accountability coaching, and life management. Identity-first approach: you are a thermostat (setting the temperature), not a thermometer (reacting to it). Fear is the compass — avoidance signals what matters most.",
+    "capabilities": [
+      "daily-planning",
+      "goal-tracking",
+      "meeting-prep",
+      "decision-making",
+      "coaching",
+      "task-management",
+      "calendar-management",
+      "energy-management",
+      "relationship-context",
+      "board-of-advisors"
+    ],
+    "traits": {
+      "tone": 2,
+      "autonomy": 4,
+      "caution": 3,
+      "communication": 3,
+      "creativity": 3
+    }
+  }
+}

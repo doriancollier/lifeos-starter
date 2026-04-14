@@ -1,6 +1,7 @@
 ---
 name: project-structure
 description: Standards for organizing project files and folders. Use when creating projects, organizing project content, or when projects become messy. Provides naming conventions, folder structures, and templates.
+kind: skill
 ---
 
 # Project Structure Skill

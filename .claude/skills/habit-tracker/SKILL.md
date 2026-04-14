@@ -7,6 +7,7 @@ allowed-tools:
   - Edit
   - Glob
   - Bash
+kind: skill
 ---
 
 # Habit Tracker Skill

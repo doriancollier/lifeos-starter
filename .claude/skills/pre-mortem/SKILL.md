@@ -2,6 +2,7 @@
 name: pre-mortem
 description: Guide prospective hindsight exercises for major decisions. Use before A-priority projects, major decisions, life changes, or when overconfidence is likely.
 allowed-tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
+kind: skill
 ---
 
 # Pre-Mortem Skill

@@ -2,6 +2,7 @@
 name: calendar-awareness
 description: Proactive calendar awareness for holidays and schedule overview. Use at week start, during planning, or when user asks about schedule. For birthday-specific queries, delegate to birthday-awareness skill.
 allowed-tools: Read, Grep, Glob, Bash, mcp__google-calendar__list-events, mcp__google-calendar__search-events, mcp__google-calendar__get-current-time
+kind: skill
 ---
 
 # Calendar Awareness Skill

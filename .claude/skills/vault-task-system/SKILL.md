@@ -1,6 +1,7 @@
 ---
-name: task-system
+name: vault-task-system
 description: Understand and work with the task priority system used in daily notes. Use when managing tasks, setting priorities, finding blocked items, or moving tasks between days.
+kind: skill
 ---
 
 # Task System Skill

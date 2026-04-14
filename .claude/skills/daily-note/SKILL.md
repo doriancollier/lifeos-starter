@@ -2,6 +2,7 @@
 name: daily-note
 description: Work with Obsidian daily notes including auto-creation, navigation, and understanding the daily note structure. Automatically creates missing daily notes and offers planning when needed. Use when the user mentions daily notes, today's tasks, daily planning, or morning/evening routines.
 allowed-tools: Read, Write, Bash, AskUserQuestion, Glob
+kind: skill
 ---
 
 # Daily Note Skill

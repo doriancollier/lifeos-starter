@@ -1,6 +1,7 @@
 ---
 name: orchestration-patterns
 description: Agent delegation and orchestration patterns for efficient context management. Use when designing new commands, tackling complex multi-step tasks, or deciding whether to delegate work to subagents.
+kind: skill
 ---
 
 # Orchestration Patterns

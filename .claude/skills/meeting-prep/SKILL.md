@@ -1,6 +1,7 @@
 ---
 name: meeting-prep
 description: Prepare for meetings by gathering context about attendees, related projects, and past discussions. Use before any scheduled meeting or when the user needs to prepare for an interaction.
+kind: skill
 ---
 
 # Meeting Prep Skill

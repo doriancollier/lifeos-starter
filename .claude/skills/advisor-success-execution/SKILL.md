@@ -1,6 +1,7 @@
 ---
 name: advisor-success-execution
 description: Success and execution expertise for board deliberations. Use when advising on goal-setting, habits, productivity, discipline, or turning plans into results.
+kind: skill
 ---
 
 # Success & Execution Advisor Skill

@@ -1,6 +1,7 @@
 ---
 name: advisor-parenting-family
 description: Parenting and family expertise for board deliberations. Use when advising on child development, co-parenting, family dynamics, work-family balance, or parenting decisions.
+kind: skill
 ---
 
 # Parenting & Family Advisor Skill

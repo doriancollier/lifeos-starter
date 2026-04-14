@@ -1,6 +1,7 @@
 ---
 name: energy-management
 description: Four-dimension energy tracking and management for sustainable high performance. Use during daily planning, when energy issues arise, or for burnout prevention.
+kind: skill
 ---
 
 # Energy Management Skill

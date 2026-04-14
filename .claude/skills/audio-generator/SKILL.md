@@ -1,6 +1,7 @@
 ---
 name: audio-generator
 description: Generate speech audio using ElevenLabs. Activates when user mentions audio generation, text-to-speech, daily practice audio, or ElevenLabs.
+kind: skill
 ---
 
 # Audio Generator

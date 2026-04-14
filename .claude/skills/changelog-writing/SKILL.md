@@ -1,6 +1,7 @@
 ---
 name: changelog-writing
 description: Write human-friendly changelog entries and release notes. Use when populating changelog, preparing releases, or reviewing release notes quality.
+kind: skill
 ---
 
 # Changelog Writing Skill

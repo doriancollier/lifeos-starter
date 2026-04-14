@@ -1,6 +1,7 @@
 ---
 name: proactive-suggestions
 description: Proactively suggest high-value commands when context matches. Use when user discusses decisions, opportunities, process improvements, working patterns, or system gaps. Activates during planning, reviews, experimentation, and when conversation involves trade-offs, strategy, or repeated friction.
+kind: skill
 ---
 
 # Proactive Suggestions Skill

@@ -1,6 +1,7 @@
 ---
 name: writing-voice
 description: Write messages and documents in the vault owner's authentic voice. Use when drafting emails, Slack messages, SMS texts, or any written communication on their behalf.
+kind: skill
 ---
 
 # Writing Voice Skill

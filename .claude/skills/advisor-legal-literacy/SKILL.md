@@ -1,6 +1,7 @@
 ---
 name: advisor-legal-literacy
 description: Legal literacy expertise for board deliberations. Use when advising on contracts, intellectual property, regulatory awareness, or legal risk identification (not legal advice).
+kind: skill
 ---
 
 # Legal Literacy Advisor Skill

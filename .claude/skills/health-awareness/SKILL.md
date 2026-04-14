@@ -1,6 +1,7 @@
 ---
 name: health-awareness
 description: Health data integration and coaching for daily planning. Use during /daily:plan, /daily:eod, weekly reviews, or when user asks about health metrics, fitness rings, sleep, weight, or body composition goals.
+kind: skill
 ---
 
 # Health Awareness Skill

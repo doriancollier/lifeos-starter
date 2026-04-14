@@ -2,6 +2,7 @@
 name: birthday-awareness
 description: Automatically detect birthday mentions and manage birthday calendar events. Use when birthdays are mentioned, during planning, or when working with person files. Creates recurring yearly events and updates person files.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, mcp__google-calendar__list-events, mcp__google-calendar__search-events, mcp__google-calendar__create-event
+kind: skill
 ---
 
 # Birthday Awareness Skill

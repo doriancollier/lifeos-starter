@@ -2,6 +2,7 @@
 name: personal-profile
 description: Manage the vault owner's personal profile documents. Use when the user asks about their resume, work history, skills, medical info, or other personal documents. Also activates when relevant information surfaces that should be captured in personal documents.
 allowed-tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
+kind: skill
 ---
 
 # Personal Profile Skill

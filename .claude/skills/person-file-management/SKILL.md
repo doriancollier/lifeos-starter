@@ -2,6 +2,7 @@
 name: person-file-management
 description: Automatically create and update person files when significant information is mentioned. Use when people are mentioned with health info, major life events, or important context worth tracking long-term.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion
+kind: skill
 ---
 
 # Person File Management Skill

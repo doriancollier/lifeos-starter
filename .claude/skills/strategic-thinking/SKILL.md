@@ -1,6 +1,7 @@
 ---
 name: strategic-thinking
 description: Apply strategic thinking frameworks to decisions and planning. Use for major decisions, new commitments, strategic questions, or when evaluating opportunities.
+kind: skill
 ---
 
 # Strategic Thinking Skill

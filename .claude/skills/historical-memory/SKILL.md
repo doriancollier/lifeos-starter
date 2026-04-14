@@ -2,6 +2,7 @@
 name: historical-memory
 description: Capture and organize historical/biographical information with follow-up questions. Activates when past events, life milestones, or "X years ago" expressions are mentioned. Routes information to biography, timeline, or person files appropriately.
 allowed-tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
+kind: skill
 ---
 
 # Historical Memory Skill

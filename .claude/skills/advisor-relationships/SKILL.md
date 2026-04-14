@@ -1,6 +1,7 @@
 ---
 name: advisor-relationships
 description: Relationship expertise for board deliberations. Use when advising on interpersonal dynamics, communication, conflict, trust-building, or social/professional relationships.
+kind: skill
 ---
 
 # Relationships Advisor Skill

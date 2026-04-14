@@ -2,6 +2,7 @@
 name: product-management
 description: Product management expertise for requirements, roadmaps, and feature definition. Activates when working on product strategy, writing PRDs, prioritizing features, or creating roadmaps.
 allowed-tools: Read, Write, Edit, Grep, Glob
+kind: skill
 ---
 
 # Product Management Skill

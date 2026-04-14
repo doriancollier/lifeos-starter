@@ -1,7 +1,8 @@
 ---
-name: task-sync
+name: vault-task-sync
 description: Synchronize task states between daily notes and project files. Use after modifying tasks, or when sync-pending is detected at session start.
 allowed-tools: Read, Write, Edit, Glob, Grep
+kind: skill
 ---
 
 # Task Sync Skill

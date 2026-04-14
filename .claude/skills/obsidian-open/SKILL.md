@@ -1,6 +1,7 @@
 ---
 name: obsidian-open
 description: Opens markdown files from this Obsidian vault in the Obsidian app interface. Use when the user wants to view, preview, or open a note in Obsidian rather than just reading it in the terminal.
+kind: skill
 ---
 
 # Obsidian Open

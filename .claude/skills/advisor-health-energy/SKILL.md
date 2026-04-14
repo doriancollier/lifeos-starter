@@ -1,6 +1,7 @@
 ---
 name: advisor-health-energy
 description: Health and energy expertise for board deliberations. Use when advising on physical health, mental health, energy management, sleep, exercise, or sustainable performance.
+kind: skill
 ---
 
 # Health & Energy Advisor Skill

@@ -1,6 +1,7 @@
 ---
 name: advisor-leadership-boundaries
 description: Leadership and boundaries expertise for board deliberations. Use when advising on leadership style, delegation, boundary-setting, influence, or managing others.
+kind: skill
 ---
 
 # Leadership & Boundaries Advisor Skill

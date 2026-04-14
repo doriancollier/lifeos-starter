@@ -1,6 +1,7 @@
 ---
 name: project-status
 description: Track project lifecycle and status across the vault. Use when checking on projects, moving them between stages, or getting an overview of all active work.
+kind: skill
 ---
 
 # Project Status Skill

@@ -1,6 +1,7 @@
 ---
 name: advisor-financial
 description: Personal finance expertise for board deliberations. Use when advising on money, investments, tax optimization, cash flow, or wealth building.
+kind: skill
 ---
 
 # Financial Advisor Skill

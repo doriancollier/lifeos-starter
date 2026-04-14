@@ -1,3 +1,9 @@
+---
+name: email-reader
+description: Email Reader Skill
+kind: skill
+---
+
 # Email Reader Skill
 
 Read and manage emails from macOS Mail.app using AppleScript integration.

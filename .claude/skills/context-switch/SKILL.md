@@ -2,6 +2,7 @@
 name: context-switch
 description: Help switch mental context between different companies and work areas. Use when transitioning from one company's work to another, or when needing to understand the current state of a specific work context.
 allowed-tools: Read, Grep, Glob
+kind: skill
 ---
 
 # Context Switch Skill

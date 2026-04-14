@@ -2,6 +2,7 @@
 name: daily-timebox
 description: Create timeboxed focus blocks on calendar for daily tasks, promoting structured work and healthy lifestyle. Use when user wants to timebox their day, create focus blocks, or schedule their daily tasks.
 allowed-tools: Read, Grep, Glob, Bash, mcp__google-calendar__list-events, mcp__google-calendar__create-event, mcp__google-calendar__update-event, mcp__google-calendar__delete-event, mcp__google-calendar__get-current-time
+kind: skill
 ---
 
 # Daily Timebox Skill

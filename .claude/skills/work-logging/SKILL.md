@@ -1,6 +1,7 @@
 ---
 name: work-logging
 description: Log work progress conversationally by updating task status, adding subtasks, and creating timestamped Quick Notes entries. Use when the user reports completing work items or making progress on tasks.
+kind: skill
 ---
 
 # Work Logging Skill

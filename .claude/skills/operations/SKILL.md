@@ -1,6 +1,7 @@
 ---
 name: operations
 description: Math, date calculations, and reliable computation guidance. Use when performing arithmetic, date comparisons, duration calculations, or any operation requiring numerical precision.
+kind: skill
 ---
 
 # Operations Skill

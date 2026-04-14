@@ -1,3 +1,9 @@
+---
+name: reminders-integration
+description: Reminders Integration Skill
+kind: skill
+---
+
 # Reminders Integration Skill
 
 Bidirectional synchronization between Obsidian daily note tasks and macOS Reminders app, enabling mobile access via iPhone/Apple Watch and voice capture via Siri.

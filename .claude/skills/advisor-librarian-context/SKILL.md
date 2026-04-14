@@ -2,6 +2,7 @@
 name: advisor-librarian-context
 description: Context retrieval expertise for board deliberations. Use when gathering relevant context from the vault, summarizing prior discussions, or retrieving historical information for board sessions.
 allowed-tools: Read, Grep, Glob
+kind: skill
 ---
 
 # Librarian & Context Retrieval Skill
